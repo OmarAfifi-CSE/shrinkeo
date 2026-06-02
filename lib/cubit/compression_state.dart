@@ -20,6 +20,24 @@ enum CompressionPhase {
   error,
 }
 
+/// Available FFmpeg encoding speed presets, ordered fastest to slowest.
+enum EncodingPreset {
+  ultrafast('ultrafast', 'Ultrafast', 'Blazing fast, largest files'),
+  superfast('superfast', 'Superfast', 'Very fast, larger files'),
+  veryfast('veryfast', 'Very Fast', 'Fast encoding, larger files'),
+  faster('faster', 'Faster', 'Above average speed'),
+  fast('fast', 'Fast', 'Balanced speed & size'),
+  medium('medium', 'Medium', 'Default FFmpeg preset'),
+  slow('slow', 'Slow', 'Smaller files, slower'),
+  veryslow('veryslow', 'Very Slow', 'Smallest files, slowest');
+
+  final String value;
+  final String label;
+  final String description;
+
+  const EncodingPreset(this.value, this.label, this.description);
+}
+
 /// Immutable state for the [CompressionCubit].
 class CompressionState extends Equatable {
   /// List of all video files in the queue.
@@ -40,6 +58,19 @@ class CompressionState extends Equatable {
   /// Whether the user is currently hovering files over the drop zone.
   final bool isDragHovering;
 
+  // ---- Compression Settings ----
+
+  /// CRF quality value (0-51). Lower = better quality, larger file.
+  /// Default: 22 (balanced).
+  final int crfQuality;
+
+  /// FFmpeg encoding speed preset.
+  /// Default: fast (balanced speed & size).
+  final EncodingPreset encodingPreset;
+
+  /// Whether the settings panel is expanded in the UI.
+  final bool isSettingsExpanded;
+
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -47,6 +78,9 @@ class CompressionState extends Equatable {
     this.outputFolderPath,
     this.globalError,
     this.isDragHovering = false,
+    this.crfQuality = 22,
+    this.encodingPreset = EncodingPreset.fast,
+    this.isSettingsExpanded = false,
   });
 
   /// Creates a copy with the given fields overridden.
@@ -57,6 +91,9 @@ class CompressionState extends Equatable {
     String? outputFolderPath,
     String? globalError,
     bool? isDragHovering,
+    int? crfQuality,
+    EncodingPreset? encodingPreset,
+    bool? isSettingsExpanded,
     bool clearOutputFolderPath = false,
     bool clearGlobalError = false,
   }) {
@@ -70,6 +107,9 @@ class CompressionState extends Equatable {
       globalError:
           clearGlobalError ? null : (globalError ?? this.globalError),
       isDragHovering: isDragHovering ?? this.isDragHovering,
+      crfQuality: crfQuality ?? this.crfQuality,
+      encodingPreset: encodingPreset ?? this.encodingPreset,
+      isSettingsExpanded: isSettingsExpanded ?? this.isSettingsExpanded,
     );
   }
 
@@ -95,6 +135,15 @@ class CompressionState extends Equatable {
       phase == CompressionPhase.probing ||
       phase == CompressionPhase.compressing;
 
+  /// Human-readable label for the current CRF quality tier.
+  String get crfLabel {
+    if (crfQuality <= 17) return 'Near Lossless';
+    if (crfQuality <= 20) return 'Visually Lossless';
+    if (crfQuality <= 23) return 'Balanced';
+    if (crfQuality <= 26) return 'High Compression';
+    return 'Ultra Compressed';
+  }
+
   @override
   List<Object?> get props => [
     videos,
@@ -103,5 +152,8 @@ class CompressionState extends Equatable {
     outputFolderPath,
     globalError,
     isDragHovering,
+    crfQuality,
+    encodingPreset,
+    isSettingsExpanded,
   ];
 }

@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'cubit/compression_cubit.dart';
 import 'services/update_service.dart';
@@ -11,8 +12,26 @@ import 'ui/screens/home_screen.dart';
 /// Current application version — update this with each release.
 const String appVersion = '1.0.0';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize window_manager for custom title bar.
+  await windowManager.ensureInitialized();
+
+  const windowOptions = WindowOptions(
+    size: Size(960, 680),
+    minimumSize: Size(720, 500),
+    center: true,
+    titleBarStyle: TitleBarStyle.hidden,
+    title: 'Shrinkeo',
+    backgroundColor: Color(0xFF0F1118), // Match AppTheme.surfaceDark
+  );
+
+  await windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
   runApp(const ShrinkeoApp());
 }
 

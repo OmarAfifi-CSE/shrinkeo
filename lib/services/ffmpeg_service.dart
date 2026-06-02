@@ -102,15 +102,16 @@ class FfmpegService {
   /// The progress is calculated by parsing `time=` from FFmpeg's stderr output
   /// and comparing it to [totalDuration].
   ///
-  /// FFmpeg flags used:
-  /// `-y -hide_banner -loglevel error -stats -vcodec libx264 -crf 22
-  ///  -preset fast -pix_fmt yuv420p -acodec copy`
+  /// [crf] controls quality (0-51, lower = better). Default: 22.
+  /// [preset] controls encoding speed. Default: 'fast'.
   ///
   /// Throws on non-zero exit code (unless cancelled).
   Stream<double> compress({
     required String inputPath,
     required String outputPath,
     required Duration totalDuration,
+    int crf = 22,
+    String preset = 'fast',
   }) async* {
     _isCancelled = false;
     final ffmpeg = ffmpegPath;
@@ -127,8 +128,8 @@ class FfmpegService {
       '-stats',
       '-i', inputPath,
       '-vcodec', 'libx264',
-      '-crf', '22',
-      '-preset', 'fast',
+      '-crf', crf.toString(),
+      '-preset', preset,
       '-pix_fmt', 'yuv420p',
       '-acodec', 'copy',
       outputPath,

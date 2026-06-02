@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
@@ -31,9 +30,16 @@ class UpdateInfo {
 ///
 /// 2. Replace [_ffmpegPatchUrl] with your FFmpeg binary patch endpoint.
 ///
-/// 3. Implement the JSON parsing logic in [checkForAppUpdate] and
+/// 3. Set [_isConfigured] to `true` once you've provided real URLs.
+///
+/// 4. Implement the JSON parsing logic in [checkForAppUpdate] and
 ///    [checkForFfmpegPatch] to match your API response format.
 class UpdateService {
+  // ---------------------------------------------------------------------------
+  // TODO: Set to true once you replace the placeholder URLs below.
+  // ---------------------------------------------------------------------------
+  static const bool _isConfigured = false;
+
   // ---------------------------------------------------------------------------
   // TODO: Replace these URLs with your actual endpoints.
   // ---------------------------------------------------------------------------
@@ -55,10 +61,20 @@ class UpdateService {
   /// Checks if a newer version of the application is available.
   ///
   /// Returns an [UpdateInfo] if an update is available, or `null` if
-  /// the app is up-to-date or the check fails.
+  /// the app is up-to-date, the service is not configured, or the check fails.
   ///
   /// [currentVersion] should be the current app version string (e.g., "1.0.0").
   Future<UpdateInfo?> checkForAppUpdate(String currentVersion) async {
+    // Skip HTTP call when using placeholder URLs.
+    if (!_isConfigured) {
+      dev.log(
+        'Update service not configured. Set _isConfigured = true '
+        'after replacing placeholder URLs.',
+        name: 'UpdateService',
+      );
+      return null;
+    }
+
     try {
       final response = await _client
           .get(
@@ -75,12 +91,11 @@ class UpdateService {
         return null;
       }
 
-      final json = jsonDecode(response.body) as Map<String, dynamic>;
-
       // ---------------------------------------------------------------------------
       // TODO: Parse your API response here.
       //
       // GitHub Releases API example:
+      //   final json = jsonDecode(response.body) as Map<String, dynamic>;
       //   final latestVersion = (json['tag_name'] as String).replaceFirst('v', '');
       //   final downloadUrl = json['assets'][0]['browser_download_url'] as String;
       //   final releaseNotes = json['body'] as String?;
@@ -94,17 +109,9 @@ class UpdateService {
       //   }
       // ---------------------------------------------------------------------------
 
-      // Placeholder: always returns null (no update available).
-      dev.log(
-        'Update check completed. Response keys: ${json.keys.toList()}',
-        name: 'UpdateService',
-      );
       return null;
     } catch (e) {
-      dev.log(
-        'Update check error: $e',
-        name: 'UpdateService',
-      );
+      dev.log('Update check error: $e', name: 'UpdateService');
       return null;
     }
   }
@@ -112,10 +119,15 @@ class UpdateService {
   /// Checks if a newer FFmpeg binary patch is available.
   ///
   /// Returns the download URL string if a patch is available, or `null`
-  /// if FFmpeg is up-to-date or the check fails.
+  /// if FFmpeg is up-to-date, the service is not configured, or the check fails.
   ///
   /// [currentFfmpegVersion] should be the current bundled FFmpeg version.
   Future<String?> checkForFfmpegPatch(String currentFfmpegVersion) async {
+    // Skip HTTP call when using placeholder URLs.
+    if (!_isConfigured) {
+      return null;
+    }
+
     try {
       final response = await _client
           .get(Uri.parse(_ffmpegPatchUrl))
@@ -142,14 +154,9 @@ class UpdateService {
       //   }
       // ---------------------------------------------------------------------------
 
-      // Placeholder: always returns null (no patch available).
-      dev.log('FFmpeg patch check completed.', name: 'UpdateService');
       return null;
     } catch (e) {
-      dev.log(
-        'FFmpeg patch check error: $e',
-        name: 'UpdateService',
-      );
+      dev.log('FFmpeg patch check error: $e', name: 'UpdateService');
       return null;
     }
   }

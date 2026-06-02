@@ -10,6 +10,17 @@ import '../services/file_scanner_service.dart';
 import '../services/output_folder_service.dart';
 import 'compression_state.dart';
 
+/// Natural sort regex — pads numeric segments for proper ordering.
+/// Sorts: 1, 2, 3, 10, 11 instead of 1, 10, 11, 2, 3.
+final RegExp _numericRegex = RegExp(r'\d+');
+
+String _naturalSortKey(String name) {
+  return name.replaceAllMapped(
+    _numericRegex,
+    (match) => match.group(0)!.padLeft(10, '0'),
+  );
+}
+
 /// Business logic orchestrator for the video compression workflow.
 ///
 /// Manages the queue of videos, coordinates FFmpeg processes, and emits
@@ -31,6 +42,26 @@ class CompressionCubit extends Cubit<CompressionState> {
         super(const CompressionState());
 
   // ---------------------------------------------------------------------------
+  // Settings
+  // ---------------------------------------------------------------------------
+
+  /// Updates the CRF quality value (0-51).
+  void updateCrfQuality(int crf) {
+    final clamped = crf.clamp(0, 51);
+    emit(state.copyWith(crfQuality: clamped));
+  }
+
+  /// Updates the encoding speed preset.
+  void updateEncodingPreset(EncodingPreset preset) {
+    emit(state.copyWith(encodingPreset: preset));
+  }
+
+  /// Toggles the settings panel expansion.
+  void toggleSettings() {
+    emit(state.copyWith(isSettingsExpanded: !state.isSettingsExpanded));
+  }
+
+  // ---------------------------------------------------------------------------
   // Queue Management
   // ---------------------------------------------------------------------------
 
@@ -38,6 +69,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   ///
   /// Scans directories recursively and filters to valid video extensions.
   /// Deduplicates against already-queued files by absolute path.
+  /// Files are sorted using natural numerical ordering.
   Future<void> addFiles(List<String> paths) async {
     if (paths.isEmpty) return;
 
@@ -50,6 +82,13 @@ class CompressionCubit extends Cubit<CompressionState> {
         scannedPaths.where((p) => !existingPaths.contains(p)).toList();
 
     if (newPaths.isEmpty) return;
+
+    // Natural sort: 1, 2, 3, 10, 11 instead of 1, 10, 11, 2, 3.
+    newPaths.sort((a, b) {
+      final nameA = p.basename(a);
+      final nameB = p.basename(b);
+      return _naturalSortKey(nameA).compareTo(_naturalSortKey(nameB));
+    });
 
     final newVideos = <VideoFile>[];
     for (final path in newPaths) {
@@ -225,8 +264,8 @@ class CompressionCubit extends Cubit<CompressionState> {
     if (_cancelRequested) return;
 
     // -- Step 2: Compress --
-    final outputFileName = _buildOutputFileName(video.fileName);
-    final outputPath = p.join(outputFolder, outputFileName);
+    // Preserve original filename (it's already in a separate output folder).
+    final outputPath = p.join(outputFolder, video.fileName);
 
     _updateVideo(
       index,
@@ -243,6 +282,8 @@ class CompressionCubit extends Cubit<CompressionState> {
         inputPath: video.filePath,
         outputPath: outputPath,
         totalDuration: totalDuration,
+        crf: state.crfQuality,
+        preset: state.encodingPreset.value,
       )) {
         if (_cancelRequested) break;
         _updateVideo(
@@ -363,12 +404,5 @@ class CompressionCubit extends Cubit<CompressionState> {
     final updatedList = List<VideoFile>.from(state.videos);
     updatedList[index] = updatedVideo;
     emit(state.copyWith(videos: updatedList));
-  }
-
-  /// Builds the output file name, preserving the original extension.
-  String _buildOutputFileName(String originalName) {
-    final baseName = p.basenameWithoutExtension(originalName);
-    final ext = p.extension(originalName);
-    return '${baseName}_compressed$ext';
   }
 }
