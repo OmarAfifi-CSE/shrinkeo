@@ -27,8 +27,10 @@ class DropZoneWidget extends StatelessWidget {
     final cubit = context.read<CompressionCubit>();
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
-    final surfaceContainer = isDark ? AppColors.surfaceContainerDark : AppColors.surfaceContainerLight;
+
+    final surfaceContainer = isDark
+        ? AppColors.surfaceContainerDark
+        : AppColors.surfaceContainerLight;
     final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
     return DropTarget(
@@ -41,8 +43,9 @@ class DropZoneWidget extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
           child: BackdropFilter(
             filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: AnimatedContainer(
@@ -62,92 +65,100 @@ class DropZoneWidget extends StatelessWidget {
                 boxShadow: isHovering
                     ? [
                         BoxShadow(
-                          color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: 0.15,
+                          ),
                           blurRadius: 20,
                           spreadRadius: 2,
-                        )
+                        ),
                       ]
                     : [],
               ),
               child: Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Animated icon
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 250),
-                transform: Matrix4.translationValues(0, isHovering ? -8 : 0, 0),
-                child: Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Theme.of(context).colorScheme.primary.withValues(
-                      alpha: isHovering ? 0.15 : 0.08,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Animated icon
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      transform: Matrix4.translationValues(
+                        0,
+                        isHovering ? -8 : 0,
+                        0,
+                      ),
+                      child: Container(
+                        width: 72,
+                        height: 72,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Theme.of(context).colorScheme.primary
+                              .withValues(alpha: isHovering ? 0.15 : 0.08),
+                        ),
+                        child: Icon(
+                          Icons.cloud_upload_rounded,
+                          size: 32,
+                          color: isHovering
+                              ? theme.colorScheme.primary
+                              : theme.textTheme.bodySmall?.color ??
+                                    Colors.white38,
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Icon(
-                    Icons.cloud_upload_rounded,
-                    size: 32,
-                    color: isHovering
-                        ? theme.colorScheme.primary
-                        : theme.textTheme.bodySmall?.color ?? Colors.white38,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 18),
+                    const SizedBox(height: 18),
 
-              // Instructional text
-              Text(
-                isHovering
-                    ? 'Release to add videos'
-                    : 'Drag & drop video files or folders here',
-                style: TextStyle(
-                  color: isHovering
-                      ? theme.colorScheme.primary
-                      : theme.textTheme.bodySmall?.color ?? Colors.white54,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Supports MP4, MKV, MOV, AVI, WMV',
-                style: TextStyle(
-                  color: theme.textTheme.bodySmall?.color ?? Colors.white24,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const SizedBox(height: 24),
+                    // Instructional text
+                    Text(
+                      isHovering
+                          ? 'Release to add videos'
+                          : 'Drag & drop video files or folders here',
+                      style: TextStyle(
+                        color: isHovering
+                            ? theme.colorScheme.primary
+                            : theme.textTheme.bodySmall?.color ??
+                                  Colors.white54,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Supports MP4, MKV, MOV, AVI, WMV',
+                      style: TextStyle(
+                        color:
+                            theme.textTheme.bodySmall?.color ?? Colors.white24,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
 
-              // Manual pick buttons
-              Wrap(
-                spacing: 10,
-                runSpacing: 8,
-                alignment: WrapAlignment.center,
-                children: [
-                  _PickButton(
-                    icon: Icons.file_copy_rounded,
-                    label: 'Select Files',
-                    onTap: () => _pickMultipleFiles(cubit),
-                  ),
-                  _PickButton(
-                    icon: Icons.folder_rounded,
-                    label: 'Select Folder',
-                    onTap: () => _pickFolder(cubit),
-                  ),
-                ],
+                    // Manual pick buttons
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 8,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        _PickButton(
+                          icon: Icons.file_copy_rounded,
+                          label: 'Select Files',
+                          onTap: () => _pickMultipleFiles(cubit),
+                        ),
+                        _PickButton(
+                          icon: Icons.folder_rounded,
+                          label: 'Select Folder',
+                          onTap: () => _pickFolder(cubit),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
         ),
       ),
-    ),
-  ),
-),
-);
-}
+    );
+  }
 
   /// Opens native file picker for multiple video files.
   Future<void> _pickMultipleFiles(CompressionCubit cubit) async {

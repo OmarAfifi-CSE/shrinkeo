@@ -26,7 +26,7 @@ class VideoFileCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 12.0),
       child: GlassContainer(
         padding: const EdgeInsets.all(14),
-      child: Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // -- Top row: icon, name, status, actions --
@@ -35,13 +35,30 @@ class VideoFileCard extends StatelessWidget {
                 // File format badge or Thumbnail
                 if (video.thumbnailPath != null &&
                     File(video.thumbnailPath!).existsSync())
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.file(
-                      File(video.thumbnailPath!),
-                      width: 44,
-                      height: 44,
-                      fit: BoxFit.cover,
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: theme.brightness == Brightness.dark
+                            ? Colors.white.withValues(alpha: 0.1)
+                            : Colors.black.withValues(alpha: 0.08),
+                        width: 0.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: theme.brightness == Brightness.dark
+                              ? Colors.white.withValues(alpha: 0.25)
+                              : Colors.black.withValues(alpha: 0.25),
+                          blurRadius: 8,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                      image: DecorationImage(
+                        image: FileImage(File(video.thumbnailPath!)),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   )
                 else
@@ -131,23 +148,23 @@ class VideoFileCard extends StatelessWidget {
             // -- Progress bar (only during compression) --
             if (video.status == VideoStatus.compressing) ...[
               const SizedBox(height: 10),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(2),
-                child: TweenAnimationBuilder<double>(
-                  tween: Tween<double>(begin: 0, end: video.progress),
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeOut,
-                  builder: (context, value, _) {
-                    return LinearProgressIndicator(
-                      value: value,
-                      minHeight: 4,
-                      backgroundColor: theme.brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        theme.colorScheme.primary.withValues(alpha: 0.9),
-                      ),
-                    );
-                  },
-                ),
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 0, end: video.progress),
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOut,
+                builder: (context, value, _) {
+                  return LinearProgressIndicator(
+                    value: value,
+                    minHeight: 4,
+                    borderRadius: BorderRadius.circular(2),
+                    backgroundColor: theme.brightness == Brightness.dark
+                        ? AppColors.borderDark
+                        : AppColors.borderLight,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      theme.colorScheme.primary.withValues(alpha: 0.9),
+                    ),
+                  );
+                },
               ),
             ],
 
@@ -343,8 +360,11 @@ class _ActionButton extends StatelessWidget {
           height: 32,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: (isProcessing ? AppColors.errorRed : Theme.of(context).iconTheme.color ?? Colors.grey)
-                .withValues(alpha: 0.08),
+            color:
+                (isProcessing
+                        ? AppColors.errorRed
+                        : Theme.of(context).iconTheme.color ?? Colors.grey)
+                    .withValues(alpha: 0.08),
           ),
           child: Icon(
             isProcessing ? Icons.stop_rounded : Icons.close_rounded,

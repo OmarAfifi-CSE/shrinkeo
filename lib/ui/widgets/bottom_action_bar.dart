@@ -17,8 +17,10 @@ class BottomActionBar extends StatelessWidget {
     final cubit = context.read<CompressionCubit>();
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    
-    final surfaceContainer = isDark ? AppColors.surfaceContainerDark : AppColors.surfaceContainerLight;
+
+    final surfaceContainer = isDark
+        ? AppColors.surfaceContainerDark
+        : AppColors.surfaceContainerLight;
     final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
     return ClipRect(
@@ -36,83 +38,87 @@ class BottomActionBar extends StatelessWidget {
           ),
           child: Row(
             children: [
-          // -- Queue Summary --
-          _QueueSummary(state: state),
+              // -- Queue Summary --
+              _QueueSummary(state: state),
 
-          const Spacer(),
+              const Spacer(),
 
-          // -- Clear Completed button --
-          if (state.successCount + state.failedCount > 0 && !state.isProcessing)
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: TextButton.icon(
-                onPressed: () => cubit.clearCompleted(),
-                icon: const Icon(Icons.cleaning_services_rounded, size: 16),
-                label: const Text('Clear Completed'),
-              ),
-            ),
-
-          // -- Clear All button --
-          if (!state.isProcessing && state.videos.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: TextButton.icon(
-                onPressed: () => cubit.clearAll(),
-                icon: const Icon(Icons.delete_sweep_rounded, size: 16),
-                label: const Text('Clear All'),
-              ),
-            ),
-
-          // -- Cancel / Start button --
-          if (state.isProcessing)
-            ElevatedButton.icon(
-              onPressed: () => cubit.cancelCompression(),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.errorRed,
-                foregroundColor: Colors.white,
-              ),
-              icon: const Icon(Icons.stop_rounded, size: 18),
-              label: const Text('Stop All'),
-            )
-          else if (state.canStart)
-            ElevatedButton.icon(
-              onPressed: () => cubit.startCompression(),
-              icon: const Icon(Icons.play_arrow_rounded, size: 20),
-              label: const Text('Start Compression'),
-            )
-          else if (state.phase == CompressionPhase.completed)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                color: AppColors.successGreen.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(
-                  color: AppColors.successGreen.withValues(alpha: 0.3),
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.check_circle_rounded,
-                    size: 18,
-                    color: AppColors.successGreen,
+              // -- Clear Completed button --
+              if (state.successCount + state.failedCount > 0 &&
+                  !state.isProcessing)
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: TextButton.icon(
+                    onPressed: () => cubit.clearCompleted(),
+                    icon: const Icon(Icons.cleaning_services_rounded, size: 16),
+                    label: const Text('Clear Completed'),
                   ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'All Done!',
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: AppColors.successGreen,
-                      fontWeight: FontWeight.w600,
+                ),
+
+              // -- Clear All button --
+              if (!state.isProcessing && state.videos.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: TextButton.icon(
+                    onPressed: () => cubit.clearAll(),
+                    icon: const Icon(Icons.delete_sweep_rounded, size: 16),
+                    label: const Text('Clear All'),
+                  ),
+                ),
+
+              // -- Cancel / Start button --
+              if (state.isProcessing)
+                ElevatedButton.icon(
+                  onPressed: () => cubit.cancelCompression(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.errorRed,
+                    foregroundColor: Colors.white,
+                  ),
+                  icon: const Icon(Icons.stop_rounded, size: 18),
+                  label: const Text('Stop All'),
+                )
+              else if (state.canStart)
+                ElevatedButton.icon(
+                  onPressed: () => cubit.startCompression(),
+                  icon: const Icon(Icons.play_arrow_rounded, size: 20),
+                  label: const Text('Start Compression'),
+                )
+              else if (state.phase == CompressionPhase.completed)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.successGreen.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: AppColors.successGreen.withValues(alpha: 0.3),
                     ),
                   ),
-                ],
-              ),
-            ),
-        ],
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.check_circle_rounded,
+                        size: 18,
+                        color: AppColors.successGreen,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'All Done!',
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: AppColors.successGreen,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
@@ -152,7 +158,9 @@ class _QueueSummary extends StatelessWidget {
         Icon(
           Icons.video_library_rounded,
           size: 16,
-          color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.3) ?? Colors.grey,
+          color:
+              Theme.of(context).iconTheme.color?.withValues(alpha: 0.3) ??
+              Colors.grey,
         ),
         const SizedBox(width: 6),
         Text(

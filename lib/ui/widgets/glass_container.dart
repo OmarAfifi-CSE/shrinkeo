@@ -36,12 +36,15 @@ class GlassContainer extends StatelessWidget {
               color: theme.colorScheme.primary.withValues(alpha: 0.15),
               blurRadius: 20,
               spreadRadius: 2,
-            )
+            ),
           ]
         : <BoxShadow>[];
 
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(borderRadius),
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: AnimatedContainer(
