@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../models/video_file.dart';
@@ -31,8 +33,19 @@ class VideoFileCard extends StatelessWidget {
             // -- Top row: icon, name, status, actions --
             Row(
               children: [
-                // File format badge
-                _FormatBadge(extension: video.extension),
+                // File format badge or Thumbnail
+                if (video.thumbnailPath != null && File(video.thumbnailPath!).existsSync())
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.file(
+                      File(video.thumbnailPath!),
+                      width: 44,
+                      height: 44,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                else
+                  _FormatBadge(extension: video.extension),
                 const SizedBox(width: 12),
 
                 // File name & size
@@ -65,23 +78,43 @@ class VideoFileCard extends StatelessWidget {
                 StatusChip(status: video.status),
                 const SizedBox(width: 10),
 
-                // Compression result or percentage
                 if (video.status == VideoStatus.compressing)
-                  SizedBox(
-                    width: 52,
-                    child: Text(
-                      '${(video.progress * 100).toStringAsFixed(0)}%',
-                      textAlign: TextAlign.right,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: theme.colorScheme.primary,
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                      ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (video.eta != null) ...[
+                          Text(
+                            _formatDuration(video.eta!),
+                            style: const TextStyle(color: Colors.white54, fontSize: 11),
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                        SizedBox(
+                          width: 42,
+                          child: Text(
+                            '${(video.progress * 100).toStringAsFixed(0)}%',
+                            textAlign: TextAlign.right,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: theme.colorScheme.primary,
+                              fontFeatures: const [FontFeature.tabularFigures()],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 else if (video.status == VideoStatus.success &&
                     video.outputSizeBytes != null)
-                  _CompressionResult(video: video)
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        _CompressionResult(video: video),
+                      ],
+                    ),
+                  )
                 else
                   const SizedBox(width: 52),
 
@@ -157,6 +190,16 @@ class VideoFileCard extends StatelessWidget {
       ),
     );
   }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    if (duration.inHours > 0) {
+      return "${duration.inHours}h ${twoDigitMinutes}m ${twoDigitSeconds}s";
+    }
+    return "${twoDigitMinutes}m ${twoDigitSeconds}s";
+  }
 }
 
 /// Color-coded badge showing the file's video format.
@@ -211,21 +254,40 @@ class _CompressionResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final savedBytes = video.fileSizeBytes - video.outputSizeBytes!;
+    final savedText = savedBytes > 0
+        ? 'Saved ${VideoFile.formatFileSize(savedBytes)}'
+        : 'Larger file';
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          VideoFile.formatFileSize(video.outputSizeBytes!),
-          style: const TextStyle(
-            color: Colors.white70,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              VideoFile.formatFileSize(video.outputSizeBytes!),
+              style: const TextStyle(
+                color: Colors.white70,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            if (savedBytes > 0)
+              Text(
+                savedText,
+                style: const TextStyle(
+                  color: AppTheme.successGreen,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+          ],
         ),
         if (video.compressionRatio != null) ...[
-          const SizedBox(width: 6),
+          const SizedBox(width: 8),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
             decoration: BoxDecoration(
               color: AppTheme.successGreen.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(6),

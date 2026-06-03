@@ -2,7 +2,9 @@ import 'dart:developer' as dev;
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import '../models/video_file.dart';
 import '../services/ffmpeg_service.dart';
@@ -59,6 +61,14 @@ class CompressionCubit extends Cubit<CompressionState> {
   /// Toggles the settings panel expansion.
   void toggleSettings() {
     emit(state.copyWith(isSettingsExpanded: !state.isSettingsExpanded));
+  }
+
+  /// Updates the custom output directory.
+  void updateCustomOutputDirectory(String? path) {
+    emit(state.copyWith(
+      customOutputDirectory: path,
+      clearCustomOutputDirectory: path == null,
+    ));
   }
 
   // ---------------------------------------------------------------------------
@@ -118,6 +128,33 @@ class CompressionCubit extends Cubit<CompressionState> {
     ));
 
     dev.log('Added ${newVideos.length} videos to queue.', name: 'Cubit');
+
+    // Asynchronously generate thumbnails for new videos.
+    _generateThumbnails(newVideos);
+  }
+
+  Future<void> _generateThumbnails(List<VideoFile> videos) async {
+    final tempDir = await getTemporaryDirectory();
+    final thumbDir = Directory(p.join(tempDir.path, 'shrinkeo_thumbs'));
+    if (!await thumbDir.exists()) {
+      await thumbDir.create(recursive: true);
+    }
+
+    for (final video in videos) {
+      if (_cancelRequested) break;
+      final thumbPath = p.join(thumbDir.path, '${video.id}.jpg');
+      await _ffmpegService.generateThumbnail(video.filePath, thumbPath);
+
+      if (File(thumbPath).existsSync()) {
+        final index = state.videos.indexWhere((v) => v.id == video.id);
+        if (index != -1) {
+          _updateVideo(
+            index,
+            state.videos[index].copyWith(thumbnailPath: thumbPath),
+          );
+        }
+      }
+    }
   }
 
   /// Removes a video from the queue by its ID.
@@ -151,6 +188,8 @@ class CompressionCubit extends Cubit<CompressionState> {
           .toList(),
       phase: CompressionPhase.idle,
       currentIndex: -1,
+      clearCompressionStartTime: true,
+      clearGlobalEta: true,
     ));
   }
 
@@ -192,8 +231,8 @@ class CompressionCubit extends Cubit<CompressionState> {
     // Resolve the output folder.
     String outputFolder;
     try {
-      outputFolder =
-          await _outputFolderService.resolveOutputFolder(sourceDir);
+      final baseDir = state.customOutputDirectory ?? sourceDir;
+      outputFolder = await _outputFolderService.resolveOutputFolder(baseDir);
     } catch (e) {
       emit(state.copyWith(
         phase: CompressionPhase.error,
@@ -206,6 +245,8 @@ class CompressionCubit extends Cubit<CompressionState> {
       phase: CompressionPhase.probing,
       outputFolderPath: outputFolder,
       clearGlobalError: true,
+      compressionStartTime: DateTime.now(),
+      clearGlobalEta: true,
     ));
 
     // Get indices of queued videos.
@@ -228,10 +269,23 @@ class CompressionCubit extends Cubit<CompressionState> {
       emit(state.copyWith(
         phase: CompressionPhase.completed,
         currentIndex: -1,
+        clearGlobalEta: true,
+        clearCompressionStartTime: true,
       ));
+
+      _showCompletionNotification(state.successCount, state.failedCount);
     }
 
     _cancelRequested = false;
+  }
+
+  void _showCompletionNotification(int success, int failed) {
+    final notification = LocalNotification(
+      title: 'Shrinkeo Compression Complete',
+      body: 'Successfully compressed $success videos.' +
+          (failed > 0 ? ' ($failed failed)' : ''),
+    );
+    notification.show();
   }
 
   /// Processes a single video: probes duration, then compresses.
@@ -286,9 +340,46 @@ class CompressionCubit extends Cubit<CompressionState> {
         preset: state.encodingPreset.value,
       )) {
         if (_cancelRequested) break;
+        
+        // Calculate Global ETA based on file sizes
+        Duration? newGlobalEta = state.globalEta;
+        if (state.compressionStartTime != null) {
+          int totalBytes = 0;
+          int processedBytes = 0;
+
+          for (int i = 0; i < state.videos.length; i++) {
+            final v = state.videos[i];
+            if (v.status == VideoStatus.queued || 
+                v.status == VideoStatus.compressing || 
+                v.status == VideoStatus.probing || 
+                v.status == VideoStatus.success) {
+              totalBytes += v.fileSizeBytes;
+              if (v.status == VideoStatus.success) {
+                processedBytes += v.fileSizeBytes;
+              } else if (i == index) {
+                processedBytes += (v.fileSizeBytes * progress.progress).round();
+              }
+            }
+          }
+
+          final elapsedSeconds = DateTime.now().difference(state.compressionStartTime!).inSeconds;
+          if (elapsedSeconds > 0 && processedBytes > 0) {
+            final speedBytesPerSec = processedBytes / elapsedSeconds;
+            final remainingBytes = totalBytes - processedBytes;
+            if (speedBytesPerSec > 0) {
+              newGlobalEta = Duration(seconds: (remainingBytes / speedBytesPerSec).round());
+            }
+          }
+        }
+
         _updateVideo(
           index,
-          state.videos[index].copyWith(progress: progress),
+          state.videos[index].copyWith(
+            progress: progress.progress,
+            processingSpeed: progress.speed,
+            eta: progress.eta,
+          ),
+          globalEta: newGlobalEta,
         );
       }
 
@@ -305,6 +396,8 @@ class CompressionCubit extends Cubit<CompressionState> {
           status: VideoStatus.success,
           progress: 1.0,
           outputSizeBytes: outputSize,
+          eta: Duration.zero,
+          processingSpeed: 0.0,
         ),
       );
 
@@ -366,6 +459,8 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(
       phase: CompressionPhase.idle,
       currentIndex: -1,
+      clearGlobalEta: true,
+      clearCompressionStartTime: true,
     ));
   }
 
@@ -387,8 +482,8 @@ class CompressionCubit extends Cubit<CompressionState> {
         index,
         video.copyWith(status: VideoStatus.cancelled),
       );
-    } else if (video.status == VideoStatus.queued) {
-      // Not yet started — remove from queue.
+    } else {
+      // For all other statuses (queued, success, failed, cancelled) — remove from queue.
       emit(state.copyWith(
         videos: state.videos.where((v) => v.id != id).toList(),
       ));
@@ -400,9 +495,14 @@ class CompressionCubit extends Cubit<CompressionState> {
   // ---------------------------------------------------------------------------
 
   /// Updates a single video in the state by index.
-  void _updateVideo(int index, VideoFile updatedVideo) {
+  void _updateVideo(int index, VideoFile updatedVideo, {Duration? globalEta}) {
     final updatedList = List<VideoFile>.from(state.videos);
     updatedList[index] = updatedVideo;
-    emit(state.copyWith(videos: updatedList));
+    
+    if (globalEta != null) {
+      emit(state.copyWith(videos: updatedList, globalEta: globalEta));
+    } else {
+      emit(state.copyWith(videos: updatedList));
+    }
   }
 }

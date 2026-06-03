@@ -506,6 +506,16 @@ class _QueueSummary extends StatelessWidget {
             v.status == VideoStatus.probing)
         .length;
 
+    int totalSavedBytes = 0;
+    if (state.phase == CompressionPhase.completed) {
+      for (final v in state.videos) {
+        if (v.status == VideoStatus.success && v.outputSizeBytes != null) {
+          final saved = v.fileSizeBytes - v.outputSizeBytes!;
+          if (saved > 0) totalSavedBytes += saved;
+        }
+      }
+    }
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -545,8 +555,67 @@ class _QueueSummary extends StatelessWidget {
             ),
           ],
         ],
+        if (state.globalEta != null && state.isProcessing) ...[
+          const SizedBox(width: 16),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.access_time_rounded,
+                    size: 14, color: Theme.of(context).colorScheme.primary),
+                const SizedBox(width: 6),
+                Text(
+                  'Total ETA: ${_formatDuration(state.globalEta!)}',
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.primary,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ] else if (state.phase == CompressionPhase.completed && totalSavedBytes > 0) ...[
+          const SizedBox(width: 16),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: AppTheme.successGreen.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.save_alt_rounded,
+                    size: 14, color: AppTheme.successGreen),
+                const SizedBox(width: 6),
+                Text(
+                  'Total Saved: ${VideoFile.formatFileSize(totalSavedBytes)}',
+                  style: const TextStyle(
+                    color: AppTheme.successGreen,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ],
     );
+  }
+
+  String _formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
+    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
+    if (duration.inHours > 0) {
+      return "${duration.inHours}h ${twoDigitMinutes}m ${twoDigitSeconds}s";
+    }
+    return "${twoDigitMinutes}m ${twoDigitSeconds}s";
   }
 }
 

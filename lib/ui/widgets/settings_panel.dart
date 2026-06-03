@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -107,8 +108,94 @@ class _SettingsContent extends StatelessWidget {
                   child: _PresetSection(state: state, isLocked: isLocked)),
             ],
           ),
+          const SizedBox(height: 24),
+          // -- Output Directory Section --
+          _OutputDirectorySection(state: state, isLocked: isLocked),
         ],
       ),
+    );
+  }
+}
+
+/// Output directory picker section.
+class _OutputDirectorySection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _OutputDirectorySection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Output Directory',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: Colors.white70,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                decoration: BoxDecoration(
+                  color: AppTheme.borderDark.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: AppTheme.borderDark.withValues(alpha: 0.4),
+                  ),
+                ),
+                child: Text(
+                  state.customOutputDirectory ?? 'Default (Next to original file)',
+                  style: TextStyle(
+                    color: state.customOutputDirectory == null
+                        ? Colors.white30
+                        : Colors.white70,
+                    fontSize: 12,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            OutlinedButton.icon(
+              onPressed: isLocked
+                  ? null
+                  : () async {
+                      try {
+                        final result = await FilePicker.getDirectoryPath();
+                        if (result != null) {
+                          cubit.updateCustomOutputDirectory(result);
+                        }
+                      } catch (_) {}
+                    },
+              icon: const Icon(Icons.folder_open_rounded, size: 16),
+              label: const Text('Change'),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              ),
+            ),
+            if (state.customOutputDirectory != null) ...[
+              const SizedBox(width: 8),
+              IconButton(
+                onPressed: isLocked
+                    ? null
+                    : () => cubit.updateCustomOutputDirectory(null),
+                icon: const Icon(Icons.clear_rounded, size: 18),
+                color: Colors.white54,
+                tooltip: 'Reset to default',
+              ),
+            ],
+          ],
+        ),
+      ],
     );
   }
 }

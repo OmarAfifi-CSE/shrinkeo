@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'cubit/compression_cubit.dart';
@@ -17,6 +18,12 @@ void main() async {
 
   // Initialize window_manager for custom title bar.
   await windowManager.ensureInitialized();
+
+  // Initialize local_notifier for desktop notifications.
+  await localNotifier.setup(
+    appName: 'Shrinkeo',
+    shortcutPolicy: ShortcutPolicy.requireCreate,
+  );
 
   const windowOptions = WindowOptions(
     size: Size(960, 680),

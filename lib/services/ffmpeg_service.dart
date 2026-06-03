@@ -5,6 +5,19 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
+/// Data class containing detailed progress information.
+class CompressionProgress {
+  final double progress;
+  final double speed;
+  final Duration? eta;
+
+  CompressionProgress({
+    required this.progress,
+    required this.speed,
+    this.eta,
+  });
+}
+
 /// Service responsible for all FFmpeg and FFprobe process execution.
 ///
 /// Resolves the bundled executables relative to the application's running
@@ -96,6 +109,27 @@ class FfmpegService {
     return Duration(milliseconds: (seconds * 1000).round());
   }
 
+  /// Generates a thumbnail for a video file.
+  Future<void> generateThumbnail(String videoPath, String outputPath) async {
+    final ffmpeg = ffmpegPath;
+
+    final result = await Process.run(ffmpeg, [
+      '-y',
+      '-i', videoPath,
+      '-ss', '00:00:01.000', // Extract at 1 second
+      '-vframes', '1',
+      '-vf', 'scale=320:-1', // Resize width to 320, maintain aspect ratio
+      outputPath,
+    ]);
+
+    if (result.exitCode != 0) {
+      dev.log(
+        'Thumbnail generation failed for $videoPath: ${result.stderr}',
+        name: 'FfmpegService',
+      );
+    }
+  }
+
   /// Compresses a video file using FFmpeg and yields progress updates.
   ///
   /// Emits progress values from 0.0 to 1.0 as FFmpeg processes the video.
@@ -106,7 +140,7 @@ class FfmpegService {
   /// [preset] controls encoding speed. Default: 'fast'.
   ///
   /// Throws on non-zero exit code (unless cancelled).
-  Stream<double> compress({
+  Stream<CompressionProgress> compress({
     required String inputPath,
     required String outputPath,
     required Duration totalDuration,
@@ -137,8 +171,9 @@ class FfmpegService {
 
     final process = _currentProcess!;
 
-    // Regex to extract time=HH:MM:SS.xx from FFmpeg stderr progress lines.
+    // Regex to extract time=HH:MM:SS.xx and speed=1.5x from FFmpeg stderr progress lines.
     final timeRegex = RegExp(r'time=(\d+):(\d+):(\d+(?:\.\d+)?)');
+    final speedRegex = RegExp(r'speed=\s*(\d+(?:\.\d+)?)x');
 
     // Throttle progress emissions: min 100ms between updates or 0.5% delta.
     double lastEmittedProgress = 0.0;
@@ -177,12 +212,29 @@ class FfmpegService {
           final progress = (currentMs / totalMs).clamp(0.0, 1.0);
           final now = DateTime.now();
 
+          // Extract speed
+          double speed = 0.0;
+          final speedMatch = speedRegex.firstMatch(line);
+          if (speedMatch != null) {
+            speed = double.tryParse(speedMatch.group(1)!) ?? 0.0;
+          }
+
+          Duration? eta;
+          if (speed > 0.0 && progress < 1.0) {
+            final remainingMs = (totalMs - currentMs) / speed;
+            eta = Duration(milliseconds: remainingMs.round());
+          }
+
           // Throttle: emit if delta >= 0.5% or >= 100ms since last emit.
           if ((progress - lastEmittedProgress).abs() >= 0.005 ||
               now.difference(lastEmitTime).inMilliseconds >= 100) {
             lastEmittedProgress = progress;
             lastEmitTime = now;
-            yield progress;
+            yield CompressionProgress(
+              progress: progress,
+              speed: speed,
+              eta: eta,
+            );
           }
         }
       }
@@ -204,7 +256,7 @@ class FfmpegService {
     }
 
     // Ensure we emit 1.0 at completion.
-    yield 1.0;
+    yield CompressionProgress(progress: 1.0, speed: 0.0, eta: Duration.zero);
   }
 
   /// Cancels the currently running FFmpeg process, if any.

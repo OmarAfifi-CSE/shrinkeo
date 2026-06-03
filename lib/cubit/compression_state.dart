@@ -71,6 +71,16 @@ class CompressionState extends Equatable {
   /// Whether the settings panel is expanded in the UI.
   final bool isSettingsExpanded;
 
+  /// User-defined custom output directory.
+  /// If null, the default behavior (saving next to the original) is used.
+  final String? customOutputDirectory;
+
+  /// Estimated time remaining for the entire queue.
+  final Duration? globalEta;
+
+  /// Time when the current compression batch started.
+  final DateTime? compressionStartTime;
+
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -81,6 +91,9 @@ class CompressionState extends Equatable {
     this.crfQuality = 22,
     this.encodingPreset = EncodingPreset.fast,
     this.isSettingsExpanded = false,
+    this.customOutputDirectory,
+    this.globalEta,
+    this.compressionStartTime,
   });
 
   /// Creates a copy with the given fields overridden.
@@ -94,8 +107,14 @@ class CompressionState extends Equatable {
     int? crfQuality,
     EncodingPreset? encodingPreset,
     bool? isSettingsExpanded,
+    String? customOutputDirectory,
+    Duration? globalEta,
+    DateTime? compressionStartTime,
     bool clearOutputFolderPath = false,
     bool clearGlobalError = false,
+    bool clearCustomOutputDirectory = false,
+    bool clearGlobalEta = false,
+    bool clearCompressionStartTime = false,
   }) {
     return CompressionState(
       videos: videos ?? this.videos,
@@ -110,6 +129,13 @@ class CompressionState extends Equatable {
       crfQuality: crfQuality ?? this.crfQuality,
       encodingPreset: encodingPreset ?? this.encodingPreset,
       isSettingsExpanded: isSettingsExpanded ?? this.isSettingsExpanded,
+      customOutputDirectory: clearCustomOutputDirectory
+          ? null
+          : (customOutputDirectory ?? this.customOutputDirectory),
+      globalEta: clearGlobalEta ? null : (globalEta ?? this.globalEta),
+      compressionStartTime: clearCompressionStartTime
+          ? null
+          : (compressionStartTime ?? this.compressionStartTime),
     );
   }
 
@@ -155,5 +181,8 @@ class CompressionState extends Equatable {
     crfQuality,
     encodingPreset,
     isSettingsExpanded,
+    customOutputDirectory,
+    globalEta,
+    compressionStartTime,
   ];
 }

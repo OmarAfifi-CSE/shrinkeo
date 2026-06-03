@@ -54,6 +54,15 @@ class VideoFile extends Equatable {
   /// Error message (populated on failure).
   final String? errorMessage;
 
+  /// Absolute path to a generated thumbnail image.
+  final String? thumbnailPath;
+
+  /// Estimated time remaining for compression.
+  final Duration? eta;
+
+  /// Current processing speed multiplier (e.g., 1.5 for 1.5x speed).
+  final double? processingSpeed;
+
   const VideoFile({
     required this.id,
     required this.filePath,
@@ -66,6 +75,9 @@ class VideoFile extends Equatable {
     this.outputPath,
     this.outputSizeBytes,
     this.errorMessage,
+    this.thumbnailPath,
+    this.eta,
+    this.processingSpeed,
   });
 
   /// Creates a copy with the given fields overridden.
@@ -81,11 +93,17 @@ class VideoFile extends Equatable {
     String? outputPath,
     int? outputSizeBytes,
     String? errorMessage,
+    String? thumbnailPath,
+    Duration? eta,
+    double? processingSpeed,
     // Allow explicitly setting nullable fields to null.
     bool clearTotalDuration = false,
     bool clearOutputPath = false,
     bool clearOutputSizeBytes = false,
     bool clearErrorMessage = false,
+    bool clearThumbnailPath = false,
+    bool clearEta = false,
+    bool clearProcessingSpeed = false,
   }) {
     return VideoFile(
       id: id ?? this.id,
@@ -104,6 +122,11 @@ class VideoFile extends Equatable {
               : (outputSizeBytes ?? this.outputSizeBytes),
       errorMessage:
           clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
+      thumbnailPath:
+          clearThumbnailPath ? null : (thumbnailPath ?? this.thumbnailPath),
+      eta: clearEta ? null : (eta ?? this.eta),
+      processingSpeed:
+          clearProcessingSpeed ? null : (processingSpeed ?? this.processingSpeed),
     );
   }
 
@@ -143,5 +166,8 @@ class VideoFile extends Equatable {
     outputPath,
     outputSizeBytes,
     errorMessage,
+    thumbnailPath,
+    eta,
+    processingSpeed,
   ];
 }
