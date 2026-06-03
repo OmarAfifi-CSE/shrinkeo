@@ -114,11 +114,6 @@ class DropZoneWidget extends StatelessWidget {
                     alignment: WrapAlignment.center,
                     children: [
                       _PickButton(
-                        icon: Icons.insert_drive_file_rounded,
-                        label: 'Select File',
-                        onTap: () => _pickSingleFile(cubit),
-                      ),
-                      _PickButton(
                         icon: Icons.file_copy_rounded,
                         label: 'Select Files',
                         onTap: () => _pickMultipleFiles(cubit),
@@ -137,27 +132,6 @@ class DropZoneWidget extends StatelessWidget {
         );
       },
     );
-  }
-
-  /// Opens native file picker for a single video file.
-  Future<void> _pickSingleFile(CompressionCubit cubit) async {
-    try {
-      final result = await FilePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['mp4', 'mkv', 'mov', 'avi', 'wmv'],
-        allowMultiple: false,
-      );
-
-      if (result != null && result.files.isNotEmpty) {
-        final paths = result.files
-            .where((f) => f.path != null)
-            .map((f) => f.path!)
-            .toList();
-        cubit.addFiles(paths);
-      }
-    } catch (_) {
-      // Silently ignore picker errors.
-    }
   }
 
   /// Opens native file picker for multiple video files.
