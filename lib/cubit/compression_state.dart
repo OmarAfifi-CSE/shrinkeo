@@ -123,8 +123,7 @@ class CompressionState extends Equatable {
       outputFolderPath: clearOutputFolderPath
           ? null
           : (outputFolderPath ?? this.outputFolderPath),
-      globalError:
-          clearGlobalError ? null : (globalError ?? this.globalError),
+      globalError: clearGlobalError ? null : (globalError ?? this.globalError),
       isDragHovering: isDragHovering ?? this.isDragHovering,
       crfQuality: crfQuality ?? this.crfQuality,
       encodingPreset: encodingPreset ?? this.encodingPreset,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/video_file.dart';
-import '../app_theme.dart';
+import '../app_colors.dart';
 
 /// Color-coded status indicator chip for a video's processing state.
 class StatusChip extends StatelessWidget {
@@ -47,12 +47,32 @@ class StatusChip extends StatelessWidget {
 
   (String, Color, IconData) _statusConfig(VideoStatus status) {
     return switch (status) {
-      VideoStatus.queued => ('Queued', AppTheme.queuedGrey, Icons.schedule_rounded),
-      VideoStatus.probing => ('Analyzing', AppTheme.infoBlue, Icons.analytics_rounded),
-      VideoStatus.compressing => ('Compressing', AppTheme.darkTheme.colorScheme.primary, Icons.sync_rounded),
-      VideoStatus.success => ('Done', AppTheme.successGreen, Icons.check_circle_rounded),
-      VideoStatus.failed => ('Failed', AppTheme.errorRed, Icons.error_rounded),
-      VideoStatus.cancelled => ('Cancelled', AppTheme.warningOrange, Icons.cancel_rounded),
+      VideoStatus.queued => (
+        'Queued',
+        AppColors.queuedGrey,
+        Icons.schedule_rounded,
+      ),
+      VideoStatus.probing => (
+        'Analyzing',
+        AppColors.infoBlue,
+        Icons.analytics_rounded,
+      ),
+      VideoStatus.compressing => (
+        'Compressing',
+        AppColors.primaryTeal,
+        Icons.sync_rounded,
+      ),
+      VideoStatus.success => (
+        'Done',
+        AppColors.successGreen,
+        Icons.check_circle_rounded,
+      ),
+      VideoStatus.failed => ('Failed', AppColors.errorRed, Icons.error_rounded),
+      VideoStatus.cancelled => (
+        'Cancelled',
+        AppColors.warningOrange,
+        Icons.cancel_rounded,
+      ),
     };
   }
 }
@@ -81,9 +101,10 @@ class _PulsingIconState extends State<_PulsingIcon>
       vsync: this,
     )..repeat(reverse: true);
 
-    _opacity = Tween<double>(begin: 0.4, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _opacity = Tween<double>(
+      begin: 0.4,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override

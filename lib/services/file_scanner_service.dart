@@ -35,10 +35,7 @@ class FileScannerService {
   }
 
   /// Recursively scans [directory] and adds valid video file paths to [results].
-  Future<void> _scanDirectory(
-    Directory directory,
-    Set<String> results,
-  ) async {
+  Future<void> _scanDirectory(Directory directory, Set<String> results) async {
     try {
       await for (final entity in directory.list(
         recursive: true,

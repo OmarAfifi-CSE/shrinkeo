@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
-import '../app_theme.dart';
+import '../app_colors.dart';
 
 /// Collapsible settings panel for CRF quality and encoding preset.
 ///
@@ -50,10 +50,10 @@ class _SettingsContent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
       decoration: BoxDecoration(
-        color: AppTheme.surfaceContainerDark,
+        color: AppColors.surfaceContainerDark,
         border: Border(
           bottom: BorderSide(
-            color: AppTheme.borderDark.withValues(alpha: 0.5),
+            color: AppColors.borderDark.withValues(alpha: 0.5),
           ),
         ),
       ),
@@ -63,8 +63,11 @@ class _SettingsContent extends StatelessWidget {
           // -- Section header --
           Row(
             children: [
-              Icon(Icons.tune_rounded,
-                  size: 16, color: theme.colorScheme.primary),
+              Icon(
+                Icons.tune_rounded,
+                size: 16,
+                color: theme.colorScheme.primary,
+              ),
               const SizedBox(width: 8),
               Text(
                 'Compression Settings',
@@ -76,16 +79,18 @@ class _SettingsContent extends StatelessWidget {
               if (isLocked) ...[
                 const SizedBox(width: 10),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
-                    color: AppTheme.warningOrange.withValues(alpha: 0.1),
+                    color: AppColors.warningOrange.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
                     'Locked during compression',
                     style: TextStyle(
-                      color: AppTheme.warningOrange.withValues(alpha: 0.7),
+                      color: AppColors.warningOrange.withValues(alpha: 0.7),
                       fontSize: 10,
                       fontWeight: FontWeight.w500,
                     ),
@@ -101,11 +106,14 @@ class _SettingsContent extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // -- CRF Quality --
-              Expanded(child: _CrfSection(state: state, isLocked: isLocked)),
+              Expanded(
+                child: _CrfSection(state: state, isLocked: isLocked),
+              ),
               const SizedBox(width: 32),
               // -- Encoding Preset --
               Expanded(
-                  child: _PresetSection(state: state, isLocked: isLocked)),
+                child: _PresetSection(state: state, isLocked: isLocked),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -144,16 +152,20 @@ class _OutputDirectorySection extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
-                  color: AppTheme.borderDark.withValues(alpha: 0.1),
+                  color: AppColors.borderDark.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: AppTheme.borderDark.withValues(alpha: 0.4),
+                    color: AppColors.borderDark.withValues(alpha: 0.4),
                   ),
                 ),
                 child: Text(
-                  state.customOutputDirectory ?? 'Default (Next to original file)',
+                  state.customOutputDirectory ??
+                      'Default (Next to original file)',
                   style: TextStyle(
                     color: state.customOutputDirectory == null
                         ? Colors.white30
@@ -179,7 +191,10 @@ class _OutputDirectorySection extends StatelessWidget {
               icon: const Icon(Icons.folder_open_rounded, size: 16),
               label: const Text('Change'),
               style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
               ),
             ),
             if (state.customOutputDirectory != null) ...[
@@ -252,7 +267,7 @@ class _CrfSection extends StatelessWidget {
         SliderTheme(
           data: SliderThemeData(
             activeTrackColor: _crfColor(state.crfQuality),
-            inactiveTrackColor: AppTheme.borderDark,
+            inactiveTrackColor: AppColors.borderDark,
             thumbColor: _crfColor(state.crfQuality),
             overlayColor: _crfColor(state.crfQuality).withValues(alpha: 0.12),
             trackHeight: 4,
@@ -288,11 +303,11 @@ class _CrfSection extends StatelessWidget {
   }
 
   Color _crfColor(int crf) {
-    if (crf <= 17) return AppTheme.infoBlue;
+    if (crf <= 17) return AppColors.infoBlue;
     if (crf <= 20) return const Color(0xFF26C6DA);
-    if (crf <= 23) return AppTheme.successGreen;
-    if (crf <= 26) return AppTheme.warningOrange;
-    return AppTheme.errorRed;
+    if (crf <= 23) return AppColors.successGreen;
+    if (crf <= 26) return AppColors.warningOrange;
+    return AppColors.errorRed;
   }
 }
 
@@ -336,16 +351,18 @@ class _PresetSection extends StatelessWidget {
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 150),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 7),
+                    horizontal: 12,
+                    vertical: 7,
+                  ),
                   decoration: BoxDecoration(
                     color: isSelected
                         ? theme.colorScheme.primary.withValues(alpha: 0.15)
-                        : AppTheme.borderDark.withValues(alpha: 0.3),
+                        : AppColors.borderDark.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: isSelected
                           ? theme.colorScheme.primary.withValues(alpha: 0.5)
-                          : AppTheme.borderDark.withValues(alpha: 0.4),
+                          : AppColors.borderDark.withValues(alpha: 0.4),
                     ),
                   ),
                   child: Text(
@@ -355,8 +372,9 @@ class _PresetSection extends StatelessWidget {
                           ? theme.colorScheme.primary
                           : Colors.white54,
                       fontSize: 12,
-                      fontWeight:
-                          isSelected ? FontWeight.w600 : FontWeight.w400,
+                      fontWeight: isSelected
+                          ? FontWeight.w600
+                          : FontWeight.w400,
                     ),
                   ),
                 ),
@@ -370,15 +388,11 @@ class _PresetSection extends StatelessWidget {
         // Description of selected preset
         Row(
           children: [
-            Icon(Icons.info_outline_rounded,
-                size: 13, color: Colors.white24),
+            Icon(Icons.info_outline_rounded, size: 13, color: Colors.white24),
             const SizedBox(width: 5),
             Text(
               '${state.encodingPreset.label}: ${state.encodingPreset.description}',
-              style: TextStyle(
-                color: Colors.white30,
-                fontSize: 11,
-              ),
+              style: TextStyle(color: Colors.white30, fontSize: 11),
             ),
           ],
         ),
@@ -406,13 +420,7 @@ class _ScaleLabel extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.white24,
-            fontSize: 9,
-          ),
-        ),
+        Text(label, style: TextStyle(color: Colors.white24, fontSize: 9)),
       ],
     );
   }

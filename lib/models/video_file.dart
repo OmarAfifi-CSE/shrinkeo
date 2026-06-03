@@ -1,14 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// Status of an individual video in the compression queue.
-enum VideoStatus {
-  queued,
-  probing,
-  compressing,
-  success,
-  failed,
-  cancelled,
-}
+enum VideoStatus { queued, probing, compressing, success, failed, cancelled }
 
 /// Set of valid video file extensions accepted by the application.
 const Set<String> validVideoExtensions = {
@@ -111,22 +104,25 @@ class VideoFile extends Equatable {
       fileName: fileName ?? this.fileName,
       extension: extension ?? this.extension,
       fileSizeBytes: fileSizeBytes ?? this.fileSizeBytes,
-      totalDuration:
-          clearTotalDuration ? null : (totalDuration ?? this.totalDuration),
+      totalDuration: clearTotalDuration
+          ? null
+          : (totalDuration ?? this.totalDuration),
       status: status ?? this.status,
       progress: progress ?? this.progress,
       outputPath: clearOutputPath ? null : (outputPath ?? this.outputPath),
-      outputSizeBytes:
-          clearOutputSizeBytes
-              ? null
-              : (outputSizeBytes ?? this.outputSizeBytes),
-      errorMessage:
-          clearErrorMessage ? null : (errorMessage ?? this.errorMessage),
-      thumbnailPath:
-          clearThumbnailPath ? null : (thumbnailPath ?? this.thumbnailPath),
+      outputSizeBytes: clearOutputSizeBytes
+          ? null
+          : (outputSizeBytes ?? this.outputSizeBytes),
+      errorMessage: clearErrorMessage
+          ? null
+          : (errorMessage ?? this.errorMessage),
+      thumbnailPath: clearThumbnailPath
+          ? null
+          : (thumbnailPath ?? this.thumbnailPath),
       eta: clearEta ? null : (eta ?? this.eta),
-      processingSpeed:
-          clearProcessingSpeed ? null : (processingSpeed ?? this.processingSpeed),
+      processingSpeed: clearProcessingSpeed
+          ? null
+          : (processingSpeed ?? this.processingSpeed),
     );
   }
 
@@ -148,8 +144,8 @@ class VideoFile extends Equatable {
   /// Returns the compression ratio as a percentage string (e.g., "-42%").
   String? get compressionRatio {
     if (outputSizeBytes == null || fileSizeBytes == 0) return null;
-    final ratio =
-        ((fileSizeBytes - outputSizeBytes!) / fileSizeBytes * 100).round();
+    final ratio = ((fileSizeBytes - outputSizeBytes!) / fileSizeBytes * 100)
+        .round();
     return '-$ratio%';
   }
 

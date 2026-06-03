@@ -4,133 +4,124 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/compression_cubit.dart';
-import '../../cubit/compression_state.dart';
-import '../app_theme.dart';
+import '../app_colors.dart';
 
 /// Animated drop zone for dragging and dropping video files and folders.
 ///
 /// Provides alternative buttons for manual file/folder selection.
 class DropZoneWidget extends StatelessWidget {
-  const DropZoneWidget({super.key});
+  final bool isHovering;
+  final ValueChanged<bool> onHover;
+  final ValueChanged<List<String>> onFilesDropped;
+
+  const DropZoneWidget({
+    super.key,
+    required this.isHovering,
+    required this.onHover,
+    required this.onFilesDropped,
+  });
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CompressionCubit>();
 
-    return BlocBuilder<CompressionCubit, CompressionState>(
-      buildWhen: (prev, curr) =>
-          prev.isDragHovering != curr.isDragHovering,
-      builder: (context, state) {
-        return DropTarget(
-          onDragEntered: (_) => cubit.setDragHovering(true),
-          onDragExited: (_) => cubit.setDragHovering(false),
-          onDragDone: (details) {
-            cubit.setDragHovering(false);
-            final paths = details.files.map((f) => f.path).toList();
-            cubit.addFiles(paths);
-          },
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeOut,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: state.isDragHovering
-                  ? Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.06)
-                  : AppTheme.surfaceContainerDark.withValues(alpha: 0.5),
-              border: Border.all(
-                color: state.isDragHovering
-                    ? Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.5)
-                    : AppTheme.borderDark.withValues(alpha: 0.4),
-                width: state.isDragHovering ? 2 : 1.5,
+    return DropTarget(
+      onDragEntered: (_) => onHover(true),
+      onDragExited: (_) => onHover(false),
+      onDragDone: (details) {
+        onHover(false);
+        final paths = details.files.map((f) => f.path).toList();
+        onFilesDropped(paths);
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOut,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: isHovering
+              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.06)
+              : AppColors.surfaceContainerDark.withValues(alpha: 0.5),
+          border: Border.all(
+            color: isHovering
+                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.5)
+                : AppColors.borderDark.withValues(alpha: 0.4),
+            width: isHovering ? 2 : 1.5,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Animated icon
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                transform: Matrix4.translationValues(0, isHovering ? -8 : 0, 0),
+                child: Container(
+                  width: 72,
+                  height: 72,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Theme.of(context).colorScheme.primary.withValues(
+                      alpha: isHovering ? 0.15 : 0.08,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.cloud_upload_rounded,
+                    size: 32,
+                    color: isHovering
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.white38,
+                  ),
+                ),
               ),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              const SizedBox(height: 18),
+
+              // Instructional text
+              Text(
+                isHovering
+                    ? 'Release to add videos'
+                    : 'Drag & drop video files or folders here',
+                style: TextStyle(
+                  color: isHovering
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white54,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Supports MP4, MKV, MOV, AVI, WMV',
+                style: TextStyle(
+                  color: Colors.white24,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Manual pick buttons
+              Wrap(
+                spacing: 10,
+                runSpacing: 8,
+                alignment: WrapAlignment.center,
                 children: [
-                  // Animated icon
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 250),
-                    transform: Matrix4.translationValues(
-                      0,
-                      state.isDragHovering ? -8 : 0,
-                      0,
-                    ),
-                    child: Container(
-                      width: 72,
-                      height: 72,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withValues(alpha: state.isDragHovering ? 0.15 : 0.08),
-                      ),
-                      child: Icon(
-                        Icons.cloud_upload_rounded,
-                        size: 32,
-                        color: state.isDragHovering
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.white38,
-                      ),
-                    ),
+                  _PickButton(
+                    icon: Icons.file_copy_rounded,
+                    label: 'Select Files',
+                    onTap: () => _pickMultipleFiles(cubit),
                   ),
-                  const SizedBox(height: 18),
-
-                  // Instructional text
-                  Text(
-                    state.isDragHovering
-                        ? 'Release to add videos'
-                        : 'Drag & drop video files or folders here',
-                    style: TextStyle(
-                      color: state.isDragHovering
-                          ? Theme.of(context).colorScheme.primary
-                          : Colors.white54,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    'Supports MP4, MKV, MOV, AVI, WMV',
-                    style: TextStyle(
-                      color: Colors.white24,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Manual pick buttons
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 8,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      _PickButton(
-                        icon: Icons.file_copy_rounded,
-                        label: 'Select Files',
-                        onTap: () => _pickMultipleFiles(cubit),
-                      ),
-                      _PickButton(
-                        icon: Icons.folder_rounded,
-                        label: 'Select Folder',
-                        onTap: () => _pickFolder(cubit),
-                      ),
-                    ],
+                  _PickButton(
+                    icon: Icons.folder_rounded,
+                    label: 'Select Folder',
+                    onTap: () => _pickFolder(cubit),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 

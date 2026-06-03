@@ -11,11 +11,7 @@ class CompressionProgress {
   final double speed;
   final Duration? eta;
 
-  CompressionProgress({
-    required this.progress,
-    required this.speed,
-    this.eta,
-  });
+  CompressionProgress({required this.progress, required this.speed, this.eta});
 }
 
 /// Service responsible for all FFmpeg and FFprobe process execution.
@@ -84,9 +80,12 @@ class FfmpegService {
     final probe = ffprobePath;
 
     final result = await Process.run(probe, [
-      '-v', 'error',
-      '-show_entries', 'format=duration',
-      '-of', 'csv=p=0',
+      '-v',
+      'error',
+      '-show_entries',
+      'format=duration',
+      '-of',
+      'csv=p=0',
       filePath,
     ]);
 
@@ -127,9 +126,12 @@ class FfmpegService {
     if (result.exitCode != 0) {
       result = await Process.run(ffmpeg, [
         '-y',
-        '-i', videoPath,
-        '-vframes', '1',
-        '-vf', 'scale=320:-1',
+        '-i',
+        videoPath,
+        '-vframes',
+        '1',
+        '-vf',
+        'scale=320:-1',
         outputPath,
       ]);
     }
@@ -170,14 +172,21 @@ class FfmpegService {
     _currentProcess = await Process.start(ffmpeg, [
       '-y',
       '-hide_banner',
-      '-loglevel', 'error',
+      '-loglevel',
+      'error',
       '-stats',
-      '-i', inputPath,
-      '-vcodec', 'libx264',
-      '-crf', crf.toString(),
-      '-preset', preset,
-      '-pix_fmt', 'yuv420p',
-      '-acodec', 'copy',
+      '-i',
+      inputPath,
+      '-vcodec',
+      'libx264',
+      '-crf',
+      crf.toString(),
+      '-preset',
+      preset,
+      '-pix_fmt',
+      'yuv420p',
+      '-acodec',
+      'copy',
       outputPath,
     ]);
 
@@ -262,9 +271,7 @@ class FfmpegService {
 
     if (exitCode != 0) {
       final errorOutput = stderrLines.join('\n').trim();
-      throw Exception(
-        'FFmpeg failed (exit code $exitCode):\n$errorOutput',
-      );
+      throw Exception('FFmpeg failed (exit code $exitCode):\n$errorOutput');
     }
 
     // Ensure we emit 1.0 at completion.
@@ -275,8 +282,10 @@ class FfmpegService {
   void cancelCurrentProcess() {
     _isCancelled = true;
     if (_currentProcess != null) {
-      dev.log('Killing FFmpeg process (PID: ${_currentProcess!.pid})',
-          name: 'FfmpegService');
+      dev.log(
+        'Killing FFmpeg process (PID: ${_currentProcess!.pid})',
+        name: 'FfmpegService',
+      );
       _currentProcess!.kill(ProcessSignal.sigkill);
       _currentProcess = null;
     }

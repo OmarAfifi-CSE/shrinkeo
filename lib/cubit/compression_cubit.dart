@@ -288,8 +288,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   void _showCompletionNotification(int success, int failed) {
     final notification = LocalNotification(
       title: 'Shrinkeo Compression Complete',
-      body: 'Successfully compressed $success videos.' +
-          (failed > 0 ? ' ($failed failed)' : ''),
+      body: 'Successfully compressed $success videos.${failed > 0 ? ' ($failed failed)' : ''}',
     );
     notification.show();
   }

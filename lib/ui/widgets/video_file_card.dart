@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../models/video_file.dart';
-import '../app_theme.dart';
+import '../app_colors.dart';
 import 'status_chip.dart';
 
 /// Card widget displaying a single video file in the compression queue.
@@ -14,11 +14,7 @@ class VideoFileCard extends StatelessWidget {
   final VideoFile video;
   final VoidCallback? onRemove;
 
-  const VideoFileCard({
-    super.key,
-    required this.video,
-    this.onRemove,
-  });
+  const VideoFileCard({super.key, required this.video, this.onRemove});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,8 @@ class VideoFileCard extends StatelessWidget {
             Row(
               children: [
                 // File format badge or Thumbnail
-                if (video.thumbnailPath != null && File(video.thumbnailPath!).existsSync())
+                if (video.thumbnailPath != null &&
+                    File(video.thumbnailPath!).existsSync())
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.file(
@@ -86,7 +83,10 @@ class VideoFileCard extends StatelessWidget {
                         if (video.eta != null) ...[
                           Text(
                             _formatDuration(video.eta!),
-                            style: const TextStyle(color: Colors.white54, fontSize: 11),
+                            style: const TextStyle(
+                              color: Colors.white54,
+                              fontSize: 11,
+                            ),
                           ),
                           const SizedBox(width: 8),
                         ],
@@ -98,7 +98,9 @@ class VideoFileCard extends StatelessWidget {
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w700,
                               color: theme.colorScheme.primary,
-                              fontFeatures: const [FontFeature.tabularFigures()],
+                              fontFeatures: const [
+                                FontFeature.tabularFigures(),
+                              ],
                             ),
                           ),
                         ),
@@ -110,9 +112,7 @@ class VideoFileCard extends StatelessWidget {
                   Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        _CompressionResult(video: video),
-                      ],
+                      children: [_CompressionResult(video: video)],
                     ),
                   )
                 else
@@ -121,10 +121,7 @@ class VideoFileCard extends StatelessWidget {
                 const SizedBox(width: 8),
 
                 // Cancel/Remove button
-                _ActionButton(
-                  video: video,
-                  onRemove: onRemove,
-                ),
+                _ActionButton(video: video, onRemove: onRemove),
               ],
             ),
 
@@ -141,7 +138,7 @@ class VideoFileCard extends StatelessWidget {
                     return LinearProgressIndicator(
                       value: value,
                       minHeight: 4,
-                      backgroundColor: AppTheme.borderDark,
+                      backgroundColor: AppColors.borderDark,
                       valueColor: AlwaysStoppedAnimation<Color>(
                         theme.colorScheme.primary,
                       ),
@@ -157,24 +154,29 @@ class VideoFileCard extends StatelessWidget {
               const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 10, vertical: 6),
+                  horizontal: 10,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color: AppTheme.errorRed.withValues(alpha: 0.08),
+                  color: AppColors.errorRed.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(6),
                   border: Border.all(
-                    color: AppTheme.errorRed.withValues(alpha: 0.2),
+                    color: AppColors.errorRed.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.warning_amber_rounded,
-                        size: 14, color: AppTheme.errorRed.withValues(alpha: 0.7)),
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      size: 14,
+                      color: AppColors.errorRed.withValues(alpha: 0.7),
+                    ),
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
                         video.errorMessage!,
                         style: TextStyle(
-                          color: AppTheme.errorRed.withValues(alpha: 0.8),
+                          color: AppColors.errorRed.withValues(alpha: 0.8),
                           fontSize: 11,
                         ),
                         maxLines: 2,
@@ -277,7 +279,7 @@ class _CompressionResult extends StatelessWidget {
               Text(
                 savedText,
                 style: const TextStyle(
-                  color: AppTheme.successGreen,
+                  color: AppColors.successGreen,
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                 ),
@@ -289,13 +291,13 @@ class _CompressionResult extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
             decoration: BoxDecoration(
-              color: AppTheme.successGreen.withValues(alpha: 0.15),
+              color: AppColors.successGreen.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
               video.compressionRatio!,
               style: const TextStyle(
-                color: AppTheme.successGreen,
+                color: AppColors.successGreen,
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
               ),
@@ -316,12 +318,14 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isRemovable = video.status == VideoStatus.queued ||
+    final isRemovable =
+        video.status == VideoStatus.queued ||
         video.status == VideoStatus.success ||
         video.status == VideoStatus.failed ||
         video.status == VideoStatus.cancelled;
 
-    final isProcessing = video.status == VideoStatus.compressing ||
+    final isProcessing =
+        video.status == VideoStatus.compressing ||
         video.status == VideoStatus.probing;
 
     if (!isRemovable && !isProcessing) return const SizedBox.shrink();
@@ -336,14 +340,14 @@ class _ActionButton extends StatelessWidget {
           height: 32,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: (isProcessing ? AppTheme.errorRed : Colors.white)
+            color: (isProcessing ? AppColors.errorRed : Colors.white)
                 .withValues(alpha: 0.08),
           ),
           child: Icon(
             isProcessing ? Icons.stop_rounded : Icons.close_rounded,
             size: 16,
             color: isProcessing
-                ? AppTheme.errorRed.withValues(alpha: 0.8)
+                ? AppColors.errorRed.withValues(alpha: 0.8)
                 : Colors.white38,
           ),
         ),
