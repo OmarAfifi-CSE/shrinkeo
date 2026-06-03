@@ -238,10 +238,12 @@ class CompressionCubit extends Cubit<CompressionState> {
       return;
     }
 
+    final newVideos = state.videos.where((v) => v.id != id).toList();
     emit(
       state.copyWith(
-        videos: state.videos.where((v) => v.id != id).toList(),
+        videos: newVideos,
         phase: state.isProcessing ? null : CompressionPhase.idle,
+        clearOutputFolderPath: newVideos.isEmpty && !state.isProcessing,
       ),
     );
   }
@@ -262,6 +264,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         currentIndex: -1,
         clearCompressionStartTime: true,
         clearGlobalEta: true,
+        clearOutputFolderPath: !state.isProcessing,
       ),
     );
   }
@@ -313,17 +316,22 @@ class CompressionCubit extends Cubit<CompressionState> {
 
     // Resolve the output folder.
     String outputFolder;
-    try {
-      final baseDir = state.customOutputDirectory ?? sourceDir;
-      outputFolder = await _outputFolderService.resolveOutputFolder(baseDir);
-    } catch (e) {
-      emit(
-        state.copyWith(
-          phase: CompressionPhase.error,
-          globalError: 'Failed to create output folder: $e',
-        ),
-      );
-      return;
+    if (state.outputFolderPath != null &&
+        Directory(state.outputFolderPath!).existsSync()) {
+      outputFolder = state.outputFolderPath!;
+    } else {
+      try {
+        final baseDir = state.customOutputDirectory ?? sourceDir;
+        outputFolder = await _outputFolderService.resolveOutputFolder(baseDir);
+      } catch (e) {
+        emit(
+          state.copyWith(
+            phase: CompressionPhase.error,
+            globalError: 'Failed to create output folder: $e',
+          ),
+        );
+        return;
+      }
     }
 
     emit(
@@ -621,10 +629,12 @@ class CompressionCubit extends Cubit<CompressionState> {
       _updateVideo(index, video.copyWith(status: VideoStatus.cancelled));
     } else {
       // For all other statuses (queued, success, failed, cancelled) — remove from queue.
+      final newVideos = state.videos.where((v) => v.id != id).toList();
       emit(
         state.copyWith(
-          videos: state.videos.where((v) => v.id != id).toList(),
+          videos: newVideos,
           phase: state.isProcessing ? null : CompressionPhase.idle,
+          clearOutputFolderPath: newVideos.isEmpty && !state.isProcessing,
         ),
       );
     }
