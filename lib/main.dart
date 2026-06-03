@@ -9,8 +9,13 @@ import 'ui/app_colors.dart';
 import 'ui/app_theme.dart';
 import 'ui/screens/home_screen.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Load preferences before running the app.
+  final prefs = await SharedPreferences.getInstance();
 
   // Initialize window_manager for custom title bar.
   await windowManager.ensureInitialized();
@@ -35,19 +40,22 @@ void main() async {
     await windowManager.focus();
   });
 
-  runApp(const ShrinkeoApp());
+  runApp(ShrinkeoApp(prefs: prefs));
 }
 
 /// Root application widget for Shrinkeo.
 class ShrinkeoApp extends StatelessWidget {
-  const ShrinkeoApp({super.key});
+  final SharedPreferences prefs;
+
+  const ShrinkeoApp({super.key, required this.prefs});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CompressionCubit(),
+      create: (_) => CompressionCubit(prefs: prefs),
       child: BlocBuilder<CompressionCubit, CompressionState>(
-        buildWhen: (previous, current) => previous.themeMode != current.themeMode,
+        buildWhen: (previous, current) =>
+            previous.themeMode != current.themeMode,
         builder: (context, state) {
           return MaterialApp(
             title: 'Shrinkeo',
