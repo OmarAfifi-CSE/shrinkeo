@@ -36,6 +36,7 @@ void main() async {
   );
 
   await windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.center();
     await windowManager.show();
     await windowManager.focus();
   });
