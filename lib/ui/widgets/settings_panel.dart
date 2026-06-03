@@ -21,9 +21,9 @@ class SettingsPanel extends StatelessWidget {
     return BlocBuilder<CompressionCubit, CompressionState>(
       buildWhen: (prev, curr) =>
           prev.isSettingsExpanded != curr.isSettingsExpanded ||
-          prev.crfQuality != curr.crfQuality ||
           prev.encodingPreset != curr.encodingPreset ||
-          prev.isProcessing != curr.isProcessing,
+          prev.isProcessing != curr.isProcessing ||
+          prev.customOutputDirectory != curr.customOutputDirectory,
       builder: (context, state) {
         return AnimatedCrossFade(
           duration: const Duration(milliseconds: 250),
@@ -148,57 +148,58 @@ class _OutputDirectorySection extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
-                ),
-                decoration: BoxDecoration(
-                  color:
-                      (Theme.of(context).brightness == Brightness.dark
-                              ? AppColors.borderDark
-                              : AppColors.borderLight)
-                          .withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
+              child: SizedBox(
+                height: 40,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
                     color:
                         (Theme.of(context).brightness == Brightness.dark
                                 ? AppColors.borderDark
                                 : AppColors.borderLight)
-                            .withValues(alpha: 0.4),
+                            .withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color:
+                          (Theme.of(context).brightness == Brightness.dark
+                                  ? AppColors.borderDark
+                                  : AppColors.borderLight)
+                              .withValues(alpha: 0.4),
+                    ),
                   ),
-                ),
-                child: Text(
-                  state.customOutputDirectory ??
-                      'Default (Next to original file)',
-                  style: TextStyle(
-                    color: state.customOutputDirectory == null
-                        ? theme.textTheme.bodySmall?.color
-                        : theme.textTheme.bodyMedium?.color,
-                    fontSize: 12,
+                  child: Text(
+                    state.customOutputDirectory ??
+                        'Default (Next to original file)',
+                    style: TextStyle(
+                      color: state.customOutputDirectory == null
+                          ? theme.textTheme.bodySmall?.color
+                          : theme.textTheme.bodyMedium?.color,
+                      fontSize: 12,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
             const SizedBox(width: 12),
-            OutlinedButton.icon(
-              onPressed: isLocked
-                  ? null
-                  : () async {
-                      try {
-                        final result = await FilePicker.getDirectoryPath();
-                        if (result != null) {
-                          cubit.updateCustomOutputDirectory(result);
-                        }
-                      } catch (_) {}
-                    },
-              icon: const Icon(Icons.folder_open_rounded, size: 16),
-              label: const Text('Change'),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
+            SizedBox(
+              height: 40,
+              child: OutlinedButton.icon(
+                onPressed: isLocked
+                    ? null
+                    : () async {
+                        try {
+                          final result = await FilePicker.getDirectoryPath();
+                          if (result != null) {
+                            cubit.updateCustomOutputDirectory(result);
+                          }
+                        } catch (_) {}
+                      },
+                icon: const Icon(Icons.folder_open_rounded, size: 16),
+                label: const Text('Change'),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
               ),
             ),
