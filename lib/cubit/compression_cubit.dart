@@ -142,18 +142,24 @@ class CompressionCubit extends Cubit<CompressionState> {
 
     for (final video in videos) {
       if (_cancelRequested) break;
-      final thumbPath = p.join(thumbDir.path, '${video.id}.jpg');
-      await _ffmpegService.generateThumbnail(video.filePath, thumbPath);
+      
+      // Fire and forget for instant UI updates as each finishes.
+      () async {
+        final thumbPath = p.join(thumbDir.path, '${video.id}.jpg');
+        await _ffmpegService.generateThumbnail(video.filePath, thumbPath);
 
-      if (File(thumbPath).existsSync()) {
-        final index = state.videos.indexWhere((v) => v.id == video.id);
-        if (index != -1) {
-          _updateVideo(
-            index,
-            state.videos[index].copyWith(thumbnailPath: thumbPath),
-          );
+        if (_cancelRequested) return;
+
+        if (File(thumbPath).existsSync()) {
+          final index = state.videos.indexWhere((v) => v.id == video.id);
+          if (index != -1) {
+            _updateVideo(
+              index,
+              state.videos[index].copyWith(thumbnailPath: thumbPath),
+            );
+          }
         }
-      }
+      }();
     }
   }
 

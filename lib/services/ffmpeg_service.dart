@@ -109,18 +109,30 @@ class FfmpegService {
     return Duration(milliseconds: (seconds * 1000).round());
   }
 
-  /// Generates a thumbnail for a video file.
+  /// Generates a thumbnail for a video file instantly by fast-seeking to 2 seconds.
+  /// Falls back to the first frame if the video is shorter than 2 seconds.
   Future<void> generateThumbnail(String videoPath, String outputPath) async {
     final ffmpeg = ffmpegPath;
 
-    final result = await Process.run(ffmpeg, [
+    var result = await Process.run(ffmpeg, [
       '-y',
+      '-ss', '2', // Fast-seek BEFORE input for near-instant extraction
       '-i', videoPath,
-      '-ss', '00:00:01.000', // Extract at 1 second
       '-vframes', '1',
       '-vf', 'scale=320:-1', // Resize width to 320, maintain aspect ratio
       outputPath,
     ]);
+
+    // If it fails (e.g., video is shorter than 2 seconds), fallback to the first frame.
+    if (result.exitCode != 0) {
+      result = await Process.run(ffmpeg, [
+        '-y',
+        '-i', videoPath,
+        '-vframes', '1',
+        '-vf', 'scale=320:-1',
+        outputPath,
+      ]);
+    }
 
     if (result.exitCode != 0) {
       dev.log(
