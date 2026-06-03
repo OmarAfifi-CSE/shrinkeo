@@ -6,6 +6,8 @@ import '../../models/video_file.dart';
 import '../app_colors.dart';
 import 'status_chip.dart';
 
+import 'glass_container.dart';
+
 /// Card widget displaying a single video file in the compression queue.
 ///
 /// Shows: file icon, name, size, status, progress bar, compression result,
@@ -20,10 +22,11 @@ class VideoFileCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Card(
-      child: Padding(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12.0),
+      child: GlassContainer(
         padding: const EdgeInsets.all(14),
-        child: Column(
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // -- Top row: icon, name, status, actions --
@@ -238,12 +241,12 @@ class _FormatBadge extends StatelessWidget {
 
   Color _colorForExtension(String ext) {
     return switch (ext.toLowerCase()) {
-      '.mp4' => const Color(0xFF42A5F5),
-      '.mkv' => const Color(0xFFAB47BC),
-      '.mov' => const Color(0xFF26C6DA),
-      '.avi' => const Color(0xFFFFCA28),
-      '.wmv' => const Color(0xFFEF5350),
-      _ => Colors.grey,
+      '.mp4' => AppColors.typeMp4,
+      '.mkv' => AppColors.typeMkv,
+      '.mov' => AppColors.typeMov,
+      '.avi' => AppColors.typeAvi,
+      '.wmv' => AppColors.typeWmv,
+      _ => AppColors.queuedGrey,
     };
   }
 }

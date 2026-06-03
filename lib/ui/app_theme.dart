@@ -16,6 +16,8 @@ class AppTheme {
       seedColor: AppColors.primaryAccent,
       brightness: Brightness.dark,
       surface: AppColors.surfaceDark,
+      primary: AppColors.primaryAccent,
+      onPrimary: Colors.white,
     );
 
     // Precise typography for Dark Mode
@@ -79,7 +81,7 @@ class AppTheme {
       // Outlined Buttons
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: colorScheme.primary,
+          foregroundColor: AppColors.primaryAccentLight,
           side: const BorderSide(color: AppColors.borderDark),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -90,14 +92,14 @@ class AppTheme {
       // Text Buttons
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: colorScheme.primary,
+          foregroundColor: AppColors.primaryAccentLight,
           textStyle: textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w500),
         ),
       ),
 
       // Linear Progress Indicator
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: colorScheme.primary,
+        color: AppColors.primaryAccentLight,
         linearTrackColor: AppColors.borderDark,
         linearMinHeight: 4,
         borderRadius: BorderRadius.circular(2),
@@ -137,6 +139,8 @@ class AppTheme {
       seedColor: AppColors.primaryAccent,
       brightness: Brightness.light,
       surface: AppColors.surfaceLight,
+      primary: AppColors.primaryAccent,
+      onPrimary: Colors.white,
     );
 
     // Precise typography for Light Mode

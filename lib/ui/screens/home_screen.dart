@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
+import '../widgets/aurora_background.dart';
 import '../widgets/bottom_action_bar.dart';
 import '../widgets/custom_title_bar.dart';
 import '../widgets/drop_zone_widget.dart';
@@ -16,45 +17,47 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Column(
-        children: [
-          // 1. Custom Title Bar
-          const CustomTitleBar(),
+      backgroundColor: Colors.transparent,
+      body: AuroraBackground(
+        child: Column(
+          children: [
+            // 1. Custom Title Bar
+            const CustomTitleBar(),
 
-          // 2. Settings Panel (collapsible)
-          const SettingsPanel(),
+            // 2. Settings Panel (collapsible)
+            const SettingsPanel(),
 
-          // 3. Main Content Area
-          Expanded(
-            child: BlocBuilder<CompressionCubit, CompressionState>(
+            // 3. Main Content Area
+            Expanded(
+              child: BlocBuilder<CompressionCubit, CompressionState>(
+                builder: (context, state) {
+                  if (state.videos.isEmpty) {
+                    // Empty state drag & drop zone
+                    return DropZoneWidget(
+                      isHovering: state.isDragHovering,
+                      onHover: (hovering) => context
+                          .read<CompressionCubit>()
+                          .setDragHovering(hovering),
+                      onFilesDropped: (paths) =>
+                          context.read<CompressionCubit>().addFiles(paths),
+                    );
+                  }
+
+                  // List of queued/processing videos
+                  return VideoQueueView(state: state);
+                },
+              ),
+            ),
+
+            // 4. Bottom Action Bar
+            BlocBuilder<CompressionCubit, CompressionState>(
               builder: (context, state) {
-                if (state.videos.isEmpty) {
-                  // Empty state drag & drop zone
-                  return DropZoneWidget(
-                    isHovering: state.isDragHovering,
-                    onHover: (hovering) => context
-                        .read<CompressionCubit>()
-                        .setDragHovering(hovering),
-                    onFilesDropped: (paths) =>
-                        context.read<CompressionCubit>().addFiles(paths),
-                  );
-                }
-
-                // List of queued/processing videos
-                return VideoQueueView(state: state);
+                if (state.videos.isEmpty) return const SizedBox.shrink();
+                return BottomActionBar(state: state);
               },
             ),
-          ),
-
-          // 4. Bottom Action Bar
-          BlocBuilder<CompressionCubit, CompressionState>(
-            builder: (context, state) {
-              if (state.videos.isEmpty) return const SizedBox.shrink();
-              return BottomActionBar(state: state);
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../../models/video_file.dart';
 import '../app_colors.dart';
+import 'dart:ui' as dart_ui;
 
 class BottomActionBar extends StatelessWidget {
   final CompressionState state;
@@ -20,27 +21,21 @@ class BottomActionBar extends StatelessWidget {
     final surfaceContainer = isDark ? AppColors.surfaceContainerDark : AppColors.surfaceContainerLight;
     final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-      decoration: BoxDecoration(
-        color: surfaceContainer,
-        border: Border(
-          top: BorderSide(
-            color: borderColor.withValues(alpha: isDark ? 0.5 : 0.8),
+    return ClipRect(
+      child: BackdropFilter(
+        filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+          decoration: BoxDecoration(
+            color: surfaceContainer.withValues(alpha: isDark ? 0.6 : 0.7),
+            border: Border(
+              top: BorderSide(
+                color: borderColor.withValues(alpha: isDark ? 0.3 : 0.6),
+              ),
+            ),
           ),
-        ),
-        boxShadow: isDark
-            ? null
-            : [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.03),
-                  blurRadius: 10,
-                  offset: const Offset(0, -4),
-                ),
-              ],
-      ),
-      child: Row(
-        children: [
+          child: Row(
+            children: [
           // -- Queue Summary --
           _QueueSummary(state: state),
 
@@ -115,7 +110,9 @@ class BottomActionBar extends StatelessWidget {
               ),
             ),
         ],
+        ),
       ),
+    ),
     );
   }
 }

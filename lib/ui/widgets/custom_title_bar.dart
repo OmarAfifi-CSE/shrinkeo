@@ -17,7 +17,7 @@ class CustomTitleBar extends StatelessWidget {
       onPanStart: (_) => windowManager.startDragging(),
       child: Container(
         height: 42,
-        color: theme.scaffoldBackgroundColor,
+        color: Colors.transparent,
         child: Row(
           children: [
             const SizedBox(width: 14),
@@ -64,23 +64,6 @@ class CustomTitleBar extends StatelessWidget {
             ),
             const SizedBox(width: 8),
 
-            // Version badge
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: theme.dividerTheme.color,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Text(
-                'v1.0.0',
-                style: TextStyle(
-                  color: theme.iconTheme.color?.withValues(alpha: 0.5),
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-
             const Spacer(),
 
             // Global error indicator
@@ -108,6 +91,9 @@ class CustomTitleBar extends StatelessWidget {
                   prev.crfQuality != curr.crfQuality ||
                   prev.encodingPreset != curr.encodingPreset,
               builder: (context, state) {
+                final isDark = theme.brightness == Brightness.dark;
+                final badgeColor = isDark ? AppColors.primaryAccentLight : AppColors.primaryAccent;
+
                 return Padding(
                   padding: const EdgeInsets.only(right: 6),
                   child: Container(
@@ -116,15 +102,18 @@ class CustomTitleBar extends StatelessWidget {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: theme.dividerTheme.color,
+                      color: badgeColor.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color: badgeColor.withValues(alpha: 0.3),
+                      ),
                     ),
                     child: Text(
                       'CRF ${state.crfQuality} · ${state.encodingPreset.label}',
                       style: TextStyle(
-                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                        color: badgeColor,
                         fontSize: 10,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),

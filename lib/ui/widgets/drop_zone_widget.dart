@@ -1,3 +1,4 @@
+import 'dart:ui' as dart_ui;
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -40,31 +41,35 @@ class DropZoneWidget extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeOut,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: isHovering
-                ? theme.colorScheme.primary.withValues(alpha: 0.04)
-                : surfaceContainer.withValues(alpha: 0.5),
-            border: Border.all(
-              color: isHovering
-                  ? theme.colorScheme.primary.withValues(alpha: 0.6)
-                  : borderColor.withValues(alpha: 0.5),
-              width: isHovering ? 2 : 1.5,
-            ),
-            boxShadow: isHovering
-                ? [
-                    BoxShadow(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.15),
-                      blurRadius: 20,
-                      spreadRadius: 2,
-                    )
-                  ]
-                : [],
-          ),
-          child: Center(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeOut,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: isHovering
+                    ? theme.colorScheme.primary.withValues(alpha: 0.08)
+                    : surfaceContainer.withValues(alpha: 0.4),
+                border: Border.all(
+                  color: isHovering
+                      ? theme.colorScheme.primary.withValues(alpha: 0.6)
+                      : borderColor.withValues(alpha: 0.4),
+                  width: isHovering ? 2 : 1.5,
+                ),
+                boxShadow: isHovering
+                    ? [
+                        BoxShadow(
+                          color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                          blurRadius: 20,
+                          spreadRadius: 2,
+                        )
+                      ]
+                    : [],
+              ),
+              child: Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -139,7 +144,9 @@ class DropZoneWidget extends StatelessWidget {
         ),
       ),
     ),
-  );
+  ),
+),
+);
 }
 
   /// Opens native file picker for multiple video files.

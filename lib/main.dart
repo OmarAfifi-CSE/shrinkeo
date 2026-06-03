@@ -5,11 +5,9 @@ import 'package:window_manager/window_manager.dart';
 
 import 'cubit/compression_cubit.dart';
 import 'cubit/compression_state.dart';
+import 'ui/app_colors.dart';
 import 'ui/app_theme.dart';
 import 'ui/screens/home_screen.dart';
-
-/// Current application version — update this with each release.
-const String appVersion = '1.0.0';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +27,7 @@ void main() async {
     center: true,
     titleBarStyle: TitleBarStyle.hidden,
     title: 'Shrinkeo',
-    backgroundColor: Color(0xFF0F1118), // Match AppTheme.surfaceDark
+    backgroundColor: AppColors.windowBackgroundDark,
   );
 
   await windowManager.waitUntilReadyToShow(windowOptions, () async {

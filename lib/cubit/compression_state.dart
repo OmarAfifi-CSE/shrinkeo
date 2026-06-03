@@ -23,14 +23,14 @@ enum CompressionPhase {
 
 /// Available FFmpeg encoding speed presets, ordered fastest to slowest.
 enum EncodingPreset {
-  ultrafast('ultrafast', 'Ultrafast', 'Blazing fast, largest files'),
-  superfast('superfast', 'Superfast', 'Very fast, larger files'),
-  veryfast('veryfast', 'Very Fast', 'Fast encoding, larger files'),
-  faster('faster', 'Faster', 'Above average speed'),
-  fast('fast', 'Fast', 'Balanced speed & size'),
-  medium('medium', 'Medium', 'Default FFmpeg preset'),
-  slow('slow', 'Slow', 'Smaller files, slower'),
-  veryslow('veryslow', 'Very Slow', 'Smallest files, slowest');
+  ultrafast('ultrafast', 'Ultrafast', 'Max speed, but achieves the least file size reduction.'),
+  superfast('superfast', 'Superfast', 'Very quick encoding with lower compression efficiency.'),
+  veryfast('veryfast', 'Very Fast', 'Faster than average, providing moderate size reduction.'),
+  faster('faster', 'Faster', 'A slight speed boost with good overall compression.'),
+  fast('fast', 'Fast', 'Great balance of speed and size reduction. Recommended.'),
+  medium('medium', 'Medium', 'Default balance of encoding speed and compression.'),
+  slow('slow', 'Slow', 'Slower process, but yields significantly smaller files.'),
+  veryslow('veryslow', 'Very Slow', 'Takes longest, but guarantees maximum file size reduction.');
 
   final String value;
   final String label;
@@ -169,10 +169,11 @@ class CompressionState extends Equatable {
 
   /// Human-readable label for the current CRF quality tier.
   String get crfLabel {
-    if (crfQuality <= 17) return 'Near Lossless';
-    if (crfQuality <= 20) return 'Visually Lossless';
-    if (crfQuality <= 23) return 'Balanced';
-    if (crfQuality <= 26) return 'High Compression';
+    if (crfQuality == 0) return 'Lossless';
+    if (crfQuality <= 18) return 'High Quality';
+    if (crfQuality <= 24) return 'Balanced';
+    if (crfQuality <= 30) return 'High Compression';
+    if (crfQuality <= 40) return 'Low Quality';
     return 'Ultra Compressed';
   }
 

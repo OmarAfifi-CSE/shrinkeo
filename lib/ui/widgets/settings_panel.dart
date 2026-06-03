@@ -6,6 +6,8 @@ import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../app_colors.dart';
 
+import 'glass_container.dart';
+
 /// Collapsible settings panel for CRF quality and encoding preset.
 ///
 /// Mirrors the options from the PowerShell script:
@@ -46,95 +48,78 @@ class _SettingsContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isLocked = state.isProcessing;
-    final isDark = theme.brightness == Brightness.dark;
-    final surfaceContainer = isDark ? AppColors.surfaceContainerDark : AppColors.surfaceContainerLight;
-    final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Container(
+      child: GlassContainer(
         padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: surfaceContainer,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: borderColor.withValues(alpha: 0.8)),
-          boxShadow: isDark
-              ? null
-              : [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.04),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // -- Section header --
-          Row(
-            children: [
-              Icon(
-                Icons.tune_rounded,
-                size: 16,
-                color: theme.colorScheme.primary,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                'Compression Settings',
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: theme.textTheme.titleLarge?.color,
+          children: [
+            // -- Section header --
+            Row(
+              children: [
+                Icon(
+                  Icons.tune_rounded,
+                  size: 16,
+                  color: theme.colorScheme.primary,
                 ),
-              ),
-              if (isLocked) ...[
-                const SizedBox(width: 10),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 2,
+                const SizedBox(width: 8),
+                Text(
+                  'Compression Settings',
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: theme.textTheme.titleLarge?.color,
                   ),
-                  decoration: BoxDecoration(
-                    color: AppColors.warningOrange.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    'Locked during compression',
-                    style: TextStyle(
-                      color: AppColors.warningOrange.withValues(alpha: 0.7),
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
+                ),
+                if (isLocked) ...[
+                  const SizedBox(width: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.warningOrange.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      'Locked during compression',
+                      style: TextStyle(
+                        color: AppColors.warningOrange.withValues(alpha: 0.7),
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
+                ],
+              ],
+            ),
+            const SizedBox(height: 16),
+
+            // -- Two-column layout --
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // -- CRF Quality --
+                Expanded(
+                  child: _CrfSection(state: state, isLocked: isLocked),
+                ),
+                const SizedBox(width: 32),
+                // -- Encoding Preset --
+                Expanded(
+                  child: _PresetSection(state: state, isLocked: isLocked),
                 ),
               ],
-            ],
-          ),
-          const SizedBox(height: 16),
-
-          // -- Two-column layout --
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // -- CRF Quality --
-              Expanded(
-                child: _CrfSection(state: state, isLocked: isLocked),
-              ),
-              const SizedBox(width: 32),
-              // -- Encoding Preset --
-              Expanded(
-                child: _PresetSection(state: state, isLocked: isLocked),
-              ),
-            ],
-          ),
-          const SizedBox(height: 24),
-          // -- Output Directory Section --
-          _OutputDirectorySection(state: state, isLocked: isLocked),
-        ],
+            ),
+            const SizedBox(height: 24),
+            // -- Output Directory Section --
+            _OutputDirectorySection(state: state, isLocked: isLocked),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 /// Output directory picker section.
@@ -169,10 +154,18 @@ class _OutputDirectorySection extends StatelessWidget {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight).withValues(alpha: 0.1),
+                  color:
+                      (Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.borderDark
+                              : AppColors.borderLight)
+                          .withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight).withValues(alpha: 0.4),
+                    color:
+                        (Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.borderDark
+                                : AppColors.borderLight)
+                            .withValues(alpha: 0.4),
                   ),
                 ),
                 child: Text(
@@ -279,17 +272,29 @@ class _CrfSection extends StatelessWidget {
         SliderTheme(
           data: SliderThemeData(
             activeTrackColor: _crfColor(state.crfQuality),
-            inactiveTrackColor: (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight),
+            inactiveTrackColor: (Theme.of(context).brightness == Brightness.dark
+                ? AppColors.borderDark
+                : AppColors.borderLight),
             thumbColor: _crfColor(state.crfQuality),
             overlayColor: _crfColor(state.crfQuality).withValues(alpha: 0.12),
             trackHeight: 4,
             thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+            tickMarkShape: SliderTickMarkShape.noTickMark,
+            valueIndicatorShape: const RectangularSliderValueIndicatorShape(),
+            valueIndicatorColor: _crfColor(state.crfQuality),
+            valueIndicatorTextStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+            ),
+            showValueIndicator: ShowValueIndicator.onDrag,
           ),
           child: Slider(
             value: state.crfQuality.toDouble(),
             min: 0,
             max: 51,
             divisions: 51,
+            label: '${state.crfQuality}',
             onChanged: isLocked
                 ? null
                 : (value) => cubit.updateCrfQuality(value.round()),
@@ -297,17 +302,11 @@ class _CrfSection extends StatelessWidget {
         ),
 
         // Scale labels
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _ScaleLabel('0', 'Lossless'),
-              _ScaleLabel('18', 'High'),
-              _ScaleLabel('22', 'Balanced'),
-              _ScaleLabel('28', 'Small'),
-              _ScaleLabel('51', 'Low'),
-            ],
+            children: [_ScaleLabel('0', 'Lossless'), _ScaleLabel('51', 'Low')],
           ),
         ),
       ],
@@ -315,11 +314,12 @@ class _CrfSection extends StatelessWidget {
   }
 
   Color _crfColor(int crf) {
-    if (crf <= 17) return AppColors.infoBlue;
-    if (crf <= 20) return const Color(0xFF26C6DA);
-    if (crf <= 23) return AppColors.successGreen;
-    if (crf <= 26) return AppColors.warningOrange;
-    return AppColors.errorRed;
+    if (crf == 0) return AppColors.infoBlue;
+    if (crf <= 18) return AppColors.crfVeryHighQuality;
+    if (crf <= 24) return AppColors.successGreen;
+    if (crf <= 30) return AppColors.warningOrange;
+    if (crf <= 40) return AppColors.errorRed;
+    return AppColors.crfUltraCompressed;
   }
 }
 
@@ -352,45 +352,11 @@ class _PresetSection extends StatelessWidget {
           spacing: 6,
           runSpacing: 6,
           children: EncodingPreset.values.map((preset) {
-            final isSelected = state.encodingPreset == preset;
-            return Tooltip(
-              message: preset.description,
-              child: InkWell(
-                onTap: isLocked
-                    ? null
-                    : () => cubit.updateEncodingPreset(preset),
-                borderRadius: BorderRadius.circular(8),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 150),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 7,
-                  ),
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? theme.colorScheme.primary.withValues(alpha: 0.15)
-                        : (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight).withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: isSelected
-                          ? theme.colorScheme.primary.withValues(alpha: 0.5)
-                          : (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight).withValues(alpha: 0.4),
-                    ),
-                  ),
-                  child: Text(
-                    preset.label,
-                    style: TextStyle(
-                      color: isSelected
-                          ? theme.colorScheme.primary
-                          : theme.textTheme.bodySmall?.color,
-                      fontSize: 12,
-                      fontWeight: isSelected
-                          ? FontWeight.w600
-                          : FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ),
+            return _PresetChip(
+              preset: preset,
+              isSelected: state.encodingPreset == preset,
+              isLocked: isLocked,
+              onTap: () => cubit.updateEncodingPreset(preset),
             );
           }).toList(),
         ),
@@ -398,15 +364,57 @@ class _PresetSection extends StatelessWidget {
         const SizedBox(height: 10),
 
         // Description of selected preset
-        Row(
-          children: [
-            Icon(Icons.info_outline_rounded, size: 13, color: theme.textTheme.bodySmall?.color),
-            const SizedBox(width: 5),
-            Text(
-              '${state.encodingPreset.label}: ${state.encodingPreset.description}',
-              style: TextStyle(color: theme.textTheme.bodySmall?.color, fontSize: 11),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: BoxDecoration(
+            color:
+                (theme.brightness == Brightness.dark
+                        ? AppColors.borderDark
+                        : AppColors.borderLight)
+                    .withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color:
+                  (theme.brightness == Brightness.dark
+                          ? AppColors.borderDark
+                          : AppColors.borderLight)
+                      .withValues(alpha: 0.2),
             ),
-          ],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.info_outline_rounded,
+                size: 14,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: theme.textTheme.bodyMedium?.color,
+                      fontSize: 11,
+                      height: 1.3,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '${state.encodingPreset.label}: ',
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text: state.encodingPreset.description,
+                        style: TextStyle(
+                          color: theme.textTheme.bodySmall?.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -433,8 +441,90 @@ class _ScaleLabel extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        Text(label, style: TextStyle(color: theme.textTheme.bodySmall?.color, fontSize: 9)),
+        Text(
+          label,
+          style: TextStyle(
+            color: theme.textTheme.bodySmall?.color,
+            fontSize: 9,
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class _PresetChip extends StatefulWidget {
+  final EncodingPreset preset;
+  final bool isSelected;
+  final bool isLocked;
+  final VoidCallback onTap;
+
+  const _PresetChip({
+    required this.preset,
+    required this.isSelected,
+    required this.isLocked,
+    required this.onTap,
+  });
+
+  @override
+  State<_PresetChip> createState() => _PresetChipState();
+}
+
+class _PresetChipState extends State<_PresetChip> {
+  bool _isHovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+    final inactiveBorder = isDark
+        ? AppColors.borderDark
+        : AppColors.borderLight;
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovering = true),
+      onExit: (_) => setState(() => _isHovering = false),
+      cursor: widget.isLocked
+          ? SystemMouseCursors.basic
+          : SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: widget.isLocked ? null : widget.onTap,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          decoration: BoxDecoration(
+            color: widget.isSelected
+                ? activeColor.withValues(alpha: 0.15)
+                : _isHovering && !widget.isLocked
+                ? activeColor.withValues(alpha: 0.05)
+                : inactiveBorder.withValues(alpha: 0.3),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: widget.isSelected
+                  ? activeColor.withValues(alpha: 0.5)
+                  : _isHovering && !widget.isLocked
+                  ? activeColor.withValues(alpha: 0.3)
+                  : inactiveBorder.withValues(alpha: 0.4),
+            ),
+          ),
+          child: Text(
+            widget.preset.label,
+            style: TextStyle(
+              color: widget.isSelected
+                  ? activeColor
+                  : _isHovering && !widget.isLocked
+                  ? activeColor
+                  : theme.textTheme.bodySmall?.color,
+              fontSize: 12,
+              fontWeight: widget.isSelected ? FontWeight.w600 : FontWeight.w400,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
