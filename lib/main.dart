@@ -4,6 +4,7 @@ import 'package:local_notifier/local_notifier.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'cubit/compression_cubit.dart';
+import 'cubit/compression_state.dart';
 import 'ui/app_theme.dart';
 import 'ui/screens/home_screen.dart';
 
@@ -47,11 +48,18 @@ class ShrinkeoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CompressionCubit(),
-      child: MaterialApp(
-        title: 'Shrinkeo',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.darkTheme,
-        home: const HomeScreen(),
+      child: BlocBuilder<CompressionCubit, CompressionState>(
+        buildWhen: (previous, current) => previous.themeMode != current.themeMode,
+        builder: (context, state) {
+          return MaterialApp(
+            title: 'Shrinkeo',
+            debugShowCheckedModeBanner: false,
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: state.themeMode,
+            home: const HomeScreen(),
+          );
+        },
       ),
     );
   }

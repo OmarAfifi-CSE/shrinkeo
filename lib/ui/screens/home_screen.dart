@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
-import '../app_colors.dart';
 import '../widgets/bottom_action_bar.dart';
 import '../widgets/custom_title_bar.dart';
 import '../widgets/drop_zone_widget.dart';
@@ -17,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surfaceDark,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           // 1. Custom Title Bar

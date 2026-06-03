@@ -59,7 +59,7 @@ class StatusChip extends StatelessWidget {
       ),
       VideoStatus.compressing => (
         'Compressing',
-        AppColors.primaryTeal,
+        AppColors.primaryAccent,
         Icons.sync_rounded,
       ),
       VideoStatus.success => (

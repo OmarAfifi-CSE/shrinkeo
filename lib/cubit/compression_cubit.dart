@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -56,6 +57,14 @@ class CompressionCubit extends Cubit<CompressionState> {
   /// Updates the encoding speed preset.
   void updateEncodingPreset(EncodingPreset preset) {
     emit(state.copyWith(encodingPreset: preset));
+  }
+
+  /// Toggles between light and dark theme mode.
+  void toggleTheme() {
+    final newMode = state.themeMode == ThemeMode.dark
+        ? ThemeMode.light
+        : ThemeMode.dark;
+    emit(state.copyWith(themeMode: newMode));
   }
 
   /// Toggles the settings panel expansion.

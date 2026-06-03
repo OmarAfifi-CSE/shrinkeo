@@ -17,7 +17,7 @@ class CustomTitleBar extends StatelessWidget {
       onPanStart: (_) => windowManager.startDragging(),
       child: Container(
         height: 42,
-        color: AppColors.surfaceDark,
+        color: theme.scaffoldBackgroundColor,
         child: Row(
           children: [
             const SizedBox(width: 14),
@@ -30,26 +30,33 @@ class CustomTitleBar extends StatelessWidget {
                 gradient: LinearGradient(
                   colors: [
                     theme.colorScheme.primary,
-                    theme.colorScheme.primary.withValues(alpha: 0.6),
+                    theme.colorScheme.primary.withValues(alpha: 0.7),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(7),
+                boxShadow: [
+                  BoxShadow(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.25),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
               child: const Icon(
                 Icons.compress_rounded,
                 color: Colors.white,
-                size: 15,
+                size: 16,
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
 
             // App title
-            const Text(
+            Text(
               'Shrinkeo',
               style: TextStyle(
-                color: Colors.white,
+                color: theme.textTheme.titleLarge?.color ?? Colors.white,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 letterSpacing: -0.3,
@@ -61,13 +68,13 @@ class CustomTitleBar extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               decoration: BoxDecoration(
-                color: AppColors.borderDark.withValues(alpha: 0.5),
+                color: theme.dividerTheme.color,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: const Text(
+              child: Text(
                 'v1.0.0',
                 style: TextStyle(
-                  color: Colors.white24,
+                  color: theme.iconTheme.color?.withValues(alpha: 0.5),
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                 ),
@@ -109,18 +116,35 @@ class CustomTitleBar extends StatelessWidget {
                       vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.borderDark.withValues(alpha: 0.4),
+                      color: theme.dividerTheme.color,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
                       'CRF ${state.crfQuality} · ${state.encodingPreset.label}',
-                      style: const TextStyle(
-                        color: Colors.white30,
+                      style: TextStyle(
+                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
+                );
+              },
+            ),
+
+            // Theme toggle
+            BlocBuilder<CompressionCubit, CompressionState>(
+              buildWhen: (prev, curr) => prev.themeMode != curr.themeMode,
+              builder: (context, state) {
+                final isDark = state.themeMode == ThemeMode.dark ||
+                    (state.themeMode == ThemeMode.system &&
+                        MediaQuery.platformBrightnessOf(context) ==
+                            Brightness.dark);
+                return _TitleBarButton(
+                  icon: isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                  iconColor: theme.iconTheme.color,
+                  onTap: () => context.read<CompressionCubit>().toggleTheme(),
+                  tooltip: isDark ? 'Light Theme' : 'Dark Theme',
                 );
               },
             ),
@@ -133,8 +157,8 @@ class CustomTitleBar extends StatelessWidget {
                 return _TitleBarButton(
                   icon: Icons.tune_rounded,
                   iconColor: state.isSettingsExpanded
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.white54,
+                      ? theme.colorScheme.primary
+                      : theme.iconTheme.color,
                   onTap: () =>
                       context.read<CompressionCubit>().toggleSettings(),
                   tooltip: 'Settings',
@@ -146,18 +170,20 @@ class CustomTitleBar extends StatelessWidget {
             Container(
               width: 1,
               height: 18,
-              color: AppColors.borderDark.withValues(alpha: 0.4),
+              color: theme.dividerTheme.color,
             ),
 
             // Window controls
             _TitleBarButton(
               icon: Icons.remove_rounded,
+              iconColor: theme.iconTheme.color,
               onTap: () => windowManager.minimize(),
               tooltip: 'Minimize',
             ),
             _MaximizeButton(),
             _TitleBarButton(
               icon: Icons.close_rounded,
+              iconColor: theme.iconTheme.color,
               onTap: () => windowManager.close(),
               hoverColor: AppColors.errorRed,
               tooltip: 'Close',
@@ -208,6 +234,7 @@ class _MaximizeButtonState extends State<_MaximizeButton> with WindowListener {
       icon: _isMaximized
           ? Icons.filter_none_rounded
           : Icons.crop_square_rounded,
+      iconColor: Theme.of(context).iconTheme.color,
       iconSize: _isMaximized ? 13 : 15,
       onTap: () async {
         if (await windowManager.isMaximized()) {
@@ -258,7 +285,7 @@ class _TitleBarButtonState extends State<_TitleBarButton> {
           width: 42,
           height: 42,
           color: _isHovered
-              ? (widget.hoverColor ?? Colors.white).withValues(
+              ? (widget.hoverColor ?? Theme.of(context).iconTheme.color ?? Colors.white).withValues(
                   alpha: widget.hoverColor != null ? 0.9 : 0.06,
                 )
               : Colors.transparent,
@@ -267,7 +294,7 @@ class _TitleBarButtonState extends State<_TitleBarButton> {
             size: widget.iconSize,
             color: _isHovered && widget.hoverColor != null
                 ? Colors.white
-                : (widget.iconColor ?? Colors.white54),
+                : (widget.iconColor ?? Theme.of(context).iconTheme.color),
           ),
         ),
       ),

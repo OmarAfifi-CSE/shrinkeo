@@ -24,6 +24,11 @@ class DropZoneWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
+    final surfaceContainer = isDark ? AppColors.surfaceContainerDark : AppColors.surfaceContainerLight;
+    final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
     return DropTarget(
       onDragEntered: (_) => onHover(true),
@@ -33,26 +38,37 @@ class DropZoneWidget extends StatelessWidget {
         final paths = details.files.map((f) => f.path).toList();
         onFilesDropped(paths);
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeOut,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: isHovering
-              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.06)
-              : AppColors.surfaceContainerDark.withValues(alpha: 0.5),
-          border: Border.all(
+      child: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
             color: isHovering
-                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.5)
-                : AppColors.borderDark.withValues(alpha: 0.4),
-            width: isHovering ? 2 : 1.5,
+                ? theme.colorScheme.primary.withValues(alpha: 0.04)
+                : surfaceContainer.withValues(alpha: 0.5),
+            border: Border.all(
+              color: isHovering
+                  ? theme.colorScheme.primary.withValues(alpha: 0.6)
+                  : borderColor.withValues(alpha: 0.5),
+              width: isHovering ? 2 : 1.5,
+            ),
+            boxShadow: isHovering
+                ? [
+                    BoxShadow(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                      blurRadius: 20,
+                      spreadRadius: 2,
+                    )
+                  ]
+                : [],
           ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Animated icon
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Animated icon
               AnimatedContainer(
                 duration: const Duration(milliseconds: 250),
                 transform: Matrix4.translationValues(0, isHovering ? -8 : 0, 0),
@@ -69,8 +85,8 @@ class DropZoneWidget extends StatelessWidget {
                     Icons.cloud_upload_rounded,
                     size: 32,
                     color: isHovering
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.white38,
+                        ? theme.colorScheme.primary
+                        : theme.textTheme.bodySmall?.color ?? Colors.white38,
                   ),
                 ),
               ),
@@ -83,17 +99,17 @@ class DropZoneWidget extends StatelessWidget {
                     : 'Drag & drop video files or folders here',
                 style: TextStyle(
                   color: isHovering
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.white54,
+                      ? theme.colorScheme.primary
+                      : theme.textTheme.bodySmall?.color ?? Colors.white54,
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                 ),
               ),
               const SizedBox(height: 6),
-              const Text(
+              Text(
                 'Supports MP4, MKV, MOV, AVI, WMV',
                 style: TextStyle(
-                  color: Colors.white24,
+                  color: theme.textTheme.bodySmall?.color ?? Colors.white24,
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                 ),
@@ -122,8 +138,9 @@ class DropZoneWidget extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   /// Opens native file picker for multiple video files.
   Future<void> _pickMultipleFiles(CompressionCubit cubit) async {

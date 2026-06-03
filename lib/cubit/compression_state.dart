@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../models/video_file.dart';
 
@@ -68,6 +69,9 @@ class CompressionState extends Equatable {
   /// Default: fast (balanced speed & size).
   final EncodingPreset encodingPreset;
 
+  /// Current theme mode (light, dark, or system).
+  final ThemeMode themeMode;
+
   /// Whether the settings panel is expanded in the UI.
   final bool isSettingsExpanded;
 
@@ -90,6 +94,7 @@ class CompressionState extends Equatable {
     this.isDragHovering = false,
     this.crfQuality = 22,
     this.encodingPreset = EncodingPreset.fast,
+    this.themeMode = ThemeMode.system,
     this.isSettingsExpanded = false,
     this.customOutputDirectory,
     this.globalEta,
@@ -106,6 +111,7 @@ class CompressionState extends Equatable {
     bool? isDragHovering,
     int? crfQuality,
     EncodingPreset? encodingPreset,
+    ThemeMode? themeMode,
     bool? isSettingsExpanded,
     String? customOutputDirectory,
     Duration? globalEta,
@@ -127,6 +133,7 @@ class CompressionState extends Equatable {
       isDragHovering: isDragHovering ?? this.isDragHovering,
       crfQuality: crfQuality ?? this.crfQuality,
       encodingPreset: encodingPreset ?? this.encodingPreset,
+      themeMode: themeMode ?? this.themeMode,
       isSettingsExpanded: isSettingsExpanded ?? this.isSettingsExpanded,
       customOutputDirectory: clearCustomOutputDirectory
           ? null
@@ -179,6 +186,7 @@ class CompressionState extends Equatable {
     isDragHovering,
     crfQuality,
     encodingPreset,
+    themeMode,
     isSettingsExpanded,
     customOutputDirectory,
     globalEta,

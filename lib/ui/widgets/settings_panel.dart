@@ -46,19 +46,30 @@ class _SettingsContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isLocked = state.isProcessing;
+    final isDark = theme.brightness == Brightness.dark;
+    final surfaceContainer = isDark ? AppColors.surfaceContainerDark : AppColors.surfaceContainerLight;
+    final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceContainerDark,
-        border: Border(
-          bottom: BorderSide(
-            color: AppColors.borderDark.withValues(alpha: 0.5),
-          ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: surfaceContainer,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: borderColor.withValues(alpha: 0.8)),
+          boxShadow: isDark
+              ? null
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // -- Section header --
           Row(
@@ -73,7 +84,7 @@ class _SettingsContent extends StatelessWidget {
                 'Compression Settings',
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: theme.textTheme.titleLarge?.color,
                 ),
               ),
               if (isLocked) ...[
@@ -121,8 +132,9 @@ class _SettingsContent extends StatelessWidget {
           _OutputDirectorySection(state: state, isLocked: isLocked),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 /// Output directory picker section.
@@ -144,7 +156,7 @@ class _OutputDirectorySection extends StatelessWidget {
           'Output Directory',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
-            color: Colors.white70,
+            color: theme.textTheme.bodyMedium?.color,
           ),
         ),
         const SizedBox(height: 8),
@@ -157,10 +169,10 @@ class _OutputDirectorySection extends StatelessWidget {
                   vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.borderDark.withValues(alpha: 0.1),
+                  color: (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: AppColors.borderDark.withValues(alpha: 0.4),
+                    color: (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight).withValues(alpha: 0.4),
                   ),
                 ),
                 child: Text(
@@ -168,8 +180,8 @@ class _OutputDirectorySection extends StatelessWidget {
                       'Default (Next to original file)',
                   style: TextStyle(
                     color: state.customOutputDirectory == null
-                        ? Colors.white30
-                        : Colors.white70,
+                        ? theme.textTheme.bodySmall?.color
+                        : theme.textTheme.bodyMedium?.color,
                     fontSize: 12,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -204,7 +216,7 @@ class _OutputDirectorySection extends StatelessWidget {
                     ? null
                     : () => cubit.updateCustomOutputDirectory(null),
                 icon: const Icon(Icons.clear_rounded, size: 18),
-                color: Colors.white54,
+                color: theme.textTheme.bodySmall?.color,
                 tooltip: 'Reset to default',
               ),
             ],
@@ -237,7 +249,7 @@ class _CrfSection extends StatelessWidget {
               'Video Quality (CRF)',
               style: theme.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: Colors.white70,
+                color: theme.textTheme.bodyMedium?.color,
               ),
             ),
             const Spacer(),
@@ -267,7 +279,7 @@ class _CrfSection extends StatelessWidget {
         SliderTheme(
           data: SliderThemeData(
             activeTrackColor: _crfColor(state.crfQuality),
-            inactiveTrackColor: AppColors.borderDark,
+            inactiveTrackColor: (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight),
             thumbColor: _crfColor(state.crfQuality),
             overlayColor: _crfColor(state.crfQuality).withValues(alpha: 0.12),
             trackHeight: 4,
@@ -330,7 +342,7 @@ class _PresetSection extends StatelessWidget {
           'Encoding Speed',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
-            color: Colors.white70,
+            color: theme.textTheme.bodyMedium?.color,
           ),
         ),
         const SizedBox(height: 8),
@@ -357,12 +369,12 @@ class _PresetSection extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? theme.colorScheme.primary.withValues(alpha: 0.15)
-                        : AppColors.borderDark.withValues(alpha: 0.3),
+                        : (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight).withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: isSelected
                           ? theme.colorScheme.primary.withValues(alpha: 0.5)
-                          : AppColors.borderDark.withValues(alpha: 0.4),
+                          : (Theme.of(context).brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight).withValues(alpha: 0.4),
                     ),
                   ),
                   child: Text(
@@ -370,7 +382,7 @@ class _PresetSection extends StatelessWidget {
                     style: TextStyle(
                       color: isSelected
                           ? theme.colorScheme.primary
-                          : Colors.white54,
+                          : theme.textTheme.bodySmall?.color,
                       fontSize: 12,
                       fontWeight: isSelected
                           ? FontWeight.w600
@@ -388,11 +400,11 @@ class _PresetSection extends StatelessWidget {
         // Description of selected preset
         Row(
           children: [
-            Icon(Icons.info_outline_rounded, size: 13, color: Colors.white24),
+            Icon(Icons.info_outline_rounded, size: 13, color: theme.textTheme.bodySmall?.color),
             const SizedBox(width: 5),
             Text(
               '${state.encodingPreset.label}: ${state.encodingPreset.description}',
-              style: TextStyle(color: Colors.white30, fontSize: 11),
+              style: TextStyle(color: theme.textTheme.bodySmall?.color, fontSize: 11),
             ),
           ],
         ),
@@ -410,17 +422,18 @@ class _ScaleLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         Text(
           value,
-          style: const TextStyle(
-            color: Colors.white30,
+          style: TextStyle(
+            color: theme.textTheme.bodySmall?.color,
             fontSize: 10,
             fontWeight: FontWeight.w600,
           ),
         ),
-        Text(label, style: TextStyle(color: Colors.white24, fontSize: 9)),
+        Text(label, style: TextStyle(color: theme.textTheme.bodySmall?.color, fontSize: 9)),
       ],
     );
   }

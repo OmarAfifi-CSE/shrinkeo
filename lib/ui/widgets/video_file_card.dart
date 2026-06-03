@@ -54,7 +54,7 @@ class VideoFileCard extends StatelessWidget {
                         video.fileName,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                          color: theme.textTheme.bodyMedium?.color,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -63,7 +63,7 @@ class VideoFileCard extends StatelessWidget {
                       Text(
                         VideoFile.formatFileSize(video.fileSizeBytes),
                         style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.white54,
+                          color: theme.textTheme.bodySmall?.color,
                           fontSize: 12,
                         ),
                       ),
@@ -83,8 +83,8 @@ class VideoFileCard extends StatelessWidget {
                         if (video.eta != null) ...[
                           Text(
                             _formatDuration(video.eta!),
-                            style: const TextStyle(
-                              color: Colors.white54,
+                            style: TextStyle(
+                              color: theme.textTheme.bodySmall?.color,
                               fontSize: 11,
                             ),
                           ),
@@ -138,9 +138,9 @@ class VideoFileCard extends StatelessWidget {
                     return LinearProgressIndicator(
                       value: value,
                       minHeight: 4,
-                      backgroundColor: AppColors.borderDark,
+                      backgroundColor: theme.brightness == Brightness.dark ? AppColors.borderDark : AppColors.borderLight,
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        theme.colorScheme.primary,
+                        theme.colorScheme.primary.withValues(alpha: 0.9),
                       ),
                     );
                   },
@@ -269,8 +269,8 @@ class _CompressionResult extends StatelessWidget {
           children: [
             Text(
               VideoFile.formatFileSize(video.outputSizeBytes!),
-              style: const TextStyle(
-                color: Colors.white70,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodySmall?.color,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
@@ -340,7 +340,7 @@ class _ActionButton extends StatelessWidget {
           height: 32,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: (isProcessing ? AppColors.errorRed : Colors.white)
+            color: (isProcessing ? AppColors.errorRed : Theme.of(context).iconTheme.color ?? Colors.grey)
                 .withValues(alpha: 0.08),
           ),
           child: Icon(
@@ -348,7 +348,7 @@ class _ActionButton extends StatelessWidget {
             size: 16,
             color: isProcessing
                 ? AppColors.errorRed.withValues(alpha: 0.8)
-                : Colors.white38,
+                : Theme.of(context).textTheme.bodySmall?.color,
           ),
         ),
       ),

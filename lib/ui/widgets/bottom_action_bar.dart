@@ -15,14 +15,29 @@ class BottomActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<CompressionCubit>();
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
+    final surfaceContainer = isDark ? AppColors.surfaceContainerDark : AppColors.surfaceContainerLight;
+    final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
       decoration: BoxDecoration(
-        color: AppColors.surfaceContainerDark,
+        color: surfaceContainer,
         border: Border(
-          top: BorderSide(color: AppColors.borderDark.withValues(alpha: 0.5)),
+          top: BorderSide(
+            color: borderColor.withValues(alpha: isDark ? 0.5 : 0.8),
+          ),
         ),
+        boxShadow: isDark
+            ? null
+            : [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.03),
+                  blurRadius: 10,
+                  offset: const Offset(0, -4),
+                ),
+              ],
       ),
       child: Row(
         children: [
@@ -137,16 +152,16 @@ class _QueueSummary extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Icon(
+        Icon(
           Icons.video_library_rounded,
           size: 16,
-          color: Colors.white30,
+          color: Theme.of(context).iconTheme.color?.withValues(alpha: 0.3) ?? Colors.grey,
         ),
         const SizedBox(width: 6),
         Text(
           '$total video${total == 1 ? '' : 's'}',
-          style: const TextStyle(
-            color: Colors.white54,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodySmall?.color,
             fontSize: 13,
             fontWeight: FontWeight.w500,
           ),
