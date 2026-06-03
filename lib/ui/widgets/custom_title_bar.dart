@@ -23,32 +23,12 @@ class CustomTitleBar extends StatelessWidget {
             const SizedBox(width: 14),
 
             // App icon
-            Container(
-              width: 28,
-              height: 28,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    theme.colorScheme.primary,
-                    theme.colorScheme.primary.withValues(alpha: 0.7),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(7),
-                boxShadow: [
-                  BoxShadow(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.25),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.compress_rounded,
-                color: Colors.white,
-                size: 16,
-              ),
+            Image.asset(
+              theme.brightness == Brightness.dark 
+                  ? 'assets/images/app_icon_dark.png' 
+                  : 'assets/images/app_icon_light.png',
+              width: 24,
+              height: 24,
             ),
             const SizedBox(width: 12),
 
