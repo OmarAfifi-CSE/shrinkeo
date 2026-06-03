@@ -336,21 +336,24 @@ class CompressionCubit extends Cubit<CompressionState> {
       ),
     );
 
-    // Get IDs of queued videos to avoid index shifting bugs.
-    final queuedIds = state.videos
-        .where((v) => v.status == VideoStatus.queued)
-        .map((v) => v.id)
-        .toList();
-
     emit(
       state.copyWith(phase: CompressionPhase.probing),
     ); // Immediate emit to lock UI
 
     // Process each queued video sequentially.
-    for (final id in queuedIds) {
+    // Use a while loop to dynamically pick up any videos added DURING compression.
+    while (true) {
       if (_cancelRequested) break;
 
-      await _processVideo(id, outputFolder);
+      final nextQueuedIndex = state.videos.indexWhere(
+        (v) => v.status == VideoStatus.queued,
+      );
+
+      if (nextQueuedIndex == -1) {
+        break; // No more queued videos, exit loop.
+      }
+
+      await _processVideo(state.videos[nextQueuedIndex].id, outputFolder);
     }
 
     // Mark as completed.
