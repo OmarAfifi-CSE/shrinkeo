@@ -150,8 +150,8 @@ class VideoFileCard extends StatelessWidget {
               const SizedBox(height: 10),
               TweenAnimationBuilder<double>(
                 tween: Tween<double>(begin: 0, end: video.progress),
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.linear,
                 builder: (context, value, _) {
                   return LinearProgressIndicator(
                     value: value,

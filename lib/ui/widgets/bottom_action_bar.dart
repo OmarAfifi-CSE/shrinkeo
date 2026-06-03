@@ -84,36 +84,63 @@ class BottomActionBar extends StatelessWidget {
                   label: const Text('Start Compression'),
                 )
               else if (state.phase == CompressionPhase.completed)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.successGreen.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: AppColors.successGreen.withValues(alpha: 0.3),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.check_circle_rounded,
-                        size: 18,
-                        color: AppColors.successGreen,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        'All Done!',
-                        style: theme.textTheme.labelLarge?.copyWith(
-                          color: AppColors.successGreen,
-                          fontWeight: FontWeight.w600,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: AppColors.successGreen.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: AppColors.successGreen.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.check_circle_rounded,
+                              size: 18,
+                              color: AppColors.successGreen,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'All Done!',
+                              style: theme.textTheme.labelLarge?.copyWith(
+                                color: AppColors.successGreen,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 12),
+                    SizedBox(
+                      height: 40,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          if (state.outputFolderPath != null) {
+                            cubit.openOutputFolder(state.outputFolderPath!);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: theme.colorScheme.primary,
+                          foregroundColor: Colors.white,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        icon: const Icon(Icons.folder_open_rounded, size: 18),
+                        label: const Text('Open Folder'),
+                      ),
+                    ),
+                  ],
                 ),
             ],
           ),

@@ -157,6 +157,7 @@ class CompressionCubit extends Cubit<CompressionState> {
       state.copyWith(
         videos: [...state.videos, ...newVideos],
         clearGlobalError: true,
+        phase: state.isProcessing ? null : CompressionPhase.idle,
       ),
     );
 
@@ -164,6 +165,8 @@ class CompressionCubit extends Cubit<CompressionState> {
 
     // Asynchronously generate thumbnails for new videos.
     _generateThumbnails(newVideos);
+    // Asynchronously probe durations so ETA calculation knows the total queue length
+    _probeDurationsAsync(newVideos);
   }
 
   Future<void> _generateThumbnails(List<VideoFile> videos) async {
@@ -196,6 +199,30 @@ class CompressionCubit extends Cubit<CompressionState> {
     }
   }
 
+  Future<void> _probeDurationsAsync(List<VideoFile> videos) async {
+    // Run sequentially in the background to avoid spawning 100 ffprobe processes
+    for (final video in videos) {
+      if (_cancelRequested) break;
+
+      try {
+        final totalDuration = await _ffmpegService.probeDuration(
+          video.filePath,
+        );
+        if (_cancelRequested) return;
+
+        final index = state.videos.indexWhere((v) => v.id == video.id);
+        if (index != -1) {
+          _updateVideo(
+            index,
+            state.videos[index].copyWith(totalDuration: totalDuration),
+          );
+        }
+      } catch (_) {
+        // Silently ignore. Will be caught when compression actually starts.
+      }
+    }
+  }
+
   /// Removes a video from the queue by its ID.
   ///
   /// Only removes if the video is not currently being compressed.
@@ -212,7 +239,10 @@ class CompressionCubit extends Cubit<CompressionState> {
     }
 
     emit(
-      state.copyWith(videos: state.videos.where((v) => v.id != id).toList()),
+      state.copyWith(
+        videos: state.videos.where((v) => v.id != id).toList(),
+        phase: state.isProcessing ? null : CompressionPhase.idle,
+      ),
     );
   }
 
@@ -228,7 +258,7 @@ class CompressionCubit extends Cubit<CompressionState> {
                   v.status != VideoStatus.cancelled,
             )
             .toList(),
-        phase: CompressionPhase.idle,
+        phase: state.isProcessing ? null : CompressionPhase.idle,
         currentIndex: -1,
         clearCompressionStartTime: true,
         clearGlobalEta: true,
@@ -272,7 +302,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   /// 3. Compresses each video sequentially using FFmpeg.
   /// 4. Updates state with progress for each video.
   Future<void> startCompression() async {
-    if (!state.canStart) return;
+    if (!state.canStart || state.isProcessing) return; // Prevent double-clicks
     _cancelRequested = false;
 
     // Determine the source directory from the first queued video.
@@ -306,19 +336,21 @@ class CompressionCubit extends Cubit<CompressionState> {
       ),
     );
 
-    // Get indices of queued videos.
-    final queuedIndices = <int>[];
-    for (int i = 0; i < state.videos.length; i++) {
-      if (state.videos[i].status == VideoStatus.queued) {
-        queuedIndices.add(i);
-      }
-    }
+    // Get IDs of queued videos to avoid index shifting bugs.
+    final queuedIds = state.videos
+        .where((v) => v.status == VideoStatus.queued)
+        .map((v) => v.id)
+        .toList();
+
+    emit(
+      state.copyWith(phase: CompressionPhase.probing),
+    ); // Immediate emit to lock UI
 
     // Process each queued video sequentially.
-    for (final index in queuedIndices) {
+    for (final id in queuedIds) {
       if (_cancelRequested) break;
 
-      await _processVideo(index, outputFolder);
+      await _processVideo(id, outputFolder);
     }
 
     // Mark as completed.
@@ -347,33 +379,49 @@ class CompressionCubit extends Cubit<CompressionState> {
     notification.show();
   }
 
-  /// Processes a single video: probes duration, then compresses.
-  Future<void> _processVideo(int index, String outputFolder) async {
-    if (_cancelRequested) return;
+  /// Processes a single video: probes duration, then compresses
+  Future<void> _processVideo(String videoId, String outputFolder) async {
+    int getIndex() => state.videos.indexWhere((v) => v.id == videoId);
+    int initialIndex = getIndex();
+    if (initialIndex < 0) return;
 
-    final video = state.videos[index];
+    VideoFile video = state.videos[initialIndex];
 
-    // -- Step 1: Probe duration --
-    _updateVideo(index, video.copyWith(status: VideoStatus.probing));
-    emit(state.copyWith(currentIndex: index, phase: CompressionPhase.probing));
+    // Helper to safely update the video even if its index shifted.
+    void safelyUpdateVideo(VideoFile updatedVideo, {Duration? globalEta}) {
+      final idx = getIndex();
+      if (idx >= 0) {
+        _updateVideo(idx, updatedVideo, globalEta: globalEta);
+      }
+    }
 
+    // -- Step 1: Probe duration (if not already probed in background) --
     Duration totalDuration;
-    try {
-      totalDuration = await _ffmpegService.probeDuration(video.filePath);
-      _updateVideo(
-        index,
-        state.videos[index].copyWith(totalDuration: totalDuration),
-      );
-    } catch (e) {
-      dev.log('Probe failed for ${video.fileName}: $e', name: 'Cubit');
-      _updateVideo(
-        index,
-        state.videos[index].copyWith(
-          status: VideoStatus.failed,
-          errorMessage: 'Failed to probe duration: $e',
+    if (video.totalDuration != null) {
+      totalDuration = video.totalDuration!;
+    } else {
+      safelyUpdateVideo(video.copyWith(status: VideoStatus.probing));
+      emit(
+        state.copyWith(
+          currentIndex: getIndex(),
+          phase: CompressionPhase.probing,
         ),
       );
-      return;
+
+      try {
+        totalDuration = await _ffmpegService.probeDuration(video.filePath);
+        video = video.copyWith(totalDuration: totalDuration);
+        safelyUpdateVideo(video);
+      } catch (e) {
+        dev.log('Probe failed for ${video.fileName}: $e', name: 'Cubit');
+        safelyUpdateVideo(
+          video.copyWith(
+            status: VideoStatus.failed,
+            errorMessage: 'Failed to probe duration: $e',
+          ),
+        );
+        return;
+      }
     }
 
     if (_cancelRequested) return;
@@ -382,15 +430,18 @@ class CompressionCubit extends Cubit<CompressionState> {
     // Preserve original filename (it's already in a separate output folder).
     final outputPath = p.join(outputFolder, video.fileName);
 
-    _updateVideo(
-      index,
-      state.videos[index].copyWith(
-        status: VideoStatus.compressing,
-        progress: 0.0,
-        outputPath: outputPath,
+    video = video.copyWith(
+      status: VideoStatus.compressing,
+      progress: 0.0,
+      outputPath: outputPath,
+    );
+    safelyUpdateVideo(video);
+    emit(
+      state.copyWith(
+        currentIndex: getIndex(),
+        phase: CompressionPhase.compressing,
       ),
     );
-    emit(state.copyWith(phase: CompressionPhase.compressing));
 
     try {
       await for (final progress in _ffmpegService.compress(
@@ -402,11 +453,15 @@ class CompressionCubit extends Cubit<CompressionState> {
       )) {
         if (_cancelRequested) break;
 
-        // Calculate Global ETA based on file sizes
+        // Calculate Global ETA based on video duration
         Duration? newGlobalEta = state.globalEta;
         if (state.compressionStartTime != null) {
-          int totalBytes = 0;
-          int processedBytes = 0;
+          int totalDurationMs = 0;
+          int processedDurationMs = 0;
+
+          int probedBytes = 0;
+          int probedDurationMs = 0;
+          int unprobedBytes = 0;
 
           for (int i = 0; i < state.videos.length; i++) {
             final v = state.videos[i];
@@ -414,38 +469,60 @@ class CompressionCubit extends Cubit<CompressionState> {
                 v.status == VideoStatus.compressing ||
                 v.status == VideoStatus.probing ||
                 v.status == VideoStatus.success) {
-              totalBytes += v.fileSizeBytes;
-              if (v.status == VideoStatus.success) {
-                processedBytes += v.fileSizeBytes;
-              } else if (i == index) {
-                processedBytes += (v.fileSizeBytes * progress.progress).round();
+              if (v.totalDuration != null) {
+                final durMs = v.totalDuration!.inMilliseconds;
+                totalDurationMs += durMs;
+
+                probedBytes += v.fileSizeBytes;
+                probedDurationMs += durMs;
+
+                if (v.status == VideoStatus.success) {
+                  processedDurationMs += durMs;
+                } else if (v.id == videoId) {
+                  processedDurationMs += (durMs * progress.progress).round();
+                }
+              } else {
+                unprobedBytes += v.fileSizeBytes;
               }
             }
           }
 
-          final elapsedSeconds = DateTime.now()
-              .difference(state.compressionStartTime!)
-              .inSeconds;
-          if (elapsedSeconds > 0 && processedBytes > 0) {
-            final speedBytesPerSec = processedBytes / elapsedSeconds;
-            final remainingBytes = totalBytes - processedBytes;
-            if (speedBytesPerSec > 0) {
+          // Estimate totalDurationMs for unprobed videos so the ETA doesn't
+          // constantly increase as background probes finish and add to the total.
+          if (unprobedBytes > 0) {
+            if (probedBytes > 0) {
+              final avgMsPerByte = probedDurationMs / probedBytes;
+              totalDurationMs += (unprobedBytes * avgMsPerByte).round();
+            } else {
+              // Fallback guess: 1ms per 1KB (~1s per 1MB) if nothing probed yet
+              totalDurationMs += unprobedBytes;
+            }
+          }
+
+          final elapsedSeconds =
+              DateTime.now()
+                  .difference(state.compressionStartTime!)
+                  .inMilliseconds /
+              1000.0;
+
+          if (elapsedSeconds > 3.0 && processedDurationMs > 0) {
+            // globalSpeed = how many milliseconds of video processed per real second
+            final globalSpeed = processedDurationMs / elapsedSeconds;
+            final remainingDurationMs = totalDurationMs - processedDurationMs;
+            if (globalSpeed > 0) {
               newGlobalEta = Duration(
-                seconds: (remainingBytes / speedBytesPerSec).round(),
+                seconds: (remainingDurationMs / globalSpeed).round(),
               );
             }
           }
         }
 
-        _updateVideo(
-          index,
-          state.videos[index].copyWith(
-            progress: progress.progress,
-            processingSpeed: progress.speed,
-            eta: progress.eta,
-          ),
-          globalEta: newGlobalEta,
+        video = video.copyWith(
+          progress: progress.progress,
+          processingSpeed: progress.speed,
+          eta: progress.eta,
         );
+        safelyUpdateVideo(video, globalEta: newGlobalEta);
       }
 
       if (_cancelRequested) return;
@@ -456,16 +533,14 @@ class CompressionCubit extends Cubit<CompressionState> {
           ? await outputFile.length()
           : 0;
 
-      _updateVideo(
-        index,
-        state.videos[index].copyWith(
-          status: VideoStatus.success,
-          progress: 1.0,
-          outputSizeBytes: outputSize,
-          eta: Duration.zero,
-          processingSpeed: 0.0,
-        ),
+      video = video.copyWith(
+        status: VideoStatus.success,
+        progress: 1.0,
+        outputSizeBytes: outputSize,
+        eta: Duration.zero,
+        processingSpeed: 0.0,
       );
+      safelyUpdateVideo(video);
 
       dev.log(
         'Compressed ${video.fileName}: '
@@ -475,15 +550,11 @@ class CompressionCubit extends Cubit<CompressionState> {
       );
     } catch (e) {
       if (isCompressionCancelled(e)) {
-        _updateVideo(
-          index,
-          state.videos[index].copyWith(status: VideoStatus.cancelled),
-        );
+        safelyUpdateVideo(video.copyWith(status: VideoStatus.cancelled));
       } else {
         dev.log('Compression failed for ${video.fileName}: $e', name: 'Cubit');
-        _updateVideo(
-          index,
-          state.videos[index].copyWith(
+        safelyUpdateVideo(
+          video.copyWith(
             status: VideoStatus.failed,
             errorMessage: e.toString(),
           ),
@@ -548,7 +619,10 @@ class CompressionCubit extends Cubit<CompressionState> {
     } else {
       // For all other statuses (queued, success, failed, cancelled) — remove from queue.
       emit(
-        state.copyWith(videos: state.videos.where((v) => v.id != id).toList()),
+        state.copyWith(
+          videos: state.videos.where((v) => v.id != id).toList(),
+          phase: state.isProcessing ? null : CompressionPhase.idle,
+        ),
       );
     }
   }
@@ -566,6 +640,17 @@ class CompressionCubit extends Cubit<CompressionState> {
       emit(state.copyWith(videos: updatedList, globalEta: globalEta));
     } else {
       emit(state.copyWith(videos: updatedList));
+    }
+  }
+
+  /// Opens the given folder in the native file explorer.
+  void openOutputFolder(String path) {
+    if (Platform.isWindows) {
+      Process.run('explorer', [path]);
+    } else if (Platform.isMacOS) {
+      Process.run('open', [path]);
+    } else if (Platform.isLinux) {
+      Process.run('xdg-open', [path]);
     }
   }
 }
