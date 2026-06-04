@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:io';
 
-import 'package:path/path.dart' as p;
-
 /// Data class containing detailed progress information.
 class CompressionProgress {
   final double progress;
@@ -16,60 +14,45 @@ class CompressionProgress {
 
 /// Service responsible for all FFmpeg and FFprobe process execution.
 ///
-/// Resolves the bundled executables relative to the application's running
-/// directory (no system-wide PATH fallback). Both `ffmpeg.exe` and
-/// `ffprobe.exe` must be placed alongside the application executable or
-/// in a `ffmpeg/` subdirectory next to it.
+/// Resolves the executables via the system-wide PATH fallback.
+/// `ffmpeg` and `ffprobe` must be installed on the system (e.g. via winget).
 class FfmpegService {
   Process? _currentProcess;
   bool _isCancelled = false;
 
-  /// Resolves the absolute path to the bundled `ffmpeg.exe`.
-  ///
-  /// Lookup order:
-  /// 1. `<exe_dir>/ffmpeg.exe`
-  /// 2. `<exe_dir>/ffmpeg/ffmpeg.exe`
-  ///
-  /// Throws [FileSystemException] if not found.
+  /// Resolves the path to `ffmpeg`.
+  /// Relies on the system PATH.
   String get ffmpegPath {
-    final exeDir = p.dirname(Platform.resolvedExecutable);
-
-    final candidate1 = p.join(exeDir, 'ffmpeg.exe');
-    if (File(candidate1).existsSync()) return candidate1;
-
-    final candidate2 = p.join(exeDir, 'ffmpeg', 'ffmpeg.exe');
-    if (File(candidate2).existsSync()) return candidate2;
-
-    throw FileSystemException(
-      'Bundled ffmpeg.exe not found. Looked in:\n'
-      '  1. $candidate1\n'
-      '  2. $candidate2\n'
-      'Please ensure ffmpeg.exe is bundled with the application.',
-    );
+    return 'ffmpeg';
   }
 
-  /// Resolves the absolute path to the bundled `ffprobe.exe`.
-  ///
-  /// Lookup order:
-  /// 1. `<exe_dir>/ffprobe.exe`
-  /// 2. `<exe_dir>/ffmpeg/ffprobe.exe`
-  ///
-  /// Throws [FileSystemException] if not found.
+  /// Resolves the path to `ffprobe`.
+  /// Relies on the system PATH.
   String get ffprobePath {
-    final exeDir = p.dirname(Platform.resolvedExecutable);
+    return 'ffprobe';
+  }
 
-    final candidate1 = p.join(exeDir, 'ffprobe.exe');
-    if (File(candidate1).existsSync()) return candidate1;
+  /// Verifies that FFmpeg and FFprobe are installed and accessible via PATH.
+  Future<void> checkDependencies() async {
+    try {
+      final ffmpegResult = await Process.run(ffmpegPath, ['-version']);
+      if (ffmpegResult.exitCode != 0) {
+        throw Exception('FFmpeg returned exit code ${ffmpegResult.exitCode}.');
+      }
 
-    final candidate2 = p.join(exeDir, 'ffmpeg', 'ffprobe.exe');
-    if (File(candidate2).existsSync()) return candidate2;
-
-    throw FileSystemException(
-      'Bundled ffprobe.exe not found. Looked in:\n'
-      '  1. $candidate1\n'
-      '  2. $candidate2\n'
-      'Please ensure ffprobe.exe is bundled with the application.',
-    );
+      final ffprobeResult = await Process.run(ffprobePath, ['-version']);
+      if (ffprobeResult.exitCode != 0) {
+        throw Exception(
+          'FFprobe returned exit code ${ffprobeResult.exitCode}.',
+        );
+      }
+    } catch (e) {
+      throw Exception(
+        'FFmpeg or FFprobe is missing or corrupted.\n\n'
+        'Please reinstall Shrinkeo or manually fix the installation using:\n'
+        'winget install Gyan.FFmpeg',
+      );
+    }
   }
 
   /// Probes the total duration of a video file using FFprobe.

@@ -308,6 +308,18 @@ class CompressionCubit extends Cubit<CompressionState> {
     if (!state.canStart || state.isProcessing) return; // Prevent double-clicks
     _cancelRequested = false;
 
+    try {
+      await _ffmpegService.checkDependencies();
+    } catch (e) {
+      emit(
+        state.copyWith(
+          phase: CompressionPhase.error,
+          globalError: e.toString().replaceFirst('Exception: ', ''),
+        ),
+      );
+      return;
+    }
+
     // Determine the source directory from the first queued video.
     final firstQueued = state.videos.firstWhere(
       (v) => v.status == VideoStatus.queued,
