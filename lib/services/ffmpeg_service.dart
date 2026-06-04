@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'dart:io';
 
-import '../cubit/compression_state.dart' show AudioMode, HardwareEncoder, ResolutionMode, VideoCodec;
+import '../cubit/compression_state.dart' show AudioMode, FrameRateMode, HardwareEncoder, ResolutionMode, VideoCodec;
 
 /// Data class containing detailed progress information.
 class CompressionProgress {
@@ -123,10 +123,11 @@ class FfmpegService {
     required Duration totalDuration,
     int crf = 22,
     String preset = 'fast',
-    VideoCodec codec = VideoCodec.h264,
-    HardwareEncoder hardwareEncoder = HardwareEncoder.software,
-    AudioMode audioMode = AudioMode.copy,
-    ResolutionMode resolutionMode = ResolutionMode.original,
+    required VideoCodec codec,
+    required HardwareEncoder hardwareEncoder,
+    required AudioMode audioMode,
+    required ResolutionMode resolutionMode,
+    required FrameRateMode frameRateMode,
   }) async* {
     _isCancelled = false;
     final ffmpeg = ffmpegPath;
@@ -268,6 +269,15 @@ class FfmpegService {
       args.addAll(['-vf', "scale='min(854,iw)':-2"]);
     } else if (resolutionMode == ResolutionMode.p360) {
       args.addAll(['-vf', "scale='min(640,iw)':-2"]);
+    }
+
+    // --- Frame Rate ---
+    if (frameRateMode == FrameRateMode.fps60) {
+      args.addAll(['-r', '60']);
+    } else if (frameRateMode == FrameRateMode.fps30) {
+      args.addAll(['-r', '30']);
+    } else if (frameRateMode == FrameRateMode.fps24) {
+      args.addAll(['-r', '24']);
     }
 
     args.add(outputPath);

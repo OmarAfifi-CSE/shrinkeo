@@ -55,6 +55,7 @@ class CompressionCubit extends Cubit<CompressionState> {
            hardwareEncoder: _parseHardwareEncoder(prefs),
            audioMode: _parseAudioMode(prefs),
            resolutionMode: _parseResolutionMode(prefs),
+           frameRateMode: _parseFrameRateMode(prefs),
            outputFormat: _parseOutputFormat(prefs),
            globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
          ),
@@ -126,6 +127,17 @@ class CompressionCubit extends Cubit<CompressionState> {
     return ResolutionMode.original;
   }
 
+  static FrameRateMode _parseFrameRateMode(SharedPreferences prefs) {
+    final modeStr = prefs.getString('frameRateMode');
+    if (modeStr != null) {
+      return FrameRateMode.values.firstWhere(
+        (e) => e.name == modeStr,
+        orElse: () => FrameRateMode.original,
+      );
+    }
+    return FrameRateMode.original;
+  }
+
   static OutputFormat _parseOutputFormat(SharedPreferences prefs) {
     final formatStr = prefs.getString('outputFormat');
     if (formatStr != null) {
@@ -178,6 +190,12 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(resolutionMode: mode));
   }
 
+  /// Updates the frame rate mode setting.
+  void updateFrameRateMode(FrameRateMode mode) {
+    _prefs.setString('frameRateMode', mode.name);
+    emit(state.copyWith(frameRateMode: mode));
+  }
+
   /// Updates the output format setting.
   void updateOutputFormat(OutputFormat format) {
     _prefs.setString('outputFormat', format.name);
@@ -216,6 +234,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     _prefs.setString('hardwareEncoder', HardwareEncoder.software.name);
     _prefs.setString('audioMode', AudioMode.copy.name);
     _prefs.setString('resolutionMode', ResolutionMode.original.name);
+    _prefs.setString('frameRateMode', FrameRateMode.original.name);
     _prefs.setString('outputFormat', OutputFormat.original.name);
 
     emit(
@@ -226,6 +245,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         hardwareEncoder: HardwareEncoder.software,
         audioMode: AudioMode.copy,
         resolutionMode: ResolutionMode.original,
+        frameRateMode: FrameRateMode.original,
         outputFormat: OutputFormat.original,
         customOutputDirectory: null,
         clearCustomOutputDirectory: true,
@@ -613,6 +633,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         hardwareEncoder: state.hardwareEncoder,
         audioMode: state.audioMode,
         resolutionMode: state.resolutionMode,
+        frameRateMode: state.frameRateMode,
       )) {
         if (_cancelRequested) break;
 

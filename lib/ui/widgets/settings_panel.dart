@@ -29,6 +29,7 @@ class SettingsPanel extends StatelessWidget {
           prev.customOutputDirectory != curr.customOutputDirectory ||
           prev.audioMode != curr.audioMode ||
           prev.resolutionMode != curr.resolutionMode ||
+          prev.frameRateMode != curr.frameRateMode ||
           prev.outputFormat != curr.outputFormat,
       builder: (context, state) {
         return AnimatedCrossFade(
@@ -170,6 +171,8 @@ class _SettingsContent extends StatelessWidget {
                       _CodecSection(state: state, isLocked: isLocked),
                       const SizedBox(height: 16),
                       _HardwareEncoderSection(state: state, isLocked: isLocked),
+                      const SizedBox(height: 16),
+                      _OutputFormatSection(state: state, isLocked: isLocked),
                     ],
                   ),
                 ),
@@ -181,9 +184,9 @@ class _SettingsContent extends StatelessWidget {
                     children: [
                       _ResolutionSection(state: state, isLocked: isLocked),
                       const SizedBox(height: 16),
-                      _AudioModeSection(state: state, isLocked: isLocked),
+                      _FrameRateSection(state: state, isLocked: isLocked),
                       const SizedBox(height: 16),
-                      _OutputFormatSection(state: state, isLocked: isLocked),
+                      _AudioModeSection(state: state, isLocked: isLocked),
                     ],
                   ),
                 ),
@@ -746,6 +749,52 @@ class _ResolutionSection extends StatelessWidget {
           label: state.resolutionMode.label,
           description: state.resolutionMode.description,
           icon: Icons.aspect_ratio_rounded,
+        ),
+      ],
+    );
+  }
+}
+
+/// Section for selecting Frame Rate.
+class _FrameRateSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _FrameRateSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Frame Rate (FPS)',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: FrameRateMode.values.map((mode) {
+            return _OptionChip(
+              label: mode.label,
+              isSelected: state.frameRateMode == mode,
+              isLocked: isLocked,
+              onTap: () => cubit.updateFrameRateMode(mode),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: state.frameRateMode.label,
+          description: state.frameRateMode.description,
+          icon: Icons.burst_mode_rounded,
         ),
       ],
     );

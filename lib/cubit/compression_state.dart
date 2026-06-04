@@ -91,6 +91,18 @@ enum ResolutionMode {
   const ResolutionMode(this.label, this.description);
 }
 
+enum FrameRateMode {
+  original('Original', 'Keeps the exact same framerate as the source video.'),
+  fps60('60 fps', 'Ultra smooth, ideal for gaming or sports (creates larger files).'),
+  fps30('30 fps', 'Standard smoothness, great balance for most videos.'),
+  fps24('24 fps', 'Cinematic look, useful for movies and saving space.');
+
+  final String label;
+  final String description;
+
+  const FrameRateMode(this.label, this.description);
+}
+
 /// Options for Video Container Format.
 enum OutputFormat {
   original('Original', 'Keep original format (Fastest, no container changes).', null),
@@ -147,6 +159,9 @@ class CompressionState extends Equatable {
   /// Selected Resolution Downscale.
   final ResolutionMode resolutionMode;
 
+  /// Selected Framerate (FPS).
+  final FrameRateMode frameRateMode;
+
   /// Selected Output Format.
   final OutputFormat outputFormat;
 
@@ -182,6 +197,7 @@ class CompressionState extends Equatable {
     this.hardwareEncoder = HardwareEncoder.software,
     this.audioMode = AudioMode.copy, // Copy Original by default
     this.resolutionMode = ResolutionMode.original,
+    this.frameRateMode = FrameRateMode.original,
     this.outputFormat = OutputFormat.original, // Original by default
     this.themeMode = ThemeMode.system,
     this.isSettingsExpanded = false,
@@ -207,6 +223,7 @@ class CompressionState extends Equatable {
     HardwareEncoder? hardwareEncoder,
     AudioMode? audioMode,
     ResolutionMode? resolutionMode,
+    FrameRateMode? frameRateMode,
     OutputFormat? outputFormat,
     ThemeMode? themeMode,
     bool? isSettingsExpanded,
@@ -233,6 +250,7 @@ class CompressionState extends Equatable {
       hardwareEncoder: hardwareEncoder ?? this.hardwareEncoder,
       audioMode: audioMode ?? this.audioMode,
       resolutionMode: resolutionMode ?? this.resolutionMode,
+      frameRateMode: frameRateMode ?? this.frameRateMode,
       outputFormat: outputFormat ?? this.outputFormat,
       themeMode: themeMode ?? this.themeMode,
       isSettingsExpanded: isSettingsExpanded ?? this.isSettingsExpanded,
@@ -293,6 +311,7 @@ class CompressionState extends Equatable {
     hardwareEncoder,
     audioMode,
     resolutionMode,
+    frameRateMode,
     outputFormat,
     themeMode,
     isSettingsExpanded,
