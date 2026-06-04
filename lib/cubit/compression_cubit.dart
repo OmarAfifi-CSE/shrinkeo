@@ -54,6 +54,7 @@ class CompressionCubit extends Cubit<CompressionState> {
            encodingPreset: _parsePreset(prefs),
            videoCodec: _parseCodec(prefs),
            hardwareEncoder: _parseHardwareEncoder(prefs),
+           globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
          ),
        );
 
