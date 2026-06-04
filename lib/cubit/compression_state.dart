@@ -41,7 +41,7 @@ enum EncodingPreset {
 
 enum VideoCodec {
   h264('H.264', 'Maximum compatibility with older devices & browsers.'),
-  h265('H.265 / HEVC', 'Maximum compression (50% smaller size at same quality).');
+  h265('H.265 / HEVC', 'Better compression efficiency (smaller files).');
 
   final String label;
   final String description;
@@ -50,10 +50,10 @@ enum VideoCodec {
 }
 
 enum HardwareEncoder {
-  software('Software (CPU)', 'Slowest but maximum compatibility.'),
-  nvidia('Nvidia (NVENC)', 'Extremely fast encoding for Nvidia GPUs.'),
-  amd('AMD (AMF)', 'Extremely fast encoding for AMD GPUs.'),
-  intel('Intel (QSV)', 'Extremely fast encoding for Intel GPUs.');
+  software('Software (CPU)', 'Slowest, but maximum compatibility & smallest files.'),
+  nvidia('Nvidia (NVENC)', 'Extremely fast encoding for Nvidia GPUs (slightly larger files).'),
+  amd('AMD (AMF)', 'Extremely fast encoding for AMD GPUs (slightly larger files).'),
+  intel('Intel (QSV)', 'Extremely fast encoding for Intel GPUs (slightly larger files).');
 
   final String label;
   final String description;
