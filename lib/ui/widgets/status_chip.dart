@@ -11,7 +11,17 @@ class StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (label, color, icon) = _statusConfig(status);
+    final (label, baseColor, icon) = _statusConfig(status);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    Color color = baseColor;
+    if (isDark) {
+      if (baseColor == AppColors.errorRed) {
+        color = Colors.redAccent.shade200;
+      } else if (baseColor == AppColors.warningOrange) {
+        color = Colors.orangeAccent.shade200;
+      }
+    }
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),

@@ -172,39 +172,55 @@ class VideoFileCard extends StatelessWidget {
             if (video.status == VideoStatus.failed &&
                 video.errorMessage != null) ...[
               const SizedBox(height: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.errorRed.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(6),
-                  border: Border.all(
-                    color: AppColors.errorRed.withValues(alpha: 0.2),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.warning_amber_rounded,
-                      size: 14,
-                      color: AppColors.errorRed.withValues(alpha: 0.7),
+              Builder(
+                builder: (context) {
+                  final isDark =
+                      Theme.of(context).brightness == Brightness.dark;
+                  final errorColor = isDark
+                      ? Colors.redAccent.shade100
+                      : AppColors.errorRed.withValues(alpha: 0.9);
+                  final bgColor = isDark
+                      ? Colors.redAccent.withValues(alpha: 0.1)
+                      : AppColors.errorRed.withValues(alpha: 0.08);
+                  final borderColor = isDark
+                      ? Colors.redAccent.withValues(alpha: 0.25)
+                      : AppColors.errorRed.withValues(alpha: 0.2);
+
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
                     ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        video.errorMessage!,
-                        style: TextStyle(
-                          color: AppColors.errorRed.withValues(alpha: 0.8),
-                          fontSize: 11,
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: borderColor),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.warning_amber_rounded,
+                          size: 16,
+                          color: errorColor,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            video.errorMessage!,
+                            style: TextStyle(
+                              color: errorColor,
+                              fontSize: 12,
+                              height: 1.2,
+                            ),
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ],
           ],

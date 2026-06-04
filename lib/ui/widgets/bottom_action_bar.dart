@@ -310,15 +310,25 @@ class _MiniCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color effectiveColor = color;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    if (isDark) {
+      if (color == AppColors.errorRed) {
+        effectiveColor = Colors.redAccent.shade200;
+      } else if (color == AppColors.warningOrange) {
+        effectiveColor = Colors.orangeAccent.shade200;
+      }
+    }
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 13, color: color.withValues(alpha: 0.8)),
+        Icon(icon, size: 13, color: effectiveColor.withValues(alpha: 0.9)),
         const SizedBox(width: 3),
         Text(
           '$count',
           style: TextStyle(
-            color: color.withValues(alpha: 0.8),
+            color: effectiveColor.withValues(alpha: 0.9),
             fontSize: 12,
             fontWeight: FontWeight.w600,
             fontFeatures: const [FontFeature.tabularFigures()],

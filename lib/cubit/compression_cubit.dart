@@ -664,7 +664,7 @@ class CompressionCubit extends Cubit<CompressionState> {
                 errorMsg.contains('not found') ||
                 errorMsg.toLowerCase().contains('not supported'))) {
           errorMsg =
-              'This hardware encoder (${state.hardwareEncoder.label}) is not supported or not found on your system. Please switch to "Software (CPU)".\n\nOriginal Error: $errorMsg';
+              'This hardware encoder (${state.hardwareEncoder.label}) is not supported or not found on your system. Please switch to "Software (CPU)".';
           isHardwareError = true;
         }
 
