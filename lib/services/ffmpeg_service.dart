@@ -202,14 +202,39 @@ class FfmpegService {
       vcodec,
     ];
 
+    String mappedPreset = preset;
+    if (hardwareEncoder == HardwareEncoder.nvidia) {
+      switch (preset) {
+        case 'ultrafast':
+        case 'superfast': mappedPreset = 'p1'; break;
+        case 'veryfast': mappedPreset = 'p2'; break;
+        case 'faster': mappedPreset = 'p3'; break;
+        case 'fast': mappedPreset = 'p4'; break;
+        case 'medium': mappedPreset = 'p5'; break;
+        case 'slow': mappedPreset = 'p6'; break;
+        case 'veryslow': mappedPreset = 'p7'; break;
+      }
+    } else if (hardwareEncoder == HardwareEncoder.amd) {
+      switch (preset) {
+        case 'ultrafast':
+        case 'superfast':
+        case 'veryfast':
+        case 'faster': mappedPreset = 'speed'; break;
+        case 'fast':
+        case 'medium': mappedPreset = 'balanced'; break;
+        case 'slow':
+        case 'veryslow': mappedPreset = 'quality'; break;
+      }
+    }
+
     if (hardwareEncoder == HardwareEncoder.software) {
-      args.addAll(['-crf', crf.toString(), '-preset', preset]);
+      args.addAll(['-crf', crf.toString(), '-preset', mappedPreset]);
     } else if (hardwareEncoder == HardwareEncoder.nvidia) {
-      args.addAll(['-cq', crf.toString(), '-preset', preset]);
+      args.addAll(['-cq', crf.toString(), '-preset', mappedPreset]);
     } else {
       // AMF and QSV can be tricky with CRF. We'll just pass -q:v for simplicity or -crf if it supports it.
       // Often, a fallback global quality is best.
-      args.addAll(['-global_quality', crf.toString(), '-preset', preset]);
+      args.addAll(['-global_quality', crf.toString(), '-preset', mappedPreset]);
     }
 
     args.addAll(['-pix_fmt', 'yuv420p', '-acodec', 'copy', outputPath]);
