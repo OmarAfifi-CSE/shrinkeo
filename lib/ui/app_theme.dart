@@ -16,7 +16,7 @@ class AppTheme {
       seedColor: AppColors.primaryAccent,
       brightness: Brightness.dark,
       surface: AppColors.surfaceDark,
-      primary: AppColors.primaryAccent,
+      primary: AppColors.primaryAccentLight,
       onPrimary: Colors.white,
     );
 

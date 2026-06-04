@@ -78,8 +78,8 @@ enum AudioMode {
 /// Options for Downscaling Resolution.
 enum ResolutionMode {
   original('Original', 'Keep the original video resolution.'),
-  p2160('4K (2160p)', 'Scale down to 4K max (Extremely high quality).'),
-  p1440('2K (1440p)', 'Scale down to 2K max (High quality).'),
+  p2160('4K', 'Scale down to 4K max (Extremely high quality).'),
+  p1440('2K', 'Scale down to 2K max (High quality).'),
   p1080('1080p', 'Scale down to 1080p max (Standard HD quality).'),
   p720('720p', 'Scale down to 720p max (Good for mobile viewing).'),
   p480('480p', 'Scale down to 480p max (DVD quality, very small size).'),

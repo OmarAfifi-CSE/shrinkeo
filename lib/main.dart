@@ -33,7 +33,7 @@ void main(List<String> args) async {
   );
 
   const windowOptions = WindowOptions(
-    size: Size(1020, 680),
+    size: Size(1080, 720),
     minimumSize: Size(720, 500),
     center: true,
     titleBarStyle: TitleBarStyle.hidden,

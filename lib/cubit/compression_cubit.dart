@@ -208,6 +208,23 @@ class CompressionCubit extends Cubit<CompressionState> {
     );
   }
 
+  /// Resets all compression settings to their defaults.
+  void resetToDefaults() {
+    emit(
+      state.copyWith(
+        crfQuality: 22,
+        encodingPreset: EncodingPreset.fast,
+        videoCodec: VideoCodec.h264,
+        hardwareEncoder: HardwareEncoder.software,
+        audioMode: AudioMode.copy,
+        resolutionMode: ResolutionMode.original,
+        outputFormat: OutputFormat.original,
+        customOutputDirectory: null,
+        clearCustomOutputDirectory: true,
+      ),
+    );
+  }
+
   // ---------------------------------------------------------------------------
   // Queue Management
   // ---------------------------------------------------------------------------

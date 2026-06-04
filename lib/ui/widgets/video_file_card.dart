@@ -117,7 +117,9 @@ class VideoFileCard extends StatelessWidget {
                             textAlign: TextAlign.right,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w700,
-                              color: theme.colorScheme.primary,
+                              color: theme.brightness == Brightness.dark
+                                  ? AppColors.primaryAccentLight
+                                  : theme.colorScheme.primary,
                               fontFeatures: const [
                                 FontFeature.tabularFigures(),
                               ],
@@ -353,6 +355,9 @@ class _ActionButton extends StatelessWidget {
 
     if (!isRemovable && !isProcessing) return const SizedBox.shrink();
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final redColor = isDark ? Colors.redAccent.shade200 : AppColors.errorRed;
+
     return Tooltip(
       message: isProcessing ? 'Cancel' : 'Remove',
       child: InkWell(
@@ -365,7 +370,7 @@ class _ActionButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             color:
                 (isProcessing
-                        ? AppColors.errorRed
+                        ? redColor
                         : Theme.of(context).iconTheme.color ?? Colors.grey)
                     .withValues(alpha: 0.08),
           ),
@@ -373,7 +378,7 @@ class _ActionButton extends StatelessWidget {
             isProcessing ? Icons.stop_rounded : Icons.close_rounded,
             size: 16,
             color: isProcessing
-                ? AppColors.errorRed.withValues(alpha: 0.8)
+                ? redColor.withValues(alpha: 0.8)
                 : Theme.of(context).textTheme.bodySmall?.color,
           ),
         ),

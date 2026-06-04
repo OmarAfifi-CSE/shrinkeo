@@ -111,6 +111,34 @@ class _SettingsContent extends StatelessWidget {
                     },
                   ),
                 ],
+                const Spacer(),
+                if (!isLocked)
+                  TextButton.icon(
+                    onPressed: () =>
+                        context.read<CompressionCubit>().resetToDefaults(),
+                    icon: const Icon(Icons.refresh_rounded, size: 14),
+                    label: const Text(
+                      'Reset to Defaults',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      foregroundColor: theme.textTheme.bodyMedium?.color
+                          ?.withValues(alpha: 0.8),
+                      backgroundColor: theme.brightness == Brightness.dark
+                          ? Colors.white.withValues(alpha: 0.05)
+                          : Colors.black.withValues(alpha: 0.03),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                  ),
               ],
             ),
             const SizedBox(height: 12),
@@ -134,17 +162,14 @@ class _SettingsContent extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Left Column: Codec & Hardware
+                // Left Column: Codec, Hardware
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _CodecSection(state: state, isLocked: isLocked),
                       const SizedBox(height: 16),
-                      _HardwareEncoderSection(
-                        state: state,
-                        isLocked: isLocked,
-                      ),
+                      _HardwareEncoderSection(state: state, isLocked: isLocked),
                     ],
                   ),
                 ),
@@ -417,57 +442,10 @@ class _PresetSection extends StatelessWidget {
         const SizedBox(height: 6),
 
         // Description of selected preset
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          decoration: BoxDecoration(
-            color:
-                (theme.brightness == Brightness.dark
-                        ? AppColors.borderDark
-                        : AppColors.borderLight)
-                    .withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color:
-                  (theme.brightness == Brightness.dark
-                          ? AppColors.borderDark
-                          : AppColors.borderLight)
-                      .withValues(alpha: 0.2),
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.info_outline_rounded,
-                size: 14,
-                color: theme.colorScheme.primary,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: theme.textTheme.bodyMedium?.color,
-                      fontSize: 11,
-                      height: 1.3,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: '${state.encodingPreset.label}: ',
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      TextSpan(
-                        text: state.encodingPreset.description,
-                        style: TextStyle(
-                          color: theme.textTheme.bodySmall?.color,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+        _InfoBox(
+          label: state.encodingPreset.label,
+          description: state.encodingPreset.description,
+          icon: Icons.speed_rounded,
         ),
       ],
     );
@@ -622,57 +600,10 @@ class _CodecSection extends StatelessWidget {
           }).toList(),
         ),
         const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          decoration: BoxDecoration(
-            color:
-                (theme.brightness == Brightness.dark
-                        ? AppColors.borderDark
-                        : AppColors.borderLight)
-                    .withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color:
-                  (theme.brightness == Brightness.dark
-                          ? AppColors.borderDark
-                          : AppColors.borderLight)
-                      .withValues(alpha: 0.2),
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.info_outline_rounded,
-                size: 14,
-                color: theme.colorScheme.primary,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: theme.textTheme.bodyMedium?.color,
-                      fontSize: 11,
-                      height: 1.3,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: '${state.videoCodec.label}: ',
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      TextSpan(
-                        text: state.videoCodec.description,
-                        style: TextStyle(
-                          color: theme.textTheme.bodySmall?.color,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+        _InfoBox(
+          label: state.videoCodec.label,
+          description: state.videoCodec.description,
+          icon: Icons.movie_creation_rounded,
         ),
       ],
     );
@@ -719,57 +650,10 @@ class _HardwareEncoderSection extends StatelessWidget {
           }).toList(),
         ),
         const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          decoration: BoxDecoration(
-            color:
-                (theme.brightness == Brightness.dark
-                        ? AppColors.borderDark
-                        : AppColors.borderLight)
-                    .withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color:
-                  (theme.brightness == Brightness.dark
-                          ? AppColors.borderDark
-                          : AppColors.borderLight)
-                      .withValues(alpha: 0.2),
-            ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.memory_rounded,
-                size: 14,
-                color: theme.colorScheme.primary,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: theme.textTheme.bodyMedium?.color,
-                      fontSize: 11,
-                      height: 1.3,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: '${state.hardwareEncoder.label}: ',
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                      ),
-                      TextSpan(
-                        text: state.hardwareEncoder.description,
-                        style: TextStyle(
-                          color: theme.textTheme.bodySmall?.color,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
+        _InfoBox(
+          label: state.hardwareEncoder.label,
+          description: state.hardwareEncoder.description,
+          icon: Icons.memory_rounded,
         ),
       ],
     );
@@ -803,16 +687,19 @@ class _AudioModeSection extends StatelessWidget {
           spacing: 6,
           runSpacing: 6,
           children: AudioMode.values.map((mode) {
-            return Tooltip(
-              message: mode.description,
-              child: _OptionChip(
-                label: mode.label,
-                isSelected: state.audioMode == mode,
-                isLocked: isLocked,
-                onTap: () => cubit.updateAudioMode(mode),
-              ),
+            return _OptionChip(
+              label: mode.label,
+              isSelected: state.audioMode == mode,
+              isLocked: isLocked,
+              onTap: () => cubit.updateAudioMode(mode),
             );
           }).toList(),
+        ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: state.audioMode.label,
+          description: state.audioMode.description,
+          icon: Icons.graphic_eq_rounded,
         ),
       ],
     );
@@ -846,16 +733,19 @@ class _ResolutionSection extends StatelessWidget {
           spacing: 6,
           runSpacing: 6,
           children: ResolutionMode.values.map((mode) {
-            return Tooltip(
-              message: mode.description,
-              child: _OptionChip(
-                label: mode.label,
-                isSelected: state.resolutionMode == mode,
-                isLocked: isLocked,
-                onTap: () => cubit.updateResolutionMode(mode),
-              ),
+            return _OptionChip(
+              label: mode.label,
+              isSelected: state.resolutionMode == mode,
+              isLocked: isLocked,
+              onTap: () => cubit.updateResolutionMode(mode),
             );
           }).toList(),
+        ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: state.resolutionMode.label,
+          description: state.resolutionMode.description,
+          icon: Icons.aspect_ratio_rounded,
         ),
       ],
     );
@@ -889,18 +779,85 @@ class _OutputFormatSection extends StatelessWidget {
           spacing: 6,
           runSpacing: 6,
           children: OutputFormat.values.map((format) {
-            return Tooltip(
-              message: format.description,
-              child: _OptionChip(
-                label: format.label,
-                isSelected: state.outputFormat == format,
-                isLocked: isLocked,
-                onTap: () => cubit.updateOutputFormat(format),
-              ),
+            return _OptionChip(
+              label: format.label,
+              isSelected: state.outputFormat == format,
+              isLocked: isLocked,
+              onTap: () => cubit.updateOutputFormat(format),
             );
           }).toList(),
         ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: state.outputFormat.label,
+          description: state.outputFormat.description,
+          icon: Icons.insert_drive_file_rounded,
+        ),
       ],
+    );
+  }
+}
+
+/// A reusable info box widget for displaying setting descriptions.
+class _InfoBox extends StatelessWidget {
+  final String label;
+  final String description;
+  final IconData icon;
+
+  const _InfoBox({
+    required this.label,
+    required this.description,
+    this.icon = Icons.info_outline_rounded,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      decoration: BoxDecoration(
+        color:
+            (theme.brightness == Brightness.dark
+                    ? AppColors.borderDark
+                    : AppColors.borderLight)
+                .withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color:
+              (theme.brightness == Brightness.dark
+                      ? AppColors.borderDark
+                      : AppColors.borderLight)
+                  .withValues(alpha: 0.2),
+        ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, size: 14, color: theme.colorScheme.primary),
+          const SizedBox(width: 8),
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                style: TextStyle(
+                  color: theme.textTheme.bodyMedium?.color,
+                  fontSize: 11,
+                  height: 1.3,
+                ),
+                children: [
+                  TextSpan(
+                    text: '$label: ',
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
+                  TextSpan(
+                    text: description,
+                    style: TextStyle(color: theme.textTheme.bodySmall?.color),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -20,6 +20,8 @@ class StatusChip extends StatelessWidget {
         color = Colors.redAccent.shade200;
       } else if (baseColor == AppColors.warningOrange) {
         color = Colors.orangeAccent.shade200;
+      } else if (baseColor == AppColors.primaryAccent) {
+        color = AppColors.primaryAccentLight;
       }
     }
 
