@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -216,63 +215,41 @@ class CompressionCubit extends Cubit<CompressionState> {
       ),
     );
 
-    // Asynchronously generate thumbnails for new videos.
-    _generateThumbnails(newVideos);
     // Asynchronously probe durations so ETA calculation knows the total queue length
     _probeDurationsAsync(newVideos);
   }
 
-  Future<void> _generateThumbnails(List<VideoFile> videos) async {
-    final tempDir = await getTemporaryDirectory();
-    final thumbDir = Directory(p.join(tempDir.path, 'shrinkeo_thumbs'));
-    if (!await thumbDir.exists()) {
-      await thumbDir.create(recursive: true);
-    }
-
-    for (final video in videos) {
-      if (_cancelRequested) break;
-
-      // Fire and forget for instant UI updates as each finishes.
-      () async {
-        final thumbPath = p.join(thumbDir.path, '${video.id}.jpg');
-        await _ffmpegService.generateThumbnail(video.filePath, thumbPath);
-
-        if (_cancelRequested) return;
-
-        if (File(thumbPath).existsSync()) {
-          final index = state.videos.indexWhere((v) => v.id == video.id);
-          if (index != -1) {
-            _updateVideo(
-              index,
-              state.videos[index].copyWith(thumbnailPath: thumbPath),
-            );
-          }
-        }
-      }();
-    }
-  }
-
   Future<void> _probeDurationsAsync(List<VideoFile> videos) async {
-    // Run sequentially in the background to avoid spawning 100 ffprobe processes
-    for (final video in videos) {
+    // Run sequentially, but update state in batches to prevent UI freezes
+    const probeBatchSize = 10;
+    for (int i = 0; i < videos.length; i += probeBatchSize) {
       if (_cancelRequested) break;
 
-      try {
-        final totalDuration = await _ffmpegService.probeDuration(
-          video.filePath,
-        );
-        if (_cancelRequested) return;
+      final batch = videos.skip(i).take(probeBatchSize);
+      final batchDurations = <String, Duration>{};
 
-        final index = state.videos.indexWhere((v) => v.id == video.id);
-        if (index != -1) {
-          _updateVideo(
-            index,
-            state.videos[index].copyWith(totalDuration: totalDuration),
+      for (final video in batch) {
+        if (_cancelRequested) break;
+        try {
+          final totalDuration = await _ffmpegService.probeDuration(
+            video.filePath,
           );
-        }
-      } catch (_) {
-        // Silently ignore. Will be caught when compression actually starts.
+          if (_cancelRequested) return;
+          batchDurations[video.id] = totalDuration;
+        } catch (_) {}
       }
+
+      if (batchDurations.isNotEmpty) {
+        final newVideos = state.videos.map((v) {
+          if (batchDurations.containsKey(v.id)) {
+            return v.copyWith(totalDuration: batchDurations[v.id]);
+          }
+          return v;
+        }).toList();
+        emit(state.copyWith(videos: newVideos));
+      }
+
+      await Future.delayed(const Duration(milliseconds: 10));
     }
   }
 

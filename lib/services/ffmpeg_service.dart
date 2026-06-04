@@ -101,39 +101,6 @@ class FfmpegService {
     return Duration(milliseconds: (seconds * 1000).round());
   }
 
-  /// Generates a thumbnail for a video file instantly by fast-seeking to 2 seconds.
-  /// Falls back to the first frame if the video is shorter than 2 seconds.
-  Future<void> generateThumbnail(String videoPath, String outputPath) async {
-    final ffmpeg = ffmpegPath;
-
-    var result = await Process.run(ffmpeg, [
-      '-y',
-      '-ss', '2', // Fast-seek BEFORE input for near-instant extraction
-      '-i', videoPath,
-      '-vframes', '1',
-      '-vf', 'scale=320:-1', // Resize width to 320, maintain aspect ratio
-      outputPath,
-    ]);
-
-    // If it fails (e.g., video is shorter than 2 seconds), fallback to the first frame.
-    if (result.exitCode != 0) {
-      result = await Process.run(ffmpeg, [
-        '-y',
-        '-i',
-        videoPath,
-        '-vframes',
-        '1',
-        '-vf',
-        'scale=320:-1',
-        outputPath,
-      ]);
-    }
-
-    if (result.exitCode != 0) {
-      // Thumbnail generation failed.
-    }
-  }
-
   /// Compresses a video file using FFmpeg and yields progress updates.
   ///
   /// Emits progress values from 0.0 to 1.0 as FFmpeg processes the video.
@@ -206,29 +173,51 @@ class FfmpegService {
     if (hardwareEncoder == HardwareEncoder.nvidia) {
       switch (preset) {
         case 'ultrafast':
-        case 'superfast': mappedPreset = 'p1'; break;
-        case 'veryfast': mappedPreset = 'p2'; break;
-        case 'faster': mappedPreset = 'p3'; break;
-        case 'fast': mappedPreset = 'p4'; break;
-        case 'medium': mappedPreset = 'p5'; break;
-        case 'slow': mappedPreset = 'p6'; break;
-        case 'veryslow': mappedPreset = 'p7'; break;
+        case 'superfast':
+          mappedPreset = 'p1';
+          break;
+        case 'veryfast':
+          mappedPreset = 'p2';
+          break;
+        case 'faster':
+          mappedPreset = 'p3';
+          break;
+        case 'fast':
+          mappedPreset = 'p4';
+          break;
+        case 'medium':
+          mappedPreset = 'p5';
+          break;
+        case 'slow':
+          mappedPreset = 'p6';
+          break;
+        case 'veryslow':
+          mappedPreset = 'p7';
+          break;
       }
     } else if (hardwareEncoder == HardwareEncoder.amd) {
       switch (preset) {
         case 'ultrafast':
         case 'superfast':
         case 'veryfast':
-        case 'faster': mappedPreset = 'speed'; break;
+        case 'faster':
+          mappedPreset = 'speed';
+          break;
         case 'fast':
-        case 'medium': mappedPreset = 'balanced'; break;
+        case 'medium':
+          mappedPreset = 'balanced';
+          break;
         case 'slow':
-        case 'veryslow': mappedPreset = 'quality'; break;
+        case 'veryslow':
+          mappedPreset = 'quality';
+          break;
       }
     } else if (hardwareEncoder == HardwareEncoder.intel) {
       switch (preset) {
         case 'ultrafast':
-        case 'superfast': mappedPreset = 'veryfast'; break;
+        case 'superfast':
+          mappedPreset = 'veryfast';
+          break;
         // The rest are natively supported by QSV: veryfast, faster, fast, medium, slow, slower, veryslow
       }
     }
