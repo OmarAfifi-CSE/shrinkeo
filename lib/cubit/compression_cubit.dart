@@ -360,6 +360,22 @@ class CompressionCubit extends Cubit<CompressionState> {
     if (!state.canStart || state.isProcessing) return; // Prevent double-clicks
     _cancelRequested = false;
 
+    // Reset any videos that failed due to hardware encoder issues back to queued
+    // so they are automatically retried when the user clicks Start Compression again.
+    final resetVideos = state.videos.map((v) {
+      if (v.status == VideoStatus.failed &&
+          v.errorMessage != null &&
+          v.errorMessage!.contains('This hardware encoder')) {
+        // Clear the error and set back to queued
+        return v.copyWith(status: VideoStatus.queued, clearErrorMessage: true);
+      }
+      return v;
+    }).toList();
+
+    if (resetVideos.any((v) => v.status == VideoStatus.queued)) {
+      emit(state.copyWith(videos: resetVideos));
+    }
+
     try {
       await _ffmpegService.checkDependencies();
     } catch (e) {
@@ -637,12 +653,37 @@ class CompressionCubit extends Cubit<CompressionState> {
       if (isCompressionCancelled(e)) {
         safelyUpdateVideo(video.copyWith(status: VideoStatus.cancelled));
       } else {
+        String errorMsg = e.toString();
+        bool isHardwareError = false;
+
+        // Make hardware encoder errors more user-friendly
+        if (state.hardwareEncoder != HardwareEncoder.software &&
+            (errorMsg.contains('Device creation failed') ||
+                errorMsg.contains('No capable devices found') ||
+                errorMsg.contains('Cannot load') ||
+                errorMsg.contains('not found') ||
+                errorMsg.toLowerCase().contains('not supported'))) {
+          errorMsg =
+              'This hardware encoder (${state.hardwareEncoder.label}) is not supported or not found on your system. Please switch to "Software (CPU)".\n\nOriginal Error: $errorMsg';
+          isHardwareError = true;
+        }
+
         safelyUpdateVideo(
-          video.copyWith(
-            status: VideoStatus.failed,
-            errorMessage: e.toString(),
-          ),
+          video.copyWith(status: VideoStatus.failed, errorMessage: errorMsg),
         );
+
+        if (isHardwareError) {
+          // Stop processing the rest of the queue to avoid spamming the same error
+          _cancelRequested = true;
+          emit(
+            state.copyWith(
+              phase: CompressionPhase.idle,
+              currentIndex: -1,
+              clearGlobalEta: true,
+              clearCompressionStartTime: true,
+            ),
+          );
+        }
       }
 
       // Clean up partial output file on failure.

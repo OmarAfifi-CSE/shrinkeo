@@ -225,6 +225,12 @@ class FfmpegService {
         case 'slow':
         case 'veryslow': mappedPreset = 'quality'; break;
       }
+    } else if (hardwareEncoder == HardwareEncoder.intel) {
+      switch (preset) {
+        case 'ultrafast':
+        case 'superfast': mappedPreset = 'veryfast'; break;
+        // The rest are natively supported by QSV: veryfast, faster, fast, medium, slow, slower, veryslow
+      }
     }
 
     if (hardwareEncoder == HardwareEncoder.software) {
