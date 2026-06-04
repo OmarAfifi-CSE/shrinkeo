@@ -44,6 +44,12 @@ class VideoFile extends Equatable {
   /// Compressed file size in bytes (populated after success).
   final int? outputSizeBytes;
 
+  /// Current temporary output size in bytes (updated during compression).
+  final int? currentOutputSizeBytes;
+
+  /// Whether a warning has been shown that the output is larger than the original.
+  final bool hasWarnedLargerSize;
+
   /// Error message (populated on failure).
   final String? errorMessage;
 
@@ -67,6 +73,8 @@ class VideoFile extends Equatable {
     this.progress = 0.0,
     this.outputPath,
     this.outputSizeBytes,
+    this.currentOutputSizeBytes,
+    this.hasWarnedLargerSize = false,
     this.errorMessage,
     this.thumbnailPath,
     this.eta,
@@ -85,6 +93,8 @@ class VideoFile extends Equatable {
     double? progress,
     String? outputPath,
     int? outputSizeBytes,
+    int? currentOutputSizeBytes,
+    bool? hasWarnedLargerSize,
     String? errorMessage,
     String? thumbnailPath,
     Duration? eta,
@@ -93,6 +103,8 @@ class VideoFile extends Equatable {
     bool clearTotalDuration = false,
     bool clearOutputPath = false,
     bool clearOutputSizeBytes = false,
+    bool clearCurrentOutputSizeBytes = false,
+    bool clearHasWarnedLargerSize = false,
     bool clearErrorMessage = false,
     bool clearThumbnailPath = false,
     bool clearEta = false,
@@ -113,6 +125,12 @@ class VideoFile extends Equatable {
       outputSizeBytes: clearOutputSizeBytes
           ? null
           : (outputSizeBytes ?? this.outputSizeBytes),
+      currentOutputSizeBytes: clearCurrentOutputSizeBytes
+          ? null
+          : (currentOutputSizeBytes ?? this.currentOutputSizeBytes),
+      hasWarnedLargerSize: clearHasWarnedLargerSize 
+          ? false 
+          : (hasWarnedLargerSize ?? this.hasWarnedLargerSize),
       errorMessage: clearErrorMessage
           ? null
           : (errorMessage ?? this.errorMessage),
@@ -151,19 +169,21 @@ class VideoFile extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    filePath,
-    fileName,
-    extension,
-    fileSizeBytes,
-    totalDuration,
-    status,
-    progress,
-    outputPath,
-    outputSizeBytes,
-    errorMessage,
-    thumbnailPath,
-    eta,
-    processingSpeed,
-  ];
+        id,
+        filePath,
+        fileName,
+        extension,
+        fileSizeBytes,
+        totalDuration,
+        status,
+        progress,
+        outputPath,
+        outputSizeBytes,
+        currentOutputSizeBytes,
+        hasWarnedLargerSize,
+        errorMessage,
+        thumbnailPath,
+        eta,
+        processingSpeed,
+      ];
 }

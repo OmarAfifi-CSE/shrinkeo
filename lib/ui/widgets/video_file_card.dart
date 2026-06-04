@@ -80,12 +80,71 @@ class VideoFileCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 3),
-                      Text(
-                        VideoFile.formatFileSize(video.fileSizeBytes),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.textTheme.bodySmall?.color,
-                          fontSize: 12,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            VideoFile.formatFileSize(video.fileSizeBytes),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.textTheme.bodySmall?.color,
+                              fontSize: 12,
+                            ),
+                          ),
+                          if (video.status == VideoStatus.compressing && 
+                              video.progress > 0.05 && 
+                              video.currentOutputSizeBytes != null) ...[
+                            Builder(
+                              builder: (context) {
+                                final projected = (video.currentOutputSizeBytes! / video.progress).round();
+                                final isLarger = projected > video.fileSizeBytes;
+                                final alertColor = theme.brightness == Brightness.dark 
+                                    ? Colors.redAccent.shade200 
+                                    : AppColors.errorRed;
+                                
+                                Widget content = Row(
+                                  children: [
+                                    Text(
+                                      ' ➔ Est: ${VideoFile.formatFileSize(projected)}',
+                                      style: theme.textTheme.bodySmall?.copyWith(
+                                        color: isLarger ? alertColor : theme.textTheme.bodySmall?.color,
+                                        fontSize: 12,
+                                        fontWeight: isLarger ? FontWeight.w700 : FontWeight.normal,
+                                      ),
+                                    ),
+                                    if (isLarger) ...[
+                                      const SizedBox(width: 4),
+                                      Icon(
+                                        Icons.warning_amber_rounded,
+                                        size: 14,
+                                        color: alertColor,
+                                      ),
+                                    ],
+                                  ],
+                                );
+                                
+                                if (isLarger) {
+                                  return Tooltip(
+                                    message: 'Output will be larger than original!\nStop and try Reset to Defaults.',
+                                    padding: const EdgeInsets.all(12),
+                                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                                    decoration: BoxDecoration(
+                                      color: theme.brightness == Brightness.dark 
+                                          ? Colors.grey.shade900 
+                                          : Colors.grey.shade800,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    textStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                    child: content,
+                                  );
+                                }
+                                
+                                return content;
+                              },
+                            ),
+                          ],
+                        ],
                       ),
                     ],
                   ),
@@ -295,10 +354,26 @@ class _CompressionResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final savedBytes = video.fileSizeBytes - video.outputSizeBytes!;
-    final percent = video.fileSizeBytes > 0
-        ? (savedBytes / video.fileSizeBytes * 100).toStringAsFixed(0)
-        : '0';
-    final savedText = savedBytes > 0 ? 'Saved $percent%' : 'Larger';
+    
+    // Calculate percentage based on original size
+    String percent = '0';
+    String badgeText = '';
+    Color badgeColor = AppColors.successGreen;
+    
+    if (video.fileSizeBytes > 0) {
+      if (savedBytes > 0) {
+        percent = (savedBytes / video.fileSizeBytes * 100).toStringAsFixed(0);
+        badgeText = 'Saved $percent%';
+        badgeColor = AppColors.successGreen;
+      } else if (savedBytes < 0) {
+        final increasedBytes = -savedBytes;
+        percent = (increasedBytes / video.fileSizeBytes * 100).toStringAsFixed(0);
+        badgeText = '+$percent% Larger';
+        badgeColor = Theme.of(context).brightness == Brightness.dark 
+            ? Colors.redAccent.shade200 
+            : AppColors.errorRed;
+      }
+    }
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -311,18 +386,18 @@ class _CompressionResult extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        if (savedBytes > 0) ...[
+        if (savedBytes != 0 && video.fileSizeBytes > 0) ...[
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
             decoration: BoxDecoration(
-              color: AppColors.successGreen.withValues(alpha: 0.15),
+              color: badgeColor.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
-              savedText,
-              style: const TextStyle(
-                color: AppColors.successGreen,
+              badgeText,
+              style: TextStyle(
+                color: badgeColor,
                 fontSize: 11,
                 fontWeight: FontWeight.w800,
               ),

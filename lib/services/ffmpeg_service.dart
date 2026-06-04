@@ -10,8 +10,14 @@ class CompressionProgress {
   final double progress;
   final double speed;
   final Duration? eta;
+  final int? currentOutputSizeBytes;
 
-  CompressionProgress({required this.progress, required this.speed, this.eta});
+  CompressionProgress({
+    required this.progress,
+    required this.speed,
+    this.eta,
+    this.currentOutputSizeBytes,
+  });
 }
 
 /// Service responsible for all FFmpeg and FFprobe process execution.
@@ -270,6 +276,22 @@ class FfmpegService {
 
     final process = _currentProcess!;
 
+    // Lower the process priority to prevent CPU/GPU starvation and OS lag.
+    try {
+      if (Platform.isWindows) {
+        Process.run('powershell', [
+          '-NoProfile',
+          '-NonInteractive',
+          '-Command',
+          "(Get-Process -Id ${process.pid}).PriorityClass = 'BelowNormal'"
+        ]);
+      } else if (Platform.isLinux || Platform.isMacOS) {
+        Process.run('renice', ['-n', '10', '-p', '${process.pid}']);
+      }
+    } catch (_) {
+      // Ignore errors if priority cannot be changed
+    }
+
     // Regex to extract time=HH:MM:SS.xx and speed=1.5x from FFmpeg stderr progress lines.
     final timeRegex = RegExp(r'time=(\d+):(\d+):(\d+(?:\.\d+)?)');
     final speedRegex = RegExp(r'speed=\s*(\d+(?:\.\d+)?)x');
@@ -329,10 +351,20 @@ class FfmpegService {
               now.difference(lastEmitTime).inMilliseconds >= 100) {
             lastEmittedProgress = progress;
             lastEmitTime = now;
+            
+            int? currentOutputSize;
+            try {
+              final file = File(outputPath);
+              if (file.existsSync()) {
+                currentOutputSize = file.lengthSync();
+              }
+            } catch (_) {}
+
             yield CompressionProgress(
               progress: progress,
               speed: speed,
               eta: eta,
+              currentOutputSizeBytes: currentOutputSize,
             );
           }
         }

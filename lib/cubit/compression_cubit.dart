@@ -210,6 +210,14 @@ class CompressionCubit extends Cubit<CompressionState> {
 
   /// Resets all compression settings to their defaults.
   void resetToDefaults() {
+    _prefs.setInt('crfQuality', 22);
+    _prefs.setString('encodingPreset', EncodingPreset.fast.name);
+    _prefs.setString('videoCodec', VideoCodec.h264.name);
+    _prefs.setString('hardwareEncoder', HardwareEncoder.software.name);
+    _prefs.setString('audioMode', AudioMode.copy.name);
+    _prefs.setString('resolutionMode', ResolutionMode.original.name);
+    _prefs.setString('outputFormat', OutputFormat.original.name);
+
     emit(
       state.copyWith(
         crfQuality: 22,
@@ -672,10 +680,27 @@ class CompressionCubit extends Cubit<CompressionState> {
           }
         }
 
+        if (progress.progress > 0.05 &&
+            progress.currentOutputSizeBytes != null) {
+          final projected =
+              (progress.currentOutputSizeBytes! / progress.progress).round();
+          if (projected > video.fileSizeBytes && !video.hasWarnedLargerSize) {
+            video = video.copyWith(hasWarnedLargerSize: true);
+
+            final notification = LocalNotification(
+              title: 'Output Larger Than Original',
+              body:
+                  '${video.fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.',
+            );
+            notification.show();
+          }
+        }
+
         video = video.copyWith(
           progress: progress.progress,
           processingSpeed: progress.speed,
           eta: progress.eta,
+          currentOutputSizeBytes: progress.currentOutputSizeBytes,
         );
         safelyUpdateVideo(video, globalEta: newGlobalEta);
       }
