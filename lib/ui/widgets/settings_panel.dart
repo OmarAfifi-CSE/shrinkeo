@@ -26,7 +26,10 @@ class SettingsPanel extends StatelessWidget {
           prev.hardwareEncoder != curr.hardwareEncoder ||
           prev.crfQuality != curr.crfQuality ||
           prev.isProcessing != curr.isProcessing ||
-          prev.customOutputDirectory != curr.customOutputDirectory,
+          prev.customOutputDirectory != curr.customOutputDirectory ||
+          prev.audioMode != curr.audioMode ||
+          prev.resolutionMode != curr.resolutionMode ||
+          prev.outputFormat != curr.outputFormat,
       builder: (context, state) {
         return AnimatedCrossFade(
           duration: const Duration(milliseconds: 250),
@@ -131,16 +134,32 @@ class _SettingsContent extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // -- Codec --
+                // Left Column: Codec & Hardware
                 Expanded(
-                  child: _CodecSection(state: state, isLocked: isLocked),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _CodecSection(state: state, isLocked: isLocked),
+                      const SizedBox(height: 16),
+                      _HardwareEncoderSection(
+                        state: state,
+                        isLocked: isLocked,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 32),
-                // -- Hardware Encoder --
+                // Right Column: Resolution, Audio & Output Format
                 Expanded(
-                  child: _HardwareEncoderSection(
-                    state: state,
-                    isLocked: isLocked,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _ResolutionSection(state: state, isLocked: isLocked),
+                      const SizedBox(height: 16),
+                      _AudioModeSection(state: state, isLocked: isLocked),
+                      const SizedBox(height: 16),
+                      _OutputFormatSection(state: state, isLocked: isLocked),
+                    ],
                   ),
                 ),
               ],
@@ -751,6 +770,135 @@ class _HardwareEncoderSection extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Section for selecting the Audio Mode.
+class _AudioModeSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _AudioModeSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Audio Compression',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: AudioMode.values.map((mode) {
+            return Tooltip(
+              message: mode.description,
+              child: _OptionChip(
+                label: mode.label,
+                isSelected: state.audioMode == mode,
+                isLocked: isLocked,
+                onTap: () => cubit.updateAudioMode(mode),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+/// Section for selecting the Resolution Mode.
+class _ResolutionSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _ResolutionSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Max Resolution',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: ResolutionMode.values.map((mode) {
+            return Tooltip(
+              message: mode.description,
+              child: _OptionChip(
+                label: mode.label,
+                isSelected: state.resolutionMode == mode,
+                isLocked: isLocked,
+                onTap: () => cubit.updateResolutionMode(mode),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+/// Section for selecting Output Format (Container).
+class _OutputFormatSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _OutputFormatSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Output Format',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: OutputFormat.values.map((format) {
+            return Tooltip(
+              message: format.description,
+              child: _OptionChip(
+                label: format.label,
+                isSelected: state.outputFormat == format,
+                isLocked: isLocked,
+                onTap: () => cubit.updateOutputFormat(format),
+              ),
+            );
+          }).toList(),
         ),
       ],
     );

@@ -53,6 +53,9 @@ class CompressionCubit extends Cubit<CompressionState> {
            encodingPreset: _parsePreset(prefs),
            videoCodec: _parseCodec(prefs),
            hardwareEncoder: _parseHardwareEncoder(prefs),
+           audioMode: _parseAudioMode(prefs),
+           resolutionMode: _parseResolutionMode(prefs),
+           outputFormat: _parseOutputFormat(prefs),
            globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
          ),
        );
@@ -101,6 +104,39 @@ class CompressionCubit extends Cubit<CompressionState> {
     return HardwareEncoder.software;
   }
 
+  static AudioMode _parseAudioMode(SharedPreferences prefs) {
+    final modeStr = prefs.getString('audioMode');
+    if (modeStr != null) {
+      return AudioMode.values.firstWhere(
+        (e) => e.name == modeStr,
+        orElse: () => AudioMode.copy,
+      );
+    }
+    return AudioMode.copy;
+  }
+
+  static ResolutionMode _parseResolutionMode(SharedPreferences prefs) {
+    final modeStr = prefs.getString('resolutionMode');
+    if (modeStr != null) {
+      return ResolutionMode.values.firstWhere(
+        (e) => e.name == modeStr,
+        orElse: () => ResolutionMode.original,
+      );
+    }
+    return ResolutionMode.original;
+  }
+
+  static OutputFormat _parseOutputFormat(SharedPreferences prefs) {
+    final formatStr = prefs.getString('outputFormat');
+    if (formatStr != null) {
+      return OutputFormat.values.firstWhere(
+        (e) => e.name == formatStr,
+        orElse: () => OutputFormat.original,
+      );
+    }
+    return OutputFormat.original;
+  }
+
   // ---------------------------------------------------------------------------
   // Settings
   // ---------------------------------------------------------------------------
@@ -128,6 +164,24 @@ class CompressionCubit extends Cubit<CompressionState> {
   void updateHardwareEncoder(HardwareEncoder encoder) {
     _prefs.setString('hardwareEncoder', encoder.name);
     emit(state.copyWith(hardwareEncoder: encoder));
+  }
+
+  /// Updates the audio mode setting.
+  void updateAudioMode(AudioMode mode) {
+    _prefs.setString('audioMode', mode.name);
+    emit(state.copyWith(audioMode: mode));
+  }
+
+  /// Updates the resolution mode setting.
+  void updateResolutionMode(ResolutionMode mode) {
+    _prefs.setString('resolutionMode', mode.name);
+    emit(state.copyWith(resolutionMode: mode));
+  }
+
+  /// Updates the output format setting.
+  void updateOutputFormat(OutputFormat format) {
+    _prefs.setString('outputFormat', format.name);
+    emit(state.copyWith(outputFormat: format));
   }
 
   /// Toggles between light and dark theme mode.
@@ -504,8 +558,11 @@ class CompressionCubit extends Cubit<CompressionState> {
     if (_cancelRequested) return;
 
     // -- Step 2: Compress --
-    // Preserve original filename (it's already in a separate output folder).
-    final outputPath = p.join(outputFolder, video.fileName);
+    // Preserve original filename but change extension to the selected output format.
+    final newFileName = state.outputFormat == OutputFormat.original
+        ? video.fileName
+        : p.setExtension(video.fileName, state.outputFormat.extension!);
+    final outputPath = p.join(outputFolder, newFileName);
 
     video = video.copyWith(
       status: VideoStatus.compressing,
@@ -529,6 +586,8 @@ class CompressionCubit extends Cubit<CompressionState> {
         preset: state.encodingPreset.value,
         codec: state.videoCodec,
         hardwareEncoder: state.hardwareEncoder,
+        audioMode: state.audioMode,
+        resolutionMode: state.resolutionMode,
       )) {
         if (_cancelRequested) break;
 

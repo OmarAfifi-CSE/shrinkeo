@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'dart:io';
 
-import '../cubit/compression_state.dart';
+import '../cubit/compression_state.dart' show AudioMode, HardwareEncoder, ResolutionMode, VideoCodec;
 
 /// Data class containing detailed progress information.
 class CompressionProgress {
@@ -119,6 +119,8 @@ class FfmpegService {
     String preset = 'fast',
     VideoCodec codec = VideoCodec.h264,
     HardwareEncoder hardwareEncoder = HardwareEncoder.software,
+    AudioMode audioMode = AudioMode.copy,
+    ResolutionMode resolutionMode = ResolutionMode.original,
   }) async* {
     _isCancelled = false;
     final ffmpeg = ffmpegPath;
@@ -232,7 +234,37 @@ class FfmpegService {
       args.addAll(['-global_quality', crf.toString(), '-preset', mappedPreset]);
     }
 
-    args.addAll(['-pix_fmt', 'yuv420p', '-acodec', 'copy', outputPath]);
+    args.addAll(['-pix_fmt', 'yuv420p']);
+
+    // --- Audio Settings ---
+    if (audioMode == AudioMode.copy) {
+      args.addAll(['-acodec', 'copy']);
+    } else if (audioMode == AudioMode.aac256) {
+      args.addAll(['-acodec', 'aac', '-b:a', '256k']);
+    } else if (audioMode == AudioMode.aac128) {
+      args.addAll(['-acodec', 'aac', '-b:a', '128k']);
+    } else if (audioMode == AudioMode.aac64) {
+      args.addAll(['-acodec', 'aac', '-b:a', '64k']);
+    } else if (audioMode == AudioMode.mute) {
+      args.add('-an');
+    }
+
+    // --- Resolution Downscaling ---
+    if (resolutionMode == ResolutionMode.p2160) {
+      args.addAll(['-vf', "scale='min(3840,iw)':-2"]);
+    } else if (resolutionMode == ResolutionMode.p1440) {
+      args.addAll(['-vf', "scale='min(2560,iw)':-2"]);
+    } else if (resolutionMode == ResolutionMode.p1080) {
+      args.addAll(['-vf', "scale='min(1920,iw)':-2"]);
+    } else if (resolutionMode == ResolutionMode.p720) {
+      args.addAll(['-vf', "scale='min(1280,iw)':-2"]);
+    } else if (resolutionMode == ResolutionMode.p480) {
+      args.addAll(['-vf', "scale='min(854,iw)':-2"]);
+    } else if (resolutionMode == ResolutionMode.p360) {
+      args.addAll(['-vf', "scale='min(640,iw)':-2"]);
+    }
+
+    args.add(outputPath);
 
     _currentProcess = await Process.start(ffmpeg, args);
 

@@ -61,6 +61,50 @@ enum HardwareEncoder {
   const HardwareEncoder(this.label, this.description);
 }
 
+/// Options for Audio Compression/Muting.
+enum AudioMode {
+  copy('Original', 'Preserves original audio track (No quality loss).'),
+  aac256('High Quality', 'Compresses to AAC 256kbps (Excellent quality, moderate size).'),
+  aac128('Balanced', 'Compresses to AAC 128kbps (Good quality, small size - Web Standard).'),
+  aac64('Low Quality', 'Compresses to AAC 64kbps (Best for speech/podcasts, tiny size).'),
+  mute('Mute Audio', 'Removes the audio track completely to save space.');
+
+  final String label;
+  final String description;
+
+  const AudioMode(this.label, this.description);
+}
+
+/// Options for Downscaling Resolution.
+enum ResolutionMode {
+  original('Original', 'Keep the original video resolution.'),
+  p2160('4K (2160p)', 'Scale down to 4K max (Extremely high quality).'),
+  p1440('2K (1440p)', 'Scale down to 2K max (High quality).'),
+  p1080('1080p', 'Scale down to 1080p max (Standard HD quality).'),
+  p720('720p', 'Scale down to 720p max (Good for mobile viewing).'),
+  p480('480p', 'Scale down to 480p max (DVD quality, very small size).'),
+  p360('360p', 'Scale down to 360p max (Extreme compression, low quality).');
+
+  final String label;
+  final String description;
+
+  const ResolutionMode(this.label, this.description);
+}
+
+/// Options for Video Container Format.
+enum OutputFormat {
+  original('Original', 'Keep original format (Fastest, no container changes).', null),
+  mp4('MP4', 'Maximum compatibility across all devices and web browsers.', '.mp4'),
+  mkv('MKV', 'Resilient format, great for multiple audio/subtitle tracks.', '.mkv'),
+  mov('MOV', 'High quality Apple QuickTime format, great for editing.', '.mov');
+
+  final String label;
+  final String description;
+  final String? extension;
+
+  const OutputFormat(this.label, this.description, this.extension);
+}
+
 /// Immutable state for the [CompressionCubit].
 class CompressionState extends Equatable {
   /// List of all video files in the queue.
@@ -97,6 +141,15 @@ class CompressionState extends Equatable {
   /// Selected Hardware Encoder.
   final HardwareEncoder hardwareEncoder;
 
+  /// Selected Audio Mode.
+  final AudioMode audioMode;
+
+  /// Selected Resolution Downscale.
+  final ResolutionMode resolutionMode;
+
+  /// Selected Output Format.
+  final OutputFormat outputFormat;
+
   /// Current theme mode (light, dark, or system).
   final ThemeMode themeMode;
 
@@ -127,6 +180,9 @@ class CompressionState extends Equatable {
     this.encodingPreset = EncodingPreset.fast,
     this.videoCodec = VideoCodec.h264,
     this.hardwareEncoder = HardwareEncoder.software,
+    this.audioMode = AudioMode.copy, // Copy Original by default
+    this.resolutionMode = ResolutionMode.original,
+    this.outputFormat = OutputFormat.original, // Original by default
     this.themeMode = ThemeMode.system,
     this.isSettingsExpanded = false,
     this.customOutputDirectory,
@@ -149,6 +205,9 @@ class CompressionState extends Equatable {
     EncodingPreset? encodingPreset,
     VideoCodec? videoCodec,
     HardwareEncoder? hardwareEncoder,
+    AudioMode? audioMode,
+    ResolutionMode? resolutionMode,
+    OutputFormat? outputFormat,
     ThemeMode? themeMode,
     bool? isSettingsExpanded,
     String? customOutputDirectory,
@@ -172,6 +231,9 @@ class CompressionState extends Equatable {
       encodingPreset: encodingPreset ?? this.encodingPreset,
       videoCodec: videoCodec ?? this.videoCodec,
       hardwareEncoder: hardwareEncoder ?? this.hardwareEncoder,
+      audioMode: audioMode ?? this.audioMode,
+      resolutionMode: resolutionMode ?? this.resolutionMode,
+      outputFormat: outputFormat ?? this.outputFormat,
       themeMode: themeMode ?? this.themeMode,
       isSettingsExpanded: isSettingsExpanded ?? this.isSettingsExpanded,
       customOutputDirectory: clearCustomOutputDirectory
@@ -229,6 +291,9 @@ class CompressionState extends Equatable {
     encodingPreset,
     videoCodec,
     hardwareEncoder,
+    audioMode,
+    resolutionMode,
+    outputFormat,
     themeMode,
     isSettingsExpanded,
     customOutputDirectory,
