@@ -1,0 +1,13 @@
+Shrinkeo uses the following open-source software:
+
+1. FFmpeg
+This software uses libraries from the FFmpeg project (http://ffmpeg.org) under the LGPLv2.1 license. 
+FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.
+The source code for FFmpeg can be found at: https://github.com/FFmpeg/FFmpeg
+
+2. Flutter & Dart
+This application is built using the Flutter UI toolkit and the Dart programming language.
+Copyright 2014 The Flutter Authors. All rights reserved.
+
+3. Third-party Flutter Packages
+For a complete list of third-party packages and their respective licenses, please refer to the pubspec.yaml file in the source code.
