@@ -1,4 +1,3 @@
-import 'dart:developer' as dev;
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -160,8 +159,6 @@ class CompressionCubit extends Cubit<CompressionState> {
         phase: state.isProcessing ? null : CompressionPhase.idle,
       ),
     );
-
-    dev.log('Added ${newVideos.length} videos to queue.', name: 'Cubit');
 
     // Asynchronously generate thumbnails for new videos.
     _generateThumbnails(newVideos);
@@ -436,7 +433,6 @@ class CompressionCubit extends Cubit<CompressionState> {
         video = video.copyWith(totalDuration: totalDuration);
         safelyUpdateVideo(video);
       } catch (e) {
-        dev.log('Probe failed for ${video.fileName}: $e', name: 'Cubit');
         safelyUpdateVideo(
           video.copyWith(
             status: VideoStatus.failed,
@@ -564,18 +560,10 @@ class CompressionCubit extends Cubit<CompressionState> {
         processingSpeed: 0.0,
       );
       safelyUpdateVideo(video);
-
-      dev.log(
-        'Compressed ${video.fileName}: '
-        '${VideoFile.formatFileSize(video.fileSizeBytes)} → '
-        '${VideoFile.formatFileSize(outputSize)}',
-        name: 'Cubit',
-      );
     } catch (e) {
       if (isCompressionCancelled(e)) {
         safelyUpdateVideo(video.copyWith(status: VideoStatus.cancelled));
       } else {
-        dev.log('Compression failed for ${video.fileName}: $e', name: 'Cubit');
         safelyUpdateVideo(
           video.copyWith(
             status: VideoStatus.failed,

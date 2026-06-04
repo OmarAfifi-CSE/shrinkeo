@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer' as dev;
+
 import 'dart:io';
 
 /// Data class containing detailed progress information.
@@ -120,10 +120,7 @@ class FfmpegService {
     }
 
     if (result.exitCode != 0) {
-      dev.log(
-        'Thumbnail generation failed for $videoPath: ${result.stderr}',
-        name: 'FfmpegService',
-      );
+      // Thumbnail generation failed.
     }
   }
 
@@ -265,10 +262,6 @@ class FfmpegService {
   void cancelCurrentProcess() {
     _isCancelled = true;
     if (_currentProcess != null) {
-      dev.log(
-        'Killing FFmpeg process (PID: ${_currentProcess!.pid})',
-        name: 'FfmpegService',
-      );
       _currentProcess!.kill(ProcessSignal.sigkill);
       _currentProcess = null;
     }
