@@ -38,7 +38,7 @@ class VideoQueueView extends StatelessWidget {
         child: ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
           itemCount: state.videos.length,
           itemBuilder: (context, index) {
             final video = state.videos[index];

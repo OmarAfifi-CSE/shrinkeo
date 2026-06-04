@@ -24,6 +24,7 @@ class SettingsPanel extends StatelessWidget {
           prev.encodingPreset != curr.encodingPreset ||
           prev.videoCodec != curr.videoCodec ||
           prev.hardwareEncoder != curr.hardwareEncoder ||
+          prev.crfQuality != curr.crfQuality ||
           prev.isProcessing != curr.isProcessing ||
           prev.customOutputDirectory != curr.customOutputDirectory,
       builder: (context, state) {
@@ -52,9 +53,9 @@ class _SettingsContent extends StatelessWidget {
     final isLocked = state.isProcessing;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: GlassContainer(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -97,7 +98,7 @@ class _SettingsContent extends StatelessWidget {
                 ],
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
 
             // -- Two-column layout --
             Row(
@@ -114,7 +115,7 @@ class _SettingsContent extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -132,7 +133,7 @@ class _SettingsContent extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 16),
             // -- Output Directory Section --
             _OutputDirectorySection(state: state, isLocked: isLocked),
           ],
@@ -366,7 +367,7 @@ class _PresetSection extends StatelessWidget {
             color: theme.textTheme.bodyMedium?.color,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
 
         // Preset options as a wrap of selectable chips
         Wrap(
@@ -382,7 +383,7 @@ class _PresetSection extends StatelessWidget {
           }).toList(),
         ),
 
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
 
         // Description of selected preset
         Container(
@@ -576,7 +577,7 @@ class _CodecSection extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 6),
         Wrap(
           spacing: 6,
           runSpacing: 6,
@@ -589,7 +590,7 @@ class _CodecSection extends StatelessWidget {
             );
           }).toList(),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(
@@ -673,7 +674,7 @@ class _HardwareEncoderSection extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 6),
         Wrap(
           spacing: 6,
           runSpacing: 6,
@@ -686,7 +687,7 @@ class _HardwareEncoderSection extends StatelessWidget {
             );
           }).toList(),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           decoration: BoxDecoration(

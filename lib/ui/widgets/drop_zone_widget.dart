@@ -75,82 +75,88 @@ class DropZoneWidget extends StatelessWidget {
                     : [],
               ),
               child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Animated icon
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 250),
-                      transform: Matrix4.translationValues(
-                        0,
-                        isHovering ? -8 : 0,
-                        0,
-                      ),
-                      child: Container(
-                        width: 72,
-                        height: 72,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).colorScheme.primary
-                              .withValues(alpha: isHovering ? 0.15 : 0.08),
-                        ),
-                        child: Icon(
-                          Icons.cloud_upload_rounded,
-                          size: 32,
-                          color: isHovering
-                              ? theme.colorScheme.primary
-                              : theme.textTheme.bodySmall?.color ??
-                                    Colors.white38,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 18),
-
-                    // Instructional text
-                    Text(
-                      isHovering
-                          ? 'Release to add videos'
-                          : 'Drag & drop video files or folders here',
-                      style: TextStyle(
-                        color: isHovering
-                            ? theme.colorScheme.primary
-                            : theme.textTheme.bodySmall?.color ??
-                                  Colors.white54,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'Supports MP4, MKV, MOV, AVI, WMV',
-                      style: TextStyle(
-                        color:
-                            theme.textTheme.bodySmall?.color ?? Colors.white24,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Manual pick buttons
-                    Wrap(
-                      spacing: 10,
-                      runSpacing: 8,
-                      alignment: WrapAlignment.center,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        _PickButton(
-                          icon: Icons.file_copy_rounded,
-                          label: 'Select Files',
-                          onTap: () => _pickMultipleFiles(cubit),
+                        // Animated icon
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 250),
+                          transform: Matrix4.translationValues(
+                            0,
+                            isHovering ? -8 : 0,
+                            0,
+                          ),
+                          child: Container(
+                            width: 72,
+                            height: 72,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Theme.of(context).colorScheme.primary
+                                  .withValues(alpha: isHovering ? 0.15 : 0.08),
+                            ),
+                            child: Icon(
+                              Icons.cloud_upload_rounded,
+                              size: 32,
+                              color: isHovering
+                                  ? theme.colorScheme.primary
+                                  : theme.textTheme.bodySmall?.color ??
+                                        Colors.white38,
+                            ),
+                          ),
                         ),
-                        _PickButton(
-                          icon: Icons.folder_rounded,
-                          label: 'Select Folder',
-                          onTap: () => _pickFolder(cubit),
+                        const SizedBox(height: 18),
+
+                        // Instructional text
+                        Text(
+                          isHovering
+                              ? 'Release to add videos'
+                              : 'Drag & drop video files or folders here',
+                          style: TextStyle(
+                            color: isHovering
+                                ? theme.colorScheme.primary
+                                : theme.textTheme.bodySmall?.color ??
+                                      Colors.white54,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Supports MP4, MKV, MOV, AVI, WMV',
+                          style: TextStyle(
+                            color:
+                                theme.textTheme.bodySmall?.color ??
+                                Colors.white24,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Manual pick buttons
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 8,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            _PickButton(
+                              icon: Icons.file_copy_rounded,
+                              label: 'Select Files',
+                              onTap: () => _pickMultipleFiles(cubit),
+                            ),
+                            _PickButton(
+                              icon: Icons.folder_rounded,
+                              label: 'Select Folder',
+                              onTap: () => _pickFolder(cubit),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
