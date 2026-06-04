@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../services/desktop_integration_service.dart';
 
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
@@ -20,6 +23,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  StreamSubscription? _externalFilesSubscription;
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +32,20 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UpdateService.checkForUpdates(context);
     });
+
+    _externalFilesSubscription = DesktopIntegrationService.fileStream.listen((
+      paths,
+    ) {
+      if (mounted) {
+        context.read<CompressionCubit>().addFiles(paths);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _externalFilesSubscription?.cancel();
+    super.dispose();
   }
 
   @override

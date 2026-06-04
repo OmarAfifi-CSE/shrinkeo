@@ -1,4 +1,7 @@
 App Icons
+windows_outputs
+.vscode
+build_and_export.ps1
 # Miscellaneous
 *.class
 *.log

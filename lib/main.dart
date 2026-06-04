@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_notifier/local_notifier.dart';
@@ -5,13 +6,18 @@ import 'package:window_manager/window_manager.dart';
 
 import 'cubit/compression_cubit.dart';
 import 'cubit/compression_state.dart';
+import 'services/desktop_integration_service.dart';
 import 'ui/app_colors.dart';
 import 'ui/app_theme.dart';
 import 'ui/screens/home_screen.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() async {
+void main(List<String> args) async {
+  // Check for single instance immediately on Windows
+  bool isPrimary = await DesktopIntegrationService.handleSingleInstance(args);
+  if (!isPrimary) return; // Kill the process before it loads anything
+
   WidgetsFlutterBinding.ensureInitialized();
 
   // Load preferences before running the app.
@@ -42,6 +48,13 @@ void main() async {
   });
 
   runApp(ShrinkeoApp(prefs: prefs));
+
+  // Add initial args if any
+  if (args.isNotEmpty && Platform.isWindows) {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      DesktopIntegrationService.addInitialArgs(args);
+    });
+  }
 }
 
 /// Root application widget for Shrinkeo.
