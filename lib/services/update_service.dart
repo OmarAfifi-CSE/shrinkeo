@@ -16,13 +16,26 @@ class UpdateService {
           .timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
-        final String remoteVersionTag = data['tag_name'] as String;
-        final String releaseNotes =
-            data['body'] ?? 'No release notes available.';
+        final List<dynamic> releases = json.decode(response.body);
+        if (releases.isEmpty) return;
+
+        final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        final String localVersion = _cleanVersion(packageInfo.version);
+
+        final List<dynamic> newerReleases = releases.where((release) {
+          final tag = release['tag_name'] as String?;
+          if (tag == null) return false;
+          return _isRemoteGreater(localVersion, _cleanVersion(tag));
+        }).toList();
+
+        if (newerReleases.isEmpty) return;
+
+        // The first item in the list is the latest release (GitHub sorts by newest first)
+        final latestRelease = newerReleases.first;
+        final String remoteVersionTag = latestRelease['tag_name'] as String;
 
         String downloadUrl = '';
-        final List<dynamic> assets = data['assets'] ?? [];
+        final List<dynamic> assets = latestRelease['assets'] ?? [];
         bool hasAssetForPlatform = false;
 
         if (Platform.isWindows) {
@@ -37,30 +50,33 @@ class UpdateService {
           }
         }
 
-        // If the latest release doesn't contain a file for this platform,
-        // ignore the update entirely.
+        // If the latest release doesn't contain a file for this platform, ignore the update.
         if (!hasAssetForPlatform) {
           return;
         }
 
-        // Strip non-numeric prefix like 'v'
-        final String remoteVersion = _cleanVersion(remoteVersionTag);
-
-        final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        final String localVersion = _cleanVersion(packageInfo.version);
-
-        if (_isRemoteGreater(localVersion, remoteVersion)) {
-          if (!context.mounted) return;
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => UpdateDialog(
-              newVersion: remoteVersionTag,
-              whatsNew: releaseNotes,
-              downloadUrl: downloadUrl,
-            ),
-          );
+        // Aggregate release notes
+        final StringBuffer aggregatedNotes = StringBuffer();
+        for (var release in newerReleases) {
+          final String tag = release['tag_name'] ?? 'Unknown Version';
+          final String body = release['body'] ?? 'No release notes available.';
+          aggregatedNotes.writeln('## $tag');
+          aggregatedNotes.writeln(body.trim());
+          aggregatedNotes.writeln('');
+          aggregatedNotes.writeln('---');
+          aggregatedNotes.writeln('');
         }
+
+        if (!context.mounted) return;
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => UpdateDialog(
+            newVersion: remoteVersionTag,
+            whatsNew: aggregatedNotes.toString().trim(),
+            downloadUrl: downloadUrl,
+          ),
+        );
       }
     } catch (_) {
       // Silently fail if unable to check for updates

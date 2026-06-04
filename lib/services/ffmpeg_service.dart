@@ -21,14 +21,22 @@ class FfmpegService {
   bool _isCancelled = false;
 
   /// Resolves the path to `ffmpeg`.
-  /// Relies on the system PATH.
   String get ffmpegPath {
+    final localAppData = Platform.environment['LOCALAPPDATA'];
+    if (localAppData != null) {
+      final wingetPath = '$localAppData\\Microsoft\\WinGet\\Links\\ffmpeg.exe';
+      if (File(wingetPath).existsSync()) return wingetPath;
+    }
     return 'ffmpeg';
   }
 
   /// Resolves the path to `ffprobe`.
-  /// Relies on the system PATH.
   String get ffprobePath {
+    final localAppData = Platform.environment['LOCALAPPDATA'];
+    if (localAppData != null) {
+      final wingetPath = '$localAppData\\Microsoft\\WinGet\\Links\\ffprobe.exe';
+      if (File(wingetPath).existsSync()) return wingetPath;
+    }
     return 'ffprobe';
   }
 
