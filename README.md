@@ -48,7 +48,18 @@ We didn't cut any corners. Shrinkeo is packed with every feature you need to get
 
 ## 📸 See It In Action
 <div align="center">
-  <img src="https://github.com/OmarAfifi-CSE/shrinkeo/blob/master/assets/images/shrinkeo_app_screenshot.png" alt="Shrinkeo App Screenshot" width="800">
+  <br>
+  <kbd>
+    <img src="assets/images/shrinkeo_dark_mode.png" alt="Shrinkeo Dark Mode Screenshot" width="800">
+  </kbd>
+  <br><br>
+  <details>
+    <summary><b>☀️ Click to reveal Light Mode</b></summary>
+    <br>
+    <kbd>
+      <img src="assets/images/shrinkeo_light_mode.png" alt="Shrinkeo Light Mode Screenshot" width="800">
+    </kbd>
+  </details>
 </div>
 
 ---
