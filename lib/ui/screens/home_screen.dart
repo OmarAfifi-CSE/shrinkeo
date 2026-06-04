@@ -11,7 +11,7 @@ import '../widgets/aurora_background.dart';
 import '../widgets/bottom_action_bar.dart';
 import '../widgets/custom_title_bar.dart';
 import '../widgets/drop_zone_widget.dart';
-import '../widgets/settings_panel.dart';
+import '../widgets/settings/settings_panel.dart';
 import '../widgets/video_queue_view.dart';
 
 /// The main interface of the Shrinkeo application.

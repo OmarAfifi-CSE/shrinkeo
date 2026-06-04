@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../../core/app_constants.dart';
+import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../app_colors.dart';
@@ -36,7 +37,7 @@ class CustomTitleBar extends StatelessWidget {
 
             // App title
             Text(
-              'Shrinkeo',
+              AppStrings.appName,
               style: TextStyle(
                 color: theme.textTheme.titleLarge?.color ?? Colors.white,
                 fontSize: 14,
@@ -72,7 +73,7 @@ class CustomTitleBar extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(left: 8),
                   child: Tooltip(
-                    message: 'Total Space Saved Globally',
+                    message: AppStrings.totalSpaceSaved,
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
@@ -90,7 +91,7 @@ class CustomTitleBar extends StatelessWidget {
                           Icon(Icons.eco_rounded, size: 12, color: badgeColor),
                           const SizedBox(width: 4),
                           Text(
-                            'Saved: ${formatBytes(state.globalSavedBytes)}',
+                            '${AppStrings.savedSpacePrefix} ${formatBytes(state.globalSavedBytes)}',
                             style: TextStyle(
                               color: badgeColor,
                               fontSize: 10,
@@ -108,45 +109,7 @@ class CustomTitleBar extends StatelessWidget {
             const Spacer(),
 
             // Support Project Button
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                onTap: () async {
-                  final url = Uri.parse(AppConstants.supportUrl);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.3),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.local_cafe_rounded,
-                        color: theme.colorScheme.primary,
-                        size: 12,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Buy me a coffee',
-                        style: TextStyle(
-                          color: theme.colorScheme.primary,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            const _SupportButton(),
 
             const Spacer(),
 
@@ -381,3 +344,67 @@ class _TitleBarButtonState extends State<_TitleBarButton> {
     return button;
   }
 }
+
+class _SupportButton extends StatefulWidget {
+  const _SupportButton();
+
+  @override
+  State<_SupportButton> createState() => _SupportButtonState();
+}
+
+class _SupportButtonState extends State<_SupportButton> {
+  bool _isHovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovering = true),
+      onExit: (_) => setState(() => _isHovering = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () async {
+          final url = Uri.parse(AppConstants.supportUrl);
+          if (await canLaunchUrl(url)) {
+            await launchUrl(url);
+          }
+        },
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+          decoration: BoxDecoration(
+            color: _isHovering
+                ? theme.colorScheme.primary.withValues(alpha: 0.25)
+                : theme.colorScheme.primary.withValues(alpha: 0.15),
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              color: _isHovering
+                  ? theme.colorScheme.primary.withValues(alpha: 0.5)
+                  : theme.colorScheme.primary.withValues(alpha: 0.3),
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                Icons.local_cafe_rounded,
+                color: theme.colorScheme.primary,
+                size: 12,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                AppStrings.supportButtonText,
+                style: TextStyle(
+                  color: theme.colorScheme.primary,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+

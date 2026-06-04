@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import '../core/app_strings.dart';
 import '../models/video_file.dart';
 
 /// Overall phase of the compression workflow.
@@ -23,14 +24,14 @@ enum CompressionPhase {
 
 /// Available FFmpeg encoding speed presets, ordered fastest to slowest.
 enum EncodingPreset {
-  ultrafast('ultrafast', 'Ultrafast', 'Max speed, but achieves the least file size reduction.'),
-  superfast('superfast', 'Superfast', 'Very quick encoding with lower compression efficiency.'),
-  veryfast('veryfast', 'Very Fast', 'Faster than average, providing moderate size reduction.'),
-  faster('faster', 'Faster', 'A slight speed boost with good overall compression.'),
-  fast('fast', 'Fast', 'Great balance of speed and size reduction. Recommended.'),
-  medium('medium', 'Medium', 'Default balance of encoding speed and compression.'),
-  slow('slow', 'Slow', 'Slower process, but yields significantly smaller files.'),
-  veryslow('veryslow', 'Very Slow', 'Takes longest, but guarantees maximum file size reduction.');
+  ultrafast('ultrafast', AppStrings.presetUltrafastLabel, AppStrings.presetUltrafastDesc),
+  superfast('superfast', AppStrings.presetSuperfastLabel, AppStrings.presetSuperfastDesc),
+  veryfast('veryfast', AppStrings.presetVeryfastLabel, AppStrings.presetVeryfastDesc),
+  faster('faster', AppStrings.presetFasterLabel, AppStrings.presetFasterDesc),
+  fast('fast', AppStrings.presetFastLabel, AppStrings.presetFastDesc),
+  medium('medium', AppStrings.presetMediumLabel, AppStrings.presetMediumDesc),
+  slow('slow', AppStrings.presetSlowLabel, AppStrings.presetSlowDesc),
+  veryslow('veryslow', AppStrings.presetVeryslowLabel, AppStrings.presetVeryslowDesc);
 
   final String value;
   final String label;
@@ -40,8 +41,8 @@ enum EncodingPreset {
 }
 
 enum VideoCodec {
-  h264('H.264', 'Maximum compatibility with older devices & browsers.'),
-  h265('H.265 / HEVC', 'Better compression efficiency (smaller files).');
+  h264(AppStrings.codecH264Label, AppStrings.codecH264Desc),
+  h265(AppStrings.codecH265Label, AppStrings.codecH265Desc);
 
   final String label;
   final String description;
@@ -50,10 +51,10 @@ enum VideoCodec {
 }
 
 enum HardwareEncoder {
-  software('Software (CPU)', 'Slowest, but maximum compatibility & smallest files.'),
-  nvidia('Nvidia (NVENC)', 'Extremely fast encoding for Nvidia GPUs (slightly larger files).'),
-  amd('AMD (AMF)', 'Extremely fast encoding for AMD GPUs (slightly larger files).'),
-  intel('Intel (QSV)', 'Extremely fast encoding for Intel GPUs (slightly larger files).');
+  software(AppStrings.hwSoftwareLabel, AppStrings.hwSoftwareDesc),
+  nvidia(AppStrings.hwNvidiaLabel, AppStrings.hwNvidiaDesc),
+  amd(AppStrings.hwAmdLabel, AppStrings.hwAmdDesc),
+  intel(AppStrings.hwIntelLabel, AppStrings.hwIntelDesc);
 
   final String label;
   final String description;
@@ -63,11 +64,11 @@ enum HardwareEncoder {
 
 /// Options for Audio Compression/Muting.
 enum AudioMode {
-  copy('Original', 'Preserves original audio track (No quality loss).'),
-  aac256('High Quality', 'Compresses to AAC 256kbps (Excellent quality, moderate size).'),
-  aac128('Balanced', 'Compresses to AAC 128kbps (Good quality, small size - Web Standard).'),
-  aac64('Low Quality', 'Compresses to AAC 64kbps (Best for speech/podcasts, tiny size).'),
-  mute('Mute Audio', 'Removes the audio track completely to save space.');
+  copy(AppStrings.audioOriginalLabel, AppStrings.audioOriginalDesc),
+  aac256(AppStrings.audioAac256Label, AppStrings.audioAac256Desc),
+  aac128(AppStrings.audioAac128Label, AppStrings.audioAac128Desc),
+  aac64(AppStrings.audioAac64Label, AppStrings.audioAac64Desc),
+  mute(AppStrings.audioMuteLabel, AppStrings.audioMuteDesc);
 
   final String label;
   final String description;
@@ -77,13 +78,13 @@ enum AudioMode {
 
 /// Options for Downscaling Resolution.
 enum ResolutionMode {
-  original('Original', 'Keep the original video resolution.'),
-  p2160('4K', 'Scale down to 4K max (Extremely high quality).'),
-  p1440('2K', 'Scale down to 2K max (High quality).'),
-  p1080('1080p', 'Scale down to 1080p max (Standard HD quality).'),
-  p720('720p', 'Scale down to 720p max (Good for mobile viewing).'),
-  p480('480p', 'Scale down to 480p max (DVD quality, very small size).'),
-  p360('360p', 'Scale down to 360p max (Extreme compression, low quality).');
+  original(AppStrings.resOriginalLabel, AppStrings.resOriginalDesc),
+  p2160(AppStrings.res4kLabel, AppStrings.res4kDesc),
+  p1440(AppStrings.res2kLabel, AppStrings.res2kDesc),
+  p1080(AppStrings.res1080pLabel, AppStrings.res1080pDesc),
+  p720(AppStrings.res720pLabel, AppStrings.res720pDesc),
+  p480(AppStrings.res480pLabel, AppStrings.res480pDesc),
+  p360(AppStrings.res360pLabel, AppStrings.res360pDesc);
 
   final String label;
   final String description;
@@ -92,10 +93,10 @@ enum ResolutionMode {
 }
 
 enum FrameRateMode {
-  original('Original', 'Keeps the exact same framerate as the source video.'),
-  fps60('60 fps', 'Ultra smooth, ideal for gaming or sports (creates larger files).'),
-  fps30('30 fps', 'Standard smoothness, great balance for most videos.'),
-  fps24('24 fps', 'Cinematic look, useful for movies and saving space.');
+  original(AppStrings.fpsOriginalLabel, AppStrings.fpsOriginalDesc),
+  fps60(AppStrings.fps60Label, AppStrings.fps60Desc),
+  fps30(AppStrings.fps30Label, AppStrings.fps30Desc),
+  fps24(AppStrings.fps24Label, AppStrings.fps24Desc);
 
   final String label;
   final String description;
@@ -105,10 +106,10 @@ enum FrameRateMode {
 
 /// Options for Video Container Format.
 enum OutputFormat {
-  original('Original', 'Keep original format (Fastest, no container changes).', null),
-  mp4('MP4', 'Maximum compatibility across all devices and web browsers.', '.mp4'),
-  mkv('MKV', 'Resilient format, great for multiple audio/subtitle tracks.', '.mkv'),
-  mov('MOV', 'High quality Apple QuickTime format, great for editing.', '.mov');
+  original(AppStrings.formatOriginalLabel, AppStrings.formatOriginalDesc, null),
+  mp4(AppStrings.formatMp4Label, AppStrings.formatMp4Desc, '.mp4'),
+  mkv(AppStrings.formatMkvLabel, AppStrings.formatMkvDesc, '.mkv'),
+  mov(AppStrings.formatMovLabel, AppStrings.formatMovDesc, '.mov');
 
   final String label;
   final String description;
