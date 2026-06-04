@@ -58,28 +58,37 @@ class _HomeScreenState extends State<HomeScreen> {
             // 1. Custom Title Bar
             const CustomTitleBar(),
 
-            // 2. Settings Panel (collapsible)
-            const SettingsPanel(),
-
-            // 3. Main Content Area
+            // 2 & 3. Settings Panel & Main Content Area (Scrollable together)
             Expanded(
-              child: BlocBuilder<CompressionCubit, CompressionState>(
-                builder: (context, state) {
-                  if (state.videos.isEmpty) {
-                    // Empty state drag & drop zone
-                    return DropZoneWidget(
-                      isHovering: state.isDragHovering,
-                      onHover: (hovering) => context
-                          .read<CompressionCubit>()
-                          .setDragHovering(hovering),
-                      onFilesDropped: (paths) =>
-                          context.read<CompressionCubit>().addFiles(paths),
-                    );
-                  }
+              child: CustomScrollView(
+                slivers: [
+                  const SliverToBoxAdapter(
+                    child: SettingsPanel(),
+                  ),
+                  BlocBuilder<CompressionCubit, CompressionState>(
+                    builder: (context, state) {
+                      if (state.videos.isEmpty) {
+                        // Empty state drag & drop zone
+                        return SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: DropZoneWidget(
+                            isHovering: state.isDragHovering,
+                            onHover: (hovering) => context
+                                .read<CompressionCubit>()
+                                .setDragHovering(hovering),
+                            onFilesDropped: (paths) =>
+                                context.read<CompressionCubit>().addFiles(paths),
+                          ),
+                        );
+                      }
 
-                  // List of queued/processing videos
-                  return VideoQueueView(state: state);
-                },
+                      // List of queued/processing videos
+                      return SliverToBoxAdapter(
+                        child: VideoQueueView(state: state),
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
 

@@ -39,6 +39,28 @@ enum EncodingPreset {
   const EncodingPreset(this.value, this.label, this.description);
 }
 
+enum VideoCodec {
+  h264('H.264', 'Maximum compatibility with older devices & browsers.'),
+  h265('H.265 / HEVC', 'Maximum compression (50% smaller size at same quality).');
+
+  final String label;
+  final String description;
+
+  const VideoCodec(this.label, this.description);
+}
+
+enum HardwareEncoder {
+  software('Software (CPU)', 'Slowest but maximum compatibility.'),
+  nvidia('Nvidia (NVENC)', 'Extremely fast encoding for Nvidia GPUs.'),
+  amd('AMD (AMF)', 'Extremely fast encoding for AMD GPUs.'),
+  intel('Intel (QSV)', 'Extremely fast encoding for Intel GPUs.');
+
+  final String label;
+  final String description;
+
+  const HardwareEncoder(this.label, this.description);
+}
+
 /// Immutable state for the [CompressionCubit].
 class CompressionState extends Equatable {
   /// List of all video files in the queue.
@@ -69,6 +91,12 @@ class CompressionState extends Equatable {
   /// Default: fast (balanced speed & size).
   final EncodingPreset encodingPreset;
 
+  /// Selected Video Codec.
+  final VideoCodec videoCodec;
+
+  /// Selected Hardware Encoder.
+  final HardwareEncoder hardwareEncoder;
+
   /// Current theme mode (light, dark, or system).
   final ThemeMode themeMode;
 
@@ -94,6 +122,8 @@ class CompressionState extends Equatable {
     this.isDragHovering = false,
     this.crfQuality = 22,
     this.encodingPreset = EncodingPreset.fast,
+    this.videoCodec = VideoCodec.h264,
+    this.hardwareEncoder = HardwareEncoder.software,
     this.themeMode = ThemeMode.system,
     this.isSettingsExpanded = false,
     this.customOutputDirectory,
@@ -107,19 +137,21 @@ class CompressionState extends Equatable {
     CompressionPhase? phase,
     int? currentIndex,
     String? outputFolderPath,
+    bool clearOutputFolderPath = false,
     String? globalError,
+    bool clearGlobalError = false,
     bool? isDragHovering,
     int? crfQuality,
     EncodingPreset? encodingPreset,
+    VideoCodec? videoCodec,
+    HardwareEncoder? hardwareEncoder,
     ThemeMode? themeMode,
     bool? isSettingsExpanded,
     String? customOutputDirectory,
-    Duration? globalEta,
-    DateTime? compressionStartTime,
-    bool clearOutputFolderPath = false,
-    bool clearGlobalError = false,
     bool clearCustomOutputDirectory = false,
+    Duration? globalEta,
     bool clearGlobalEta = false,
+    DateTime? compressionStartTime,
     bool clearCompressionStartTime = false,
   }) {
     return CompressionState(
@@ -133,6 +165,8 @@ class CompressionState extends Equatable {
       isDragHovering: isDragHovering ?? this.isDragHovering,
       crfQuality: crfQuality ?? this.crfQuality,
       encodingPreset: encodingPreset ?? this.encodingPreset,
+      videoCodec: videoCodec ?? this.videoCodec,
+      hardwareEncoder: hardwareEncoder ?? this.hardwareEncoder,
       themeMode: themeMode ?? this.themeMode,
       isSettingsExpanded: isSettingsExpanded ?? this.isSettingsExpanded,
       customOutputDirectory: clearCustomOutputDirectory
@@ -187,6 +221,8 @@ class CompressionState extends Equatable {
     isDragHovering,
     crfQuality,
     encodingPreset,
+    videoCodec,
+    hardwareEncoder,
     themeMode,
     isSettingsExpanded,
     customOutputDirectory,

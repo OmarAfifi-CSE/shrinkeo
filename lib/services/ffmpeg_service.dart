@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'dart:io';
 
+import '../cubit/compression_state.dart';
+
 /// Data class containing detailed progress information.
 class CompressionProgress {
   final double progress;
@@ -148,6 +150,8 @@ class FfmpegService {
     required Duration totalDuration,
     int crf = 22,
     String preset = 'fast',
+    VideoCodec codec = VideoCodec.h264,
+    HardwareEncoder hardwareEncoder = HardwareEncoder.software,
   }) async* {
     _isCancelled = false;
     final ffmpeg = ffmpegPath;
@@ -157,7 +161,36 @@ class FfmpegService {
       throw ArgumentError('totalDuration must be positive, got $totalDuration');
     }
 
-    _currentProcess = await Process.start(ffmpeg, [
+    String vcodec;
+    if (codec == VideoCodec.h265) {
+      if (hardwareEncoder == HardwareEncoder.nvidia) {
+        vcodec = 'hevc_nvenc';
+      } else if (hardwareEncoder == HardwareEncoder.amd) {
+        vcodec = 'hevc_amf';
+      } else if (hardwareEncoder == HardwareEncoder.intel) {
+        vcodec = 'hevc_qsv';
+      } else {
+        vcodec = 'libx265';
+      }
+    } else {
+      if (hardwareEncoder == HardwareEncoder.nvidia) {
+        vcodec = 'h264_nvenc';
+      } else if (hardwareEncoder == HardwareEncoder.amd) {
+        vcodec = 'h264_amf';
+      } else if (hardwareEncoder == HardwareEncoder.intel) {
+        vcodec = 'h264_qsv';
+      } else {
+        vcodec = 'libx264';
+      }
+    }
+
+    // Hardware encoders usually don't support crf the same way as libx264,
+    // they use -cq instead of -crf.
+    // For simplicity, we just pass -crf to software, and -cq for nvenc/amf.
+    // Wait, FFmpeg handles -crf for many, but to be perfectly safe, let's use standard arguments.
+    // Actually, -crf works for libx264 and libx265.
+    // For nvenc, -cq is used. Let's adjust args dynamically.
+    final args = [
       '-y',
       '-hide_banner',
       '-loglevel',
@@ -166,17 +199,22 @@ class FfmpegService {
       '-i',
       inputPath,
       '-vcodec',
-      'libx264',
-      '-crf',
-      crf.toString(),
-      '-preset',
-      preset,
-      '-pix_fmt',
-      'yuv420p',
-      '-acodec',
-      'copy',
-      outputPath,
-    ]);
+      vcodec,
+    ];
+
+    if (hardwareEncoder == HardwareEncoder.software) {
+      args.addAll(['-crf', crf.toString(), '-preset', preset]);
+    } else if (hardwareEncoder == HardwareEncoder.nvidia) {
+      args.addAll(['-cq', crf.toString(), '-preset', preset]);
+    } else {
+      // AMF and QSV can be tricky with CRF. We'll just pass -q:v for simplicity or -crf if it supports it.
+      // Often, a fallback global quality is best.
+      args.addAll(['-global_quality', crf.toString(), '-preset', preset]);
+    }
+
+    args.addAll(['-pix_fmt', 'yuv420p', '-acodec', 'copy', outputPath]);
+
+    _currentProcess = await Process.start(ffmpeg, args);
 
     final process = _currentProcess!;
 

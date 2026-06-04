@@ -47,7 +47,15 @@ class CompressionCubit extends Cubit<CompressionState> {
        _fileScannerService = fileScannerService ?? FileScannerService(),
        _outputFolderService = outputFolderService ?? OutputFolderService(),
        _prefs = prefs,
-       super(CompressionState(themeMode: _parseTheme(prefs)));
+       super(
+         CompressionState(
+           themeMode: _parseTheme(prefs),
+           crfQuality: prefs.getInt('crfQuality') ?? 22,
+           encodingPreset: _parsePreset(prefs),
+           videoCodec: _parseCodec(prefs),
+           hardwareEncoder: _parseHardwareEncoder(prefs),
+         ),
+       );
 
   static ThemeMode _parseTheme(SharedPreferences prefs) {
     final themeStr = prefs.getString('themeMode');
@@ -60,6 +68,39 @@ class CompressionCubit extends Cubit<CompressionState> {
     return ThemeMode.system;
   }
 
+  static EncodingPreset _parsePreset(SharedPreferences prefs) {
+    final presetStr = prefs.getString('encodingPreset');
+    if (presetStr != null) {
+      return EncodingPreset.values.firstWhere(
+        (e) => e.name == presetStr,
+        orElse: () => EncodingPreset.fast,
+      );
+    }
+    return EncodingPreset.fast;
+  }
+
+  static VideoCodec _parseCodec(SharedPreferences prefs) {
+    final codecStr = prefs.getString('videoCodec');
+    if (codecStr != null) {
+      return VideoCodec.values.firstWhere(
+        (e) => e.name == codecStr,
+        orElse: () => VideoCodec.h264,
+      );
+    }
+    return VideoCodec.h264;
+  }
+
+  static HardwareEncoder _parseHardwareEncoder(SharedPreferences prefs) {
+    final encStr = prefs.getString('hardwareEncoder');
+    if (encStr != null) {
+      return HardwareEncoder.values.firstWhere(
+        (e) => e.name == encStr,
+        orElse: () => HardwareEncoder.software,
+      );
+    }
+    return HardwareEncoder.software;
+  }
+
   // ---------------------------------------------------------------------------
   // Settings
   // ---------------------------------------------------------------------------
@@ -67,12 +108,26 @@ class CompressionCubit extends Cubit<CompressionState> {
   /// Updates the CRF quality value (0-51).
   void updateCrfQuality(int crf) {
     final clamped = crf.clamp(0, 51);
+    _prefs.setInt('crfQuality', clamped);
     emit(state.copyWith(crfQuality: clamped));
   }
 
   /// Updates the encoding speed preset.
   void updateEncodingPreset(EncodingPreset preset) {
+    _prefs.setString('encodingPreset', preset.name);
     emit(state.copyWith(encodingPreset: preset));
+  }
+
+  /// Updates the video codec.
+  void updateVideoCodec(VideoCodec codec) {
+    _prefs.setString('videoCodec', codec.name);
+    emit(state.copyWith(videoCodec: codec));
+  }
+
+  /// Updates the hardware encoder setting.
+  void updateHardwareEncoder(HardwareEncoder encoder) {
+    _prefs.setString('hardwareEncoder', encoder.name);
+    emit(state.copyWith(hardwareEncoder: encoder));
   }
 
   /// Toggles between light and dark theme mode.
@@ -469,6 +524,8 @@ class CompressionCubit extends Cubit<CompressionState> {
         totalDuration: totalDuration,
         crf: state.crfQuality,
         preset: state.encodingPreset.value,
+        codec: state.videoCodec,
+        hardwareEncoder: state.hardwareEncoder,
       )) {
         if (_cancelRequested) break;
 

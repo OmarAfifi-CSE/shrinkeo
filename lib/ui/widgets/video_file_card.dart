@@ -277,36 +277,23 @@ class _CompressionResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final savedBytes = video.fileSizeBytes - video.outputSizeBytes!;
-    final savedText = savedBytes > 0
-        ? 'Saved ${VideoFile.formatFileSize(savedBytes)}'
-        : 'Larger file';
+    final percent = video.fileSizeBytes > 0
+        ? (savedBytes / video.fileSizeBytes * 100).toStringAsFixed(0)
+        : '0';
+    final savedText = savedBytes > 0 ? 'Saved $percent%' : 'Larger';
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              VideoFile.formatFileSize(video.outputSizeBytes!),
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodySmall?.color,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            if (savedBytes > 0)
-              Text(
-                savedText,
-                style: const TextStyle(
-                  color: AppColors.successGreen,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-          ],
+        Text(
+          '${VideoFile.formatFileSize(video.fileSizeBytes)} ➔ ${VideoFile.formatFileSize(video.outputSizeBytes!)}',
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyMedium?.color,
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-        if (video.compressionRatio != null) ...[
+        if (savedBytes > 0) ...[
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
@@ -315,11 +302,11 @@ class _CompressionResult extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
             ),
             child: Text(
-              video.compressionRatio!,
+              savedText,
               style: const TextStyle(
                 color: AppColors.successGreen,
                 fontSize: 11,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),

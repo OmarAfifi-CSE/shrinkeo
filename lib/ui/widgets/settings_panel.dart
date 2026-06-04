@@ -22,6 +22,8 @@ class SettingsPanel extends StatelessWidget {
       buildWhen: (prev, curr) =>
           prev.isSettingsExpanded != curr.isSettingsExpanded ||
           prev.encodingPreset != curr.encodingPreset ||
+          prev.videoCodec != curr.videoCodec ||
+          prev.hardwareEncoder != curr.hardwareEncoder ||
           prev.isProcessing != curr.isProcessing ||
           prev.customOutputDirectory != curr.customOutputDirectory,
       builder: (context, state) {
@@ -109,6 +111,24 @@ class _SettingsContent extends StatelessWidget {
                 // -- Encoding Preset --
                 Expanded(
                   child: _PresetSection(state: state, isLocked: isLocked),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // -- Codec --
+                Expanded(
+                  child: _CodecSection(state: state, isLocked: isLocked),
+                ),
+                const SizedBox(width: 32),
+                // -- Hardware Encoder --
+                Expanded(
+                  child: _HardwareEncoderSection(
+                    state: state,
+                    isLocked: isLocked,
+                  ),
                 ),
               ],
             ),
@@ -353,8 +373,8 @@ class _PresetSection extends StatelessWidget {
           spacing: 6,
           runSpacing: 6,
           children: EncodingPreset.values.map((preset) {
-            return _PresetChip(
-              preset: preset,
+            return _OptionChip(
+              label: preset.label,
               isSelected: state.encodingPreset == preset,
               isLocked: isLocked,
               onTap: () => cubit.updateEncodingPreset(preset),
@@ -454,24 +474,24 @@ class _ScaleLabel extends StatelessWidget {
   }
 }
 
-class _PresetChip extends StatefulWidget {
-  final EncodingPreset preset;
+class _OptionChip extends StatefulWidget {
+  final String label;
   final bool isSelected;
   final bool isLocked;
   final VoidCallback onTap;
 
-  const _PresetChip({
-    required this.preset,
+  const _OptionChip({
+    required this.label,
     required this.isSelected,
     required this.isLocked,
     required this.onTap,
   });
 
   @override
-  State<_PresetChip> createState() => _PresetChipState();
+  State<_OptionChip> createState() => _OptionChipState();
 }
 
-class _PresetChipState extends State<_PresetChip> {
+class _OptionChipState extends State<_OptionChip> {
   bool _isHovering = false;
 
   @override
@@ -513,7 +533,7 @@ class _PresetChipState extends State<_PresetChip> {
             ),
           ),
           child: Text(
-            widget.preset.label,
+            widget.label,
             style: TextStyle(
               color: widget.isSelected
                   ? activeColor
@@ -526,6 +546,200 @@ class _PresetChipState extends State<_PresetChip> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Section for selecting the Video Codec.
+class _CodecSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _CodecSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+              'Video Codec',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: theme.textTheme.bodyMedium?.color,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: VideoCodec.values.map((codec) {
+            return _OptionChip(
+              label: codec.label,
+              isSelected: state.videoCodec == codec,
+              isLocked: isLocked,
+              onTap: () => cubit.updateVideoCodec(codec),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: BoxDecoration(
+            color:
+                (theme.brightness == Brightness.dark
+                        ? AppColors.borderDark
+                        : AppColors.borderLight)
+                    .withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color:
+                  (theme.brightness == Brightness.dark
+                          ? AppColors.borderDark
+                          : AppColors.borderLight)
+                      .withValues(alpha: 0.2),
+            ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.info_outline_rounded,
+                size: 14,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: theme.textTheme.bodyMedium?.color,
+                      fontSize: 11,
+                      height: 1.3,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '${state.videoCodec.label}: ',
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text: state.videoCodec.description,
+                        style: TextStyle(
+                          color: theme.textTheme.bodySmall?.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Section for selecting Hardware Encoder.
+class _HardwareEncoderSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _HardwareEncoderSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+              'Hardware Encoder (GPU)',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: theme.textTheme.bodyMedium?.color,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: HardwareEncoder.values.map((enc) {
+            return _OptionChip(
+              label: enc.label,
+              isSelected: state.hardwareEncoder == enc,
+              isLocked: isLocked,
+              onTap: () => cubit.updateHardwareEncoder(enc),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: BoxDecoration(
+            color:
+                (theme.brightness == Brightness.dark
+                        ? AppColors.borderDark
+                        : AppColors.borderLight)
+                    .withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color:
+                  (theme.brightness == Brightness.dark
+                          ? AppColors.borderDark
+                          : AppColors.borderLight)
+                      .withValues(alpha: 0.2),
+            ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(
+                Icons.memory_rounded,
+                size: 14,
+                color: theme.colorScheme.primary,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      color: theme.textTheme.bodyMedium?.color,
+                      fontSize: 11,
+                      height: 1.3,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '${state.hardwareEncoder.label}: ',
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      TextSpan(
+                        text: state.hardwareEncoder.description,
+                        style: TextStyle(
+                          color: theme.textTheme.bodySmall?.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
