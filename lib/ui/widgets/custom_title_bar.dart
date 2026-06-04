@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
+import '../../core/app_constants.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../app_colors.dart';
@@ -101,6 +103,49 @@ class CustomTitleBar extends StatelessWidget {
                   ),
                 );
               },
+            ),
+
+            const Spacer(),
+
+            // Support Project Button
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () async {
+                  final url = Uri.parse(AppConstants.supportUrl);
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.local_cafe_rounded,
+                        color: theme.colorScheme.primary,
+                        size: 12,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Buy me a coffee',
+                        style: TextStyle(
+                          color: theme.colorScheme.primary,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
 
             const Spacer(),
