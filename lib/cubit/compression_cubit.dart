@@ -463,10 +463,19 @@ class CompressionCubit extends Cubit<CompressionState> {
     VideoFile video = state.videos[initialIndex];
 
     // Helper to safely update the video even if its index shifted.
-    void safelyUpdateVideo(VideoFile updatedVideo, {Duration? globalEta}) {
+    void safelyUpdateVideo(
+      VideoFile updatedVideo, {
+      Duration? globalEta,
+      int? globalSavedBytes,
+    }) {
       final idx = getIndex();
       if (idx >= 0) {
-        _updateVideo(idx, updatedVideo, globalEta: globalEta);
+        _updateVideo(
+          idx,
+          updatedVideo,
+          globalEta: globalEta,
+          globalSavedBytes: globalSavedBytes,
+        );
       }
     }
 
@@ -609,6 +618,13 @@ class CompressionCubit extends Cubit<CompressionState> {
           ? await outputFile.length()
           : 0;
 
+      int? newGlobalSavedBytes;
+      if (outputSize > 0 && outputSize < video.fileSizeBytes) {
+        final savedBytes = video.fileSizeBytes - outputSize;
+        newGlobalSavedBytes = state.globalSavedBytes + savedBytes;
+        _prefs.setInt('globalSavedBytes', newGlobalSavedBytes);
+      }
+
       video = video.copyWith(
         status: VideoStatus.success,
         progress: 1.0,
@@ -616,7 +632,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         eta: Duration.zero,
         processingSpeed: 0.0,
       );
-      safelyUpdateVideo(video);
+      safelyUpdateVideo(video, globalSavedBytes: newGlobalSavedBytes);
     } catch (e) {
       if (isCompressionCancelled(e)) {
         safelyUpdateVideo(video.copyWith(status: VideoStatus.cancelled));
@@ -702,15 +718,22 @@ class CompressionCubit extends Cubit<CompressionState> {
   // ---------------------------------------------------------------------------
 
   /// Updates a single video in the state by index.
-  void _updateVideo(int index, VideoFile updatedVideo, {Duration? globalEta}) {
+  void _updateVideo(
+    int index,
+    VideoFile updatedVideo, {
+    Duration? globalEta,
+    int? globalSavedBytes,
+  }) {
     final updatedList = List<VideoFile>.from(state.videos);
     updatedList[index] = updatedVideo;
 
-    if (globalEta != null) {
-      emit(state.copyWith(videos: updatedList, globalEta: globalEta));
-    } else {
-      emit(state.copyWith(videos: updatedList));
-    }
+    emit(
+      state.copyWith(
+        videos: updatedList,
+        globalEta: globalEta,
+        globalSavedBytes: globalSavedBytes,
+      ),
+    );
   }
 
   /// Opens the given folder in the native file explorer.

@@ -113,6 +113,9 @@ class CompressionState extends Equatable {
   /// Time when the current compression batch started.
   final DateTime? compressionStartTime;
 
+  /// Total bytes saved globally across all compressions
+  final int globalSavedBytes;
+
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -129,6 +132,7 @@ class CompressionState extends Equatable {
     this.customOutputDirectory,
     this.globalEta,
     this.compressionStartTime,
+    this.globalSavedBytes = 0,
   });
 
   /// Creates a copy with the given fields overridden.
@@ -153,6 +157,7 @@ class CompressionState extends Equatable {
     bool clearGlobalEta = false,
     DateTime? compressionStartTime,
     bool clearCompressionStartTime = false,
+    int? globalSavedBytes,
   }) {
     return CompressionState(
       videos: videos ?? this.videos,
@@ -176,6 +181,7 @@ class CompressionState extends Equatable {
       compressionStartTime: clearCompressionStartTime
           ? null
           : (compressionStartTime ?? this.compressionStartTime),
+      globalSavedBytes: globalSavedBytes ?? this.globalSavedBytes,
     );
   }
 
@@ -228,5 +234,6 @@ class CompressionState extends Equatable {
     customOutputDirectory,
     globalEta,
     compressionStartTime,
+    globalSavedBytes,
   ];
 }

@@ -24,8 +24,8 @@ class CustomTitleBar extends StatelessWidget {
 
             // App icon
             Image.asset(
-              theme.brightness == Brightness.dark 
-                  ? 'assets/images/app_icon_dark.png' 
+              theme.brightness == Brightness.dark
+                  ? 'assets/images/app_icon_dark.png'
                   : 'assets/images/app_icon_light.png',
               width: 24,
               height: 24,
@@ -43,6 +43,65 @@ class CustomTitleBar extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
+
+            // Global Saved Space badge
+            BlocBuilder<CompressionCubit, CompressionState>(
+              buildWhen: (prev, curr) =>
+                  prev.globalSavedBytes != curr.globalSavedBytes,
+              builder: (context, state) {
+                if (state.globalSavedBytes <= 0) return const SizedBox.shrink();
+
+                final isDark = theme.brightness == Brightness.dark;
+                final badgeColor = isDark
+                    ? AppColors.successGreen
+                    : const Color(0xFF059669);
+
+                String formatBytes(int bytes) {
+                  if (bytes < 1024) return '$bytes B';
+                  if (bytes < 1024 * 1024) {
+                    return '${(bytes / 1024).toStringAsFixed(1)} KB';
+                  }
+                  if (bytes < 1024 * 1024 * 1024) {
+                    return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+                  }
+                  return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Tooltip(
+                    message: 'Total Space Saved Globally',
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
+                      decoration: BoxDecoration(
+                        color: badgeColor.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: badgeColor.withValues(alpha: 0.3),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.eco_rounded, size: 12, color: badgeColor),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Saved: ${formatBytes(state.globalSavedBytes)}',
+                            style: TextStyle(
+                              color: badgeColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
 
             const Spacer(),
 
@@ -72,7 +131,9 @@ class CustomTitleBar extends StatelessWidget {
                   prev.encodingPreset != curr.encodingPreset,
               builder: (context, state) {
                 final isDark = theme.brightness == Brightness.dark;
-                final badgeColor = isDark ? AppColors.primaryAccentLight : AppColors.primaryAccent;
+                final badgeColor = isDark
+                    ? AppColors.primaryAccentLight
+                    : AppColors.primaryAccent;
 
                 return Padding(
                   padding: const EdgeInsets.only(right: 6),
@@ -105,12 +166,15 @@ class CustomTitleBar extends StatelessWidget {
             BlocBuilder<CompressionCubit, CompressionState>(
               buildWhen: (prev, curr) => prev.themeMode != curr.themeMode,
               builder: (context, state) {
-                final isDark = state.themeMode == ThemeMode.dark ||
+                final isDark =
+                    state.themeMode == ThemeMode.dark ||
                     (state.themeMode == ThemeMode.system &&
                         MediaQuery.platformBrightnessOf(context) ==
                             Brightness.dark);
                 return _TitleBarButton(
-                  icon: isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                  icon: isDark
+                      ? Icons.light_mode_rounded
+                      : Icons.dark_mode_rounded,
                   iconColor: theme.iconTheme.color,
                   onTap: () => context.read<CompressionCubit>().toggleTheme(),
                   tooltip: isDark ? 'Light Theme' : 'Dark Theme',
@@ -136,11 +200,7 @@ class CustomTitleBar extends StatelessWidget {
             ),
 
             // Divider
-            Container(
-              width: 1,
-              height: 18,
-              color: theme.dividerTheme.color,
-            ),
+            Container(width: 1, height: 18, color: theme.dividerTheme.color),
 
             // Window controls
             _TitleBarButton(
@@ -254,9 +314,10 @@ class _TitleBarButtonState extends State<_TitleBarButton> {
           width: 42,
           height: 42,
           color: _isHovered
-              ? (widget.hoverColor ?? Theme.of(context).iconTheme.color ?? Colors.white).withValues(
-                  alpha: widget.hoverColor != null ? 0.9 : 0.06,
-                )
+              ? (widget.hoverColor ??
+                        Theme.of(context).iconTheme.color ??
+                        Colors.white)
+                    .withValues(alpha: widget.hoverColor != null ? 0.9 : 0.06)
               : Colors.transparent,
           child: Icon(
             widget.icon,
