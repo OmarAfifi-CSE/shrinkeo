@@ -33,16 +33,16 @@ Video files are massive. Sharing them on WhatsApp, Discord, or email is a nightm
 We didn't cut any corners. Shrinkeo is packed with every feature you need to get the perfect compression:
 
 *   🔒 **100% Offline & Private**: Your videos never leave your computer. No cloud uploads, no privacy risks, and absolutely zero file size limits.
-*   ⚡ **Insanely Fast (GPU Accelerated)**: Shrinkeo automatically detects your hardware and uses **NVIDIA (NVENC), AMD (AMF), or Intel (QSV)** graphics cards to turbo-charge the compression process. Don't have a strong GPU? It seamlessly falls back to optimized CPU encoding.
-*   🎥 **Advanced Codec Support**: Compress using industry standards like **H.264**, the highly efficient **H.265 (HEVC)**, or web-friendly **VP9**.
+*   ⚡ **Hardware & CPU Encoding**: Stick to the highly optimized **Software (CPU)** default for maximum quality, or manually harness your hardware by explicitly selecting **NVIDIA (NVENC), AMD (AMF), or Intel (QSV)** graphics cards for blazing-fast compression.
+*   🎥 **Advanced Codec Support**: Compress using industry standards like **H.264** or the highly efficient **H.265 (HEVC)**.
 *   🎛️ **Precision Quality Control**: Don't guess the quality. Visually tune it using the professional **CRF (Constant Rate Factor)** slider (from Lossless to Low Quality).
 *   🎵 **Smart Audio Management**: Choose to keep the original audio pristine, re-encode it to AAC to save space, or strip it out entirely for silent videos.
 *   📐 **Downscale & Cap**: Easily downscale massive 4K videos to 1080p or 720p with a single click, and cap framerates (FPS) to reduce stutter and save even more space.
 *   📦 **Multiple Output Formats**: Export your perfectly compressed videos to **MP4, MKV, or MOV** containers.
 *   🚀 **Drag, Drop, and Queue**: Don't compress one by one. Drag and drop 50 videos into Shrinkeo and let it process the entire queue sequentially while you grab a coffee.
-*   🖱️ **Windows Context Menu**: Select any video on your PC, hit `Shift + Right Click`, and choose **"Compress with Shrinkeo"** to instantly launch the app and start compressing!
+*   🖱️ **Windows Context Menu**: Select any videos on your PC, hit `Shift + Right Click`, and choose **"Compress with Shrinkeo"** to instantly launch the app and start compressing!
 *   📊 **Satisfying Analytics**: Watch live progress, get accurate ETAs, compare original vs. compressed file sizes instantly, and track your **Global Saved Space** across all your compressions over time!
-*   🎨 **Premium Interface**: A stunning glassmorphism design with a custom title bar, smooth micro-animations, hover effects, and built-in dark/light modes. It looks and feels like a premium native app.
+*   🎨 **Premium Interface**: A stunning glassmorphism design with a custom title bar, smooth micro-animations, hover effects, and built-in dark/light modes. Designed for maximum productivity and an elegant user experience.
 
 ---
 
