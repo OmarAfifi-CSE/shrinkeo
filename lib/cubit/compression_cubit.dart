@@ -58,6 +58,7 @@ class CompressionCubit extends Cubit<CompressionState> {
            frameRateMode: _parseFrameRateMode(prefs),
            outputFormat: _parseOutputFormat(prefs),
            outputLocationMode: _parseOutputLocationMode(prefs),
+           deleteOriginalOnSuccess: prefs.getBool('deleteOriginalOnSuccess') ?? false,
            globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
          ),
        );
@@ -220,6 +221,12 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(outputLocationMode: mode));
   }
 
+  /// Toggles whether to delete the original file after successful compression.
+  void updateDeleteOriginalOnSuccess(bool delete) {
+    _prefs.setBool('deleteOriginalOnSuccess', delete);
+    emit(state.copyWith(deleteOriginalOnSuccess: delete));
+  }
+
   /// Toggles between light and dark theme mode.
   void toggleTheme() {
     final newMode = state.themeMode == ThemeMode.dark
@@ -255,6 +262,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     _prefs.setString('frameRateMode', FrameRateMode.original.name);
     _prefs.setString('outputFormat', OutputFormat.original.name);
     _prefs.setString('outputLocationMode', OutputLocationMode.unified.name);
+    _prefs.setBool('deleteOriginalOnSuccess', false);
 
     emit(
       state.copyWith(
@@ -267,6 +275,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         frameRateMode: FrameRateMode.original,
         outputFormat: OutputFormat.original,
         outputLocationMode: OutputLocationMode.unified,
+        deleteOriginalOnSuccess: false,
         customOutputDirectory: null,
         clearCustomOutputDirectory: true,
       ),
@@ -815,6 +824,24 @@ class CompressionCubit extends Cubit<CompressionState> {
         processingSpeed: 0.0,
       );
       safelyUpdateVideo(video, globalSavedBytes: newGlobalSavedBytes);
+
+      // Optionally delete the original file to Recycle Bin
+      if (state.deleteOriginalOnSuccess) {
+        try {
+          await Process.run(
+            'powershell.exe',
+            [
+              '-NoProfile',
+              '-NonInteractive',
+              '-Command',
+              'Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile("${video.filePath.replaceAll("'", "''")}", "OnlyErrorDialogs", "SendToRecycleBin")'
+            ],
+          );
+        } catch (e) {
+          // Ignore deletion errors to not fail the successful compression
+          debugPrint('Failed to move original to recycle bin: $e');
+        }
+      }
     } catch (e) {
       if (isCompressionCancelled(e)) {
         safelyUpdateVideo(video.copyWith(status: VideoStatus.cancelled));

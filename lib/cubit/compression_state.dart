@@ -193,6 +193,9 @@ class CompressionState extends Equatable {
   /// If null, the default behavior (saving next to the original) is used.
   final String? customOutputDirectory;
 
+  /// Whether to delete the original video (move to Recycle Bin) after successful compression.
+  final bool deleteOriginalOnSuccess;
+
   /// Estimated time remaining for the entire queue.
   final Duration? globalEta;
 
@@ -222,6 +225,7 @@ class CompressionState extends Equatable {
     this.themeMode = ThemeMode.system,
     this.isSettingsExpanded = false,
     this.customOutputDirectory,
+    this.deleteOriginalOnSuccess = false,
     this.globalEta,
     this.compressionStartTime,
     this.globalSavedBytes = 0,
@@ -251,6 +255,7 @@ class CompressionState extends Equatable {
     bool? isSettingsExpanded,
     String? customOutputDirectory,
     bool clearCustomOutputDirectory = false,
+    bool? deleteOriginalOnSuccess,
     Duration? globalEta,
     bool clearGlobalEta = false,
     DateTime? compressionStartTime,
@@ -281,6 +286,7 @@ class CompressionState extends Equatable {
       customOutputDirectory: clearCustomOutputDirectory
           ? null
           : (customOutputDirectory ?? this.customOutputDirectory),
+      deleteOriginalOnSuccess: deleteOriginalOnSuccess ?? this.deleteOriginalOnSuccess,
       globalEta: clearGlobalEta ? null : (globalEta ?? this.globalEta),
       compressionStartTime: clearCompressionStartTime
           ? null
@@ -342,6 +348,7 @@ class CompressionState extends Equatable {
     themeMode,
     isSettingsExpanded,
     customOutputDirectory,
+    deleteOriginalOnSuccess,
     globalEta,
     compressionStartTime,
     globalSavedBytes,

@@ -23,6 +23,7 @@ class SettingsPanel extends StatelessWidget {
     return BlocBuilder<CompressionCubit, CompressionState>(
       buildWhen: (prev, curr) =>
           prev.isSettingsExpanded != curr.isSettingsExpanded ||
+          prev.deleteOriginalOnSuccess != curr.deleteOriginalOnSuccess ||
           prev.encodingPreset != curr.encodingPreset ||
           prev.videoCodec != curr.videoCodec ||
           prev.hardwareEncoder != curr.hardwareEncoder ||
@@ -176,6 +177,8 @@ class _SettingsContent extends StatelessWidget {
                       _HardwareEncoderSection(state: state, isLocked: isLocked),
                       const SizedBox(height: 16),
                       _OutputFormatSection(state: state, isLocked: isLocked),
+                      const SizedBox(height: 16),
+                      _OutputLocationSection(state: state, isLocked: isLocked),
                     ],
                   ),
                 ),
@@ -190,16 +193,13 @@ class _SettingsContent extends StatelessWidget {
                       _FrameRateSection(state: state, isLocked: isLocked),
                       const SizedBox(height: 16),
                       _AudioModeSection(state: state, isLocked: isLocked),
+                      const SizedBox(height: 16),
+                      _FileManagementSection(state: state, isLocked: isLocked),
                     ],
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
-            // -- Output Location Section --
-            _OutputLocationSection(state: state, isLocked: isLocked),
-            
-            // Show Custom Directory only if Unified is selected
             if (state.outputLocationMode == OutputLocationMode.unified) ...[
               const SizedBox(height: 16),
               _OutputDirectorySection(state: state, isLocked: isLocked),

@@ -145,6 +145,64 @@ class _OutputLocationSection extends StatelessWidget {
   }
 }
 
+/// Section for File Management settings.
+class _FileManagementSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _FileManagementSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'File Management',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: [
+            _OptionChip(
+              label: 'Keep Originals',
+              isSelected: !state.deleteOriginalOnSuccess,
+              isLocked: isLocked,
+              onTap: () => cubit.updateDeleteOriginalOnSuccess(false),
+            ),
+            _OptionChip(
+              label: 'To Recycle Bin',
+              isSelected: state.deleteOriginalOnSuccess,
+              isLocked: isLocked,
+              onTap: () => cubit.updateDeleteOriginalOnSuccess(true),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: state.deleteOriginalOnSuccess
+              ? 'To Recycle Bin'
+              : 'Keep Originals',
+          description: state.deleteOriginalOnSuccess
+              ? 'Moves originals to the Recycle Bin after successful compression.'
+              : 'Keeps the original videos untouched after compression.',
+          icon: state.deleteOriginalOnSuccess
+              ? Icons.delete_outline_rounded
+              : Icons.save_rounded,
+        ),
+      ],
+    );
+  }
+}
+
 /// CRF quality slider with tier labels matching the PowerShell script.
 class _CrfSection extends StatelessWidget {
   final CompressionState state;
