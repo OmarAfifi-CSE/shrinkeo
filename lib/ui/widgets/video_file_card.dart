@@ -94,26 +94,38 @@ class VideoFileCard extends StatelessWidget {
                           ),
                           if (video.status == VideoStatus.compressing && 
                               video.currentOutputSizeBytes != null &&
-                              video.progress > 0.05) ...[
+                              video.hasWarnedLargerSize) ...[
                             Builder(
                               builder: (context) {
                                 final projected = (video.currentOutputSizeBytes! / video.progress).round();
-                                final isLargerWarning = video.hasWarnedLargerSize;
                                 final alertColor = theme.brightness == Brightness.dark 
                                     ? Colors.redAccent.shade200 
                                     : AppColors.errorRed;
                                 
-                                Widget content = Row(
-                                  children: [
-                                    Text(
-                                      ' ➔ Est: ${VideoFile.formatFileSize(projected)}',
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: isLargerWarning ? alertColor : theme.textTheme.bodySmall?.color,
-                                        fontSize: 12,
-                                        fontWeight: isLargerWarning ? FontWeight.w700 : FontWeight.normal,
+                                return Tooltip(
+                                  message: 'Output will be larger than original!\nStop and try Reset to Defaults.',
+                                  padding: const EdgeInsets.all(12),
+                                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    color: theme.brightness == Brightness.dark 
+                                        ? Colors.grey.shade900 
+                                        : Colors.grey.shade800,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  textStyle: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        ' ➔ Est: ${VideoFile.formatFileSize(projected)}',
+                                        style: theme.textTheme.bodySmall?.copyWith(
+                                          color: alertColor,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
-                                    ),
-                                    if (isLargerWarning) ...[
                                       const SizedBox(width: 4),
                                       Icon(
                                         Icons.warning_amber_rounded,
@@ -121,29 +133,8 @@ class VideoFileCard extends StatelessWidget {
                                         color: alertColor,
                                       ),
                                     ],
-                                  ],
+                                  ),
                                 );
-                                
-                                if (isLargerWarning) {
-                                  return Tooltip(
-                                    message: 'Output will be larger than original!\nStop and try Reset to Defaults.',
-                                    padding: const EdgeInsets.all(12),
-                                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                                    decoration: BoxDecoration(
-                                      color: theme.brightness == Brightness.dark 
-                                          ? Colors.grey.shade900 
-                                          : Colors.grey.shade800,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    textStyle: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                    ),
-                                    child: content,
-                                  );
-                                }
-                                
-                                return content;
                               },
                             ),
                           ],
