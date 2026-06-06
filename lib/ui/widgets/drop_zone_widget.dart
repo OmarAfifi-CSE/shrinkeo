@@ -1,6 +1,7 @@
 import 'dart:ui' as dart_ui;
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,12 +13,14 @@ import '../app_colors.dart';
 /// Provides alternative buttons for manual file/folder selection.
 class DropZoneWidget extends StatelessWidget {
   final bool isHovering;
+  final bool isScanningFiles;
   final ValueChanged<bool> onHover;
   final ValueChanged<List<String>> onFilesDropped;
 
   const DropZoneWidget({
     super.key,
     required this.isHovering,
+    required this.isScanningFiles,
     required this.onHover,
     required this.onFilesDropped,
   });
@@ -97,23 +100,34 @@ class DropZoneWidget extends StatelessWidget {
                               color: Theme.of(context).colorScheme.primary
                                   .withValues(alpha: isHovering ? 0.15 : 0.08),
                             ),
-                            child: Icon(
-                              Icons.cloud_upload_rounded,
-                              size: 32,
-                              color: isHovering
-                                  ? theme.colorScheme.primary
-                                  : theme.textTheme.bodySmall?.color ??
-                                        Colors.white38,
-                            ),
+                            child: isScanningFiles
+                                ? SizedBox(
+                                    width: 32,
+                                    height: 32,
+                                    child: CupertinoActivityIndicator(
+                                      radius: 16,
+                                      color: theme.colorScheme.primary,
+                                    ),
+                                  )
+                                : Icon(
+                                    Icons.cloud_upload_rounded,
+                                    size: 32,
+                                    color: isHovering
+                                        ? theme.colorScheme.primary
+                                        : theme.textTheme.bodySmall?.color ??
+                                              Colors.white38,
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 18),
 
                         // Instructional text
                         Text(
-                          isHovering
-                              ? 'Release to add videos'
-                              : 'Drag & drop video files or folders here',
+                          isScanningFiles
+                              ? 'Scanning files... This may take a moment.'
+                              : isHovering
+                                  ? 'Release to add videos'
+                                  : 'Drag & drop video files or folders here',
                           style: TextStyle(
                             color: isHovering
                                 ? theme.colorScheme.primary
@@ -136,24 +150,26 @@ class DropZoneWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 24),
 
-                        // Manual pick buttons
-                        Wrap(
-                          spacing: 10,
-                          runSpacing: 8,
-                          alignment: WrapAlignment.center,
-                          children: [
-                            _PickButton(
-                              icon: Icons.file_copy_rounded,
-                              label: 'Select Files',
-                              onTap: () => _pickMultipleFiles(cubit),
-                            ),
-                            _PickButton(
-                              icon: Icons.folder_rounded,
-                              label: 'Select Folder',
-                              onTap: () => _pickFolder(cubit),
-                            ),
-                          ],
-                        ),
+                        if (!isScanningFiles) ...[
+                          // Manual pick buttons
+                          Wrap(
+                            spacing: 10,
+                            runSpacing: 8,
+                            alignment: WrapAlignment.center,
+                            children: [
+                              _PickButton(
+                                icon: Icons.file_copy_rounded,
+                                label: 'Select Files',
+                                onTap: () => _pickMultipleFiles(cubit),
+                              ),
+                              _PickButton(
+                                icon: Icons.folder_rounded,
+                                label: 'Select Folder',
+                                onTap: () => _pickFolder(cubit),
+                              ),
+                            ],
+                          ),
+                        ],
                       ],
                     ),
                   ),

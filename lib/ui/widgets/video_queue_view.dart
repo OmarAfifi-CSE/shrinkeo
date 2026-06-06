@@ -1,4 +1,5 @@
 import 'package:desktop_drop/desktop_drop.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,19 +36,48 @@ class VideoQueueView extends StatelessWidget {
                 )
               : null,
         ),
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-          itemCount: state.videos.length,
-          itemBuilder: (context, index) {
-            final video = state.videos[index];
-            return VideoFileCard(
-              key: ValueKey(video.id),
-              video: video,
-              onRemove: () => cubit.cancelSingle(video.id),
-            );
-          },
+        child: Column(
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+              itemCount: state.videos.length,
+              itemBuilder: (context, index) {
+                final video = state.videos[index];
+                return VideoFileCard(
+                  key: ValueKey(video.id),
+                  video: video,
+                  onRemove: () => cubit.cancelSingle(video.id),
+                );
+              },
+            ),
+            if (state.isScanningFiles)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CupertinoActivityIndicator(
+                        radius: 8,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      'Scanning files... This may take a moment.',
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodySmall?.color,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
         ),
       ),
     );

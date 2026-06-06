@@ -265,8 +265,13 @@ class CompressionCubit extends Cubit<CompressionState> {
   Future<void> addFiles(List<String> paths) async {
     if (paths.isEmpty) return;
 
+    emit(state.copyWith(isScanningFiles: true));
+
     final scannedPaths = await _fileScannerService.scanPaths(paths);
-    if (scannedPaths.isEmpty) return;
+    if (scannedPaths.isEmpty) {
+      emit(state.copyWith(isScanningFiles: false));
+      return;
+    }
 
     // Deduplicate against existing queue.
     final existingPaths = state.videos.map((v) => v.filePath).toSet();
@@ -274,7 +279,10 @@ class CompressionCubit extends Cubit<CompressionState> {
         .where((p) => !existingPaths.contains(p))
         .toList();
 
-    if (newPaths.isEmpty) return;
+    if (newPaths.isEmpty) {
+      emit(state.copyWith(isScanningFiles: false));
+      return;
+    }
 
     // Natural sort: 1, 2, 3, 10, 11 instead of 1, 10, 11, 2, 3.
     newPaths.sort((a, b) {
@@ -311,6 +319,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         videos: [...state.videos, ...newVideos],
         clearGlobalError: true,
         phase: state.isProcessing ? null : CompressionPhase.idle,
+        isScanningFiles: false,
       ),
     );
 

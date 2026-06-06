@@ -73,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           hasScrollBody: false,
                           child: DropZoneWidget(
                             isHovering: state.isDragHovering,
+                            isScanningFiles: state.isScanningFiles,
                             onHover: (hovering) => context
                                 .read<CompressionCubit>()
                                 .setDragHovering(hovering),

@@ -138,6 +138,9 @@ class CompressionState extends Equatable {
   /// Whether the user is currently hovering files over the drop zone.
   final bool isDragHovering;
 
+  /// Whether the app is currently recursively scanning folders for files.
+  final bool isScanningFiles;
+
   // ---- Compression Settings ----
 
   /// CRF quality value (0-51). Lower = better quality, larger file.
@@ -192,6 +195,7 @@ class CompressionState extends Equatable {
     this.outputFolderPath,
     this.globalError,
     this.isDragHovering = false,
+    this.isScanningFiles = false,
     this.crfQuality = 22,
     this.encodingPreset = EncodingPreset.fast,
     this.videoCodec = VideoCodec.h264,
@@ -218,6 +222,7 @@ class CompressionState extends Equatable {
     String? globalError,
     bool clearGlobalError = false,
     bool? isDragHovering,
+    bool? isScanningFiles,
     int? crfQuality,
     EncodingPreset? encodingPreset,
     VideoCodec? videoCodec,
@@ -245,6 +250,7 @@ class CompressionState extends Equatable {
           : (outputFolderPath ?? this.outputFolderPath),
       globalError: clearGlobalError ? null : (globalError ?? this.globalError),
       isDragHovering: isDragHovering ?? this.isDragHovering,
+      isScanningFiles: isScanningFiles ?? this.isScanningFiles,
       crfQuality: crfQuality ?? this.crfQuality,
       encodingPreset: encodingPreset ?? this.encodingPreset,
       videoCodec: videoCodec ?? this.videoCodec,
@@ -306,6 +312,7 @@ class CompressionState extends Equatable {
     outputFolderPath,
     globalError,
     isDragHovering,
+    isScanningFiles,
     crfQuality,
     encodingPreset,
     videoCodec,
