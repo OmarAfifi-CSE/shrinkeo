@@ -119,27 +119,29 @@ class BottomActionBar extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    SizedBox(
-                      height: 40,
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          if (state.outputFolderPath != null) {
-                            cubit.openOutputFolder(state.outputFolderPath!);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: theme.colorScheme.primary,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                    if (state.outputLocationMode == OutputLocationMode.unified) ...[
+                      const SizedBox(width: 12),
+                      SizedBox(
+                        height: 40,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            if (state.outputFolderPath != null) {
+                              cubit.openOutputFolder(state.outputFolderPath!);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.colorScheme.primary,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
+                          icon: const Icon(Icons.folder_open_rounded, size: 18),
+                          label: const Text('Open Folder'),
                         ),
-                        icon: const Icon(Icons.folder_open_rounded, size: 18),
-                        label: const Text('Open Folder'),
                       ),
-                    ),
+                    ],
                   ],
                 ),
             ],

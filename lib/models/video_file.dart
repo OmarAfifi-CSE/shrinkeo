@@ -50,6 +50,9 @@ class VideoFile extends Equatable {
   /// Whether a warning has been shown that the output is larger than the original.
   final bool hasWarnedLargerSize;
 
+  /// Timestamp when the projected size first exceeded the original size.
+  final DateTime? largerSizeWarningStartTime;
+
   /// Error message (populated on failure).
   final String? errorMessage;
 
@@ -75,6 +78,7 @@ class VideoFile extends Equatable {
     this.outputSizeBytes,
     this.currentOutputSizeBytes,
     this.hasWarnedLargerSize = false,
+    this.largerSizeWarningStartTime,
     this.errorMessage,
     this.thumbnailPath,
     this.eta,
@@ -95,6 +99,7 @@ class VideoFile extends Equatable {
     int? outputSizeBytes,
     int? currentOutputSizeBytes,
     bool? hasWarnedLargerSize,
+    DateTime? largerSizeWarningStartTime,
     String? errorMessage,
     String? thumbnailPath,
     Duration? eta,
@@ -105,6 +110,7 @@ class VideoFile extends Equatable {
     bool clearOutputSizeBytes = false,
     bool clearCurrentOutputSizeBytes = false,
     bool clearHasWarnedLargerSize = false,
+    bool clearLargerSizeWarningStartTime = false,
     bool clearErrorMessage = false,
     bool clearThumbnailPath = false,
     bool clearEta = false,
@@ -131,6 +137,9 @@ class VideoFile extends Equatable {
       hasWarnedLargerSize: clearHasWarnedLargerSize 
           ? false 
           : (hasWarnedLargerSize ?? this.hasWarnedLargerSize),
+      largerSizeWarningStartTime: clearLargerSizeWarningStartTime
+          ? null
+          : (largerSizeWarningStartTime ?? this.largerSizeWarningStartTime),
       errorMessage: clearErrorMessage
           ? null
           : (errorMessage ?? this.errorMessage),
@@ -181,6 +190,7 @@ class VideoFile extends Equatable {
         outputSizeBytes,
         currentOutputSizeBytes,
         hasWarnedLargerSize,
+        largerSizeWarningStartTime,
         errorMessage,
         thumbnailPath,
         eta,

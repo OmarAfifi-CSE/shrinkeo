@@ -5,10 +5,10 @@ import 'package:path/path.dart' as p;
 /// Service responsible for creating the output folder for compressed videos.
 ///
 /// Uses an auto-increment naming algorithm to prevent overwriting:
-/// - First attempt: `Compressed_Videos`
-/// - If exists: `Compressed_Videos_1`, `Compressed_Videos_2`, etc.
+/// - First attempt: `Shrinkeo Output`
+/// - If exists: `Shrinkeo Output_1`, `Shrinkeo Output_2`, etc.
 class OutputFolderService {
-  static const String _baseFolderName = 'Compressed_Videos';
+  static const String _baseFolderName = 'Shrinkeo Output';
 
   /// Resolves and creates a unique output folder inside [sourceDirectory].
   ///

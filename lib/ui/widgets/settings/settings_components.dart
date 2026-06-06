@@ -99,6 +99,52 @@ class _OutputDirectorySection extends StatelessWidget {
   }
 }
 
+/// Section for selecting Output Location Behavior.
+class _OutputLocationSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _OutputLocationSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppStrings.outputLocationTitle,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: OutputLocationMode.values.map((mode) {
+            return _OptionChip(
+              label: mode.label,
+              isSelected: state.outputLocationMode == mode,
+              isLocked: isLocked,
+              onTap: () => cubit.updateOutputLocationMode(mode),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: state.outputLocationMode.label,
+          description: state.outputLocationMode.description,
+          icon: Icons.folder_copy_rounded,
+        ),
+      ],
+    );
+  }
+}
+
 /// CRF quality slider with tier labels matching the PowerShell script.
 class _CrfSection extends StatelessWidget {
   final CompressionState state;

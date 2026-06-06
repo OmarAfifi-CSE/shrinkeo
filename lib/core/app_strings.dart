@@ -17,6 +17,7 @@ class AppStrings {
   static const String audioModeTitle = 'Audio Track Mode';
   static const String outputFormatTitle = 'Output Format (Container)';
   static const String outputDirectoryTitle = 'Output Directory';
+  static const String outputLocationTitle = 'Output Location Behavior';
 
   static const String defaultOutputDirectory = 'Default (Next to original file)';
 
@@ -109,4 +110,10 @@ class AppStrings {
   static const String formatMkvDesc = 'Resilient format, great for multiple audio/subtitle tracks.';
   static const String formatMovLabel = 'MOV';
   static const String formatMovDesc = 'High quality Apple QuickTime format, great for editing.';
+
+  // ---- Output Locations ----
+  static const String outputLocationUnifiedLabel = 'Unified Folder';
+  static const String outputLocationUnifiedDesc = 'All compressed videos are saved into a single folder.';
+  static const String outputLocationSameLabel = 'Same as Original';
+  static const String outputLocationSameDesc = 'Each video is saved in a subfolder next to its original location.';
 }

@@ -57,6 +57,7 @@ class CompressionCubit extends Cubit<CompressionState> {
            resolutionMode: _parseResolutionMode(prefs),
            frameRateMode: _parseFrameRateMode(prefs),
            outputFormat: _parseOutputFormat(prefs),
+           outputLocationMode: _parseOutputLocationMode(prefs),
            globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
          ),
        );
@@ -149,6 +150,17 @@ class CompressionCubit extends Cubit<CompressionState> {
     return OutputFormat.original;
   }
 
+  static OutputLocationMode _parseOutputLocationMode(SharedPreferences prefs) {
+    final modeStr = prefs.getString('outputLocationMode');
+    if (modeStr != null) {
+      return OutputLocationMode.values.firstWhere(
+        (e) => e.name == modeStr,
+        orElse: () => OutputLocationMode.unified,
+      );
+    }
+    return OutputLocationMode.unified;
+  }
+
   // ---------------------------------------------------------------------------
   // Settings
   // ---------------------------------------------------------------------------
@@ -202,6 +214,12 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(outputFormat: format));
   }
 
+  /// Updates the output location behavior.
+  void updateOutputLocationMode(OutputLocationMode mode) {
+    _prefs.setString('outputLocationMode', mode.name);
+    emit(state.copyWith(outputLocationMode: mode));
+  }
+
   /// Toggles between light and dark theme mode.
   void toggleTheme() {
     final newMode = state.themeMode == ThemeMode.dark
@@ -236,6 +254,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     _prefs.setString('resolutionMode', ResolutionMode.original.name);
     _prefs.setString('frameRateMode', FrameRateMode.original.name);
     _prefs.setString('outputFormat', OutputFormat.original.name);
+    _prefs.setString('outputLocationMode', OutputLocationMode.unified.name);
 
     emit(
       state.copyWith(
@@ -247,6 +266,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         resolutionMode: ResolutionMode.original,
         frameRateMode: FrameRateMode.original,
         outputFormat: OutputFormat.original,
+        outputLocationMode: OutputLocationMode.unified,
         customOutputDirectory: null,
         clearCustomOutputDirectory: true,
       ),
@@ -474,29 +494,32 @@ class CompressionCubit extends Cubit<CompressionState> {
       return;
     }
 
-    // Determine the source directory from the first queued video.
-    final firstQueued = state.videos.firstWhere(
-      (v) => v.status == VideoStatus.queued,
-    );
-    final sourceDir = p.dirname(firstQueued.filePath);
+    // Cache resolved folders for "Same as Original" to avoid creating duplicate folders.
+    final Map<String, String> resolvedOutputFolders = {};
 
-    // Resolve the output folder.
-    String outputFolder;
-    if (state.outputFolderPath != null &&
-        Directory(state.outputFolderPath!).existsSync()) {
-      outputFolder = state.outputFolderPath!;
-    } else {
-      try {
-        final baseDir = state.customOutputDirectory ?? sourceDir;
-        outputFolder = await _outputFolderService.resolveOutputFolder(baseDir);
-      } catch (e) {
-        emit(
-          state.copyWith(
-            phase: CompressionPhase.error,
-            globalError: 'Failed to create output folder: $e',
-          ),
-        );
-        return;
+    // Resolve the unified output folder if applicable.
+    String? outputFolder;
+    if (state.outputLocationMode == OutputLocationMode.unified) {
+      if (state.outputFolderPath != null &&
+          Directory(state.outputFolderPath!).existsSync()) {
+        outputFolder = state.outputFolderPath!;
+      } else {
+        try {
+          final firstQueued = state.videos.firstWhere(
+            (v) => v.status == VideoStatus.queued,
+          );
+          final sourceDir = p.dirname(firstQueued.filePath);
+          final baseDir = state.customOutputDirectory ?? sourceDir;
+          outputFolder = await _outputFolderService.resolveOutputFolder(baseDir);
+        } catch (e) {
+          emit(
+            state.copyWith(
+              phase: CompressionPhase.error,
+              globalError: 'Failed to create output folder: $e',
+            ),
+          );
+          return;
+        }
       }
     }
 
@@ -504,6 +527,7 @@ class CompressionCubit extends Cubit<CompressionState> {
       state.copyWith(
         phase: CompressionPhase.probing,
         outputFolderPath: outputFolder,
+        clearOutputFolderPath: outputFolder == null && state.outputLocationMode == OutputLocationMode.sameAsOriginal,
         clearGlobalError: true,
         compressionStartTime: DateTime.now(),
         clearGlobalEta: true,
@@ -527,7 +551,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         break; // No more queued videos, exit loop.
       }
 
-      await _processVideo(state.videos[nextQueuedIndex].id, outputFolder);
+      await _processVideo(state.videos[nextQueuedIndex].id, outputFolder, resolvedOutputFolders);
     }
 
     // Mark as completed.
@@ -557,7 +581,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   }
 
   /// Processes a single video: probes duration, then compresses
-  Future<void> _processVideo(String videoId, String outputFolder) async {
+  Future<void> _processVideo(String videoId, String? globalOutputFolder, Map<String, String> resolvedOutputFolders) async {
     int getIndex() => state.videos.indexWhere((v) => v.id == videoId);
     int initialIndex = getIndex();
     if (initialIndex < 0) return;
@@ -612,6 +636,26 @@ class CompressionCubit extends Cubit<CompressionState> {
     if (_cancelRequested) return;
 
     // -- Step 2: Compress --
+    
+    // Resolve output folder for this specific video
+    String outputFolder;
+    if (state.outputLocationMode == OutputLocationMode.unified && globalOutputFolder != null) {
+      outputFolder = globalOutputFolder;
+    } else {
+      final sourceDir = p.dirname(video.filePath);
+      if (resolvedOutputFolders.containsKey(sourceDir)) {
+        outputFolder = resolvedOutputFolders[sourceDir]!;
+      } else {
+        outputFolder = await _outputFolderService.resolveOutputFolder(sourceDir);
+        resolvedOutputFolders[sourceDir] = outputFolder;
+      }
+    }
+
+    // Set outputFolderPath in state to the first generated folder so the "Open Output Folder" button has a valid path
+    if (state.outputFolderPath == null || !Directory(state.outputFolderPath!).existsSync()) {
+      emit(state.copyWith(outputFolderPath: outputFolder));
+    }
+
     // Preserve original filename but change extension to the selected output format.
     final newFileName = state.outputFormat == OutputFormat.original
         ? video.fileName
@@ -710,19 +754,32 @@ class CompressionCubit extends Cubit<CompressionState> {
           }
         }
 
-        if (progress.progress > 0.05 &&
-            progress.currentOutputSizeBytes != null) {
+        if (progress.progress > 0.05 && progress.currentOutputSizeBytes != null) {
           final projected =
               (progress.currentOutputSizeBytes! / progress.progress).round();
-          if (projected > video.fileSizeBytes && !video.hasWarnedLargerSize) {
-            video = video.copyWith(hasWarnedLargerSize: true);
-
-            final notification = LocalNotification(
-              title: 'Output Larger Than Original',
-              body:
-                  '${video.fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.',
-            );
-            notification.show();
+              
+          if (projected > (video.fileSizeBytes * 1.05)) {
+            if (video.largerSizeWarningStartTime == null) {
+              video = video.copyWith(largerSizeWarningStartTime: DateTime.now());
+            } else if (!video.hasWarnedLargerSize) {
+              final elapsed = DateTime.now().difference(video.largerSizeWarningStartTime!);
+              if (elapsed.inSeconds > 15) {
+                video = video.copyWith(hasWarnedLargerSize: true);
+                final notification = LocalNotification(
+                  title: 'Output Larger Than Original',
+                  body:
+                      '${video.fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.',
+                );
+                notification.show();
+              }
+            }
+          } else {
+            if (video.largerSizeWarningStartTime != null || video.hasWarnedLargerSize) {
+              video = video.copyWith(
+                clearLargerSizeWarningStartTime: true,
+                clearHasWarnedLargerSize: true,
+              );
+            }
           }
         }
 

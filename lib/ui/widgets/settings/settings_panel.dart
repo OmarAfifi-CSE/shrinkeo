@@ -32,7 +32,8 @@ class SettingsPanel extends StatelessWidget {
           prev.audioMode != curr.audioMode ||
           prev.resolutionMode != curr.resolutionMode ||
           prev.frameRateMode != curr.frameRateMode ||
-          prev.outputFormat != curr.outputFormat,
+          prev.outputFormat != curr.outputFormat ||
+          prev.outputLocationMode != curr.outputLocationMode,
       builder: (context, state) {
         return AnimatedCrossFade(
           duration: const Duration(milliseconds: 250),
@@ -195,8 +196,14 @@ class _SettingsContent extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
-            // -- Output Directory Section --
-            _OutputDirectorySection(state: state, isLocked: isLocked),
+            // -- Output Location Section --
+            _OutputLocationSection(state: state, isLocked: isLocked),
+            
+            // Show Custom Directory only if Unified is selected
+            if (state.outputLocationMode == OutputLocationMode.unified) ...[
+              const SizedBox(height: 16),
+              _OutputDirectorySection(state: state, isLocked: isLocked),
+            ],
           ],
         ),
       ),

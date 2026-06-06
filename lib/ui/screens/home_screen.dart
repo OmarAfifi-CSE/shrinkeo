@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,9 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: AuroraBackground(
-        child: Column(
-          children: [
+      body: DropTarget(
+        onDragEntered: (_) => context.read<CompressionCubit>().setDragHovering(true),
+        onDragExited: (_) => context.read<CompressionCubit>().setDragHovering(false),
+        onDragDone: (details) {
+          context.read<CompressionCubit>().setDragHovering(false);
+          final paths = details.files.map((f) => f.path).toList();
+          context.read<CompressionCubit>().addFiles(paths);
+        },
+        child: AuroraBackground(
+          child: Column(
+            children: [
             // 1. Custom Title Bar
             const CustomTitleBar(),
 
@@ -74,11 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: DropZoneWidget(
                             isHovering: state.isDragHovering,
                             isScanningFiles: state.isScanningFiles,
-                            onHover: (hovering) => context
-                                .read<CompressionCubit>()
-                                .setDragHovering(hovering),
-                            onFilesDropped: (paths) =>
-                                context.read<CompressionCubit>().addFiles(paths),
                           ),
                         );
                       }
@@ -102,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart' as p;
 
+import '../../cubit/compression_cubit.dart';
 import '../../models/video_file.dart';
 import '../app_colors.dart';
 import 'status_chip.dart';
@@ -90,12 +93,12 @@ class VideoFileCard extends StatelessWidget {
                             ),
                           ),
                           if (video.status == VideoStatus.compressing && 
-                              video.progress > 0.05 && 
-                              video.currentOutputSizeBytes != null) ...[
+                              video.currentOutputSizeBytes != null &&
+                              video.progress > 0.05) ...[
                             Builder(
                               builder: (context) {
                                 final projected = (video.currentOutputSizeBytes! / video.progress).round();
-                                final isLarger = projected > video.fileSizeBytes;
+                                final isLargerWarning = video.hasWarnedLargerSize;
                                 final alertColor = theme.brightness == Brightness.dark 
                                     ? Colors.redAccent.shade200 
                                     : AppColors.errorRed;
@@ -105,12 +108,12 @@ class VideoFileCard extends StatelessWidget {
                                     Text(
                                       ' ➔ Est: ${VideoFile.formatFileSize(projected)}',
                                       style: theme.textTheme.bodySmall?.copyWith(
-                                        color: isLarger ? alertColor : theme.textTheme.bodySmall?.color,
+                                        color: isLargerWarning ? alertColor : theme.textTheme.bodySmall?.color,
                                         fontSize: 12,
-                                        fontWeight: isLarger ? FontWeight.w700 : FontWeight.normal,
+                                        fontWeight: isLargerWarning ? FontWeight.w700 : FontWeight.normal,
                                       ),
                                     ),
-                                    if (isLarger) ...[
+                                    if (isLargerWarning) ...[
                                       const SizedBox(width: 4),
                                       Icon(
                                         Icons.warning_amber_rounded,
@@ -121,7 +124,7 @@ class VideoFileCard extends StatelessWidget {
                                   ],
                                 );
                                 
-                                if (isLarger) {
+                                if (isLargerWarning) {
                                   return Tooltip(
                                     message: 'Output will be larger than original!\nStop and try Reset to Defaults.',
                                     padding: const EdgeInsets.all(12),
@@ -193,7 +196,30 @@ class VideoFileCard extends StatelessWidget {
                   Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: [_CompressionResult(video: video)],
+                      children: [
+                        _CompressionResult(video: video),
+                        if (video.outputPath != null) ...[
+                          const SizedBox(width: 8),
+                          Tooltip(
+                            message: 'Open Output Folder',
+                            child: IconButton(
+                              icon: const Icon(Icons.folder_open_rounded, size: 18),
+                              onPressed: () {
+                                context.read<CompressionCubit>().openOutputFolder(
+                                  p.dirname(video.outputPath!),
+                                );
+                              },
+                              constraints: const BoxConstraints(
+                                minWidth: 28,
+                                minHeight: 28,
+                              ),
+                              padding: EdgeInsets.zero,
+                              splashRadius: 16,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   )
                 else

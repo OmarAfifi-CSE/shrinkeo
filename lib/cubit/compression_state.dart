@@ -118,6 +118,17 @@ enum OutputFormat {
   const OutputFormat(this.label, this.description, this.extension);
 }
 
+/// Options for Output Folder Behavior
+enum OutputLocationMode {
+  unified(AppStrings.outputLocationUnifiedLabel, AppStrings.outputLocationUnifiedDesc),
+  sameAsOriginal(AppStrings.outputLocationSameLabel, AppStrings.outputLocationSameDesc);
+
+  final String label;
+  final String description;
+
+  const OutputLocationMode(this.label, this.description);
+}
+
 /// Immutable state for the [CompressionCubit].
 class CompressionState extends Equatable {
   /// List of all video files in the queue.
@@ -169,6 +180,9 @@ class CompressionState extends Equatable {
   /// Selected Output Format.
   final OutputFormat outputFormat;
 
+  /// Selected Output Location Behavior.
+  final OutputLocationMode outputLocationMode;
+
   /// Current theme mode (light, dark, or system).
   final ThemeMode themeMode;
 
@@ -204,6 +218,7 @@ class CompressionState extends Equatable {
     this.resolutionMode = ResolutionMode.original,
     this.frameRateMode = FrameRateMode.original,
     this.outputFormat = OutputFormat.original, // Original by default
+    this.outputLocationMode = OutputLocationMode.unified, // Unified by default
     this.themeMode = ThemeMode.system,
     this.isSettingsExpanded = false,
     this.customOutputDirectory,
@@ -231,6 +246,7 @@ class CompressionState extends Equatable {
     ResolutionMode? resolutionMode,
     FrameRateMode? frameRateMode,
     OutputFormat? outputFormat,
+    OutputLocationMode? outputLocationMode,
     ThemeMode? themeMode,
     bool? isSettingsExpanded,
     String? customOutputDirectory,
@@ -259,6 +275,7 @@ class CompressionState extends Equatable {
       resolutionMode: resolutionMode ?? this.resolutionMode,
       frameRateMode: frameRateMode ?? this.frameRateMode,
       outputFormat: outputFormat ?? this.outputFormat,
+      outputLocationMode: outputLocationMode ?? this.outputLocationMode,
       themeMode: themeMode ?? this.themeMode,
       isSettingsExpanded: isSettingsExpanded ?? this.isSettingsExpanded,
       customOutputDirectory: clearCustomOutputDirectory
@@ -321,6 +338,7 @@ class CompressionState extends Equatable {
     resolutionMode,
     frameRateMode,
     outputFormat,
+    outputLocationMode,
     themeMode,
     isSettingsExpanded,
     customOutputDirectory,

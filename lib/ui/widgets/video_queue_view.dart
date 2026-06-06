@@ -1,4 +1,4 @@
-import 'package:desktop_drop/desktop_drop.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,15 +16,33 @@ class VideoQueueView extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = context.read<CompressionCubit>();
 
-    return DropTarget(
-      onDragEntered: (_) => cubit.setDragHovering(true),
-      onDragExited: (_) => cubit.setDragHovering(false),
-      onDragDone: (details) {
-        cubit.setDragHovering(false);
-        final paths = details.files.map((f) => f.path).toList();
-        cubit.addFiles(paths);
-      },
-      child: AnimatedContainer(
+    Future<void> pickMultipleFiles() async {
+      try {
+        final result = await FilePicker.pickFiles(
+          allowMultiple: true,
+          type: FileType.custom,
+          allowedExtensions: ['mp4', 'mkv', 'mov', 'avi', 'wmv'],
+        );
+        if (result != null && result.files.isNotEmpty) {
+          final paths = result.files
+              .where((f) => f.path != null)
+              .map((f) => f.path!)
+              .toList();
+          cubit.addFiles(paths);
+        }
+      } catch (_) {}
+    }
+
+    Future<void> pickFolder() async {
+      try {
+        final result = await FilePicker.getDirectoryPath();
+        if (result != null) {
+          cubit.addFiles([result]);
+        }
+      } catch (_) {}
+    }
+
+    return AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
           border: state.isDragHovering
@@ -77,8 +95,27 @@ class VideoQueueView extends StatelessWidget {
                   ],
                 ),
               ),
+            if (!state.isScanningFiles && !state.isProcessing)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 24.0, left: 24, right: 24),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton.icon(
+                      onPressed: pickMultipleFiles,
+                      icon: const Icon(Icons.note_add_rounded, size: 16),
+                      label: const Text('Add Files'),
+                    ),
+                    const SizedBox(width: 12),
+                    OutlinedButton.icon(
+                      onPressed: pickFolder,
+                      icon: const Icon(Icons.create_new_folder_rounded, size: 16),
+                      label: const Text('Add Folder'),
+                    ),
+                  ],
+                ),
+              ),
           ],
-        ),
       ),
     );
   }

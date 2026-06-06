@@ -1,5 +1,4 @@
 import 'dart:ui' as dart_ui;
-import 'package:desktop_drop/desktop_drop.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,15 +13,11 @@ import '../app_colors.dart';
 class DropZoneWidget extends StatelessWidget {
   final bool isHovering;
   final bool isScanningFiles;
-  final ValueChanged<bool> onHover;
-  final ValueChanged<List<String>> onFilesDropped;
 
   const DropZoneWidget({
     super.key,
     required this.isHovering,
     required this.isScanningFiles,
-    required this.onHover,
-    required this.onFilesDropped,
   });
 
   @override
@@ -36,142 +31,130 @@ class DropZoneWidget extends StatelessWidget {
         : AppColors.surfaceContainerLight;
     final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
-    return DropTarget(
-      onDragEntered: (_) => onHover(true),
-      onDragExited: (_) => onHover(false),
-      onDragDone: (details) {
-        onHover(false);
-        final paths = details.files.map((f) => f.path).toList();
-        onFilesDropped(paths);
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-          child: BackdropFilter(
-            filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeOut,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+        child: BackdropFilter(
+          filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeOut,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: isHovering
+                  ? theme.colorScheme.primary.withValues(alpha: 0.08)
+                  : surfaceContainer.withValues(alpha: 0.4),
+              border: Border.all(
                 color: isHovering
-                    ? theme.colorScheme.primary.withValues(alpha: 0.08)
-                    : surfaceContainer.withValues(alpha: 0.4),
-                border: Border.all(
-                  color: isHovering
-                      ? theme.colorScheme.primary.withValues(alpha: 0.6)
-                      : borderColor.withValues(alpha: 0.4),
-                  width: isHovering ? 2 : 1.5,
-                ),
-                boxShadow: isHovering
-                    ? [
-                        BoxShadow(
-                          color: theme.colorScheme.primary.withValues(
-                            alpha: 0.15,
-                          ),
-                          blurRadius: 20,
-                          spreadRadius: 2,
-                        ),
-                      ]
-                    : [],
+                    ? theme.colorScheme.primary.withValues(alpha: 0.6)
+                    : borderColor.withValues(alpha: 0.4),
+                width: isHovering ? 2 : 1.5,
               ),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 32),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        // Animated icon
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 250),
-                          transform: Matrix4.translationValues(
-                            0,
-                            isHovering ? -8 : 0,
-                            0,
+              boxShadow: isHovering
+                  ? [
+                      BoxShadow(
+                        color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                        blurRadius: 20,
+                        spreadRadius: 2,
+                      ),
+                    ]
+                  : [],
+            ),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Animated icon
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 250),
+                        transform: Matrix4.translationValues(
+                          0,
+                          isHovering ? -8 : 0,
+                          0,
+                        ),
+                        child: Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: theme.colorScheme.primary
+                                .withValues(alpha: isHovering ? 0.15 : 0.08),
                           ),
-                          child: Container(
-                            width: 72,
-                            height: 72,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Theme.of(context).colorScheme.primary
-                                  .withValues(alpha: isHovering ? 0.15 : 0.08),
-                            ),
-                            child: isScanningFiles
-                                ? SizedBox(
-                                    width: 32,
-                                    height: 32,
-                                    child: CupertinoActivityIndicator(
-                                      radius: 16,
-                                      color: theme.colorScheme.primary,
-                                    ),
-                                  )
-                                : Icon(
-                                    Icons.cloud_upload_rounded,
-                                    size: 32,
-                                    color: isHovering
-                                        ? theme.colorScheme.primary
-                                        : theme.textTheme.bodySmall?.color ??
-                                              Colors.white38,
+                          child: isScanningFiles
+                              ? SizedBox(
+                                  width: 32,
+                                  height: 32,
+                                  child: CupertinoActivityIndicator(
+                                    radius: 16,
+                                    color: theme.colorScheme.primary,
                                   ),
-                          ),
+                                )
+                              : Icon(
+                                  Icons.cloud_upload_rounded,
+                                  size: 32,
+                                  color: isHovering
+                                      ? theme.colorScheme.primary
+                                      : theme.textTheme.bodySmall?.color ??
+                                          Colors.white38,
+                                ),
                         ),
-                        const SizedBox(height: 18),
+                      ),
+                      const SizedBox(height: 18),
 
-                        // Instructional text
-                        Text(
-                          isScanningFiles
-                              ? 'Scanning files... This may take a moment.'
-                              : isHovering
-                                  ? 'Release to add videos'
-                                  : 'Drag & drop video files or folders here',
-                          style: TextStyle(
-                            color: isHovering
-                                ? theme.colorScheme.primary
-                                : theme.textTheme.bodySmall?.color ??
-                                      Colors.white54,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
+                      // Instructional text
+                      Text(
+                        isScanningFiles
+                            ? 'Scanning files... This may take a moment.'
+                            : isHovering
+                                ? 'Release to add videos'
+                                : 'Drag & drop video files or folders here',
+                        style: TextStyle(
+                          color: isHovering
+                              ? theme.colorScheme.primary
+                              : theme.textTheme.bodySmall?.color ??
+                                  Colors.white54,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
                         ),
-                        const SizedBox(height: 6),
-                        Text(
-                          'Supports MP4, MKV, MOV, AVI, WMV',
-                          style: TextStyle(
-                            color:
-                                theme.textTheme.bodySmall?.color ??
-                                Colors.white24,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                          ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Supports MP4, MKV, MOV, AVI, WMV',
+                        style: TextStyle(
+                          color: theme.textTheme.bodySmall?.color ??
+                              Colors.white24,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
                         ),
-                        const SizedBox(height: 24),
+                      ),
+                      const SizedBox(height: 24),
 
-                        if (!isScanningFiles) ...[
-                          // Manual pick buttons
-                          Wrap(
-                            spacing: 10,
-                            runSpacing: 8,
-                            alignment: WrapAlignment.center,
-                            children: [
-                              _PickButton(
-                                icon: Icons.file_copy_rounded,
-                                label: 'Select Files',
-                                onTap: () => _pickMultipleFiles(cubit),
-                              ),
-                              _PickButton(
-                                icon: Icons.folder_rounded,
-                                label: 'Select Folder',
-                                onTap: () => _pickFolder(cubit),
-                              ),
-                            ],
-                          ),
-                        ],
+                      if (!isScanningFiles) ...[
+                        // Manual pick buttons
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 8,
+                          alignment: WrapAlignment.center,
+                          children: [
+                            _PickButton(
+                              icon: Icons.file_copy_rounded,
+                              label: 'Select Files',
+                              onTap: () => _pickMultipleFiles(cubit),
+                            ),
+                            _PickButton(
+                              icon: Icons.folder_rounded,
+                              label: 'Select Folder',
+                              onTap: () => _pickFolder(cubit),
+                            ),
+                          ],
+                        ),
                       ],
-                    ),
+                    ],
                   ),
                 ),
               ),
