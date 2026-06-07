@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as p;
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +29,7 @@ String _naturalSortKey(String name) {
 ///
 /// Manages the queue of videos, coordinates FFmpeg processes, and emits
 /// state updates for the UI layer.
-class CompressionCubit extends Cubit<CompressionState> {
+class CompressionCubit extends Cubit<CompressionState> with WindowListener {
   final FfmpegService _ffmpegService;
   final FileScannerService _fileScannerService;
   final OutputFolderService _outputFolderService;
@@ -58,10 +59,31 @@ class CompressionCubit extends Cubit<CompressionState> {
            frameRateMode: _parseFrameRateMode(prefs),
            outputFormat: _parseOutputFormat(prefs),
            outputLocationMode: _parseOutputLocationMode(prefs),
-           deleteOriginalOnSuccess: prefs.getBool('deleteOriginalOnSuccess') ?? false,
-           globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
+           deleteOriginalOnSuccess:
+               prefs.getBool('deleteOriginalOnSuccess') ?? false,
          ),
-       );
+       ) {
+    windowManager.addListener(this);
+  }
+
+  @override
+  void onWindowClose() async {
+    // If running, cancel process before allowing window to close
+    if (state.phase == CompressionPhase.compressing ||
+        state.phase == CompressionPhase.probing) {
+      debugPrint(
+        'Window closed during compression. Cancelling FFmpeg process...',
+      );
+      _ffmpegService.cancelCurrentProcess();
+    }
+    await windowManager.destroy();
+  }
+
+  @override
+  Future<void> close() {
+    windowManager.removeListener(this);
+    return super.close();
+  }
 
   static ThemeMode _parseTheme(SharedPreferences prefs) {
     final themeStr = prefs.getString('themeMode');
@@ -519,7 +541,9 @@ class CompressionCubit extends Cubit<CompressionState> {
           );
           final sourceDir = p.dirname(firstQueued.filePath);
           final baseDir = state.customOutputDirectory ?? sourceDir;
-          outputFolder = await _outputFolderService.resolveOutputFolder(baseDir);
+          outputFolder = await _outputFolderService.resolveOutputFolder(
+            baseDir,
+          );
         } catch (e) {
           emit(
             state.copyWith(
@@ -536,7 +560,9 @@ class CompressionCubit extends Cubit<CompressionState> {
       state.copyWith(
         phase: CompressionPhase.probing,
         outputFolderPath: outputFolder,
-        clearOutputFolderPath: outputFolder == null && state.outputLocationMode == OutputLocationMode.sameAsOriginal,
+        clearOutputFolderPath:
+            outputFolder == null &&
+            state.outputLocationMode == OutputLocationMode.sameAsOriginal,
         clearGlobalError: true,
         compressionStartTime: DateTime.now(),
         clearGlobalEta: true,
@@ -560,7 +586,11 @@ class CompressionCubit extends Cubit<CompressionState> {
         break; // No more queued videos, exit loop.
       }
 
-      await _processVideo(state.videos[nextQueuedIndex].id, outputFolder, resolvedOutputFolders);
+      await _processVideo(
+        state.videos[nextQueuedIndex].id,
+        outputFolder,
+        resolvedOutputFolders,
+      );
     }
 
     // Mark as completed.
@@ -590,7 +620,11 @@ class CompressionCubit extends Cubit<CompressionState> {
   }
 
   /// Processes a single video: probes duration, then compresses
-  Future<void> _processVideo(String videoId, String? globalOutputFolder, Map<String, String> resolvedOutputFolders) async {
+  Future<void> _processVideo(
+    String videoId,
+    String? globalOutputFolder,
+    Map<String, String> resolvedOutputFolders,
+  ) async {
     int getIndex() => state.videos.indexWhere((v) => v.id == videoId);
     int initialIndex = getIndex();
     if (initialIndex < 0) return;
@@ -645,31 +679,46 @@ class CompressionCubit extends Cubit<CompressionState> {
     if (_cancelRequested) return;
 
     // -- Step 2: Compress --
-    
+
     // Resolve output folder for this specific video
     String outputFolder;
-    if (state.outputLocationMode == OutputLocationMode.unified && globalOutputFolder != null) {
+    if (state.outputLocationMode == OutputLocationMode.unified &&
+        globalOutputFolder != null) {
       outputFolder = globalOutputFolder;
     } else {
       final sourceDir = p.dirname(video.filePath);
       if (resolvedOutputFolders.containsKey(sourceDir)) {
         outputFolder = resolvedOutputFolders[sourceDir]!;
       } else {
-        outputFolder = await _outputFolderService.resolveOutputFolder(sourceDir);
+        outputFolder = await _outputFolderService.resolveOutputFolder(
+          sourceDir,
+        );
         resolvedOutputFolders[sourceDir] = outputFolder;
       }
     }
 
     // Set outputFolderPath in state to the first generated folder so the "Open Output Folder" button has a valid path
-    if (state.outputFolderPath == null || !Directory(state.outputFolderPath!).existsSync()) {
+    if (state.outputFolderPath == null ||
+        !Directory(state.outputFolderPath!).existsSync()) {
       emit(state.copyWith(outputFolderPath: outputFolder));
     }
 
     // Preserve original filename but change extension to the selected output format.
-    final newFileName = state.outputFormat == OutputFormat.original
-        ? video.fileName
-        : p.setExtension(video.fileName, state.outputFormat.extension!);
-    final outputPath = p.join(outputFolder, newFileName);
+    String baseFileName = p.basenameWithoutExtension(video.fileName);
+    String targetExtension = state.outputFormat == OutputFormat.original
+        ? p.extension(video.fileName)
+        : state.outputFormat.extension!;
+
+    String newFileName = '$baseFileName$targetExtension';
+    String outputPath = p.join(outputFolder, newFileName);
+
+    // Prevent overwriting files with the exact same name
+    int counter = 1;
+    while (File(outputPath).existsSync()) {
+      newFileName = '${baseFileName}_$counter$targetExtension';
+      outputPath = p.join(outputFolder, newFileName);
+      counter++;
+    }
 
     video = video.copyWith(
       status: VideoStatus.compressing,
@@ -683,209 +732,243 @@ class CompressionCubit extends Cubit<CompressionState> {
         phase: CompressionPhase.compressing,
       ),
     );
+    int retryCount = 0;
+    while (retryCount < 2) {
+      try {
+        await for (final progress in _ffmpegService.compress(
+          inputPath: video.filePath,
+          outputPath: outputPath,
+          totalDuration: totalDuration,
+          crf: state.crfQuality,
+          preset: state.encodingPreset.value,
+          codec: state.videoCodec,
+          hardwareEncoder: state.hardwareEncoder,
+          audioMode: state.audioMode,
+          resolutionMode: state.resolutionMode,
+          frameRateMode: state.frameRateMode,
+        )) {
+          if (_cancelRequested) break;
 
-    try {
-      await for (final progress in _ffmpegService.compress(
-        inputPath: video.filePath,
-        outputPath: outputPath,
-        totalDuration: totalDuration,
-        crf: state.crfQuality,
-        preset: state.encodingPreset.value,
-        codec: state.videoCodec,
-        hardwareEncoder: state.hardwareEncoder,
-        audioMode: state.audioMode,
-        resolutionMode: state.resolutionMode,
-        frameRateMode: state.frameRateMode,
-      )) {
-        if (_cancelRequested) break;
+          // Calculate Global ETA based on video duration
+          Duration? newGlobalEta = state.globalEta;
+          if (state.compressionStartTime != null) {
+            int totalDurationMs = 0;
+            int processedDurationMs = 0;
 
-        // Calculate Global ETA based on video duration
-        Duration? newGlobalEta = state.globalEta;
-        if (state.compressionStartTime != null) {
-          int totalDurationMs = 0;
-          int processedDurationMs = 0;
+            int probedBytes = 0;
+            int probedDurationMs = 0;
+            int unprobedBytes = 0;
 
-          int probedBytes = 0;
-          int probedDurationMs = 0;
-          int unprobedBytes = 0;
+            for (int i = 0; i < state.videos.length; i++) {
+              final v = state.videos[i];
+              if (v.status == VideoStatus.queued ||
+                  v.status == VideoStatus.compressing ||
+                  v.status == VideoStatus.probing ||
+                  v.status == VideoStatus.success) {
+                if (v.totalDuration != null) {
+                  final durMs = v.totalDuration!.inMilliseconds;
+                  totalDurationMs += durMs;
 
-          for (int i = 0; i < state.videos.length; i++) {
-            final v = state.videos[i];
-            if (v.status == VideoStatus.queued ||
-                v.status == VideoStatus.compressing ||
-                v.status == VideoStatus.probing ||
-                v.status == VideoStatus.success) {
-              if (v.totalDuration != null) {
-                final durMs = v.totalDuration!.inMilliseconds;
-                totalDurationMs += durMs;
+                  probedBytes += v.fileSizeBytes;
+                  probedDurationMs += durMs;
 
-                probedBytes += v.fileSizeBytes;
-                probedDurationMs += durMs;
-
-                if (v.status == VideoStatus.success) {
-                  processedDurationMs += durMs;
-                } else if (v.id == videoId) {
-                  processedDurationMs += (durMs * progress.progress).round();
+                  if (v.status == VideoStatus.success) {
+                    processedDurationMs += durMs;
+                  } else if (v.id == videoId) {
+                    processedDurationMs += (durMs * progress.progress).round();
+                  }
+                } else {
+                  unprobedBytes += v.fileSizeBytes;
                 }
+              }
+            }
+
+            // Estimate totalDurationMs for unprobed videos so the ETA doesn't
+            // constantly increase as background probes finish and add to the total.
+            if (unprobedBytes > 0) {
+              if (probedBytes > 0) {
+                final avgMsPerByte = probedDurationMs / probedBytes;
+                totalDurationMs += (unprobedBytes * avgMsPerByte).round();
               } else {
-                unprobedBytes += v.fileSizeBytes;
+                // Fallback guess: 1ms per 1KB (~1s per 1MB) if nothing probed yet
+                totalDurationMs += unprobedBytes;
+              }
+            }
+
+            final elapsedSeconds =
+                DateTime.now()
+                    .difference(state.compressionStartTime!)
+                    .inMilliseconds /
+                1000.0;
+
+            if (elapsedSeconds > 3.0 && processedDurationMs > 0) {
+              final hasOtherVideosWaiting = state.videos.any(
+                (v) => v.id != video.id && 
+                       (v.status == VideoStatus.queued || v.status == VideoStatus.probing)
+              );
+
+              if (!hasOtherVideosWaiting && progress.eta != null) {
+                // If this is the only/last video remaining, Global ETA is exactly the Video ETA
+                newGlobalEta = progress.eta;
+              } else {
+                // Cumulative average is the most mathematically accurate for a heterogeneous queue
+                final globalSpeed = processedDurationMs / elapsedSeconds;
+                final remainingDurationMs = totalDurationMs - processedDurationMs;
+                if (globalSpeed > 0) {
+                  newGlobalEta = Duration(
+                    seconds: (remainingDurationMs / globalSpeed).round(),
+                  );
+                }
               }
             }
           }
 
-          // Estimate totalDurationMs for unprobed videos so the ETA doesn't
-          // constantly increase as background probes finish and add to the total.
-          if (unprobedBytes > 0) {
-            if (probedBytes > 0) {
-              final avgMsPerByte = probedDurationMs / probedBytes;
-              totalDurationMs += (unprobedBytes * avgMsPerByte).round();
+          if (progress.progress > 0.05 &&
+              progress.currentOutputSizeBytes != null) {
+            final projected =
+                (progress.currentOutputSizeBytes! / progress.progress).round();
+
+            if (projected > (video.fileSizeBytes * 1.05)) {
+              if (video.largerSizeWarningStartTime == null) {
+                video = video.copyWith(
+                  largerSizeWarningStartTime: DateTime.now(),
+                );
+              } else if (!video.hasWarnedLargerSize) {
+                final elapsed = DateTime.now().difference(
+                  video.largerSizeWarningStartTime!,
+                );
+                if (elapsed.inSeconds > 15) {
+                  video = video.copyWith(hasWarnedLargerSize: true);
+                  final notification = LocalNotification(
+                    title: 'Output Larger Than Original',
+                    body:
+                        '${video.fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.',
+                  );
+                  notification.show();
+                }
+              }
             } else {
-              // Fallback guess: 1ms per 1KB (~1s per 1MB) if nothing probed yet
-              totalDurationMs += unprobedBytes;
+              if (video.largerSizeWarningStartTime != null ||
+                  video.hasWarnedLargerSize) {
+                video = video.copyWith(
+                  clearLargerSizeWarningStartTime: true,
+                  clearHasWarnedLargerSize: true,
+                );
+              }
             }
           }
 
-          final elapsedSeconds =
-              DateTime.now()
-                  .difference(state.compressionStartTime!)
-                  .inMilliseconds /
-              1000.0;
-
-          if (elapsedSeconds > 3.0 && processedDurationMs > 0) {
-            // globalSpeed = how many milliseconds of video processed per real second
-            final globalSpeed = processedDurationMs / elapsedSeconds;
-            final remainingDurationMs = totalDurationMs - processedDurationMs;
-            if (globalSpeed > 0) {
-              newGlobalEta = Duration(
-                seconds: (remainingDurationMs / globalSpeed).round(),
-              );
-            }
-          }
+          video = video.copyWith(
+            progress: progress.progress,
+            processingSpeed: progress.speed,
+            eta: progress.eta,
+            currentOutputSizeBytes: progress.currentOutputSizeBytes,
+          );
+          safelyUpdateVideo(video, globalEta: newGlobalEta);
         }
 
-        if (progress.progress > 0.05 && progress.currentOutputSizeBytes != null) {
-          final projected =
-              (progress.currentOutputSizeBytes! / progress.progress).round();
-              
-          if (projected > (video.fileSizeBytes * 1.05)) {
-            if (video.largerSizeWarningStartTime == null) {
-              video = video.copyWith(largerSizeWarningStartTime: DateTime.now());
-            } else if (!video.hasWarnedLargerSize) {
-              final elapsed = DateTime.now().difference(video.largerSizeWarningStartTime!);
-              if (elapsed.inSeconds > 15) {
-                video = video.copyWith(hasWarnedLargerSize: true);
-                final notification = LocalNotification(
-                  title: 'Output Larger Than Original',
-                  body:
-                      '${video.fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.',
-                );
-                notification.show();
-              }
-            }
-          } else {
-            if (video.largerSizeWarningStartTime != null || video.hasWarnedLargerSize) {
-              video = video.copyWith(
-                clearLargerSizeWarningStartTime: true,
-                clearHasWarnedLargerSize: true,
-              );
-            }
-          }
+        if (_cancelRequested) return;
+
+        // Get compressed file size.
+        final outputFile = File(outputPath);
+        final outputSize = await outputFile.exists()
+            ? await outputFile.length()
+            : 0;
+
+        int? newGlobalSavedBytes;
+        if (outputSize > 0 && outputSize < video.fileSizeBytes) {
+          final savedBytes = video.fileSizeBytes - outputSize;
+          newGlobalSavedBytes = state.globalSavedBytes + savedBytes;
+          _prefs.setInt('globalSavedBytes', newGlobalSavedBytes);
         }
 
         video = video.copyWith(
-          progress: progress.progress,
-          processingSpeed: progress.speed,
-          eta: progress.eta,
-          currentOutputSizeBytes: progress.currentOutputSizeBytes,
+          status: VideoStatus.success,
+          progress: 1.0,
+          outputSizeBytes: outputSize,
+          eta: Duration.zero,
+          processingSpeed: 0.0,
         );
-        safelyUpdateVideo(video, globalEta: newGlobalEta);
-      }
+        safelyUpdateVideo(video, globalSavedBytes: newGlobalSavedBytes);
 
-      if (_cancelRequested) return;
-
-      // Get compressed file size.
-      final outputFile = File(outputPath);
-      final outputSize = await outputFile.exists()
-          ? await outputFile.length()
-          : 0;
-
-      int? newGlobalSavedBytes;
-      if (outputSize > 0 && outputSize < video.fileSizeBytes) {
-        final savedBytes = video.fileSizeBytes - outputSize;
-        newGlobalSavedBytes = state.globalSavedBytes + savedBytes;
-        _prefs.setInt('globalSavedBytes', newGlobalSavedBytes);
-      }
-
-      video = video.copyWith(
-        status: VideoStatus.success,
-        progress: 1.0,
-        outputSizeBytes: outputSize,
-        eta: Duration.zero,
-        processingSpeed: 0.0,
-      );
-      safelyUpdateVideo(video, globalSavedBytes: newGlobalSavedBytes);
-
-      // Optionally delete the original file to Recycle Bin
-      if (state.deleteOriginalOnSuccess) {
-        try {
-          await Process.run(
-            'powershell.exe',
-            [
+        // Optionally delete the original file to Recycle Bin
+        if (state.deleteOriginalOnSuccess) {
+          try {
+            await Process.run('powershell.exe', [
               '-NoProfile',
               '-NonInteractive',
               '-Command',
-              'Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile("${video.filePath.replaceAll("'", "''")}", "OnlyErrorDialogs", "SendToRecycleBin")'
-            ],
-          );
-        } catch (e) {
-          // Ignore deletion errors to not fail the successful compression
-          debugPrint('Failed to move original to recycle bin: $e');
+              'Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile("${video.filePath.replaceAll("'", "''")}", "OnlyErrorDialogs", "SendToRecycleBin")',
+            ]);
+          } catch (e) {
+            // Ignore deletion errors to not fail the successful compression
+            debugPrint('Failed to move original to recycle bin: $e');
+          }
         }
-      }
-    } catch (e) {
-      if (isCompressionCancelled(e)) {
-        safelyUpdateVideo(video.copyWith(status: VideoStatus.cancelled));
-      } else {
-        String errorMsg = e.toString();
-        bool isHardwareError = false;
+        break; // Success, break the retry loop
+      } catch (e) {
+        // Clean up partial output file on failure or cancellation.
+        try {
+          final partialFile = File(outputPath);
+          if (await partialFile.exists()) {
+            await partialFile.delete();
+          }
+        } catch (_) {}
 
-        // Make hardware encoder errors more user-friendly
-        if (state.hardwareEncoder != HardwareEncoder.software &&
+        if (isCompressionCancelled(e)) {
+          safelyUpdateVideo(video.copyWith(status: VideoStatus.cancelled));
+          break;
+        }
+
+        String errorMsg = e.toString();
+        bool isHardwareError =
+            state.hardwareEncoder != HardwareEncoder.software &&
             (errorMsg.contains('Device creation failed') ||
                 errorMsg.contains('No capable devices found') ||
                 errorMsg.contains('Cannot load') ||
                 errorMsg.contains('not found') ||
-                errorMsg.toLowerCase().contains('not supported'))) {
-          errorMsg =
-              'This hardware encoder (${state.hardwareEncoder.label}) is not supported or not found on your system. Please switch to "Software (CPU)".';
-          isHardwareError = true;
+                errorMsg.toLowerCase().contains('not supported'));
+
+        if (isHardwareError && retryCount == 0) {
+          // Auto-fallback to software encoder
+          debugPrint(
+            'Hardware encoder failed. Auto-falling back to software: $errorMsg',
+          );
+
+          final warningMsg =
+              '${state.hardwareEncoder.label} failed. Automatically switched to Software (CPU) encoding.';
+          final notification = LocalNotification(
+            title: 'Hardware Encoder Not Supported',
+            body: warningMsg,
+          );
+          notification.show();
+
+          emit(
+            state.copyWith(
+              hardwareEncoder: HardwareEncoder.software,
+              fallbackWarningMessage: warningMsg,
+            ),
+          );
+
+          // Clear it immediately after so it doesn't persist forever
+          Future.microtask(() {
+            if (!isClosed) {
+              emit(state.copyWith(clearFallbackWarningMessage: true));
+            }
+          });
+
+          _prefs.setString('hardwareEncoder', HardwareEncoder.software.name);
+          retryCount++;
+          await Future.delayed(const Duration(milliseconds: 500));
+          continue; // Retry compression
         }
 
+        // Genuine failure (or second attempt failed)
         safelyUpdateVideo(
           video.copyWith(status: VideoStatus.failed, errorMessage: errorMsg),
         );
-
-        if (isHardwareError) {
-          // Stop processing the rest of the queue to avoid spamming the same error
-          _cancelRequested = true;
-          emit(
-            state.copyWith(
-              phase: CompressionPhase.idle,
-              currentIndex: -1,
-              clearGlobalEta: true,
-              clearCompressionStartTime: true,
-            ),
-          );
-        }
+        break;
       }
-
-      // Clean up partial output file on failure.
-      try {
-        final partialFile = File(outputPath);
-        if (await partialFile.exists()) {
-          await partialFile.delete();
-        }
-      } catch (_) {}
     }
   }
 

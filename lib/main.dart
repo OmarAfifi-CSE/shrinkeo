@@ -42,6 +42,7 @@ void main(List<String> args) async {
   );
 
   await windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.setPreventClose(true);
     await windowManager.center();
     await windowManager.show();
     await windowManager.focus();

@@ -146,6 +146,9 @@ class CompressionState extends Equatable {
   /// Global error message (e.g., FFmpeg not found).
   final String? globalError;
 
+  /// Warning message to show in the UI for auto-fallbacks.
+  final String? fallbackWarningMessage;
+
   /// Whether the user is currently hovering files over the drop zone.
   final bool isDragHovering;
 
@@ -211,6 +214,7 @@ class CompressionState extends Equatable {
     this.currentIndex = -1,
     this.outputFolderPath,
     this.globalError,
+    this.fallbackWarningMessage,
     this.isDragHovering = false,
     this.isScanningFiles = false,
     this.crfQuality = 22,
@@ -240,6 +244,8 @@ class CompressionState extends Equatable {
     bool clearOutputFolderPath = false,
     String? globalError,
     bool clearGlobalError = false,
+    String? fallbackWarningMessage,
+    bool clearFallbackWarningMessage = false,
     bool? isDragHovering,
     bool? isScanningFiles,
     int? crfQuality,
@@ -270,6 +276,7 @@ class CompressionState extends Equatable {
           ? null
           : (outputFolderPath ?? this.outputFolderPath),
       globalError: clearGlobalError ? null : (globalError ?? this.globalError),
+      fallbackWarningMessage: clearFallbackWarningMessage ? null : (fallbackWarningMessage ?? this.fallbackWarningMessage),
       isDragHovering: isDragHovering ?? this.isDragHovering,
       isScanningFiles: isScanningFiles ?? this.isScanningFiles,
       crfQuality: crfQuality ?? this.crfQuality,
@@ -334,6 +341,7 @@ class CompressionState extends Equatable {
     currentIndex,
     outputFolderPath,
     globalError,
+    fallbackWarningMessage,
     isDragHovering,
     isScanningFiles,
     crfQuality,

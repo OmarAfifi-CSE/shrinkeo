@@ -53,129 +53,182 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: DropTarget(
-        onDragEntered: (_) => context.read<CompressionCubit>().setDragHovering(true),
-        onDragExited: (_) => context.read<CompressionCubit>().setDragHovering(false),
-        onDragDone: (details) {
-          context.read<CompressionCubit>().setDragHovering(false);
-          final paths = details.files.map((f) => f.path).toList();
-          context.read<CompressionCubit>().addFiles(paths);
-        },
-        child: Stack(
-          children: [
-            AuroraBackground(
-              child: Column(
+    return BlocListener<CompressionCubit, CompressionState>(
+      listenWhen: (previous, current) =>
+          current.fallbackWarningMessage != null &&
+          current.fallbackWarningMessage != previous.fallbackWarningMessage,
+      listener: (context, state) {
+        if (state.fallbackWarningMessage != null) {
+          final theme = Theme.of(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
                 children: [
-                  // 1. Custom Title Bar
-                  const CustomTitleBar(),
-
-                  // 2 & 3. Settings Panel & Main Content Area (Scrollable together)
-                  Expanded(
-                    child: CustomScrollView(
-                      slivers: [
-                        const SliverToBoxAdapter(
-                          child: SettingsPanel(),
-                        ),
-                        BlocBuilder<CompressionCubit, CompressionState>(
-                          builder: (context, state) {
-                            if (state.videos.isEmpty) {
-                              // Empty state drag & drop zone
-                              return SliverFillRemaining(
-                                hasScrollBody: false,
-                                child: DropZoneWidget(
-                                  isHovering: state.isDragHovering,
-                                  isScanningFiles: state.isScanningFiles,
-                                ),
-                              );
-                            }
-
-                            // List of queued/processing videos
-                            return SliverToBoxAdapter(
-                              child: VideoQueueView(state: state),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                  Icon(
+                    Icons.warning_amber_rounded,
+                    color: theme.colorScheme.onError,
                   ),
-
-                  // 4. Bottom Action Bar
-                  BlocBuilder<CompressionCubit, CompressionState>(
-                    builder: (context, state) {
-                      if (state.videos.isEmpty) return const SizedBox.shrink();
-                      return BottomActionBar(state: state);
-                    },
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      state.fallbackWarningMessage!,
+                      style: TextStyle(color: theme.colorScheme.onError),
+                    ),
                   ),
                 ],
               ),
+              backgroundColor: theme.colorScheme.error,
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              duration: const Duration(seconds: 3),
             ),
-            
-            // Global Drag Overlay
-            BlocBuilder<CompressionCubit, CompressionState>(
-              buildWhen: (prev, curr) => prev.isDragHovering != curr.isDragHovering,
-              builder: (context, state) {
-                final theme = Theme.of(context);
-                return IgnorePointer(
-                  ignoring: !state.isDragHovering,
-                  child: AnimatedOpacity(
-                    opacity: state.isDragHovering ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 250),
-                    child: BackdropFilter(
-                      filter: dart_ui.ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-                      child: Container(
-                        color: theme.colorScheme.surface.withValues(alpha: 0.2),
-                        child: Center(
-                          child: Container(
-                            margin: const EdgeInsets.all(40),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              border: Border.all(
-                                color: theme.colorScheme.primary.withValues(alpha: 0.3),
-                                width: 1.5,
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: DropTarget(
+          onDragEntered: (_) =>
+              context.read<CompressionCubit>().setDragHovering(true),
+          onDragExited: (_) =>
+              context.read<CompressionCubit>().setDragHovering(false),
+          onDragDone: (details) {
+            context.read<CompressionCubit>().setDragHovering(false);
+            final paths = details.files.map((f) => f.path).toList();
+            context.read<CompressionCubit>().addFiles(paths);
+          },
+          child: Stack(
+            children: [
+              AuroraBackground(
+                child: Column(
+                  children: [
+                    // 1. Custom Title Bar
+                    const CustomTitleBar(),
+
+                    // 2 & 3. Settings Panel & Main Content Area (Scrollable together)
+                    Expanded(
+                      child: CustomScrollView(
+                        slivers: [
+                          const SliverToBoxAdapter(child: SettingsPanel()),
+                          BlocBuilder<CompressionCubit, CompressionState>(
+                            builder: (context, state) {
+                              if (state.videos.isEmpty) {
+                                // Empty state drag & drop zone
+                                return SliverFillRemaining(
+                                  hasScrollBody: false,
+                                  child: DropZoneWidget(
+                                    isHovering: state.isDragHovering,
+                                    isScanningFiles: state.isScanningFiles,
+                                  ),
+                                );
+                              }
+
+                              // List of queued/processing videos
+                              return SliverToBoxAdapter(
+                                child: VideoQueueView(state: state),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // 4. Bottom Action Bar
+                    BlocBuilder<CompressionCubit, CompressionState>(
+                      builder: (context, state) {
+                        if (state.videos.isEmpty)
+                          return const SizedBox.shrink();
+                        return BottomActionBar(state: state);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+              // Global Drag Overlay
+              BlocBuilder<CompressionCubit, CompressionState>(
+                buildWhen: (prev, curr) =>
+                    prev.isDragHovering != curr.isDragHovering,
+                builder: (context, state) {
+                  final theme = Theme.of(context);
+                  return IgnorePointer(
+                    ignoring: !state.isDragHovering,
+                    child: AnimatedOpacity(
+                      opacity: state.isDragHovering ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 250),
+                      child: BackdropFilter(
+                        filter: dart_ui.ImageFilter.blur(
+                          sigmaX: 24,
+                          sigmaY: 24,
+                        ),
+                        child: Container(
+                          color: theme.colorScheme.surface.withValues(
+                            alpha: 0.2,
+                          ),
+                          child: Center(
+                            child: Container(
+                              margin: const EdgeInsets.all(40),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                                border: Border.all(
+                                  color: theme.colorScheme.primary.withValues(
+                                    alpha: 0.3,
+                                  ),
+                                  width: 1.5,
+                                ),
+                                color: theme.colorScheme.primary.withValues(
+                                  alpha: 0.03,
+                                ),
                               ),
-                              color: theme.colorScheme.primary.withValues(alpha: 0.03),
-                            ),
-                            child: Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.tray_arrow_down,
-                                    size: 80,
-                                    color: theme.colorScheme.primary.withValues(alpha: 0.8),
-                                  ),
-                                  const SizedBox(height: 32),
-                                  Text(
-                                    'Release to Shrink',
-                                    style: theme.textTheme.headlineMedium?.copyWith(
-                                      fontWeight: FontWeight.w300,
-                                      color: theme.colorScheme.onSurface,
-                                      letterSpacing: 1.2,
+                              child: Center(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      CupertinoIcons.tray_arrow_down,
+                                      size: 80,
+                                      color: theme.colorScheme.primary
+                                          .withValues(alpha: 0.8),
                                     ),
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    'Your files will be added to the queue.',
-                                    style: theme.textTheme.bodyLarge?.copyWith(
-                                      color: theme.textTheme.bodySmall?.color,
-                                      fontWeight: FontWeight.w400,
-                                      letterSpacing: 0.5,
+                                    const SizedBox(height: 32),
+                                    Text(
+                                      'Release to Shrink',
+                                      style: theme.textTheme.headlineMedium
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w300,
+                                            color: theme.colorScheme.onSurface,
+                                            letterSpacing: 1.2,
+                                          ),
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      'Your files will be added to the queue.',
+                                      style: theme.textTheme.bodyLarge
+                                          ?.copyWith(
+                                            color: theme
+                                                .textTheme
+                                                .bodySmall
+                                                ?.color,
+                                            fontWeight: FontWeight.w400,
+                                            letterSpacing: 0.5,
+                                          ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-            ),
-          ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

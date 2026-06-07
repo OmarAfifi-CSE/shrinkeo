@@ -9,12 +9,14 @@ import '../cubit/compression_state.dart' show AudioMode, FrameRateMode, Hardware
 class CompressionProgress {
   final double progress;
   final double speed;
+  final double? emaSpeed;
   final Duration? eta;
   final int? currentOutputSizeBytes;
 
   CompressionProgress({
     required this.progress,
     required this.speed,
+    this.emaSpeed,
     this.eta,
     this.currentOutputSizeBytes,
   });
@@ -322,6 +324,7 @@ class FfmpegService {
     // Throttle progress emissions: min 100ms between updates or 0.5% delta.
     double lastEmittedProgress = 0.0;
     DateTime lastEmitTime = DateTime.now();
+    double? emaSpeed;
 
     // Buffer for partial lines from stderr.
     String stderrBuffer = '';
@@ -363,9 +366,33 @@ class FfmpegService {
             speed = double.tryParse(speedMatch.group(1)!) ?? 0.0;
           }
 
+          // Smart ETA: Adaptive Exponential Moving Average (EMA)
+          if (speed > 0) {
+            if (emaSpeed == null) {
+              emaSpeed = speed;
+            } else {
+              double alpha = 0.1; // Default smoothing factor (highly stable)
+
+              // 1. Warm-up Phase: React faster in the first 5% of compression
+              if (progress < 0.05) {
+                alpha = 0.5;
+              }
+              // 2. Short Videos: If video is < 15 seconds, be more responsive overall
+              else if (totalMs < 15000) {
+                alpha = 0.4;
+              }
+              // 3. Drastic Speed Shifts (Staircase problem): Catch up faster if speed changes by > 50%
+              else if ((speed - emaSpeed).abs() / emaSpeed > 0.5) {
+                alpha = 0.3;
+              }
+
+              emaSpeed = (emaSpeed * (1.0 - alpha)) + (speed * alpha);
+            }
+          }
+
           Duration? eta;
-          if (speed > 0.0 && progress < 1.0) {
-            final remainingMs = (totalMs - currentMs) / speed;
+          if (emaSpeed != null && emaSpeed > 0.0 && progress < 1.0) {
+            final remainingMs = (totalMs - currentMs) / emaSpeed;
             eta = Duration(milliseconds: remainingMs.round());
           }
 
@@ -386,6 +413,7 @@ class FfmpegService {
             yield CompressionProgress(
               progress: progress,
               speed: speed,
+              emaSpeed: emaSpeed,
               eta: eta,
               currentOutputSizeBytes: currentOutputSize,
             );
