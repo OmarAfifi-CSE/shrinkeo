@@ -8,6 +8,7 @@ import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../app_colors.dart';
+import '../screens/home_screen.dart';
 
 class CustomTitleBar extends StatelessWidget {
   const CustomTitleBar({super.key});
@@ -233,7 +234,7 @@ class CustomTitleBar extends StatelessWidget {
                 _TitleBarButton(
                   icon: Icons.close_rounded,
                   iconColor: theme.iconTheme.color,
-                  onTap: () => windowManager.close(),
+                  onTap: () => HomeScreen.handleAppClose(context),
                   hoverColor: AppColors.errorRed,
                   tooltip: 'Close',
                 ),

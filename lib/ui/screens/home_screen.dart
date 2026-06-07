@@ -27,6 +27,210 @@ class HomeScreen extends StatefulWidget {
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
+
+  /// Handles the app close logic directly to bypass window_manager delays
+  static Future<void> handleAppClose(BuildContext context) async {
+    final cubit = context.read<CompressionCubit>();
+    if (cubit.state.phase == CompressionPhase.compressing ||
+        cubit.state.phase == CompressionPhase.probing) {
+      await showGeneralDialog<void>(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.6),
+        barrierDismissible: false,
+        barrierLabel: 'Close Dialog',
+        transitionDuration: const Duration(milliseconds: 300),
+        pageBuilder: (context, animation, secondaryAnimation) {
+          bool isClosing = false;
+          return StatefulBuilder(
+            builder: (context, setState) {
+              final isDark = Theme.of(context).brightness == Brightness.dark;
+
+              return PopScope(
+                canPop: !isClosing,
+                child: Dialog(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  insetPadding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 24,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: BackdropFilter(
+                      filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                      child: Container(
+                        width: 400,
+                        padding: const EdgeInsets.all(32),
+                        decoration: BoxDecoration(
+                          color: isDark
+                              ? AppColors.surfaceContainerDark.withValues(
+                                  alpha: 0.85,
+                                )
+                              : AppColors.surfaceContainerLight.withValues(
+                                  alpha: 0.85,
+                                ),
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: isDark
+                                ? Colors.white.withValues(alpha: 0.1)
+                                : Colors.black.withValues(alpha: 0.05),
+                            width: 1,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.2),
+                              blurRadius: 30,
+                              offset: const Offset(0, 15),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Alert Icon
+                            Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: AppColors.errorRed.withValues(
+                                  alpha: 0.15,
+                                ),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.warning_rounded,
+                                color: AppColors.errorRed,
+                                size: 36,
+                              ),
+                            ),
+                            const SizedBox(height: 24),
+                            // Title
+                            Text(
+                              'Compression in Progress',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: -0.5,
+                                color: isDark
+                                    ? AppColors.textHighDark
+                                    : AppColors.textHighLight,
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            // Description
+                            Text(
+                              'Are you sure you want to close Shrinkeo?\nThis will cancel all current compressions and you might lose your progress.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 14,
+                                height: 1.6,
+                                color: isDark
+                                    ? AppColors.textMediumDark
+                                    : AppColors.textMediumLight,
+                              ),
+                            ),
+                            const SizedBox(height: 32),
+                            // Buttons
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextButton(
+                                    onPressed: isClosing
+                                        ? null
+                                        : () => Navigator.of(context).pop(),
+                                    style: TextButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 18,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                      foregroundColor: isDark
+                                          ? AppColors.textMediumDark
+                                          : AppColors.textMediumLight,
+                                      backgroundColor: isDark
+                                          ? Colors.white.withValues(alpha: 0.05)
+                                          : Colors.black.withValues(
+                                              alpha: 0.03,
+                                            ),
+                                    ),
+                                    child: const Text(
+                                      'Keep Compressing',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: isClosing
+                                        ? null
+                                        : () async {
+                                            setState(() {
+                                              isClosing = true;
+                                            });
+                                            await cubit.cancelCompression();
+                                            exit(0);
+                                          },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 18,
+                                      ),
+                                      backgroundColor: AppColors.errorRed,
+                                      foregroundColor: Colors.white,
+                                      elevation: 0,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(14),
+                                      ),
+                                    ),
+                                    child: isClosing
+                                        ? const SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 2,
+                                            ),
+                                          )
+                                        : const Text(
+                                            'Close App',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+        transitionBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: CurvedAnimation(parent: animation, curve: Curves.linear),
+            child: ScaleTransition(
+              scale: Tween<double>(begin: 0.95, end: 1.0).animate(
+                CurvedAnimation(parent: animation, curve: Curves.linear),
+              ),
+              child: child,
+            ),
+          );
+        },
+      );
+    } else {
+      exit(0);
+    }
+  }
 }
 
 class _HomeScreenState extends State<HomeScreen> with WindowListener {
@@ -39,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UpdateService.checkForUpdates(context);
     });
-    
+
     windowManager.addListener(this);
 
     _externalFilesSubscription = DesktopIntegrationService.fileStream.listen((
@@ -61,148 +265,7 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
   @override
   void onWindowClose() async {
     if (!mounted) return;
-    
-    final cubit = context.read<CompressionCubit>();
-    if (cubit.state.phase == CompressionPhase.compressing || 
-        cubit.state.phase == CompressionPhase.probing) {
-      
-      final bool? shouldClose = await showDialog<bool>(
-        context: context,
-        barrierColor: Colors.black.withValues(alpha: 0.6),
-        builder: (ctx) {
-          final isDark = Theme.of(ctx).brightness == Brightness.dark;
-          return Dialog(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(24),
-              child: BackdropFilter(
-                filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                child: Container(
-                  width: 400,
-                  padding: const EdgeInsets.all(32),
-                  decoration: BoxDecoration(
-                    color: isDark 
-                        ? AppColors.surfaceContainerDark.withValues(alpha: 0.85) 
-                        : AppColors.surfaceContainerLight.withValues(alpha: 0.85),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(
-                      color: isDark 
-                          ? Colors.white.withValues(alpha: 0.1) 
-                          : Colors.black.withValues(alpha: 0.05),
-                      width: 1,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        blurRadius: 30,
-                        offset: const Offset(0, 15),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Alert Icon
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: AppColors.errorRed.withValues(alpha: 0.15),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.warning_rounded,
-                          color: AppColors.errorRed,
-                          size: 36,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      // Title
-                      Text(
-                        'Compression in Progress',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.5,
-                          color: isDark ? AppColors.textHighDark : AppColors.textHighLight,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      // Description
-                      Text(
-                        'Are you sure you want to close Shrinkeo?\nThis will cancel all current compressions and you might lose your progress.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          height: 1.6,
-                          color: isDark ? AppColors.textMediumDark : AppColors.textMediumLight,
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      // Buttons
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextButton(
-                              onPressed: () => Navigator.of(ctx).pop(false),
-                              style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 18),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                foregroundColor: isDark ? AppColors.textMediumDark : AppColors.textMediumLight,
-                                backgroundColor: isDark 
-                                    ? Colors.white.withValues(alpha: 0.05)
-                                    : Colors.black.withValues(alpha: 0.03),
-                              ),
-                              child: const Text(
-                                'Keep Compressing',
-                                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () => Navigator.of(ctx).pop(true),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(vertical: 18),
-                                backgroundColor: AppColors.errorRed,
-                                foregroundColor: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                              ),
-                              child: const Text(
-                                'Close App',
-                                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      );
-
-      if (shouldClose == true) {
-        await cubit.cancelCompression();
-        await windowManager.setPreventClose(false);
-        await windowManager.close();
-        exit(0);
-      }
-    } else {
-      await windowManager.setPreventClose(false);
-      await windowManager.close();
-      exit(0);
-    }
+    HomeScreen.handleAppClose(context);
   }
 
   @override
