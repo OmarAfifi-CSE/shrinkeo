@@ -239,10 +239,16 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
   @override
   void initState() {
     super.initState();
-    // Check for updates when the home screen loads
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      UpdateService.checkForUpdates(context);
-    });
+    // Determine if this is a Microsoft Store build.
+    // Use: flutter build windows --dart-define=STORE_RELEASE=true
+    const bool isStoreRelease = bool.fromEnvironment('STORE_RELEASE', defaultValue: false);
+
+    if (!isStoreRelease) {
+      // Check for updates when the home screen loads (GitHub users only)
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        UpdateService.checkForUpdates(context);
+      });
+    }
 
     windowManager.addListener(this);
 
