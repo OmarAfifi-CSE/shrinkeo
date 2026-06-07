@@ -21,210 +21,225 @@ class CustomTitleBar extends StatelessWidget {
       child: Container(
         height: 42,
         color: Colors.transparent,
-        child: Row(
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            const SizedBox(width: 14),
+            Row(
+              children: [
+                const SizedBox(width: 14),
 
-            // App icon
-            Image.asset(
-              theme.brightness == Brightness.dark
-                  ? 'assets/images/app_icon_dark.png'
-                  : 'assets/images/app_icon_light.png',
-              width: 24,
-              height: 24,
-            ),
-            const SizedBox(width: 12),
+                // App icon
+                Image.asset(
+                  theme.brightness == Brightness.dark
+                      ? 'assets/images/app_icon_dark.png'
+                      : 'assets/images/app_icon_light.png',
+                  width: 24,
+                  height: 24,
+                ),
+                const SizedBox(width: 12),
 
-            // App title
-            Text(
-              AppStrings.appName,
-              style: TextStyle(
-                color: theme.textTheme.titleLarge?.color ?? Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                letterSpacing: -0.3,
-              ),
-            ),
-            const SizedBox(width: 8),
+                // App title
+                Text(
+                  AppStrings.appName,
+                  style: TextStyle(
+                    color: theme.textTheme.titleLarge?.color ?? Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.3,
+                  ),
+                ),
+                const SizedBox(width: 8),
 
-            // Global Saved Space badge
-            BlocBuilder<CompressionCubit, CompressionState>(
-              buildWhen: (prev, curr) =>
-                  prev.globalSavedBytes != curr.globalSavedBytes,
-              builder: (context, state) {
-                if (state.globalSavedBytes <= 0) return const SizedBox.shrink();
+                // Global Saved Space badge
+                BlocBuilder<CompressionCubit, CompressionState>(
+                  buildWhen: (prev, curr) =>
+                      prev.globalSavedBytes != curr.globalSavedBytes,
+                  builder: (context, state) {
+                    if (state.globalSavedBytes <= 0) {
+                      return const SizedBox.shrink();
+                    }
 
-                final isDark = theme.brightness == Brightness.dark;
-                final badgeColor = isDark
-                    ? AppColors.successGreen
-                    : const Color(0xFF059669);
+                    final isDark = theme.brightness == Brightness.dark;
+                    final badgeColor = isDark
+                        ? AppColors.successGreen
+                        : const Color(0xFF059669);
 
-                String formatBytes(int bytes) {
-                  if (bytes < 1024) return '$bytes B';
-                  if (bytes < 1024 * 1024) {
-                    return '${(bytes / 1024).toStringAsFixed(1)} KB';
-                  }
-                  if (bytes < 1024 * 1024 * 1024) {
-                    return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
-                  }
-                  return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
-                }
+                    String formatBytes(int bytes) {
+                      if (bytes < 1024) return '$bytes B';
+                      if (bytes < 1024 * 1024) {
+                        return '${(bytes / 1024).toStringAsFixed(1)} KB';
+                      }
+                      if (bytes < 1024 * 1024 * 1024) {
+                        return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+                      }
+                      return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
+                    }
 
-                return Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: Tooltip(
-                    message: AppStrings.totalSpaceSaved,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: badgeColor.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color: badgeColor.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          Icon(Icons.eco_rounded, size: 12, color: badgeColor),
-                          const SizedBox(width: 4),
-                          Text(
-                            '${AppStrings.savedSpacePrefix} ${formatBytes(state.globalSavedBytes)}',
-                            style: TextStyle(
-                              color: badgeColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Tooltip(
+                        message: AppStrings.totalSpaceSaved,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: badgeColor.withValues(alpha: 0.15),
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: badgeColor.withValues(alpha: 0.3),
                             ),
                           ),
-                        ],
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.eco_rounded,
+                                size: 12,
+                                color: badgeColor,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${AppStrings.savedSpacePrefix} ${formatBytes(state.globalSavedBytes)}',
+                                style: TextStyle(
+                                  color: badgeColor,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
 
-            const Spacer(),
+                const Spacer(),
 
-            // Support Project Button
-            const _SupportButton(),
-
-            const Spacer(),
-
-            // Global error indicator
-            BlocBuilder<CompressionCubit, CompressionState>(
-              buildWhen: (prev, curr) => prev.globalError != curr.globalError,
-              builder: (context, state) {
-                if (state.globalError == null) return const SizedBox.shrink();
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Tooltip(
-                    message: state.globalError!,
-                    child: const Icon(
-                      Icons.warning_amber_rounded,
-                      color: AppColors.warningOrange,
-                      size: 16,
-                    ),
-                  ),
-                );
-              },
-            ),
-
-            // Active config badge
-            BlocBuilder<CompressionCubit, CompressionState>(
-              buildWhen: (prev, curr) =>
-                  prev.crfQuality != curr.crfQuality ||
-                  prev.encodingPreset != curr.encodingPreset,
-              builder: (context, state) {
-                final isDark = theme.brightness == Brightness.dark;
-                final badgeColor = isDark
-                    ? AppColors.primaryAccentLight
-                    : AppColors.primaryAccent;
-
-                return Padding(
-                  padding: const EdgeInsets.only(right: 6),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 3,
-                    ),
-                    decoration: BoxDecoration(
-                      color: badgeColor.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: badgeColor.withValues(alpha: 0.3),
+                // Global error indicator
+                BlocBuilder<CompressionCubit, CompressionState>(
+                  buildWhen: (prev, curr) =>
+                      prev.globalError != curr.globalError,
+                  builder: (context, state) {
+                    if (state.globalError == null) {
+                      return const SizedBox.shrink();
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Tooltip(
+                        message: state.globalError!,
+                        child: const Icon(
+                          Icons.warning_amber_rounded,
+                          color: AppColors.warningOrange,
+                          size: 16,
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      'CRF ${state.crfQuality} · ${state.encodingPreset.label}',
-                      style: TextStyle(
-                        color: badgeColor,
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
 
-            // Theme toggle
-            BlocBuilder<CompressionCubit, CompressionState>(
-              buildWhen: (prev, curr) => prev.themeMode != curr.themeMode,
-              builder: (context, state) {
-                final isDark =
-                    state.themeMode == ThemeMode.dark ||
-                    (state.themeMode == ThemeMode.system &&
-                        MediaQuery.platformBrightnessOf(context) ==
-                            Brightness.dark);
-                return _TitleBarButton(
-                  icon: isDark
-                      ? Icons.light_mode_rounded
-                      : Icons.dark_mode_rounded,
+                // Active config badge
+                BlocBuilder<CompressionCubit, CompressionState>(
+                  buildWhen: (prev, curr) =>
+                      prev.crfQuality != curr.crfQuality ||
+                      prev.encodingPreset != curr.encodingPreset,
+                  builder: (context, state) {
+                    final isDark = theme.brightness == Brightness.dark;
+                    final badgeColor = isDark
+                        ? AppColors.primaryAccentLight
+                        : AppColors.primaryAccent;
+
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: badgeColor.withValues(alpha: 0.15),
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: badgeColor.withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Text(
+                          'CRF ${state.crfQuality} · ${state.encodingPreset.label}',
+                          style: TextStyle(
+                            color: badgeColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+
+                // Theme toggle
+                BlocBuilder<CompressionCubit, CompressionState>(
+                  buildWhen: (prev, curr) => prev.themeMode != curr.themeMode,
+                  builder: (context, state) {
+                    final isDark =
+                        state.themeMode == ThemeMode.dark ||
+                        (state.themeMode == ThemeMode.system &&
+                            MediaQuery.platformBrightnessOf(context) ==
+                                Brightness.dark);
+                    return _TitleBarButton(
+                      icon: isDark
+                          ? Icons.light_mode_rounded
+                          : Icons.dark_mode_rounded,
+                      iconColor: theme.iconTheme.color,
+                      onTap: () =>
+                          context.read<CompressionCubit>().toggleTheme(),
+                      tooltip: isDark ? 'Light Theme' : 'Dark Theme',
+                    );
+                  },
+                ),
+
+                // Settings toggle
+                BlocBuilder<CompressionCubit, CompressionState>(
+                  buildWhen: (prev, curr) =>
+                      prev.isSettingsExpanded != curr.isSettingsExpanded,
+                  builder: (context, state) {
+                    return _TitleBarButton(
+                      icon: Icons.tune_rounded,
+                      iconColor: state.isSettingsExpanded
+                          ? theme.colorScheme.primary
+                          : theme.iconTheme.color,
+                      onTap: () =>
+                          context.read<CompressionCubit>().toggleSettings(),
+                      tooltip: 'Settings',
+                    );
+                  },
+                ),
+
+                // Divider
+                Container(
+                  width: 1,
+                  height: 18,
+                  color: theme.dividerTheme.color,
+                ),
+
+                // Window controls
+                _TitleBarButton(
+                  icon: Icons.remove_rounded,
                   iconColor: theme.iconTheme.color,
-                  onTap: () => context.read<CompressionCubit>().toggleTheme(),
-                  tooltip: isDark ? 'Light Theme' : 'Dark Theme',
-                );
-              },
+                  onTap: () => windowManager.minimize(),
+                  tooltip: 'Minimize',
+                ),
+                _MaximizeButton(),
+                _TitleBarButton(
+                  icon: Icons.close_rounded,
+                  iconColor: theme.iconTheme.color,
+                  onTap: () => windowManager.close(),
+                  hoverColor: AppColors.errorRed,
+                  tooltip: 'Close',
+                ),
+              ],
             ),
-
-            // Settings toggle
-            BlocBuilder<CompressionCubit, CompressionState>(
-              buildWhen: (prev, curr) =>
-                  prev.isSettingsExpanded != curr.isSettingsExpanded,
-              builder: (context, state) {
-                return _TitleBarButton(
-                  icon: Icons.tune_rounded,
-                  iconColor: state.isSettingsExpanded
-                      ? theme.colorScheme.primary
-                      : theme.iconTheme.color,
-                  onTap: () =>
-                      context.read<CompressionCubit>().toggleSettings(),
-                  tooltip: 'Settings',
-                );
-              },
-            ),
-
-            // Divider
-            Container(width: 1, height: 18, color: theme.dividerTheme.color),
-
-            // Window controls
-            _TitleBarButton(
-              icon: Icons.remove_rounded,
-              iconColor: theme.iconTheme.color,
-              onTap: () => windowManager.minimize(),
-              tooltip: 'Minimize',
-            ),
-            _MaximizeButton(),
-            _TitleBarButton(
-              icon: Icons.close_rounded,
-              iconColor: theme.iconTheme.color,
-              onTap: () => windowManager.close(),
-              hoverColor: AppColors.errorRed,
-              tooltip: 'Close',
-            ),
+            const _SupportButton(),
           ],
         ),
       ),
@@ -385,6 +400,7 @@ class _SupportButtonState extends State<_SupportButton> {
             ),
           ),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
                 Icons.local_cafe_rounded,
@@ -407,4 +423,3 @@ class _SupportButtonState extends State<_SupportButton> {
     );
   }
 }
-

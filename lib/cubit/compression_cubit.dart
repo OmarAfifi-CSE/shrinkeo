@@ -61,6 +61,7 @@ class CompressionCubit extends Cubit<CompressionState> with WindowListener {
            outputLocationMode: _parseOutputLocationMode(prefs),
            deleteOriginalOnSuccess:
                prefs.getBool('deleteOriginalOnSuccess') ?? false,
+           globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
          ),
        ) {
     windowManager.addListener(this);
