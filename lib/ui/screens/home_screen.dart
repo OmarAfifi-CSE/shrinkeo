@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui' as dart_ui;
 
+import 'package:window_manager/window_manager.dart';
+
 import '../../services/desktop_integration_service.dart';
 
 import '../../cubit/compression_cubit.dart';
@@ -16,6 +18,7 @@ import '../widgets/custom_title_bar.dart';
 import '../widgets/drop_zone_widget.dart';
 import '../widgets/settings/settings_panel.dart';
 import '../widgets/video_queue_view.dart';
+import '../app_colors.dart';
 
 /// The main interface of the Shrinkeo application.
 class HomeScreen extends StatefulWidget {
@@ -25,7 +28,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WindowListener {
   StreamSubscription? _externalFilesSubscription;
 
   @override
@@ -35,6 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       UpdateService.checkForUpdates(context);
     });
+    
+    windowManager.addListener(this);
 
     _externalFilesSubscription = DesktopIntegrationService.fileStream.listen((
       paths,
@@ -48,7 +53,151 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void dispose() {
     _externalFilesSubscription?.cancel();
+    windowManager.removeListener(this);
     super.dispose();
+  }
+
+  @override
+  void onWindowClose() async {
+    if (!mounted) return;
+    
+    final cubit = context.read<CompressionCubit>();
+    if (cubit.state.phase == CompressionPhase.compressing || 
+        cubit.state.phase == CompressionPhase.probing) {
+      
+      final bool? shouldClose = await showDialog<bool>(
+        context: context,
+        barrierColor: Colors.black.withValues(alpha: 0.6),
+        builder: (ctx) {
+          final isDark = Theme.of(ctx).brightness == Brightness.dark;
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            insetPadding: const EdgeInsets.symmetric(horizontal: 40, vertical: 24),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(24),
+              child: BackdropFilter(
+                filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                child: Container(
+                  width: 400,
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: isDark 
+                        ? AppColors.surfaceContainerDark.withValues(alpha: 0.85) 
+                        : AppColors.surfaceContainerLight.withValues(alpha: 0.85),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: isDark 
+                          ? Colors.white.withValues(alpha: 0.1) 
+                          : Colors.black.withValues(alpha: 0.05),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.2),
+                        blurRadius: 30,
+                        offset: const Offset(0, 15),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Alert Icon
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: AppColors.errorRed.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.warning_rounded,
+                          color: AppColors.errorRed,
+                          size: 36,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      // Title
+                      Text(
+                        'Compression in Progress',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.5,
+                          color: isDark ? AppColors.textHighDark : AppColors.textHighLight,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      // Description
+                      Text(
+                        'Are you sure you want to close Shrinkeo?\nThis will cancel all current compressions and you might lose your progress.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 1.6,
+                          color: isDark ? AppColors.textMediumDark : AppColors.textMediumLight,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      // Buttons
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () => Navigator.of(ctx).pop(false),
+                              style: TextButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 18),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                foregroundColor: isDark ? AppColors.textMediumDark : AppColors.textMediumLight,
+                                backgroundColor: isDark 
+                                    ? Colors.white.withValues(alpha: 0.05)
+                                    : Colors.black.withValues(alpha: 0.03),
+                              ),
+                              child: const Text(
+                                'Keep Compressing',
+                                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () => Navigator.of(ctx).pop(true),
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 18),
+                                backgroundColor: AppColors.errorRed,
+                                foregroundColor: Colors.white,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
+                              child: const Text(
+                                'Close App',
+                                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+
+      if (shouldClose == true) {
+        await cubit.cancelCompression();
+        await windowManager.destroy();
+      }
+    } else {
+      await windowManager.destroy();
+    }
   }
 
   @override

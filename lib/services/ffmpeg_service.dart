@@ -256,10 +256,16 @@ class FfmpegService {
       args.addAll(['-crf', crf.toString(), '-preset', mappedPreset]);
     } else if (hardwareEncoder == HardwareEncoder.nvidia) {
       args.addAll(['-cq', crf.toString(), '-preset', mappedPreset]);
-    } else {
-      // AMF and QSV can be tricky with CRF. We'll just pass -q:v for simplicity or -crf if it supports it.
-      // Often, a fallback global quality is best.
-      args.addAll(['-global_quality', crf.toString(), '-preset', mappedPreset]);
+    } else if (hardwareEncoder == HardwareEncoder.amd) {
+      args.addAll([
+        '-rc', 'cqp',
+        '-qp_i', crf.toString(),
+        '-qp_p', crf.toString(),
+        '-qp_b', crf.toString(),
+        '-preset', mappedPreset,
+      ]);
+    } else if (hardwareEncoder == HardwareEncoder.intel) {
+      args.addAll(['-q:v', crf.toString(), '-preset', mappedPreset]);
     }
 
     // --- Resolution Downscaling ---
@@ -440,10 +446,14 @@ class FfmpegService {
   }
 
   /// Cancels the currently running FFmpeg process, if any.
-  void cancelCurrentProcess() {
+  Future<void> cancelCurrentProcess() async {
     _isCancelled = true;
     if (_currentProcess != null) {
-      _currentProcess!.kill(ProcessSignal.sigkill);
+      final process = _currentProcess!;
+      process.kill(ProcessSignal.sigkill);
+      try {
+        await process.exitCode.timeout(const Duration(milliseconds: 1500));
+      } catch (_) {}
       _currentProcess = null;
     }
   }

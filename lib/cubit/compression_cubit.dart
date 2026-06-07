@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
-import 'package:window_manager/window_manager.dart';
+
 import 'package:path/path.dart' as p;
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,7 +29,7 @@ String _naturalSortKey(String name) {
 ///
 /// Manages the queue of videos, coordinates FFmpeg processes, and emits
 /// state updates for the UI layer.
-class CompressionCubit extends Cubit<CompressionState> with WindowListener {
+class CompressionCubit extends Cubit<CompressionState> {
   final FfmpegService _ffmpegService;
   final FileScannerService _fileScannerService;
   final OutputFolderService _outputFolderService;
@@ -63,28 +63,7 @@ class CompressionCubit extends Cubit<CompressionState> with WindowListener {
                prefs.getBool('deleteOriginalOnSuccess') ?? false,
            globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
          ),
-       ) {
-    windowManager.addListener(this);
-  }
-
-  @override
-  void onWindowClose() async {
-    // If running, cancel process before allowing window to close
-    if (state.phase == CompressionPhase.compressing ||
-        state.phase == CompressionPhase.probing) {
-      debugPrint(
-        'Window closed during compression. Cancelling FFmpeg process...',
-      );
-      _ffmpegService.cancelCurrentProcess();
-    }
-    await windowManager.destroy();
-  }
-
-  @override
-  Future<void> close() {
-    windowManager.removeListener(this);
-    return super.close();
-  }
+       );
 
   static ThemeMode _parseTheme(SharedPreferences prefs) {
     final themeStr = prefs.getString('themeMode');
@@ -965,6 +944,19 @@ class CompressionCubit extends Cubit<CompressionState> with WindowListener {
         }
 
         // Genuine failure (or second attempt failed)
+        if (video.outputPath != null) {
+          final file = File(video.outputPath!);
+          int retries = 0;
+          while (file.existsSync() && retries < 5) {
+            try {
+              file.deleteSync();
+              break;
+            } catch (_) {
+              await Future.delayed(const Duration(milliseconds: 100));
+              retries++;
+            }
+          }
+        }
         safelyUpdateVideo(
           video.copyWith(status: VideoStatus.failed, errorMessage: errorMsg),
         );
@@ -977,15 +969,31 @@ class CompressionCubit extends Cubit<CompressionState> with WindowListener {
   ///
   /// Kills the current FFmpeg process and marks remaining queued videos
   /// as cancelled.
-  void cancelCompression() {
+  Future<void> cancelCompression() async {
     _cancelRequested = true;
-    _ffmpegService.cancelCurrentProcess();
+    await _ffmpegService.cancelCurrentProcess();
 
     // Mark the currently compressing video as cancelled.
     if (state.currentIndex >= 0 && state.currentIndex < state.videos.length) {
       final current = state.videos[state.currentIndex];
       if (current.status == VideoStatus.compressing ||
           current.status == VideoStatus.probing) {
+        
+        // Delete partial file
+        if (current.outputPath != null) {
+          final file = File(current.outputPath!);
+          int retries = 0;
+          while (file.existsSync() && retries < 5) {
+            try {
+              file.deleteSync();
+              break;
+            } catch (_) {
+              await Future.delayed(const Duration(milliseconds: 100));
+              retries++;
+            }
+          }
+        }
+
         _updateVideo(
           state.currentIndex,
           current.copyWith(status: VideoStatus.cancelled),
@@ -1007,7 +1015,7 @@ class CompressionCubit extends Cubit<CompressionState> with WindowListener {
   ///
   /// If the video is currently being processed, kills the FFmpeg process.
   /// If queued, removes it from the list.
-  void cancelSingle(String id) {
+  Future<void> cancelSingle(String id) async {
     final index = state.videos.indexWhere((v) => v.id == id);
     if (index < 0) return;
 
@@ -1016,7 +1024,23 @@ class CompressionCubit extends Cubit<CompressionState> with WindowListener {
     if (video.status == VideoStatus.compressing ||
         video.status == VideoStatus.probing) {
       // Currently processing — cancel FFmpeg.
-      _ffmpegService.cancelCurrentProcess();
+      await _ffmpegService.cancelCurrentProcess();
+      
+      // Delete partial file
+      if (video.outputPath != null) {
+        final file = File(video.outputPath!);
+        int retries = 0;
+        while (file.existsSync() && retries < 5) {
+          try {
+            file.deleteSync();
+            break;
+          } catch (_) {
+            await Future.delayed(const Duration(milliseconds: 100));
+            retries++;
+          }
+        }
+      }
+
       _updateVideo(index, video.copyWith(status: VideoStatus.cancelled));
     } else {
       // For all other statuses (queued, success, failed, cancelled) — remove from queue.
