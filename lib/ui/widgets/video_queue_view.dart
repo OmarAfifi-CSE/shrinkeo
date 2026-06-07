@@ -5,7 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
+import '../../models/video_file.dart';
 import 'video_file_card.dart';
+
+import 'package:animated_list_plus/animated_list_plus.dart';
+import 'package:animated_list_plus/transitions.dart';
 
 class VideoQueueView extends StatelessWidget {
   final CompressionState state;
@@ -44,15 +48,17 @@ class VideoQueueView extends StatelessWidget {
 
     return Column(
       children: [
-        ListView.builder(
+        ImplicitlyAnimatedList<VideoFile>(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
-          itemCount: state.videos.length,
-          itemBuilder: (context, index) {
-            final video = state.videos[index];
-            return _EntryAnimator(
-              key: ValueKey(video.id),
+          items: state.videos,
+          areItemsTheSame: (a, b) => a.id == b.id,
+          itemBuilder: (context, animation, video, index) {
+            return SizeFadeTransition(
+              sizeFraction: 0.7,
+              curve: Curves.easeInOut,
+              animation: animation,
               child: VideoFileCard(
                 video: video,
                 onRemove: () => cubit.cancelSingle(video.id),
@@ -106,61 +112,6 @@ class VideoQueueView extends StatelessWidget {
             ),
           ),
       ],
-    );
-  }
-}
-
-/// A simple entry animator for newly added queue items.
-class _EntryAnimator extends StatefulWidget {
-  final Widget child;
-
-  const _EntryAnimator({super.key, required this.child});
-
-  @override
-  State<_EntryAnimator> createState() => _EntryAnimatorState();
-}
-
-class _EntryAnimatorState extends State<_EntryAnimator> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fade;
-  late Animation<Offset> _slide;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    _fade = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    );
-    _slide = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOutCubic,
-    ));
-    
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _fade,
-      child: SlideTransition(
-        position: _slide,
-        child: widget.child,
-      ),
     );
   }
 }

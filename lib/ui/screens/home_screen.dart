@@ -139,8 +139,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     // 4. Bottom Action Bar
                     BlocBuilder<CompressionCubit, CompressionState>(
                       builder: (context, state) {
-                        if (state.videos.isEmpty)
+                        if (state.videos.isEmpty) {
                           return const SizedBox.shrink();
+                        }
                         return BottomActionBar(state: state);
                       },
                     ),

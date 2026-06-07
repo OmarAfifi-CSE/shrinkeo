@@ -32,6 +32,7 @@ dependencies:
   flutter_markdown: ^0.7.7+1
   ffi: ^2.2.0
   cupertino_icons: ^1.0.9
+  animated_list_plus: ^0.5.2
 
 dev_dependencies:
   flutter_test:
