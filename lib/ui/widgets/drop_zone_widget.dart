@@ -55,7 +55,9 @@ class DropZoneWidget extends StatelessWidget {
               boxShadow: isHovering
                   ? [
                       BoxShadow(
-                        color: theme.colorScheme.primary.withValues(alpha: 0.15),
+                        color: theme.colorScheme.primary.withValues(
+                          alpha: 0.15,
+                        ),
                         blurRadius: 20,
                         spreadRadius: 2,
                       ),
@@ -69,40 +71,32 @@ class DropZoneWidget extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Animated icon
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        transform: Matrix4.translationValues(
-                          0,
-                          isHovering ? -8 : 0,
-                          0,
-                        ),
-                        child: Container(
-                          width: 72,
-                          height: 72,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: theme.colorScheme.primary
-                                .withValues(alpha: isHovering ? 0.15 : 0.08),
+                      Container(
+                        width: 72,
+                        height: 72,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: theme.colorScheme.primary.withValues(
+                            alpha: isHovering ? 0.15 : 0.08,
                           ),
-                          child: isScanningFiles
-                              ? SizedBox(
-                                  width: 32,
-                                  height: 32,
-                                  child: CupertinoActivityIndicator(
-                                    radius: 16,
-                                    color: theme.colorScheme.primary,
-                                  ),
-                                )
-                              : Icon(
-                                  Icons.cloud_upload_rounded,
-                                  size: 32,
-                                  color: isHovering
-                                      ? theme.colorScheme.primary
-                                      : theme.textTheme.bodySmall?.color ??
-                                          Colors.white38,
-                                ),
                         ),
+                        child: isScanningFiles
+                            ? SizedBox(
+                                width: 32,
+                                height: 32,
+                                child: CupertinoActivityIndicator(
+                                  radius: 16,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              )
+                            : Icon(
+                                CupertinoIcons.cloud_upload,
+                                size: 36,
+                                color: isHovering
+                                    ? theme.colorScheme.primary
+                                    : theme.textTheme.bodySmall?.color ??
+                                          Colors.white38,
+                              ),
                       ),
                       const SizedBox(height: 18),
 
@@ -111,13 +105,13 @@ class DropZoneWidget extends StatelessWidget {
                         isScanningFiles
                             ? 'Scanning files... This may take a moment.'
                             : isHovering
-                                ? 'Release to add videos'
-                                : 'Drag & drop video files or folders here',
+                            ? 'Release to add videos'
+                            : 'Drag & drop video files or folders here',
                         style: TextStyle(
                           color: isHovering
                               ? theme.colorScheme.primary
                               : theme.textTheme.bodySmall?.color ??
-                                  Colors.white54,
+                                    Colors.white54,
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
                         ),
@@ -126,7 +120,8 @@ class DropZoneWidget extends StatelessWidget {
                       Text(
                         'Seamlessly supports MP4, MKV, MOV, AVI, WMV',
                         style: TextStyle(
-                          color: theme.textTheme.bodySmall?.color ??
+                          color:
+                              theme.textTheme.bodySmall?.color ??
                               Colors.white24,
                           fontSize: 12,
                           fontWeight: FontWeight.w400,

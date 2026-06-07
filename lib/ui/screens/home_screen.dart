@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:desktop_drop/desktop_drop.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui' as dart_ui;
@@ -141,8 +142,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Icon(
-                                    Icons.file_download_outlined,
-                                    size: 100,
+                                    CupertinoIcons.tray_arrow_down,
+                                    size: 80,
                                     color: theme.colorScheme.primary.withValues(alpha: 0.8),
                                   ),
                                   const SizedBox(height: 32),
@@ -156,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   const SizedBox(height: 12),
                                   Text(
-                                    'Let\'s lighten the load.',
+                                    'Your files will be added to the queue.',
                                     style: theme.textTheme.bodyLarge?.copyWith(
                                       color: theme.textTheme.bodySmall?.color,
                                       fontWeight: FontWeight.w400,
