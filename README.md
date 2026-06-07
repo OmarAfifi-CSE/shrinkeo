@@ -11,7 +11,7 @@
   <p>
     <a href="https://github.com/OmarAfifi-CSE/shrinkeo/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/OmarAfifi-CSE/shrinkeo?style=for-the-badge&color=448AFF&logo=github&labelColor=0A0A1A"></a>
     <a href="https://github.com/OmarAfifi-CSE/shrinkeo/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/OmarAfifi-CSE/shrinkeo/total?style=for-the-badge&color=448AFF&logo=github&labelColor=0A0A1A"></a>
-    <a href="https://github.com/OmarAfifi-CSE/shrinkeo/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/OmarAfifi-CSE/shrinkeo?style=for-the-badge&color=448AFF&labelColor=0A0A1A"></a>
+    <a href="https://github.com/OmarAfifi-CSE/shrinkeo/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL_v3-448AFF?style=for-the-badge&labelColor=0A0A1A"></a>
     <a href="https://ko-fi.com/omarafifi"><img alt="Ko-fi" src="https://img.shields.io/badge/Buy%20me%20a-Coffee-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white&labelColor=0A0A1A"></a>
   </p>
 
