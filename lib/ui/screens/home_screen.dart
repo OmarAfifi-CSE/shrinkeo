@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:desktop_drop/desktop_drop.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -193,10 +194,14 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
 
       if (shouldClose == true) {
         await cubit.cancelCompression();
-        await windowManager.destroy();
+        await windowManager.setPreventClose(false);
+        await windowManager.close();
+        exit(0);
       }
     } else {
-      await windowManager.destroy();
+      await windowManager.setPreventClose(false);
+      await windowManager.close();
+      exit(0);
     }
   }
 
