@@ -94,19 +94,49 @@ class VideoQueueView extends StatelessWidget {
         if (!state.isScanningFiles && !state.isProcessing)
           Padding(
             padding: const EdgeInsets.only(bottom: 24.0, left: 24, right: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
               children: [
-                OutlinedButton.icon(
-                  onPressed: pickMultipleFiles,
-                  icon: const Icon(Icons.note_add_rounded, size: 16),
-                  label: const Text('Add Files'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    OutlinedButton.icon(
+                      onPressed: pickMultipleFiles,
+                      icon: const Icon(Icons.note_add_rounded, size: 16),
+                      label: const Text('Add Files'),
+                    ),
+                    const SizedBox(width: 12),
+                    OutlinedButton.icon(
+                      onPressed: pickFolder,
+                      icon: const Icon(
+                        Icons.create_new_folder_rounded,
+                        size: 16,
+                      ),
+                      label: const Text('Add Folder'),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 12),
-                OutlinedButton.icon(
-                  onPressed: pickFolder,
-                  icon: const Icon(Icons.create_new_folder_rounded, size: 16),
-                  label: const Text('Add Folder'),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.mouse_outlined,
+                      size: 14,
+                      color: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Or drag & drop more videos anywhere',
+                      style: TextStyle(
+                        color: Theme.of(
+                          context,
+                        ).textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

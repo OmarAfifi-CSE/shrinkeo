@@ -92,23 +92,30 @@ class VideoFileCard extends StatelessWidget {
                               fontSize: 12,
                             ),
                           ),
-                          if (video.status == VideoStatus.compressing && 
+                          if (video.status == VideoStatus.compressing &&
                               video.currentOutputSizeBytes != null &&
                               video.hasWarnedLargerSize) ...[
                             Builder(
                               builder: (context) {
-                                final projected = (video.currentOutputSizeBytes! / video.progress).round();
-                                final alertColor = theme.brightness == Brightness.dark 
-                                    ? Colors.redAccent.shade200 
+                                final projected =
+                                    (video.currentOutputSizeBytes! /
+                                            video.progress)
+                                        .round();
+                                final alertColor =
+                                    theme.brightness == Brightness.dark
+                                    ? Colors.redAccent.shade200
                                     : AppColors.errorRed;
-                                
+
                                 return Tooltip(
-                                  message: 'Output will be larger than original!\nStop and try Reset to Defaults.',
+                                  message:
+                                      'Output will be larger than original!\nStop and try Reset to Defaults.',
                                   padding: const EdgeInsets.all(12),
-                                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: theme.brightness == Brightness.dark 
-                                        ? Colors.grey.shade900 
+                                    color: theme.brightness == Brightness.dark
+                                        ? Colors.grey.shade900
                                         : Colors.grey.shade800,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
@@ -120,11 +127,12 @@ class VideoFileCard extends StatelessWidget {
                                     children: [
                                       Text(
                                         ' ➔ Est: ${VideoFile.formatFileSize(projected)}',
-                                        style: theme.textTheme.bodySmall?.copyWith(
-                                          color: alertColor,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                                        style: theme.textTheme.bodySmall
+                                            ?.copyWith(
+                                              color: alertColor,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w700,
+                                            ),
                                       ),
                                       const SizedBox(width: 4),
                                       Icon(
@@ -154,10 +162,7 @@ class VideoFileCard extends StatelessWidget {
                     layoutBuilder: (currentChild, previousChildren) {
                       return Stack(
                         alignment: Alignment.centerRight,
-                        children: <Widget>[
-                          ...previousChildren,
-                          ?currentChild,
-                        ],
+                        children: <Widget>[...previousChildren, ?currentChild],
                       );
                     },
                     child: _buildRightStatusContent(context, theme),
@@ -188,11 +193,14 @@ class VideoFileCard extends StatelessWidget {
                               value: value,
                               minHeight: 4,
                               borderRadius: BorderRadius.circular(2),
-                              backgroundColor: theme.brightness == Brightness.dark
+                              backgroundColor:
+                                  theme.brightness == Brightness.dark
                                   ? AppColors.borderDark
                                   : AppColors.borderLight,
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                theme.colorScheme.primary.withValues(alpha: 0.9),
+                                theme.colorScheme.primary.withValues(
+                                  alpha: 0.9,
+                                ),
                               ),
                             );
                           },
@@ -289,9 +297,7 @@ class VideoFileCard extends StatelessWidget {
                 color: theme.brightness == Brightness.dark
                     ? AppColors.primaryAccentLight
                     : theme.colorScheme.primary,
-                fontFeatures: const [
-                  FontFeature.tabularFigures(),
-                ],
+                fontFeatures: const [FontFeature.tabularFigures()],
               ),
             ),
           ),
@@ -315,10 +321,7 @@ class VideoFileCard extends StatelessWidget {
                     p.dirname(video.outputPath!),
                   );
                 },
-                constraints: const BoxConstraints(
-                  minWidth: 28,
-                  minHeight: 28,
-                ),
+                constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
                 padding: EdgeInsets.zero,
                 splashRadius: 16,
                 color: theme.colorScheme.primary,
@@ -395,13 +398,14 @@ class _CompressionResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final savedBytes = video.fileSizeBytes - video.outputSizeBytes!;
-    
-    // Calculate percentage based on original size
+    final savedBytes = video.outputSizeBytes != null
+        ? video.fileSizeBytes - video.outputSizeBytes!
+        : 0;
+
     String percent = '0';
     String badgeText = '';
     Color badgeColor = AppColors.successGreen;
-    
+
     if (video.fileSizeBytes > 0) {
       if (savedBytes > 0) {
         percent = (savedBytes / video.fileSizeBytes * 100).toStringAsFixed(0);
@@ -409,10 +413,12 @@ class _CompressionResult extends StatelessWidget {
         badgeColor = AppColors.successGreen;
       } else if (savedBytes < 0) {
         final increasedBytes = -savedBytes;
-        percent = (increasedBytes / video.fileSizeBytes * 100).toStringAsFixed(0);
+        percent = (increasedBytes / video.fileSizeBytes * 100).toStringAsFixed(
+          0,
+        );
         badgeText = '+$percent% Larger';
-        badgeColor = Theme.of(context).brightness == Brightness.dark 
-            ? Colors.redAccent.shade200 
+        badgeColor = Theme.of(context).brightness == Brightness.dark
+            ? Colors.redAccent.shade200
             : AppColors.errorRed;
       }
     }
@@ -421,7 +427,7 @@ class _CompressionResult extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          '${VideoFile.formatFileSize(video.fileSizeBytes)} ➔ ${VideoFile.formatFileSize(video.outputSizeBytes!)}',
+          '${VideoFile.formatFileSize(video.fileSizeBytes)} ➔ ${VideoFile.formatFileSize(video.outputSizeBytes ?? 0)}',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodyMedium?.color,
             fontSize: 12,
