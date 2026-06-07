@@ -231,16 +231,6 @@ class FfmpegService {
       }
     }
 
-    if (hardwareEncoder == HardwareEncoder.software) {
-      args.addAll(['-crf', crf.toString(), '-preset', mappedPreset]);
-    } else if (hardwareEncoder == HardwareEncoder.nvidia) {
-      args.addAll(['-cq', crf.toString(), '-preset', mappedPreset]);
-    } else {
-      // AMF and QSV can be tricky with CRF. We'll just pass -q:v for simplicity or -crf if it supports it.
-      // Often, a fallback global quality is best.
-      args.addAll(['-global_quality', crf.toString(), '-preset', mappedPreset]);
-    }
-
     args.addAll(['-pix_fmt', 'yuv420p']);
 
     // --- Audio Settings ---
@@ -256,19 +246,35 @@ class FfmpegService {
       args.add('-an');
     }
 
+    if (hardwareEncoder == HardwareEncoder.software) {
+      args.addAll(['-crf', crf.toString(), '-preset', mappedPreset]);
+    } else if (hardwareEncoder == HardwareEncoder.nvidia) {
+      args.addAll(['-cq', crf.toString(), '-preset', mappedPreset]);
+    } else {
+      // AMF and QSV can be tricky with CRF. We'll just pass -q:v for simplicity or -crf if it supports it.
+      // Often, a fallback global quality is best.
+      args.addAll(['-global_quality', crf.toString(), '-preset', mappedPreset]);
+    }
+
     // --- Resolution Downscaling ---
+    String? scaleFilter;
     if (resolutionMode == ResolutionMode.p2160) {
-      args.addAll(['-vf', "scale='min(3840,iw)':-2"]);
+      scaleFilter = "scale='if(gt(iw,ih),3840,2160)':'if(gt(iw,ih),2160,3840)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p1440) {
-      args.addAll(['-vf', "scale='min(2560,iw)':-2"]);
+      scaleFilter = "scale='if(gt(iw,ih),2560,1440)':'if(gt(iw,ih),1440,2560)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p1080) {
-      args.addAll(['-vf', "scale='min(1920,iw)':-2"]);
+      scaleFilter = "scale='if(gt(iw,ih),1920,1080)':'if(gt(iw,ih),1080,1920)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p720) {
-      args.addAll(['-vf', "scale='min(1280,iw)':-2"]);
+      scaleFilter = "scale='if(gt(iw,ih),1280,720)':'if(gt(iw,ih),720,1280)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p480) {
-      args.addAll(['-vf', "scale='min(854,iw)':-2"]);
+      scaleFilter = "scale='if(gt(iw,ih),854,480)':'if(gt(iw,ih),480,854)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p360) {
-      args.addAll(['-vf', "scale='min(640,iw)':-2"]);
+      scaleFilter = "scale='if(gt(iw,ih),640,360)':'if(gt(iw,ih),360,640)':force_original_aspect_ratio=decrease";
+    }
+
+    if (scaleFilter != null) {
+      // Chain a second scale to guarantee even dimensions (required by most encoders)
+      args.addAll(['-vf', '$scaleFilter,scale=trunc(iw/2)*2:trunc(ih/2)*2']);
     }
 
     // --- Frame Rate ---
