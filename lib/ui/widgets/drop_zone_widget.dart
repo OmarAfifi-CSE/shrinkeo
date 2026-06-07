@@ -124,7 +124,7 @@ class DropZoneWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Supports MP4, MKV, MOV, AVI, WMV',
+                        'Seamlessly supports MP4, MKV, MOV, AVI, WMV',
                         style: TextStyle(
                           color: theme.textTheme.bodySmall?.color ??
                               Colors.white24,

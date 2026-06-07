@@ -42,18 +42,7 @@ class VideoQueueView extends StatelessWidget {
       } catch (_) {}
     }
 
-    return AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          border: state.isDragHovering
-              ? Border.all(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.primary.withValues(alpha: 0.4),
-                  width: 2,
-                )
-              : null,
-        ),
+    return Container(
         child: Column(
           children: [
             ListView.builder(
@@ -63,10 +52,12 @@ class VideoQueueView extends StatelessWidget {
               itemCount: state.videos.length,
               itemBuilder: (context, index) {
                 final video = state.videos[index];
-                return VideoFileCard(
+                return _EntryAnimator(
                   key: ValueKey(video.id),
-                  video: video,
-                  onRemove: () => cubit.cancelSingle(video.id),
+                  child: VideoFileCard(
+                    video: video,
+                    onRemove: () => cubit.cancelSingle(video.id),
+                  ),
                 );
               },
             ),
@@ -116,6 +107,61 @@ class VideoQueueView extends StatelessWidget {
                 ),
               ),
           ],
+      ),
+    );
+  }
+}
+
+/// A simple entry animator for newly added queue items.
+class _EntryAnimator extends StatefulWidget {
+  final Widget child;
+
+  const _EntryAnimator({super.key, required this.child});
+
+  @override
+  State<_EntryAnimator> createState() => _EntryAnimatorState();
+}
+
+class _EntryAnimatorState extends State<_EntryAnimator> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fade;
+  late Animation<Offset> _slide;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _fade = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 0.1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutCubic,
+    ));
+    
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _fade,
+      child: SlideTransition(
+        position: _slide,
+        child: widget.child,
       ),
     );
   }
