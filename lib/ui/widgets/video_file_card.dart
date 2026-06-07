@@ -33,146 +33,155 @@ class VideoFileCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // -- Top row: icon, name, status, actions --
-            Row(
+            Stack(
+              alignment: Alignment.center,
               children: [
-                // File format badge or Thumbnail
-                if (video.thumbnailPath != null &&
-                    File(video.thumbnailPath!).existsSync())
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: theme.brightness == Brightness.dark
-                            ? Colors.white.withValues(alpha: 0.1)
-                            : Colors.black.withValues(alpha: 0.08),
-                        width: 0.5,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: theme.brightness == Brightness.dark
-                              ? Colors.white.withValues(alpha: 0.25)
-                              : Colors.black.withValues(alpha: 0.25),
-                          blurRadius: 8,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                      image: DecorationImage(
-                        image: FileImage(File(video.thumbnailPath!)),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  )
-                else
-                  _FormatBadge(extension: video.extension),
-                const SizedBox(width: 12),
-
-                // File name & size
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        video.fileName,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: theme.textTheme.bodyMedium?.color,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 3),
-                      Row(
-                        children: [
-                          Text(
-                            VideoFile.formatFileSize(video.fileSizeBytes),
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.textTheme.bodySmall?.color,
-                              fontSize: 12,
-                            ),
+                Row(
+                  children: [
+                    // File format badge or Thumbnail
+                    if (video.thumbnailPath != null &&
+                        File(video.thumbnailPath!).existsSync())
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: theme.brightness == Brightness.dark
+                                ? Colors.white.withValues(alpha: 0.1)
+                                : Colors.black.withValues(alpha: 0.08),
+                            width: 0.5,
                           ),
-                          if (video.status == VideoStatus.compressing &&
-                              video.currentOutputSizeBytes != null &&
-                              video.hasWarnedLargerSize) ...[
-                            Builder(
-                              builder: (context) {
-                                final projected =
-                                    (video.currentOutputSizeBytes! /
-                                            video.progress)
-                                        .round();
-                                final alertColor =
-                                    theme.brightness == Brightness.dark
-                                    ? Colors.redAccent.shade200
-                                    : AppColors.errorRed;
-
-                                return Tooltip(
-                                  message:
-                                      'Output will be larger than original!\nStop and try Reset to Defaults.',
-                                  padding: const EdgeInsets.all(12),
-                                  margin: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: theme.brightness == Brightness.dark
-                                        ? Colors.grey.shade900
-                                        : Colors.grey.shade800,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  textStyle: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        ' ➔ Est: ${VideoFile.formatFileSize(projected)}',
-                                        style: theme.textTheme.bodySmall
-                                            ?.copyWith(
-                                              color: alertColor,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Icon(
-                                        Icons.warning_amber_rounded,
-                                        size: 14,
-                                        color: alertColor,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                          boxShadow: [
+                            BoxShadow(
+                              color: theme.brightness == Brightness.dark
+                                  ? Colors.white.withValues(alpha: 0.25)
+                                  : Colors.black.withValues(alpha: 0.25),
+                              blurRadius: 8,
+                              spreadRadius: 1,
                             ),
                           ],
+                          image: DecorationImage(
+                            image: FileImage(File(video.thumbnailPath!)),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    else
+                      _FormatBadge(extension: video.extension),
+                    const SizedBox(width: 12),
+
+                    // File name & size
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            video.fileName,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: theme.textTheme.bodyMedium?.color,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 3),
+                          Row(
+                            children: [
+                              Text(
+                                VideoFile.formatFileSize(video.fileSizeBytes),
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.textTheme.bodySmall?.color,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              if (video.status == VideoStatus.compressing &&
+                                  video.currentOutputSizeBytes != null &&
+                                  video.hasWarnedLargerSize) ...[
+                                Builder(
+                                  builder: (context) {
+                                    final projected =
+                                        (video.currentOutputSizeBytes! /
+                                                video.progress)
+                                            .round();
+                                    final alertColor =
+                                        theme.brightness == Brightness.dark
+                                        ? Colors.redAccent.shade200
+                                        : AppColors.errorRed;
+
+                                    return Tooltip(
+                                      message:
+                                          'Output will be larger than original!\nStop and try Reset to Defaults.',
+                                      padding: const EdgeInsets.all(12),
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            theme.brightness == Brightness.dark
+                                            ? Colors.grey.shade900
+                                            : Colors.grey.shade800,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      textStyle: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            ' ➔ Est: ${VideoFile.formatFileSize(projected)}',
+                                            style: theme.textTheme.bodySmall
+                                                ?.copyWith(
+                                                  color: alertColor,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Icon(
+                                            Icons.warning_amber_rounded,
+                                            size: 14,
+                                            color: alertColor,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ],
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
 
+                    const SizedBox(width: 100),
+
+                    Expanded(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 400),
+                        layoutBuilder: (currentChild, previousChildren) {
+                          return Stack(
+                            alignment: Alignment.centerRight,
+                            children: <Widget>[
+                              ...previousChildren,
+                              ?currentChild,
+                            ],
+                          );
+                        },
+                        child: _buildRightStatusContent(context, theme),
+                      ),
+                    ),
+
+                    const SizedBox(width: 8),
+
+                    // Cancel/Remove button
+                    _ActionButton(video: video, onRemove: onRemove),
+                  ],
+                ),
                 // Status chip
                 StatusChip(status: video.status),
-                const SizedBox(width: 10),
-
-                Expanded(
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 400),
-                    layoutBuilder: (currentChild, previousChildren) {
-                      return Stack(
-                        alignment: Alignment.centerRight,
-                        children: <Widget>[...previousChildren, ?currentChild],
-                      );
-                    },
-                    child: _buildRightStatusContent(context, theme),
-                  ),
-                ),
-
-                const SizedBox(width: 8),
-
-                // Cancel/Remove button
-                _ActionButton(video: video, onRemove: onRemove),
               ],
             ),
 
