@@ -148,73 +148,21 @@ class VideoFileCard extends StatelessWidget {
                 StatusChip(status: video.status),
                 const SizedBox(width: 10),
 
-                if (video.status == VideoStatus.compressing)
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        if (video.eta != null) ...[
-                          Text(
-                            _formatDuration(video.eta!),
-                            style: TextStyle(
-                              color: theme.textTheme.bodySmall?.color,
-                              fontSize: 11,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 400),
+                    layoutBuilder: (currentChild, previousChildren) {
+                      return Stack(
+                        alignment: Alignment.centerRight,
+                        children: <Widget>[
+                          ...previousChildren,
+                          ?currentChild,
                         ],
-                        SizedBox(
-                          width: 42,
-                          child: Text(
-                            '${(video.progress * 100).toStringAsFixed(0)}%',
-                            textAlign: TextAlign.right,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              color: theme.brightness == Brightness.dark
-                                  ? AppColors.primaryAccentLight
-                                  : theme.colorScheme.primary,
-                              fontFeatures: const [
-                                FontFeature.tabularFigures(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                else if (video.status == VideoStatus.success &&
-                    video.outputSizeBytes != null)
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        _CompressionResult(video: video),
-                        if (video.outputPath != null) ...[
-                          const SizedBox(width: 8),
-                          Tooltip(
-                            message: 'Open Output Folder',
-                            child: IconButton(
-                              icon: const Icon(Icons.folder_open_rounded, size: 18),
-                              onPressed: () {
-                                context.read<CompressionCubit>().openOutputFolder(
-                                  p.dirname(video.outputPath!),
-                                );
-                              },
-                              constraints: const BoxConstraints(
-                                minWidth: 28,
-                                minHeight: 28,
-                              ),
-                              padding: EdgeInsets.zero,
-                              splashRadius: 16,
-                              color: theme.colorScheme.primary,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  )
-                else
-                  const SizedBox(width: 52),
+                      );
+                    },
+                    child: _buildRightStatusContent(context, theme),
+                  ),
+                ),
 
                 const SizedBox(width: 8),
 
@@ -224,27 +172,35 @@ class VideoFileCard extends StatelessWidget {
             ),
 
             // -- Progress bar (only during compression) --
-            if (video.status == VideoStatus.compressing) ...[
-              const SizedBox(height: 10),
-              TweenAnimationBuilder<double>(
-                tween: Tween<double>(begin: 0, end: video.progress),
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.linear,
-                builder: (context, value, _) {
-                  return LinearProgressIndicator(
-                    value: value,
-                    minHeight: 4,
-                    borderRadius: BorderRadius.circular(2),
-                    backgroundColor: theme.brightness == Brightness.dark
-                        ? AppColors.borderDark
-                        : AppColors.borderLight,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      theme.colorScheme.primary.withValues(alpha: 0.9),
-                    ),
-                  );
-                },
-              ),
-            ],
+            AnimatedSize(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+              child: video.status == VideoStatus.compressing
+                  ? Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        TweenAnimationBuilder<double>(
+                          tween: Tween<double>(begin: 0, end: video.progress),
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.linear,
+                          builder: (context, value, _) {
+                            return LinearProgressIndicator(
+                              value: value,
+                              minHeight: 4,
+                              borderRadius: BorderRadius.circular(2),
+                              backgroundColor: theme.brightness == Brightness.dark
+                                  ? AppColors.borderDark
+                                  : AppColors.borderLight,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                theme.colorScheme.primary.withValues(alpha: 0.9),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                  : const SizedBox.shrink(),
+            ),
 
             // -- Error message (on failure) --
             if (video.status == VideoStatus.failed &&
@@ -305,6 +261,75 @@ class VideoFileCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildRightStatusContent(BuildContext context, ThemeData theme) {
+    if (video.status == VideoStatus.compressing) {
+      return Row(
+        key: const ValueKey('compressing'),
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          if (video.eta != null) ...[
+            Text(
+              _formatDuration(video.eta!),
+              style: TextStyle(
+                color: theme.textTheme.bodySmall?.color,
+                fontSize: 11,
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
+          SizedBox(
+            width: 42,
+            child: Text(
+              '${(video.progress * 100).toStringAsFixed(0)}%',
+              textAlign: TextAlign.right,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: theme.brightness == Brightness.dark
+                    ? AppColors.primaryAccentLight
+                    : theme.colorScheme.primary,
+                fontFeatures: const [
+                  FontFeature.tabularFigures(),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    } else if (video.status == VideoStatus.success &&
+        video.outputSizeBytes != null) {
+      return Row(
+        key: const ValueKey('success'),
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _CompressionResult(video: video),
+          if (video.outputPath != null) ...[
+            const SizedBox(width: 8),
+            Tooltip(
+              message: 'Open Output Folder',
+              child: IconButton(
+                icon: const Icon(Icons.folder_open_rounded, size: 18),
+                onPressed: () {
+                  context.read<CompressionCubit>().openOutputFolder(
+                    p.dirname(video.outputPath!),
+                  );
+                },
+                constraints: const BoxConstraints(
+                  minWidth: 28,
+                  minHeight: 28,
+                ),
+                padding: EdgeInsets.zero,
+                splashRadius: 16,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+          ],
+        ],
+      );
+    } else {
+      return const SizedBox(key: ValueKey('empty'), width: 52);
+    }
   }
 
   String _formatDuration(Duration duration) {
