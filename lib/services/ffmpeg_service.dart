@@ -231,6 +231,10 @@ class FfmpegService {
       }
     }
 
+    // Map primary video and ALL audio streams (don't crash if audio missing)
+    // Note: Subtitles are ignored to prevent MP4 container crashes with unsupported subtitle formats (like PGS/SRT).
+    args.addAll(['-map', '0:v:0', '-map', '0:a?']);
+
     args.addAll(['-pix_fmt', 'yuv420p']);
 
     // --- Audio Settings ---
@@ -275,6 +279,9 @@ class FfmpegService {
     if (scaleFilter != null) {
       // Chain a second scale to guarantee even dimensions (required by most encoders)
       args.addAll(['-vf', '$scaleFilter,scale=trunc(iw/2)*2:trunc(ih/2)*2']);
+    } else {
+      // Even if Original resolution, we MUST ensure even dimensions to prevent encoder crashes
+      args.addAll(['-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2']);
     }
 
     // --- Frame Rate ---
