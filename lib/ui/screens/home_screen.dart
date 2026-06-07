@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui' as dart_ui;
 
 import 'package:window_manager/window_manager.dart';
-import 'package:flutter/services.dart';
 
 import '../../services/desktop_integration_service.dart';
 
@@ -254,26 +253,10 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
         context.read<CompressionCubit>().addFiles(paths);
       }
     });
-
-    HardwareKeyboard.instance.addHandler(_handleKeyEvent);
-  }
-
-  bool _handleKeyEvent(KeyEvent event) {
-    if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.f11) {
-      _toggleFullScreen();
-      return true; // Handle the event
-    }
-    return false;
-  }
-
-  Future<void> _toggleFullScreen() async {
-    final isFullScreen = await windowManager.isFullScreen();
-    windowManager.setFullScreen(!isFullScreen);
   }
 
   @override
   void dispose() {
-    HardwareKeyboard.instance.removeHandler(_handleKeyEvent);
     _externalFilesSubscription?.cancel();
     windowManager.removeListener(this);
     super.dispose();
@@ -337,56 +320,49 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
           child: Stack(
             children: [
               AuroraBackground(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    if (constraints.maxHeight < 200) {
-                      return const SizedBox.shrink();
-                    }
-                    return Column(
-                      children: [
-                        // 1. Custom Title Bar
-                        const CustomTitleBar(),
+                child: Column(
+                  children: [
+                    // 1. Custom Title Bar
+                    const CustomTitleBar(),
 
-                        // 2 & 3. Settings Panel & Main Content Area (Scrollable together)
-                        Expanded(
-                          child: CustomScrollView(
-                            slivers: [
-                              const SliverToBoxAdapter(child: SettingsPanel()),
-                              BlocBuilder<CompressionCubit, CompressionState>(
-                                builder: (context, state) {
-                                  if (state.videos.isEmpty) {
-                                    // Empty state drag & drop zone
-                                    return SliverFillRemaining(
-                                      hasScrollBody: false,
-                                      child: DropZoneWidget(
-                                        isHovering: state.isDragHovering,
-                                        isScanningFiles: state.isScanningFiles,
-                                      ),
-                                    );
-                                  }
+                    // 2 & 3. Settings Panel & Main Content Area (Scrollable together)
+                    Expanded(
+                      child: CustomScrollView(
+                        slivers: [
+                          const SliverToBoxAdapter(child: SettingsPanel()),
+                          BlocBuilder<CompressionCubit, CompressionState>(
+                            builder: (context, state) {
+                              if (state.videos.isEmpty) {
+                                // Empty state drag & drop zone
+                                return SliverFillRemaining(
+                                  hasScrollBody: false,
+                                  child: DropZoneWidget(
+                                    isHovering: state.isDragHovering,
+                                    isScanningFiles: state.isScanningFiles,
+                                  ),
+                                );
+                              }
 
-                                  // List of queued/processing videos
-                                  return SliverToBoxAdapter(
-                                    child: VideoQueueView(state: state),
-                                  );
-                                },
-                              ),
-                            ],
+                              // List of queued/processing videos
+                              return SliverToBoxAdapter(
+                                child: VideoQueueView(state: state),
+                              );
+                            },
                           ),
-                        ),
+                        ],
+                      ),
+                    ),
 
-                        // 4. Bottom Action Bar
-                        BlocBuilder<CompressionCubit, CompressionState>(
-                          builder: (context, state) {
-                            if (state.videos.isEmpty) {
-                              return const SizedBox.shrink();
-                            }
-                            return BottomActionBar(state: state);
-                          },
-                        ),
-                      ],
-                    );
-                  },
+                    // 4. Bottom Action Bar
+                    BlocBuilder<CompressionCubit, CompressionState>(
+                      builder: (context, state) {
+                        if (state.videos.isEmpty) {
+                          return const SizedBox.shrink();
+                        }
+                        return BottomActionBar(state: state);
+                      },
+                    ),
+                  ],
                 ),
               ),
 
