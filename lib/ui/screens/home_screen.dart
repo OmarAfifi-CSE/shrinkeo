@@ -19,7 +19,9 @@ import '../widgets/custom_title_bar.dart';
 import '../widgets/drop_zone_widget.dart';
 import '../widgets/settings/settings_panel.dart';
 import '../widgets/video_queue_view.dart';
+import '../widgets/update_dialog.dart';
 import '../app_colors.dart';
+import '../../services/remote_config_service.dart';
 
 /// The main interface of the Shrinkeo application.
 class HomeScreen extends StatefulWidget {
@@ -331,42 +333,58 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
                     // 1. Custom Title Bar
                     const CustomTitleBar(),
 
-                    // 2 & 3. Settings Panel & Main Content Area (Scrollable together)
+                    // 2 & 3. Main Content Area & Bottom Action Bar
                     Expanded(
-                      child: CustomScrollView(
-                        slivers: [
-                          const SliverToBoxAdapter(child: SettingsPanel()),
-                          BlocBuilder<CompressionCubit, CompressionState>(
-                            builder: (context, state) {
-                              if (state.videos.isEmpty) {
-                                // Empty state drag & drop zone
-                                return SliverFillRemaining(
-                                  hasScrollBody: false,
-                                  child: DropZoneWidget(
-                                    isHovering: state.isDragHovering,
-                                    isScanningFiles: state.isScanningFiles,
-                                  ),
-                                );
-                              }
-
-                              // List of queued/processing videos
-                              return SliverToBoxAdapter(
-                                child: VideoQueueView(state: state),
-                              );
-                            },
-                          ),
-                        ],
+                      child: ValueListenableBuilder<AppBlockState?>(
+                        valueListenable: globalBlockState,
+                        builder: (context, blockState, _) {
+                          if (blockState != null && blockState.isBlocked) {
+                            return Center(
+                              child: UpdateDialog(
+                                isMandatory: true,
+                                blockState: blockState,
+                                whatsNew: blockState.message,
+                              ),
+                            );
+                          }
+                          
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: CustomScrollView(
+                                  slivers: [
+                                    const SliverToBoxAdapter(child: SettingsPanel()),
+                                    BlocBuilder<CompressionCubit, CompressionState>(
+                                      builder: (context, state) {
+                                        if (state.videos.isEmpty) {
+                                          return SliverFillRemaining(
+                                            hasScrollBody: false,
+                                            child: DropZoneWidget(
+                                              isHovering: state.isDragHovering,
+                                              isScanningFiles: state.isScanningFiles,
+                                            ),
+                                          );
+                                        }
+                                        return SliverToBoxAdapter(
+                                          child: VideoQueueView(state: state),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              BlocBuilder<CompressionCubit, CompressionState>(
+                                builder: (context, state) {
+                                  if (state.videos.isEmpty) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return BottomActionBar(state: state);
+                                },
+                              ),
+                            ],
+                          );
+                        },
                       ),
-                    ),
-
-                    // 4. Bottom Action Bar
-                    BlocBuilder<CompressionCubit, CompressionState>(
-                      builder: (context, state) {
-                        if (state.videos.isEmpty) {
-                          return const SizedBox.shrink();
-                        }
-                        return BottomActionBar(state: state);
-                      },
                     ),
                   ],
                 ),

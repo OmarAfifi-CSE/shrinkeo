@@ -116,4 +116,18 @@ class AppStrings {
   static const String outputLocationUnifiedDesc = 'All compressed videos are saved into a single folder.';
   static const String outputLocationSameLabel = 'Same as Original';
   static const String outputLocationSameDesc = 'Each video is saved in a subfolder next to its original location.';
+
+  // ---- Remote Config / Block Screen ----
+  static const String updateRequiredTitle = 'Update Required';
+  static const String updateRequiredDescNewVersion = 'A new version of Shrinkeo is available with important improvements. Please update to continue.';
+  static const String updateRequiredDescOldVersion = 'Your version is no longer supported. Please update to continue using the app.';
+  static const String updateNowBtn = 'Update Now';
+  static const String laterBtn = 'Later';
+  static const String skipUpdateConfirmTitle = 'Skip Critical Update?';
+  static const String skipUpdateConfirmDesc = 'This update contains critical bug fixes and improvements. We highly recommend updating now to ensure the app functions correctly.\n\nAre you sure you want to skip it for now?';
+  static const String skipUpdateCancelBtn = 'Cancel';
+  static const String skipUpdateConfirmBtn = 'I understand, Skip it';
+
+  static const String maintenanceTitle = 'System Maintenance';
+  static const String maintenanceDescDefault = 'Shrinkeo is currently undergoing maintenance. Please try again later.';
 }
