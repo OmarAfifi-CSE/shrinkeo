@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'dart:io';
+import 'package:path/path.dart' as p;
 
-import '../cubit/compression_state.dart' show AudioMode, FrameRateMode, HardwareEncoder, ResolutionMode, VideoCodec;
+import '../cubit/compression_state.dart'
+    show AudioMode, FrameRateMode, HardwareEncoder, ResolutionMode, VideoCodec;
 
 /// Data class containing detailed progress information.
 class CompressionProgress {
@@ -24,14 +25,20 @@ class CompressionProgress {
 
 /// Service responsible for all FFmpeg and FFprobe process execution.
 ///
-/// Resolves the executables via the system-wide PATH fallback.
-/// `ffmpeg` and `ffprobe` must be installed on the system (e.g. via winget).
+/// Resolves the executables via the system-wide PATH fallback or bundled 'bin' directory.
 class FfmpegService {
   Process? _currentProcess;
   bool _isCancelled = false;
 
   /// Resolves the path to `ffmpeg`.
   String get ffmpegPath {
+    final bundledPath = p.join(
+      p.dirname(Platform.resolvedExecutable),
+      'bin',
+      'ffmpeg.exe',
+    );
+    if (File(bundledPath).existsSync()) return bundledPath;
+
     final localAppData = Platform.environment['LOCALAPPDATA'];
     if (localAppData != null) {
       final wingetPath = '$localAppData\\Microsoft\\WinGet\\Links\\ffmpeg.exe';
@@ -42,6 +49,13 @@ class FfmpegService {
 
   /// Resolves the path to `ffprobe`.
   String get ffprobePath {
+    final bundledPath = p.join(
+      p.dirname(Platform.resolvedExecutable),
+      'bin',
+      'ffprobe.exe',
+    );
+    if (File(bundledPath).existsSync()) return bundledPath;
+
     final localAppData = Platform.environment['LOCALAPPDATA'];
     if (localAppData != null) {
       final wingetPath = '$localAppData\\Microsoft\\WinGet\\Links\\ffprobe.exe';
@@ -258,11 +272,16 @@ class FfmpegService {
       args.addAll(['-cq', crf.toString(), '-preset', mappedPreset]);
     } else if (hardwareEncoder == HardwareEncoder.amd) {
       args.addAll([
-        '-rc', 'cqp',
-        '-qp_i', crf.toString(),
-        '-qp_p', crf.toString(),
-        '-qp_b', crf.toString(),
-        '-preset', mappedPreset,
+        '-rc',
+        'cqp',
+        '-qp_i',
+        crf.toString(),
+        '-qp_p',
+        crf.toString(),
+        '-qp_b',
+        crf.toString(),
+        '-preset',
+        mappedPreset,
       ]);
     } else if (hardwareEncoder == HardwareEncoder.intel) {
       args.addAll(['-q:v', crf.toString(), '-preset', mappedPreset]);
@@ -271,17 +290,23 @@ class FfmpegService {
     // --- Resolution Downscaling ---
     String? scaleFilter;
     if (resolutionMode == ResolutionMode.p2160) {
-      scaleFilter = "scale='if(gt(iw,ih),3840,2160)':'if(gt(iw,ih),2160,3840)':force_original_aspect_ratio=decrease";
+      scaleFilter =
+          "scale='if(gt(iw,ih),3840,2160)':'if(gt(iw,ih),2160,3840)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p1440) {
-      scaleFilter = "scale='if(gt(iw,ih),2560,1440)':'if(gt(iw,ih),1440,2560)':force_original_aspect_ratio=decrease";
+      scaleFilter =
+          "scale='if(gt(iw,ih),2560,1440)':'if(gt(iw,ih),1440,2560)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p1080) {
-      scaleFilter = "scale='if(gt(iw,ih),1920,1080)':'if(gt(iw,ih),1080,1920)':force_original_aspect_ratio=decrease";
+      scaleFilter =
+          "scale='if(gt(iw,ih),1920,1080)':'if(gt(iw,ih),1080,1920)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p720) {
-      scaleFilter = "scale='if(gt(iw,ih),1280,720)':'if(gt(iw,ih),720,1280)':force_original_aspect_ratio=decrease";
+      scaleFilter =
+          "scale='if(gt(iw,ih),1280,720)':'if(gt(iw,ih),720,1280)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p480) {
-      scaleFilter = "scale='if(gt(iw,ih),854,480)':'if(gt(iw,ih),480,854)':force_original_aspect_ratio=decrease";
+      scaleFilter =
+          "scale='if(gt(iw,ih),854,480)':'if(gt(iw,ih),480,854)':force_original_aspect_ratio=decrease";
     } else if (resolutionMode == ResolutionMode.p360) {
-      scaleFilter = "scale='if(gt(iw,ih),640,360)':'if(gt(iw,ih),360,640)':force_original_aspect_ratio=decrease";
+      scaleFilter =
+          "scale='if(gt(iw,ih),640,360)':'if(gt(iw,ih),360,640)':force_original_aspect_ratio=decrease";
     }
 
     if (scaleFilter != null) {
@@ -314,7 +339,7 @@ class FfmpegService {
           '-NoProfile',
           '-NonInteractive',
           '-Command',
-          "(Get-Process -Id ${process.pid}).PriorityClass = 'BelowNormal'"
+          "(Get-Process -Id ${process.pid}).PriorityClass = 'BelowNormal'",
         ]);
       } else if (Platform.isLinux || Platform.isMacOS) {
         Process.run('renice', ['-n', '10', '-p', '${process.pid}']);
@@ -407,7 +432,7 @@ class FfmpegService {
               now.difference(lastEmitTime).inMilliseconds >= 100) {
             lastEmittedProgress = progress;
             lastEmitTime = now;
-            
+
             int? currentOutputSize;
             try {
               final file = File(outputPath);
