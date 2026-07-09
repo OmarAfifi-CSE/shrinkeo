@@ -30,7 +30,7 @@ void main(List<String> args) async {
   // Initialize local_notifier for desktop notifications.
   await localNotifier.setup(
     appName: 'Shrinkeo',
-    shortcutPolicy: ShortcutPolicy.requireCreate,
+    shortcutPolicy: ShortcutPolicy.ignore,
   );
 
   const windowOptions = WindowOptions(

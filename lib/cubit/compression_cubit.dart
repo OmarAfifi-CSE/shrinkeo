@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:local_notifier/local_notifier.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'package:path/path.dart' as p;
 
@@ -596,6 +597,10 @@ class CompressionCubit extends Cubit<CompressionState> {
       body:
           'Successfully compressed $success videos.${failed > 0 ? ' ($failed failed)' : ''}',
     );
+    notification.onClick = () async {
+      await windowManager.show();
+      await windowManager.focus();
+    };
     notification.show();
   }
 
