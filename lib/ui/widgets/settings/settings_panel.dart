@@ -113,17 +113,41 @@ class _SettingsContentState extends State<_SettingsContent>
             // -- Section header & Reset button --
             Row(
               children: [
-                Icon(
-                  Icons.tune_rounded,
-                  size: 16,
-                  color: theme.colorScheme.primary,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  AppStrings.compressionSettingsTitle,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: theme.textTheme.titleLarge?.color,
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      context.read<CompressionCubit>().toggleSettings();
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.tune_rounded,
+                            size: 16,
+                            color: theme.colorScheme.primary,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            AppStrings.compressionSettingsTitle,
+                            style: theme.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: theme.textTheme.titleLarge?.color,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.keyboard_arrow_up_rounded,
+                            size: 16,
+                            color: theme.textTheme.titleSmall?.color?.withValues(alpha: 0.5),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 if (isLocked) ...[

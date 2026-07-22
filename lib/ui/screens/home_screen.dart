@@ -235,8 +235,10 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-class _HomeScreenState extends State<HomeScreen> with WindowListener {
-  StreamSubscription? _externalFilesSubscription;
+class _HomeScreenState extends State<HomeScreen>
+    with WindowListener {
+  StreamSubscription<List<String>>? _externalFilesSubscription;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -265,6 +267,7 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _externalFilesSubscription?.cancel();
     windowManager.removeListener(this);
     super.dispose();
@@ -278,41 +281,58 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CompressionCubit, CompressionState>(
-      listenWhen: (previous, current) =>
-          current.fallbackWarningMessage != null &&
-          current.fallbackWarningMessage != previous.fallbackWarningMessage,
-      listener: (context, state) {
-        if (state.fallbackWarningMessage != null) {
-          final theme = Theme.of(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  Icon(
-                    Icons.warning_amber_rounded,
-                    color: theme.colorScheme.onError,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<CompressionCubit, CompressionState>(
+          listenWhen: (previous, current) =>
+              current.fallbackWarningMessage != null &&
+              current.fallbackWarningMessage != previous.fallbackWarningMessage,
+          listener: (context, state) {
+            if (state.fallbackWarningMessage != null) {
+              final theme = Theme.of(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Row(
+                    children: [
+                      Icon(
+                        Icons.warning_amber_rounded,
+                        color: theme.colorScheme.onError,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          state.fallbackWarningMessage!,
+                          style: TextStyle(color: theme.colorScheme.onError),
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      state.fallbackWarningMessage!,
-                      style: TextStyle(color: theme.colorScheme.onError),
-                    ),
+                  backgroundColor: theme.colorScheme.error,
+                  behavior: SnackBarBehavior.floating,
+                  margin: const EdgeInsets.all(16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                ],
-              ),
-              backgroundColor: theme.colorScheme.error,
-              behavior: SnackBarBehavior.floating,
-              margin: const EdgeInsets.all(16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              duration: const Duration(seconds: 3),
-            ),
-          );
-        }
-      },
+                  duration: const Duration(seconds: 3),
+                ),
+              );
+            }
+          },
+        ),
+        BlocListener<CompressionCubit, CompressionState>(
+          listenWhen: (previous, current) =>
+              !previous.isSettingsExpanded && current.isSettingsExpanded,
+          listener: (context, state) {
+            if (_scrollController.hasClients) {
+              _scrollController.animateTo(
+                0.0,
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeOutCubic,
+              );
+            }
+          },
+        ),
+      ],
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: DropTarget(
@@ -352,6 +372,7 @@ class _HomeScreenState extends State<HomeScreen> with WindowListener {
                             children: [
                               Expanded(
                                 child: CustomScrollView(
+                                  controller: _scrollController,
                                   slivers: [
                                     const SliverToBoxAdapter(child: SettingsPanel()),
                                     BlocBuilder<CompressionCubit, CompressionState>(
