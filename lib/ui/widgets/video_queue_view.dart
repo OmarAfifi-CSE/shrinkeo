@@ -56,10 +56,12 @@ class VideoQueueView extends StatelessWidget {
           areItemsTheSame: (a, b) => a.id == b.id,
           itemBuilder: (context, animation, video, index) {
             return SizeFadeTransition(
+              key: ValueKey('trans_${video.id}'),
               sizeFraction: 0.7,
               curve: Curves.easeInOut,
               animation: animation,
               child: VideoFileCard(
+                key: ValueKey(video.id),
                 video: video,
                 onRemove: () => cubit.cancelSingle(video.id),
               ),

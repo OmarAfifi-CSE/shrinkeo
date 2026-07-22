@@ -187,32 +187,26 @@ class VideoFileCard extends StatelessWidget {
 
             // -- Progress bar (only during compression) --
             AnimatedSize(
-              duration: const Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               child: video.status == VideoStatus.compressing
                   ? Column(
                       children: [
                         const SizedBox(height: 10),
-                        TweenAnimationBuilder<double>(
-                          tween: Tween<double>(begin: 0, end: video.progress),
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.linear,
-                          builder: (context, value, _) {
-                            return LinearProgressIndicator(
-                              value: value,
-                              minHeight: 4,
-                              borderRadius: BorderRadius.circular(2),
-                              backgroundColor:
-                                  theme.brightness == Brightness.dark
-                                  ? AppColors.borderDark
-                                  : AppColors.borderLight,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                theme.colorScheme.primary.withValues(
-                                  alpha: 0.9,
-                                ),
-                              ),
-                            );
-                          },
+                        LinearProgressIndicator(
+                          key: ValueKey('progress_${video.id}'),
+                          value: video.progress,
+                          minHeight: 4,
+                          borderRadius: BorderRadius.circular(2),
+                          backgroundColor:
+                              theme.brightness == Brightness.dark
+                              ? AppColors.borderDark
+                              : AppColors.borderLight,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            theme.colorScheme.primary.withValues(
+                              alpha: 0.9,
+                            ),
+                          ),
                         ),
                       ],
                     )
@@ -283,7 +277,7 @@ class VideoFileCard extends StatelessWidget {
   Widget _buildRightStatusContent(BuildContext context, ThemeData theme) {
     if (video.status == VideoStatus.compressing) {
       return Row(
-        key: const ValueKey('compressing'),
+        key: ValueKey('compressing_${video.id}'),
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           if (video.eta != null) ...[
@@ -315,7 +309,7 @@ class VideoFileCard extends StatelessWidget {
     } else if (video.status == VideoStatus.success &&
         video.outputSizeBytes != null) {
       return Row(
-        key: const ValueKey('success'),
+        key: ValueKey('success_${video.id}'),
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           _CompressionResult(video: video),
@@ -340,7 +334,7 @@ class VideoFileCard extends StatelessWidget {
         ],
       );
     } else {
-      return const SizedBox(key: ValueKey('empty'), width: 52);
+      return SizedBox(key: ValueKey('empty_${video.id}'), width: 52);
     }
   }
 
