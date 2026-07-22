@@ -52,6 +52,8 @@ class AppStrings {
   static const String codecH264Desc = 'Maximum compatibility with older devices & browsers.';
   static const String codecH265Label = 'H.265 / HEVC';
   static const String codecH265Desc = 'Better compression efficiency (smaller files).';
+  static const String codecAv1Label = 'AV1';
+  static const String codecAv1Desc = 'Next-gen codec: Maximum compression efficiency (30% smaller than H.265).';
 
   // ---- Hardware Encoders ----
   static const String hwSoftwareLabel = 'Software (CPU)';

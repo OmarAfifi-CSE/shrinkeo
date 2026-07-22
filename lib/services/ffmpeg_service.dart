@@ -154,7 +154,17 @@ class FfmpegService {
     }
 
     String vcodec;
-    if (codec == VideoCodec.h265) {
+    if (codec == VideoCodec.av1) {
+      if (hardwareEncoder == HardwareEncoder.nvidia) {
+        vcodec = 'av1_nvenc';
+      } else if (hardwareEncoder == HardwareEncoder.amd) {
+        vcodec = 'av1_amf';
+      } else if (hardwareEncoder == HardwareEncoder.intel) {
+        vcodec = 'av1_qsv';
+      } else {
+        vcodec = 'libaom-av1';
+      }
+    } else if (codec == VideoCodec.h265) {
       if (hardwareEncoder == HardwareEncoder.nvidia) {
         vcodec = 'hevc_nvenc';
       } else if (hardwareEncoder == HardwareEncoder.amd) {
@@ -267,7 +277,32 @@ class FfmpegService {
     }
 
     if (hardwareEncoder == HardwareEncoder.software) {
-      args.addAll(['-crf', crf.toString(), '-preset', mappedPreset]);
+      if (vcodec == 'libaom-av1') {
+        int cpuUsed = 6;
+        switch (preset) {
+          case 'ultrafast':
+          case 'superfast':
+            cpuUsed = 8;
+            break;
+          case 'veryfast':
+            cpuUsed = 7;
+            break;
+          case 'faster':
+            cpuUsed = 6;
+            break;
+          case 'fast':
+          case 'medium':
+            cpuUsed = 5;
+            break;
+          case 'slow':
+          case 'veryslow':
+            cpuUsed = 4;
+            break;
+        }
+        args.addAll(['-crf', crf.toString(), '-b:v', '0', '-cpu-used', cpuUsed.toString()]);
+      } else {
+        args.addAll(['-crf', crf.toString(), '-preset', mappedPreset]);
+      }
     } else if (hardwareEncoder == HardwareEncoder.nvidia) {
       args.addAll(['-cq', crf.toString(), '-preset', mappedPreset]);
     } else if (hardwareEncoder == HardwareEncoder.amd) {

@@ -912,6 +912,8 @@ class CompressionCubit extends Cubit<CompressionState> {
                 errorMsg.contains('No capable devices found') ||
                 errorMsg.contains('Cannot load') ||
                 errorMsg.contains('not found') ||
+                errorMsg.contains('Error while opening encoder') ||
+                errorMsg.contains('Generic error') ||
                 errorMsg.toLowerCase().contains('not supported'));
 
         if (isHardwareError && retryCount == 0) {

@@ -1,7 +1,7 @@
 name: shrinkeo
 description: "Batch video compression tool for Windows using embedded FFmpeg."
 publish_to: 'none'
-version: 1.0.3+4
+version: 1.0.5+5
 
 environment:
   sdk: ^3.11.5

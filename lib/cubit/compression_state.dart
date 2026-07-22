@@ -42,7 +42,8 @@ enum EncodingPreset {
 
 enum VideoCodec {
   h264(AppStrings.codecH264Label, AppStrings.codecH264Desc),
-  h265(AppStrings.codecH265Label, AppStrings.codecH265Desc);
+  h265(AppStrings.codecH265Label, AppStrings.codecH265Desc),
+  av1(AppStrings.codecAv1Label, AppStrings.codecAv1Desc);
 
   final String label;
   final String description;
