@@ -142,6 +142,7 @@ class FfmpegService {
     required VideoCodec codec,
     required HardwareEncoder hardwareEncoder,
     required AudioMode audioMode,
+    bool enableAudioDenoise = false,
     required ResolutionMode resolutionMode,
     required FrameRateMode frameRateMode,
   }) async* {
@@ -264,16 +265,24 @@ class FfmpegService {
     args.addAll(['-pix_fmt', 'yuv420p']);
 
     // --- Audio Settings ---
-    if (audioMode == AudioMode.copy) {
-      args.addAll(['-acodec', 'copy']);
-    } else if (audioMode == AudioMode.aac256) {
-      args.addAll(['-acodec', 'aac', '-b:a', '256k']);
-    } else if (audioMode == AudioMode.aac128) {
-      args.addAll(['-acodec', 'aac', '-b:a', '128k']);
-    } else if (audioMode == AudioMode.aac64) {
-      args.addAll(['-acodec', 'aac', '-b:a', '64k']);
-    } else if (audioMode == AudioMode.mute) {
+    if (audioMode == AudioMode.mute) {
       args.add('-an');
+    } else {
+      if (enableAudioDenoise) {
+        args.addAll(['-af', 'afftdn']);
+      }
+      if (audioMode == AudioMode.copy && enableAudioDenoise) {
+        // Must re-encode audio when audio filters are applied
+        args.addAll(['-acodec', 'aac', '-b:a', '256k']);
+      } else if (audioMode == AudioMode.copy) {
+        args.addAll(['-acodec', 'copy']);
+      } else if (audioMode == AudioMode.aac256) {
+        args.addAll(['-acodec', 'aac', '-b:a', '256k']);
+      } else if (audioMode == AudioMode.aac128) {
+        args.addAll(['-acodec', 'aac', '-b:a', '128k']);
+      } else if (audioMode == AudioMode.aac64) {
+        args.addAll(['-acodec', 'aac', '-b:a', '64k']);
+      }
     }
 
     if (hardwareEncoder == HardwareEncoder.software) {

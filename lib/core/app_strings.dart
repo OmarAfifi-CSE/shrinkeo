@@ -76,6 +76,8 @@ class AppStrings {
   static const String audioAac64Desc = 'Compresses to AAC 64kbps (Best for speech/podcasts, tiny size).';
   static const String audioMuteLabel = 'Mute Audio';
   static const String audioMuteDesc = 'Removes the audio track completely to save space.';
+  static const String enableAudioDenoiseTitle = 'Remove Mic & Fan Noise';
+  static const String enableAudioDenoiseDesc = 'Applies FFT spectral filtering to eliminate background mic hiss, fan noise, and room hum.';
 
   // ---- Resolutions ----
   static const String resOriginalLabel = 'Original';

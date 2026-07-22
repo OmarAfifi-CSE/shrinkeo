@@ -56,6 +56,7 @@ class CompressionCubit extends Cubit<CompressionState> {
            videoCodec: _parseCodec(prefs),
            hardwareEncoder: _parseHardwareEncoder(prefs),
            audioMode: _parseAudioMode(prefs),
+           enableAudioDenoise: prefs.getBool('enableAudioDenoise') ?? false,
            resolutionMode: _parseResolutionMode(prefs),
            frameRateMode: _parseFrameRateMode(prefs),
            outputFormat: _parseOutputFormat(prefs),
@@ -200,6 +201,12 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(audioMode: mode));
   }
 
+  /// Toggles the audio noise reduction (FFT mic & fan noise reduction).
+  void toggleAudioDenoise(bool enabled) {
+    _prefs.setBool('enableAudioDenoise', enabled);
+    emit(state.copyWith(enableAudioDenoise: enabled));
+  }
+
   /// Updates the resolution mode setting.
   void updateResolutionMode(ResolutionMode mode) {
     _prefs.setString('resolutionMode', mode.name);
@@ -261,6 +268,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     _prefs.setString('videoCodec', VideoCodec.h264.name);
     _prefs.setString('hardwareEncoder', HardwareEncoder.software.name);
     _prefs.setString('audioMode', AudioMode.copy.name);
+    _prefs.setBool('enableAudioDenoise', false);
     _prefs.setString('resolutionMode', ResolutionMode.original.name);
     _prefs.setString('frameRateMode', FrameRateMode.original.name);
     _prefs.setString('outputFormat', OutputFormat.original.name);
@@ -274,6 +282,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         videoCodec: VideoCodec.h264,
         hardwareEncoder: HardwareEncoder.software,
         audioMode: AudioMode.copy,
+        enableAudioDenoise: false,
         resolutionMode: ResolutionMode.original,
         frameRateMode: FrameRateMode.original,
         outputFormat: OutputFormat.original,
@@ -729,6 +738,7 @@ class CompressionCubit extends Cubit<CompressionState> {
           codec: state.videoCodec,
           hardwareEncoder: state.hardwareEncoder,
           audioMode: state.audioMode,
+          enableAudioDenoise: state.enableAudioDenoise,
           resolutionMode: state.resolutionMode,
           frameRateMode: state.frameRateMode,
         )) {

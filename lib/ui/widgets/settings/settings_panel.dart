@@ -31,6 +31,7 @@ class SettingsPanel extends StatelessWidget {
           prev.isProcessing != curr.isProcessing ||
           prev.customOutputDirectory != curr.customOutputDirectory ||
           prev.audioMode != curr.audioMode ||
+          prev.enableAudioDenoise != curr.enableAudioDenoise ||
           prev.resolutionMode != curr.resolutionMode ||
           prev.frameRateMode != curr.frameRateMode ||
           prev.outputFormat != curr.outputFormat ||

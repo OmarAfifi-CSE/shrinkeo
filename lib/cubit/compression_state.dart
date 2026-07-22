@@ -175,6 +175,9 @@ class CompressionState extends Equatable {
   /// Selected Audio Mode.
   final AudioMode audioMode;
 
+  /// Whether Audio Denoise (FFT mic & fan noise reduction) is enabled.
+  final bool enableAudioDenoise;
+
   /// Selected Resolution Downscale.
   final ResolutionMode resolutionMode;
 
@@ -223,6 +226,7 @@ class CompressionState extends Equatable {
     this.videoCodec = VideoCodec.h264,
     this.hardwareEncoder = HardwareEncoder.software,
     this.audioMode = AudioMode.copy, // Copy Original by default
+    this.enableAudioDenoise = false,
     this.resolutionMode = ResolutionMode.original,
     this.frameRateMode = FrameRateMode.original,
     this.outputFormat = OutputFormat.original, // Original by default
@@ -254,6 +258,7 @@ class CompressionState extends Equatable {
     VideoCodec? videoCodec,
     HardwareEncoder? hardwareEncoder,
     AudioMode? audioMode,
+    bool? enableAudioDenoise,
     ResolutionMode? resolutionMode,
     FrameRateMode? frameRateMode,
     OutputFormat? outputFormat,
@@ -285,6 +290,7 @@ class CompressionState extends Equatable {
       videoCodec: videoCodec ?? this.videoCodec,
       hardwareEncoder: hardwareEncoder ?? this.hardwareEncoder,
       audioMode: audioMode ?? this.audioMode,
+      enableAudioDenoise: enableAudioDenoise ?? this.enableAudioDenoise,
       resolutionMode: resolutionMode ?? this.resolutionMode,
       frameRateMode: frameRateMode ?? this.frameRateMode,
       outputFormat: outputFormat ?? this.outputFormat,
@@ -350,6 +356,7 @@ class CompressionState extends Equatable {
     videoCodec,
     hardwareEncoder,
     audioMode,
+    enableAudioDenoise,
     resolutionMode,
     frameRateMode,
     outputFormat,
