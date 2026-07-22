@@ -10,11 +10,7 @@ import '../glass_container.dart';
 
 part 'settings_components.dart';
 
-/// Collapsible settings panel for CRF quality and encoding preset.
-///
-/// Mirrors the options from the PowerShell script:
-/// - CRF quality: 0-51 slider with tier labels
-/// - Encoding preset: dropdown with speed/size descriptions
+/// Collapsible settings panel with Sliding TabBar and TabBarView.
 class SettingsPanel extends StatelessWidget {
   const SettingsPanel({super.key});
 
@@ -54,15 +50,48 @@ class SettingsPanel extends StatelessWidget {
   }
 }
 
-class _SettingsContent extends StatelessWidget {
+class _SettingsContent extends StatefulWidget {
   final CompressionState state;
 
   const _SettingsContent({required this.state});
 
   @override
+  State<_SettingsContent> createState() => _SettingsContentState();
+}
+
+class _SettingsContentState extends State<_SettingsContent>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isLocked = state.isProcessing;
+    final isDark = theme.brightness == Brightness.dark;
+    final isLocked = widget.state.isProcessing;
+
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+    final inactiveBorder = isDark
+        ? AppColors.borderDark
+        : AppColors.borderLight;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -71,7 +100,7 @@ class _SettingsContent extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // -- Section header --
+            // -- Section header & Reset button --
             Row(
               children: [
                 Icon(
@@ -91,8 +120,6 @@ class _SettingsContent extends StatelessWidget {
                   const SizedBox(width: 10),
                   Builder(
                     builder: (context) {
-                      final isDark =
-                          Theme.of(context).brightness == Brightness.dark;
                       final warningColor = isDark
                           ? Colors.orangeAccent.shade200
                           : AppColors.warningOrange;
@@ -136,7 +163,7 @@ class _SettingsContent extends StatelessWidget {
                     style: TextButton.styleFrom(
                       foregroundColor: theme.textTheme.bodyMedium?.color
                           ?.withValues(alpha: 0.8),
-                      backgroundColor: theme.brightness == Brightness.dark
+                      backgroundColor: isDark
                           ? Colors.white.withValues(alpha: 0.05)
                           : Colors.black.withValues(alpha: 0.03),
                       padding: const EdgeInsets.symmetric(
@@ -152,66 +179,187 @@ class _SettingsContent extends StatelessWidget {
             ),
             const SizedBox(height: 12),
 
-            // -- Two-column layout --
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // -- CRF Quality --
-                Expanded(
-                  child: _CrfSection(state: state, isLocked: isLocked),
+            // -- User's Custom Smooth Sliding TabBar --
+            Container(
+              height: 38,
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                color: isDark
+                    ? Colors.black.withValues(alpha: 0.2)
+                    : Colors.black.withValues(alpha: 0.04),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: inactiveBorder.withValues(alpha: 0.3),
                 ),
-                const SizedBox(width: 32),
-                // -- Encoding Preset --
-                Expanded(
-                  child: _PresetSection(state: state, isLocked: isLocked),
+              ),
+              child: TabBar(
+                controller: _tabController,
+                dividerColor: Colors.transparent,
+                indicator: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7.0),
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.12)
+                      : Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 4,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
-              ],
+                indicatorSize: TabBarIndicatorSize.tab,
+                splashFactory: NoSplash.splashFactory,
+                overlayColor: WidgetStateProperty.all(Colors.transparent),
+                labelColor: activeColor,
+                labelStyle: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                ),
+                unselectedLabelColor: theme.textTheme.bodyMedium?.color
+                    ?.withValues(alpha: 0.7),
+                unselectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
+                tabs: const [
+                  Tab(text: "🎬 Video & Format"),
+                  Tab(text: "🎵 Audio Settings"),
+                  Tab(text: "⚙️ Engine & Output"),
+                ],
+              ),
             ),
-            const SizedBox(height: 16),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Left Column: Codec, Hardware
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _CodecSection(state: state, isLocked: isLocked),
-                      const SizedBox(height: 16),
-                      _HardwareEncoderSection(state: state, isLocked: isLocked),
-                      const SizedBox(height: 16),
-                      _OutputFormatSection(state: state, isLocked: isLocked),
-                      const SizedBox(height: 16),
-                      _OutputLocationSection(state: state, isLocked: isLocked),
-                    ],
+            const SizedBox(height: 14),
+
+            // -- Smooth Sliding TabBarView Content --
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeOutCubic,
+              height: _tabController.index == 0
+                  ? 400.0
+                  : _tabController.index == 1
+                      ? 125.0
+                      : (widget.state.outputLocationMode ==
+                              OutputLocationMode.unified
+                          ? 320.0
+                          : 230.0),
+              child: TabBarView(
+                controller: _tabController,
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: _buildVideoTab(isLocked, widget.state),
                   ),
-                ),
-                const SizedBox(width: 32),
-                // Right Column: Resolution, Audio & Output Format
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _ResolutionSection(state: state, isLocked: isLocked),
-                      const SizedBox(height: 16),
-                      _FrameRateSection(state: state, isLocked: isLocked),
-                      const SizedBox(height: 16),
-                      _AudioModeSection(state: state, isLocked: isLocked),
-                      const SizedBox(height: 16),
-                      _FileManagementSection(state: state, isLocked: isLocked),
-                    ],
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: _buildAudioTab(isLocked, widget.state),
                   ),
-                ),
-              ],
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: _buildEngineTab(isLocked, widget.state),
+                  ),
+                ],
+              ),
             ),
-            if (state.outputLocationMode == OutputLocationMode.unified) ...[
-              const SizedBox(height: 16),
-              _OutputDirectorySection(state: state, isLocked: isLocked),
-            ],
           ],
         ),
       ),
     );
   }
-}
 
+  Widget _buildVideoTab(bool isLocked, CompressionState state) {
+    return Column(
+      key: const ValueKey('tab_video'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: _CrfSection(state: state, isLocked: isLocked),
+            ),
+            const SizedBox(width: 24),
+            Expanded(
+              child: _PresetSection(state: state, isLocked: isLocked),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _CodecSection(state: state, isLocked: isLocked),
+                  const SizedBox(height: 14),
+                  _OutputFormatSection(state: state, isLocked: isLocked),
+                ],
+              ),
+            ),
+            const SizedBox(width: 24),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _ResolutionSection(state: state, isLocked: isLocked),
+                  const SizedBox(height: 14),
+                  _FrameRateSection(state: state, isLocked: isLocked),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAudioTab(bool isLocked, CompressionState state) {
+    return Column(
+      key: const ValueKey('tab_audio'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _AudioModeSection(state: state, isLocked: isLocked),
+      ],
+    );
+  }
+
+  Widget _buildEngineTab(bool isLocked, CompressionState state) {
+    return Column(
+      key: const ValueKey('tab_engine'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _HardwareEncoderSection(state: state, isLocked: isLocked),
+                  const SizedBox(height: 14),
+                  _OutputLocationSection(state: state, isLocked: isLocked),
+                ],
+              ),
+            ),
+            const SizedBox(width: 24),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _FileManagementSection(state: state, isLocked: isLocked),
+                ],
+              ),
+            ),
+          ],
+        ),
+        if (state.outputLocationMode == OutputLocationMode.unified) ...[
+          const SizedBox(height: 14),
+          _OutputDirectorySection(state: state, isLocked: isLocked),
+        ],
+      ],
+    );
+  }
+}
