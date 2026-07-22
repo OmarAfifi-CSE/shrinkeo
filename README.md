@@ -34,14 +34,17 @@ Video files are massive. Sharing them on WhatsApp, Discord, or email is a nightm
 We didn't cut any corners. Shrinkeo is packed with every feature you need to get the perfect compression:
 
 *   🔒 **100% Offline & Private**: Your videos never leave your computer. No cloud uploads, no privacy risks, and absolutely zero file size limits.
+*   🗂️ **Smart Segmented Settings Panel**: Effortlessly tune settings across 3 logical tabs (`🎬 Video & Format`, `🎵 Audio Settings`, `⚙️ Engine & Output`) with a 60 FPS directional sliding pill indicator.
+*   🎯 **Target Size (MB) & CRF Modes**: Choose between visual quality control using the professional **CRF (Constant Rate Factor)** slider, or specify an exact target size (e.g. **25 MB for Discord** or **10 MB for Email**) powered by 2-Pass VBR rate control.
+*   🎥 **Next-Gen Codec Support**: Compress using industry standards like **H.264**, **H.265 (HEVC)**, **VP9**, or the next-gen **AV1**.
 *   ⚡ **Hardware & CPU Encoding**: Stick to the highly optimized **Software (CPU)** default for maximum quality, or manually harness your hardware by explicitly selecting **NVIDIA (NVENC), AMD (AMF), or Intel (QSV)** graphics cards for blazing-fast compression.
-*   🎥 **Advanced Codec Support**: Compress using industry standards like **H.264** or the highly efficient **H.265 (HEVC)**.
-*   🎛️ **Precision Quality Control**: Don't guess the quality. Visually tune it using the professional **CRF (Constant Rate Factor)** slider (from Lossless to Low Quality).
-*   🎵 **Smart Audio Management**: Choose to keep the original audio pristine, re-encode it to AAC to save space, or strip it out entirely for silent videos.
-*   📐 **Downscale & Cap**: Easily downscale massive 4K videos to 1080p or 720p with a single click, and cap framerates (FPS) to reduce stutter and save even more space.
+*   📢 **Audio Volume Normalization**: Normalize low-volume lectures, webinars, or vlogs using **Speech (EBU R128 -16 LUFS)**, **Movie Dynamic**, or **Soft Boost (+3dB)** filters without audio clipping.
+*   📻 **Audio Channels Downmix**: Convert surround sound tracks to **Stereo (2.0)** or **Mono (1.0)** to save up to 50% extra audio file space.
+*   🧹 **Video & Audio Noise Reduction**: Remove video grain with **Video Denoise (3D spatial-temporal)** and eliminate mic/fan hiss using **Audio Denoise (FFT reduction)**.
+*   📐 **Downscale & Cap FPS**: Easily downscale massive 4K videos to 1080p or 720p with a single click, and cap framerates to reduce stutter and save space.
 *   📦 **Multiple Output Formats**: Export your perfectly compressed videos to **MP4, MKV, or MOV** containers.
-*   🚀 **Drag, Drop, and Queue**: Don't compress one by one. Drag and drop 50 videos into Shrinkeo and let it process the entire queue sequentially while you grab a coffee.
-*   🖱️ **Windows Context Menu**: Select any videos on your PC, hit `Shift + Right Click`, and choose **"Compress with Shrinkeo"** to instantly launch the app and start compressing!
+*   🚀 **Drag, Drop, and Queue**: Drag and drop 100+ videos into Shrinkeo and let it process the entire queue sequentially while you grab a coffee.
+*   🖱️ **Seamless Context Menu Integration**: Select any videos on your PC, hit `Shift + Right Click`, and choose **"Compress with Shrinkeo"**. Uses clean per-user (`HKCU`) registry integration—zero Administrator (UAC) prompts required!
 *   📊 **Satisfying Analytics**: Watch live progress, get accurate ETAs, compare original vs. compressed file sizes instantly, and track your **Global Saved Space** across all your compressions over time!
 *   🎨 **Premium Interface**: A stunning glassmorphism design with a custom title bar, smooth micro-animations, hover effects, and built-in dark/light modes. Designed for maximum productivity and an elegant user experience.
 
