@@ -162,6 +162,12 @@ class CompressionState extends Equatable {
   /// Default: 22 (balanced).
   final int crfQuality;
 
+  /// Whether target file size mode is enabled (compressing to an exact MB limit).
+  final bool isTargetSizeMode;
+
+  /// Target file size limit in MB (used when isTargetSizeMode is true). Default: 25.0 MB.
+  final double targetSizeMB;
+
   /// FFmpeg encoding speed preset.
   /// Default: fast (balanced speed & size).
   final EncodingPreset encodingPreset;
@@ -225,6 +231,8 @@ class CompressionState extends Equatable {
     this.isDragHovering = false,
     this.isScanningFiles = false,
     this.crfQuality = 22,
+    this.isTargetSizeMode = false,
+    this.targetSizeMB = 25.0,
     this.encodingPreset = EncodingPreset.fast,
     this.videoCodec = VideoCodec.h264,
     this.enableVideoDenoise = false,
@@ -258,6 +266,8 @@ class CompressionState extends Equatable {
     bool? isDragHovering,
     bool? isScanningFiles,
     int? crfQuality,
+    bool? isTargetSizeMode,
+    double? targetSizeMB,
     EncodingPreset? encodingPreset,
     VideoCodec? videoCodec,
     bool? enableVideoDenoise,
@@ -291,6 +301,8 @@ class CompressionState extends Equatable {
       isDragHovering: isDragHovering ?? this.isDragHovering,
       isScanningFiles: isScanningFiles ?? this.isScanningFiles,
       crfQuality: crfQuality ?? this.crfQuality,
+      isTargetSizeMode: isTargetSizeMode ?? this.isTargetSizeMode,
+      targetSizeMB: targetSizeMB ?? this.targetSizeMB,
       encodingPreset: encodingPreset ?? this.encodingPreset,
       videoCodec: videoCodec ?? this.videoCodec,
       enableVideoDenoise: enableVideoDenoise ?? this.enableVideoDenoise,
@@ -358,6 +370,8 @@ class CompressionState extends Equatable {
     isDragHovering,
     isScanningFiles,
     crfQuality,
+    isTargetSizeMode,
+    targetSizeMB,
     encodingPreset,
     videoCodec,
     enableVideoDenoise,

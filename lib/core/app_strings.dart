@@ -29,6 +29,14 @@ class AppStrings {
   static const String largerSizeWarning =
       'Output size might be larger than original. Consider cancelling and resetting settings to default.';
 
+  // ---- Compression Mode & Target Size ----
+  static const String modeCrfLabel = 'Quality (CRF)';
+  static const String modeTargetSizeLabel = 'Target Size (MB)';
+  static const String modeTargetSizeTitle = 'Compression Target Mode';
+  static const String targetSizeLabel = 'Target File Size (MB)';
+  static const String targetSizeDesc =
+      'Calculates bitrate to fit within size limit (Min: 1 MB). Extremely low limits on long videos will lower visual resolution.';
+
   // ---- Encoding Presets ----
   static const String presetUltrafastLabel = 'Ultrafast';
   static const String presetUltrafastDesc = 'Max speed, but achieves the least file size reduction.';

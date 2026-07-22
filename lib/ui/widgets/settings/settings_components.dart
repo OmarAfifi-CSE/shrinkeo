@@ -218,80 +218,143 @@ class _CrfSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Title row
+        // Mode Selector: Quality (CRF) vs Target Size (MB)
         Row(
           children: [
-            Text(
-              AppStrings.crfQualityTitle,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w500,
-                color: theme.textTheme.bodyMedium?.color,
-              ),
+            _OptionChip(
+              label: AppStrings.modeCrfLabel,
+              isSelected: !state.isTargetSizeMode,
+              isLocked: isLocked,
+              onTap: () => cubit.toggleTargetSizeMode(false),
             ),
-            const Spacer(),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-              decoration: BoxDecoration(
-                color: _crfColor(state.crfQuality).withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(
-                  color: _crfColor(state.crfQuality).withValues(alpha: 0.3),
-                ),
-              ),
-              child: Text(
-                '${state.crfQuality} — ${state.crfLabel}',
-                style: TextStyle(
-                  color: _crfColor(state.crfQuality),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+            const SizedBox(width: 8),
+            _OptionChip(
+              label: AppStrings.modeTargetSizeLabel,
+              isSelected: state.isTargetSizeMode,
+              isLocked: isLocked,
+              onTap: () => cubit.toggleTargetSizeMode(true),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
 
-        // Slider
-        SliderTheme(
-          data: SliderThemeData(
-            activeTrackColor: _crfColor(state.crfQuality),
-            inactiveTrackColor: (Theme.of(context).brightness == Brightness.dark
-                ? AppColors.borderDark
-                : AppColors.borderLight),
-            thumbColor: _crfColor(state.crfQuality),
-            overlayColor: _crfColor(state.crfQuality).withValues(alpha: 0.12),
-            trackHeight: 4,
-            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
-            tickMarkShape: SliderTickMarkShape.noTickMark,
-            valueIndicatorShape: const RectangularSliderValueIndicatorShape(),
-            valueIndicatorColor: _crfColor(state.crfQuality),
-            valueIndicatorTextStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 11,
-              fontWeight: FontWeight.w700,
+        if (!state.isTargetSizeMode) ...[
+          // Title row
+          Row(
+            children: [
+              Text(
+                AppStrings.crfQualityTitle,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: theme.textTheme.bodyMedium?.color,
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                decoration: BoxDecoration(
+                  color: _crfColor(state.crfQuality).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(
+                    color: _crfColor(state.crfQuality).withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Text(
+                  '${state.crfQuality} — ${state.crfLabel}',
+                  style: TextStyle(
+                    color: _crfColor(state.crfQuality),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+
+          // Slider
+          SliderTheme(
+            data: SliderThemeData(
+              activeTrackColor: _crfColor(state.crfQuality),
+              inactiveTrackColor: (Theme.of(context).brightness == Brightness.dark
+                  ? AppColors.borderDark
+                  : AppColors.borderLight),
+              thumbColor: _crfColor(state.crfQuality),
+              overlayColor: _crfColor(state.crfQuality).withValues(alpha: 0.12),
+              trackHeight: 4,
+              thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+              tickMarkShape: SliderTickMarkShape.noTickMark,
+              valueIndicatorShape: const RectangularSliderValueIndicatorShape(),
+              valueIndicatorColor: _crfColor(state.crfQuality),
+              valueIndicatorTextStyle: const TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+              ),
+              showValueIndicator: ShowValueIndicator.onDrag,
             ),
-            showValueIndicator: ShowValueIndicator.onDrag,
+            child: Slider(
+              value: state.crfQuality.toDouble(),
+              min: 0,
+              max: 51,
+              divisions: 51,
+              label: '${state.crfQuality}',
+              onChanged: isLocked
+                  ? null
+                  : (value) => cubit.updateCrfQuality(value.round()),
+            ),
           ),
-          child: Slider(
-            value: state.crfQuality.toDouble(),
-            min: 0,
-            max: 51,
-            divisions: 51,
-            label: '${state.crfQuality}',
-            onChanged: isLocked
-                ? null
-                : (value) => cubit.updateCrfQuality(value.round()),
+          // Scale labels
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [_ScaleLabel('0', 'Lossless'), _ScaleLabel('51', 'Low')],
+            ),
           ),
-        ),
-
-        // Scale labels
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [_ScaleLabel('0', 'Lossless'), _ScaleLabel('51', 'Low')],
+        ] else ...[
+          // Target File Size (MB) Presets & Custom Input
+          Text(
+            AppStrings.targetSizeLabel,
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: theme.textTheme.bodyMedium?.color,
+            ),
           ),
-        ),
+          const SizedBox(height: 6),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: [8.0, 25.0, 50.0, 100.0, 500.0].map((mb) {
+                    final isSelected = (state.targetSizeMB - mb).abs() < 0.1;
+                    return _OptionChip(
+                      label: '${mb.toInt()} MB',
+                      isSelected: isSelected,
+                      isLocked: isLocked,
+                      onTap: () => cubit.updateTargetSizeMB(mb),
+                    );
+                  }).toList(),
+                ),
+              ),
+              const SizedBox(width: 8),
+              _CustomSizeInput(
+                targetSizeMB: state.targetSizeMB,
+                isLocked: isLocked,
+                onChanged: (val) => cubit.updateTargetSizeMB(val),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          _InfoBox(
+            label: '${state.targetSizeMB.toStringAsFixed(state.targetSizeMB.truncateToDouble() == state.targetSizeMB ? 0 : 1)} MB Limit',
+            description: AppStrings.targetSizeDesc,
+            icon: Icons.track_changes_rounded,
+          ),
+        ],
       ],
     );
   }
@@ -303,6 +366,156 @@ class _CrfSection extends StatelessWidget {
     if (crf <= 30) return AppColors.warningOrange;
     if (crf <= 40) return AppColors.errorRed;
     return AppColors.crfUltraCompressed;
+  }
+}
+
+/// Custom numeric input for target size in MB.
+class _CustomSizeInput extends StatefulWidget {
+  final double targetSizeMB;
+  final bool isLocked;
+  final ValueChanged<double> onChanged;
+
+  const _CustomSizeInput({
+    required this.targetSizeMB,
+    required this.isLocked,
+    required this.onChanged,
+  });
+
+  @override
+  State<_CustomSizeInput> createState() => _CustomSizeInputState();
+}
+
+class _CustomSizeInputState extends State<_CustomSizeInput> {
+  late TextEditingController _controller;
+  bool _isFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: _formatValue(widget.targetSizeMB));
+  }
+
+  @override
+  void didUpdateWidget(covariant _CustomSizeInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.targetSizeMB != widget.targetSizeMB) {
+      final formatted = _formatValue(widget.targetSizeMB);
+      if (_controller.text != formatted) {
+        _controller.text = formatted;
+      }
+    }
+  }
+
+  String _formatValue(double val) {
+    return val.toStringAsFixed(val.truncateToDouble() == val ? 0 : 1);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+    final inactiveBorder = isDark
+        ? AppColors.borderDark
+        : AppColors.borderLight;
+
+    final isPreset = [8.0, 25.0, 50.0, 100.0, 500.0].any((mb) => (widget.targetSizeMB - mb).abs() < 0.1);
+    final isCustomActive = _isFocused || !isPreset;
+
+    return Focus(
+      onFocusChange: (focused) {
+        setState(() => _isFocused = focused);
+        if (!focused) {
+          final cubit = context.read<CompressionCubit>();
+          final minLimit = cubit.minAchievableTargetSizeMB;
+          final parsed = double.tryParse(_controller.text);
+          if (parsed == null || parsed < minLimit) {
+            final formatted = _formatValue(minLimit);
+            _controller.text = formatted;
+            widget.onChanged(minLimit);
+          }
+        }
+      },
+      child: Tooltip(
+        message: 'Type custom MB size',
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          width: 96,
+          height: 33,
+          decoration: BoxDecoration(
+            color: isCustomActive
+                ? activeColor.withValues(alpha: 0.15)
+                : inactiveBorder.withValues(alpha: 0.3),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isCustomActive
+                  ? activeColor.withValues(alpha: 0.6)
+                  : inactiveBorder.withValues(alpha: 0.4),
+            ),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.edit_rounded,
+                size: 12,
+                color: isCustomActive
+                    ? activeColor
+                    : theme.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  enabled: !widget.isLocked,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: isCustomActive ? activeColor : theme.textTheme.bodyMedium?.color,
+                  ),
+                  onChanged: (val) {
+                    final parsed = double.tryParse(val);
+                    if (parsed != null && parsed >= 1.0 && parsed <= 10000.0) {
+                      widget.onChanged(parsed);
+                    }
+                  },
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 6),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                ),
+              ),
+              Text(
+                'MB',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: isCustomActive
+                      ? activeColor
+                      : theme.textTheme.bodySmall?.color?.withValues(alpha: 0.6),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

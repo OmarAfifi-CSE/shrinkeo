@@ -52,6 +52,8 @@ class CompressionCubit extends Cubit<CompressionState> {
          CompressionState(
            themeMode: _parseTheme(prefs),
            crfQuality: prefs.getInt('crfQuality') ?? 22,
+           isTargetSizeMode: prefs.getBool('isTargetSizeMode') ?? false,
+           targetSizeMB: prefs.getDouble('targetSizeMB') ?? 25.0,
            encodingPreset: _parsePreset(prefs),
            videoCodec: _parseCodec(prefs),
            enableVideoDenoise: prefs.getBool('enableVideoDenoise') ?? false,
@@ -178,6 +180,31 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(crfQuality: clamped));
   }
 
+  /// Toggles between Quality (CRF) mode and Target File Size (MB) mode.
+  void toggleTargetSizeMode(bool enabled) {
+    _prefs.setBool('isTargetSizeMode', enabled);
+    emit(state.copyWith(isTargetSizeMode: enabled));
+  }
+
+  /// Calculates the physical minimum achievable target size in MB based on video duration.
+  double get minAchievableTargetSizeMB {
+    double maxDurationMinutes = 0;
+    for (final video in state.videos) {
+      if (video.totalDuration != null) {
+        final mins = video.totalDuration!.inSeconds / 60.0;
+        if (mins > maxDurationMinutes) maxDurationMinutes = mins;
+      }
+    }
+    return maxDurationMinutes > 0 ? (maxDurationMinutes * 1.40).clamp(1.0, 500.0) : 1.0;
+  }
+
+  /// Updates the target file size in MB.
+  void updateTargetSizeMB(double sizeMB) {
+    final validSize = sizeMB.clamp(0.5, 10000.0);
+    _prefs.setDouble('targetSizeMB', validSize);
+    emit(state.copyWith(targetSizeMB: validSize));
+  }
+
   /// Updates the encoding speed preset.
   void updateEncodingPreset(EncodingPreset preset) {
     _prefs.setString('encodingPreset', preset.name);
@@ -271,6 +298,8 @@ class CompressionCubit extends Cubit<CompressionState> {
   /// Resets all compression settings to their defaults.
   void resetToDefaults() {
     _prefs.setInt('crfQuality', 22);
+    _prefs.setBool('isTargetSizeMode', false);
+    _prefs.setDouble('targetSizeMB', 25.0);
     _prefs.setString('encodingPreset', EncodingPreset.fast.name);
     _prefs.setString('videoCodec', VideoCodec.h264.name);
     _prefs.setBool('enableVideoDenoise', false);
@@ -286,6 +315,8 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(
       state.copyWith(
         crfQuality: 22,
+        isTargetSizeMode: false,
+        targetSizeMB: 25.0,
         encodingPreset: EncodingPreset.fast,
         videoCodec: VideoCodec.h264,
         enableVideoDenoise: false,
@@ -405,6 +436,11 @@ class CompressionCubit extends Cubit<CompressionState> {
           return v;
         }).toList();
         emit(state.copyWith(videos: newVideos));
+        // Automatically clamp target size to physical duration minimum
+        final minMB = minAchievableTargetSizeMB;
+        if (state.targetSizeMB < minMB) {
+          updateTargetSizeMB(minMB);
+        }
       }
 
       await Future.delayed(const Duration(milliseconds: 10));
@@ -743,6 +779,8 @@ class CompressionCubit extends Cubit<CompressionState> {
           outputPath: outputPath,
           totalDuration: totalDuration,
           crf: state.crfQuality,
+          isTargetSizeMode: state.isTargetSizeMode,
+          targetSizeMB: state.targetSizeMB.clamp(minAchievableTargetSizeMB, 10000.0),
           preset: state.encodingPreset.value,
           codec: state.videoCodec,
           enableVideoDenoise: state.enableVideoDenoise,

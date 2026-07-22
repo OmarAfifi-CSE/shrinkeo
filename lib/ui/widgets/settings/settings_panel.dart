@@ -29,6 +29,8 @@ class SettingsPanel extends StatelessWidget {
           prev.enableVideoDenoise != curr.enableVideoDenoise ||
           prev.hardwareEncoder != curr.hardwareEncoder ||
           prev.crfQuality != curr.crfQuality ||
+          prev.isTargetSizeMode != curr.isTargetSizeMode ||
+          prev.targetSizeMB != curr.targetSizeMB ||
           prev.isProcessing != curr.isProcessing ||
           prev.customOutputDirectory != curr.customOutputDirectory ||
           prev.audioMode != curr.audioMode ||

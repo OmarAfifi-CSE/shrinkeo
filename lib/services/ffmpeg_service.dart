@@ -13,6 +13,7 @@ class CompressionProgress {
   final double? emaSpeed;
   final Duration? eta;
   final int? currentOutputSizeBytes;
+  final String? passStep;
 
   CompressionProgress({
     required this.progress,
@@ -20,6 +21,7 @@ class CompressionProgress {
     this.emaSpeed,
     this.eta,
     this.currentOutputSizeBytes,
+    this.passStep,
   });
 }
 
@@ -138,6 +140,8 @@ class FfmpegService {
     required String outputPath,
     required Duration totalDuration,
     int crf = 22,
+    bool isTargetSizeMode = false,
+    double targetSizeMB = 25.0,
     String preset = 'fast',
     required VideoCodec codec,
     bool enableVideoDenoise = false,
@@ -265,71 +269,192 @@ class FfmpegService {
 
     args.addAll(['-pix_fmt', 'yuv420p']);
 
-    // --- Audio Settings ---
-    if (audioMode == AudioMode.mute) {
-      args.add('-an');
-    } else {
-      if (enableAudioDenoise) {
-        args.addAll(['-af', 'afftdn']);
-      }
-      if (audioMode == AudioMode.copy && enableAudioDenoise) {
-        // Must re-encode audio when audio filters are applied
-        args.addAll(['-acodec', 'aac', '-b:a', '256k']);
-      } else if (audioMode == AudioMode.copy) {
-        args.addAll(['-acodec', 'copy']);
-      } else if (audioMode == AudioMode.aac256) {
-        args.addAll(['-acodec', 'aac', '-b:a', '256k']);
-      } else if (audioMode == AudioMode.aac128) {
-        args.addAll(['-acodec', 'aac', '-b:a', '128k']);
-      } else if (audioMode == AudioMode.aac64) {
-        args.addAll(['-acodec', 'aac', '-b:a', '64k']);
-      }
-    }
+    // --- Audio & Video Rate Control ---
+    if (isTargetSizeMode && totalMs > 0) {
+      // Use 95% safety margin to account for MP4 container muxing overhead and prevent target overshoots
+      final totalBits = targetSizeMB * 0.95 * 8 * 1024 * 1024;
+      final durationSec = totalMs / 1000.0;
+      final totalBitrateBps = totalBits / durationSec;
 
-    if (hardwareEncoder == HardwareEncoder.software) {
-      if (vcodec == 'libaom-av1') {
-        int cpuUsed = 6;
-        switch (preset) {
-          case 'ultrafast':
-          case 'superfast':
-            cpuUsed = 8;
-            break;
-          case 'veryfast':
-            cpuUsed = 7;
-            break;
-          case 'faster':
-            cpuUsed = 6;
-            break;
-          case 'fast':
-          case 'medium':
-            cpuUsed = 5;
-            break;
-          case 'slow':
-          case 'veryslow':
-            cpuUsed = 4;
-            break;
-        }
-        args.addAll(['-crf', crf.toString(), '-b:v', '0', '-cpu-used', cpuUsed.toString()]);
+      // Smart Proportional Audio Bitrate Allocation
+      int audioBitrateBps = 128000;
+      if (audioMode == AudioMode.mute) {
+        args.add('-an');
+        audioBitrateBps = 0;
+      } else if (audioMode == AudioMode.aac256) {
+        if (enableAudioDenoise) args.addAll(['-af', 'afftdn']);
+        args.addAll(['-acodec', 'aac', '-b:a', '256k']);
+        audioBitrateBps = 256000;
+      } else if (audioMode == AudioMode.aac128) {
+        if (enableAudioDenoise) args.addAll(['-af', 'afftdn']);
+        args.addAll(['-acodec', 'aac', '-b:a', '128k']);
+        audioBitrateBps = 128000;
+      } else if (audioMode == AudioMode.aac64) {
+        if (enableAudioDenoise) args.addAll(['-af', 'afftdn']);
+        args.addAll(['-acodec', 'aac', '-b:a', '64k']);
+        audioBitrateBps = 64000;
       } else {
-        args.addAll(['-crf', crf.toString(), '-preset', mappedPreset]);
+        // Default / AudioMode.copy in Target Size Mode:
+        // Rule: If target bitrate is equivalent to CRF 28 or better (>= 650 kbps), preserve 100% original Audio Copy!
+        // If target bitrate squeezes video below CRF 28 (< 650 kbps), compress audio to protect video quality.
+        if (enableAudioDenoise) {
+          args.addAll(['-af', 'afftdn', '-acodec', 'aac', '-b:a', '192k']);
+          audioBitrateBps = 192000;
+        } else if (totalBitrateBps >= 650000) {
+          // Equivalent to CRF 28 or better: Copy original audio track verbatim!
+          args.addAll(['-acodec', 'copy']);
+          audioBitrateBps = 160000;
+        } else if (totalBitrateBps >= 300000) {
+          // Squeezed below CRF 28: Compress audio to 96k AAC to protect video
+          args.addAll(['-acodec', 'aac', '-b:a', '96k']);
+          audioBitrateBps = 96000;
+        } else {
+          // Heavily squeezed: Compress audio to 64k AAC to protect video
+          args.addAll(['-acodec', 'aac', '-b:a', '64k']);
+          audioBitrateBps = 64000;
+        }
       }
-    } else if (hardwareEncoder == HardwareEncoder.nvidia) {
-      args.addAll(['-cq', crf.toString(), '-preset', mappedPreset]);
-    } else if (hardwareEncoder == HardwareEncoder.amd) {
-      args.addAll([
-        '-rc',
-        'cqp',
-        '-qp_i',
-        crf.toString(),
-        '-qp_p',
-        crf.toString(),
-        '-qp_b',
-        crf.toString(),
-        '-preset',
-        mappedPreset,
-      ]);
-    } else if (hardwareEncoder == HardwareEncoder.intel) {
-      args.addAll(['-q:v', crf.toString(), '-preset', mappedPreset]);
+
+      // Calculate Video Bitrate
+      int videoBitrateBps = (totalBitrateBps - audioBitrateBps).toInt();
+      if (videoBitrateBps < 20000) videoBitrateBps = 20000;
+
+      final videoBitrateKbps = (videoBitrateBps / 1000).round();
+      // Perceptual Constrained VBR Rate Control Parameters
+      final maxrateKbps = (videoBitrateKbps * 1.35).round();
+      final bufsizeKbps = (videoBitrateKbps * 2.0).round();
+
+      // Video Encoder Arguments
+      if (hardwareEncoder == HardwareEncoder.software) {
+        if (vcodec == 'libaom-av1') {
+          int cpuUsed = 6;
+          switch (preset) {
+            case 'ultrafast':
+            case 'superfast':
+              cpuUsed = 8;
+              break;
+            case 'veryfast':
+              cpuUsed = 7;
+              break;
+            case 'faster':
+              cpuUsed = 6;
+              break;
+            case 'fast':
+            case 'medium':
+              cpuUsed = 5;
+              break;
+            case 'slow':
+            case 'veryslow':
+              cpuUsed = 4;
+              break;
+          }
+          args.addAll([
+            '-b:v', '${videoBitrateKbps}k',
+            '-maxrate', '${maxrateKbps}k',
+            '-bufsize', '${bufsizeKbps}k',
+            '-cpu-used', cpuUsed.toString()
+          ]);
+        } else {
+          // Perceptual Constrained VBR for software codecs (Enables AQ perceptual quality matching CRF mode)
+          final softArgs = <String>[
+            '-b:v', '${videoBitrateKbps}k',
+            '-maxrate', '${maxrateKbps}k',
+            '-bufsize', '${bufsizeKbps}k',
+            '-qmin', '1',
+            '-preset', mappedPreset,
+          ];
+          args.addAll(softArgs);
+        }
+      } else if (hardwareEncoder == HardwareEncoder.nvidia) {
+        args.addAll([
+          '-rc:v', 'vbr',
+          '-b:v', '${videoBitrateKbps}k',
+          '-maxrate', '${maxrateKbps}k',
+          '-bufsize', '${bufsizeKbps}k',
+          '-preset', mappedPreset
+        ]);
+      } else if (hardwareEncoder == HardwareEncoder.amd) {
+        args.addAll([
+          '-rc', 'vbr_latency',
+          '-b:v', '${videoBitrateKbps}k',
+          '-maxrate', '${maxrateKbps}k',
+          '-bufsize', '${bufsizeKbps}k',
+          '-quality', mappedPreset
+        ]);
+      } else if (hardwareEncoder == HardwareEncoder.intel) {
+        args.addAll([
+          '-b:v', '${videoBitrateKbps}k',
+          '-maxrate', '${maxrateKbps}k',
+          '-bufsize', '${bufsizeKbps}k',
+          '-preset', mappedPreset
+        ]);
+      }
+    } else {
+      // Normal CRF / Quality Mode
+      if (audioMode == AudioMode.mute) {
+        args.add('-an');
+      } else {
+        if (enableAudioDenoise) {
+          args.addAll(['-af', 'afftdn']);
+        }
+        if (audioMode == AudioMode.copy && enableAudioDenoise) {
+          args.addAll(['-acodec', 'aac', '-b:a', '256k']);
+        } else if (audioMode == AudioMode.copy) {
+          args.addAll(['-acodec', 'copy']);
+        } else if (audioMode == AudioMode.aac256) {
+          args.addAll(['-acodec', 'aac', '-b:a', '256k']);
+        } else if (audioMode == AudioMode.aac128) {
+          args.addAll(['-acodec', 'aac', '-b:a', '128k']);
+        } else if (audioMode == AudioMode.aac64) {
+          args.addAll(['-acodec', 'aac', '-b:a', '64k']);
+        }
+      }
+
+      if (hardwareEncoder == HardwareEncoder.software) {
+        if (vcodec == 'libaom-av1') {
+          int cpuUsed = 6;
+          switch (preset) {
+            case 'ultrafast':
+            case 'superfast':
+              cpuUsed = 8;
+              break;
+            case 'veryfast':
+              cpuUsed = 7;
+              break;
+            case 'faster':
+              cpuUsed = 6;
+              break;
+            case 'fast':
+            case 'medium':
+              cpuUsed = 5;
+              break;
+            case 'slow':
+            case 'veryslow':
+              cpuUsed = 4;
+              break;
+          }
+          args.addAll(['-crf', crf.toString(), '-b:v', '0', '-cpu-used', cpuUsed.toString()]);
+        } else {
+          args.addAll(['-crf', crf.toString(), '-preset', mappedPreset]);
+        }
+      } else if (hardwareEncoder == HardwareEncoder.nvidia) {
+        args.addAll(['-cq', crf.toString(), '-preset', mappedPreset]);
+      } else if (hardwareEncoder == HardwareEncoder.amd) {
+        args.addAll([
+          '-rc',
+          'cqp',
+          '-qp_i',
+          crf.toString(),
+          '-qp_p',
+          crf.toString(),
+          '-qp_b',
+          crf.toString(),
+          '-preset',
+          mappedPreset,
+        ]);
+      } else if (hardwareEncoder == HardwareEncoder.intel) {
+        args.addAll(['-q:v', crf.toString(), '-preset', mappedPreset]);
+      }
     }
 
     // --- Resolution Downscaling ---
@@ -357,7 +482,8 @@ class FfmpegService {
     final videoFilters = <String>[];
 
     if (enableVideoDenoise) {
-      videoFilters.add('hqdn3d=4:3:6:4.5');
+      // Light, razor-sharp spatial-temporal denoise filter that removes noise without smearing visual details
+      videoFilters.add('hqdn3d=1.2:1.2:2.4:2.4');
     }
 
     if (scaleFilter != null) {
@@ -365,9 +491,10 @@ class FfmpegService {
     }
     videoFilters.add('scale=trunc(iw/2)*2:trunc(ih/2)*2');
 
-    args.addAll(['-vf', videoFilters.join(',')]);
+    if (videoFilters.isNotEmpty) {
+      args.addAll(['-vf', videoFilters.join(',')]);
+    }
 
-    // --- Frame Rate ---
     if (frameRateMode == FrameRateMode.fps60) {
       args.addAll(['-r', '60']);
     } else if (frameRateMode == FrameRateMode.fps30) {
@@ -376,131 +503,96 @@ class FfmpegService {
       args.addAll(['-r', '24']);
     }
 
+    final is2Pass = isTargetSizeMode && hardwareEncoder == HardwareEncoder.software && vcodec != 'libaom-av1';
+
+    if (is2Pass) {
+      final passLogPrefix = p.join(
+        Directory.systemTemp.path,
+        'shrinkeo_2pass_${DateTime.now().microsecondsSinceEpoch}',
+      );
+
+      // --- PASS 1: Fast Analysis Pass (0% -> 20% Progress) ---
+      final pass1Args = List<String>.from(args);
+      pass1Args.addAll(['-passlogfile', passLogPrefix, '-pass', '1', '-an', '-f', 'null', Platform.isWindows ? 'NUL' : '/dev/null']);
+
+      _currentProcess = await Process.start(ffmpeg, pass1Args);
+      final process1 = _currentProcess!;
+
+      double? pass1LastEmaSpeed;
+      Duration? pass1LastEta;
+
+      await for (final p in _streamFFmpegProgress(
+        process1,
+        totalMs,
+        outputPath,
+        progressOffset: 0.0,
+        progressScale: 0.20,
+        passNumber: 1,
+      )) {
+        if (_isCancelled) break;
+        if (p.emaSpeed != null) pass1LastEmaSpeed = p.emaSpeed;
+        if (p.eta != null) pass1LastEta = p.eta;
+        yield p;
+      }
+      final exit1 = await process1.exitCode;
+      if (_isCancelled) {
+        _cleanup2PassLogs(passLogPrefix);
+        _isCancelled = false;
+        throw _CompressionCancelledException();
+      }
+      if (exit1 != 0) {
+        _cleanup2PassLogs(passLogPrefix);
+        throw Exception('FFmpeg Pass 1 failed with exit code $exit1');
+      }
+
+      // --- PASS 2: Precision Target Encoding Pass (20% -> 100% Progress) ---
+      final pass2Args = List<String>.from(args);
+      pass2Args.addAll(['-passlogfile', passLogPrefix, '-pass', '2', outputPath]);
+
+      _currentProcess = await Process.start(ffmpeg, pass2Args);
+      final process2 = _currentProcess!;
+
+      // Seed Pass 2 with expected encoding speed derived from Pass 1 analysis to prevent ETA spike!
+      final pass2InitialSpeed = pass1LastEmaSpeed != null ? pass1LastEmaSpeed * 0.50 : null;
+
+      await for (final p in _streamFFmpegProgress(
+        process2,
+        totalMs,
+        outputPath,
+        progressOffset: 0.20,
+        progressScale: 0.80,
+        passNumber: 2,
+        initialEmaSpeed: pass2InitialSpeed,
+        initialEta: pass1LastEta,
+      )) {
+        if (_isCancelled) break;
+        yield p;
+      }
+      final exit2 = await process2.exitCode;
+      _currentProcess = null;
+      _cleanup2PassLogs(passLogPrefix);
+
+      if (_isCancelled) {
+        _isCancelled = false;
+        throw _CompressionCancelledException();
+      }
+      if (exit2 != 0) {
+        throw Exception('FFmpeg Pass 2 failed with exit code $exit2');
+      }
+
+      yield CompressionProgress(progress: 1.0, speed: 0.0, eta: Duration.zero);
+      return;
+    }
+
+    // --- SINGLE PASS ---
     args.add(outputPath);
 
     _currentProcess = await Process.start(ffmpeg, args);
-
     final process = _currentProcess!;
 
-    // Lower the process priority to prevent CPU/GPU starvation and OS lag.
-    try {
-      if (Platform.isWindows) {
-        Process.run('powershell', [
-          '-NoProfile',
-          '-NonInteractive',
-          '-Command',
-          "(Get-Process -Id ${process.pid}).PriorityClass = 'BelowNormal'",
-        ]);
-      } else if (Platform.isLinux || Platform.isMacOS) {
-        Process.run('renice', ['-n', '10', '-p', '${process.pid}']);
-      }
-    } catch (_) {
-      // Ignore errors if priority cannot be changed
-    }
-
-    // Regex to extract time=HH:MM:SS.xx and speed=1.5x from FFmpeg stderr progress lines.
-    final timeRegex = RegExp(r'time=(\d+):(\d+):(\d+(?:\.\d+)?)');
-    final speedRegex = RegExp(r'speed=\s*(\d+(?:\.\d+)?)x');
-
-    // Throttle progress emissions: min 100ms between updates or 0.5% delta.
-    double lastEmittedProgress = 0.0;
-    DateTime lastEmitTime = DateTime.now();
-    double? emaSpeed;
-
-    // Buffer for partial lines from stderr.
-    String stderrBuffer = '';
-
-    // Collect stderr for error reporting.
-    final stderrLines = <String>[];
-
-    // Listen to stderr line-by-line (FFmpeg writes progress here).
-    await for (final chunk in process.stderr.transform(utf8.decoder)) {
+    await for (final p in _streamFFmpegProgress(process, totalMs, outputPath)) {
       if (_isCancelled) break;
-
-      stderrBuffer += chunk;
-
-      // Process complete lines (split by \r or \n).
-      final lines = stderrBuffer.split(RegExp(r'[\r\n]+'));
-      // Keep the last element as it may be an incomplete line.
-      stderrBuffer = lines.removeLast();
-
-      for (final line in lines) {
-        if (line.trim().isEmpty) continue;
-        stderrLines.add(line);
-
-        final match = timeRegex.firstMatch(line);
-        if (match != null) {
-          final hours = int.parse(match.group(1)!);
-          final minutes = int.parse(match.group(2)!);
-          final seconds = double.parse(match.group(3)!);
-
-          final currentMs =
-              (hours * 3600000) + (minutes * 60000) + (seconds * 1000).round();
-
-          final progress = (currentMs / totalMs).clamp(0.0, 1.0);
-          final now = DateTime.now();
-
-          // Extract speed
-          double speed = 0.0;
-          final speedMatch = speedRegex.firstMatch(line);
-          if (speedMatch != null) {
-            speed = double.tryParse(speedMatch.group(1)!) ?? 0.0;
-          }
-
-          // Smart ETA: Adaptive Exponential Moving Average (EMA)
-          if (speed > 0) {
-            if (emaSpeed == null) {
-              emaSpeed = speed;
-            } else {
-              double alpha = 0.1; // Default smoothing factor (highly stable)
-
-              // 1. Warm-up Phase: React faster in the first 5% of compression
-              if (progress < 0.05) {
-                alpha = 0.5;
-              }
-              // 2. Short Videos: If video is < 15 seconds, be more responsive overall
-              else if (totalMs < 15000) {
-                alpha = 0.4;
-              }
-              // 3. Drastic Speed Shifts (Staircase problem): Catch up faster if speed changes by > 50%
-              else if ((speed - emaSpeed).abs() / emaSpeed > 0.5) {
-                alpha = 0.3;
-              }
-
-              emaSpeed = (emaSpeed * (1.0 - alpha)) + (speed * alpha);
-            }
-          }
-
-          Duration? eta;
-          if (emaSpeed != null && emaSpeed > 0.0 && progress < 1.0) {
-            final remainingMs = (totalMs - currentMs) / emaSpeed;
-            eta = Duration(milliseconds: remainingMs.round());
-          }
-
-          // Throttle: emit if delta >= 0.5% or >= 100ms since last emit.
-          if ((progress - lastEmittedProgress).abs() >= 0.005 ||
-              now.difference(lastEmitTime).inMilliseconds >= 100) {
-            lastEmittedProgress = progress;
-            lastEmitTime = now;
-
-            int? currentOutputSize;
-            try {
-              final file = File(outputPath);
-              if (file.existsSync()) {
-                currentOutputSize = file.lengthSync();
-              }
-            } catch (_) {}
-
-            yield CompressionProgress(
-              progress: progress,
-              speed: speed,
-              emaSpeed: emaSpeed,
-              eta: eta,
-              currentOutputSizeBytes: currentOutputSize,
-            );
-          }
-        }
-      }
+      yield p;
     }
 
     final exitCode = await process.exitCode;
@@ -512,12 +604,159 @@ class FfmpegService {
     }
 
     if (exitCode != 0) {
-      final errorOutput = stderrLines.join('\n').trim();
-      throw Exception('FFmpeg failed (exit code $exitCode):\n$errorOutput');
+      throw Exception('FFmpeg failed with exit code $exitCode');
     }
 
-    // Ensure we emit 1.0 at completion.
     yield CompressionProgress(progress: 1.0, speed: 0.0, eta: Duration.zero);
+  }
+
+  Stream<CompressionProgress> _streamFFmpegProgress(
+    Process process,
+    int totalMs,
+    String outputPath, {
+    double progressOffset = 0.0,
+    double progressScale = 1.0,
+    int passNumber = 0,
+    double? initialEmaSpeed,
+    Duration? initialEta,
+  }) async* {
+    // Lower process priority
+    try {
+      if (Platform.isWindows) {
+        Process.run('powershell', [
+          '-NoProfile',
+          '-NonInteractive',
+          '-Command',
+          "(Get-Process -Id ${process.pid}).PriorityClass = 'BelowNormal'",
+        ]);
+      } else if (Platform.isLinux || Platform.isMacOS) {
+        Process.run('renice', ['-n', '10', '-p', '${process.pid}']);
+      }
+    } catch (_) {}
+
+    final timeRegex = RegExp(r'time=(\d+):(\d+):(\d+(?:\.\d+)?)');
+    final speedRegex = RegExp(r'speed=\s*(\d+(?:\.\d+)?)x');
+
+    double lastEmittedProgress = 0.0;
+    DateTime lastEmitTime = DateTime.now();
+    double? emaSpeed;
+    Duration? lastEmittedEta;
+
+    String stderrBuffer = '';
+
+    await for (final chunk in process.stderr.transform(utf8.decoder)) {
+      if (_isCancelled) break;
+
+      stderrBuffer += chunk;
+      final lines = stderrBuffer.split(RegExp(r'[\r\n]+'));
+      stderrBuffer = lines.removeLast();
+
+      for (final line in lines) {
+        if (line.trim().isEmpty) continue;
+
+        final match = timeRegex.firstMatch(line);
+        if (match != null) {
+          final hours = int.parse(match.group(1)!);
+          final minutes = int.parse(match.group(2)!);
+          final seconds = double.parse(match.group(3)!);
+
+          final currentMs =
+              (hours * 3600000) + (minutes * 60000) + (seconds * 1000).round();
+
+          final rawProgress = (currentMs / totalMs).clamp(0.0, 1.0);
+          final overallProgress = (progressOffset + (rawProgress * progressScale)).clamp(0.0, 1.0);
+          final now = DateTime.now();
+
+          double speed = 0.0;
+          final speedMatch = speedRegex.firstMatch(line);
+          if (speedMatch != null) {
+            speed = double.tryParse(speedMatch.group(1)!) ?? 0.0;
+          }
+
+          if (speed > 0) {
+            if (emaSpeed == null) {
+              emaSpeed = speed;
+            } else {
+              double alpha = 0.1;
+              if (rawProgress < 0.05) {
+                alpha = passNumber == 2 ? 0.02 : 0.5;
+              } else if (totalMs < 15000) {
+                alpha = 0.4;
+              } else if ((speed - emaSpeed).abs() / emaSpeed > 0.5) {
+                alpha = 0.3;
+              }
+              emaSpeed = (emaSpeed * (1.0 - alpha)) + (speed * alpha);
+            }
+          }
+
+          Duration? eta;
+          if (emaSpeed != null && emaSpeed > 0.0 && overallProgress < 1.0) {
+            double remainingMs;
+            if (passNumber == 1) {
+              final pass1Remaining = (totalMs - currentMs) / emaSpeed;
+              final estPass2Ms = totalMs / (emaSpeed * 0.50);
+              remainingMs = pass1Remaining + estPass2Ms;
+            } else {
+              remainingMs = (totalMs - currentMs) / emaSpeed;
+            }
+
+            final calculatedEta = Duration(milliseconds: remainingMs.round());
+
+            // Strictly Monotonic Non-Increasing Clamp:
+            // When progress is advancing, ETA can NEVER increase above previously emitted ETA.
+            if (lastEmittedEta != null && calculatedEta > lastEmittedEta) {
+              eta = lastEmittedEta;
+            } else {
+              eta = calculatedEta;
+            }
+          }
+
+          if ((overallProgress - lastEmittedProgress).abs() >= 0.005 ||
+              now.difference(lastEmitTime).inMilliseconds >= 100) {
+            lastEmittedProgress = overallProgress;
+            lastEmitTime = now;
+            if (eta != null) lastEmittedEta = eta;
+
+            int? currentOutputSize;
+            try {
+              final file = File(outputPath);
+              if (file.existsSync()) {
+                currentOutputSize = file.lengthSync();
+              }
+            } catch (_) {}
+
+            String? stepText;
+            if (passNumber == 1) {
+              stepText = 'Pass 1/2: Analyzing...';
+            } else if (passNumber == 2) {
+              stepText = 'Pass 2/2: Encoding...';
+            }
+
+            yield CompressionProgress(
+              progress: overallProgress,
+              speed: speed,
+              emaSpeed: emaSpeed,
+              eta: eta,
+              currentOutputSizeBytes: currentOutputSize,
+              passStep: stepText,
+            );
+          }
+        }
+      }
+    }
+  }
+
+  void _cleanup2PassLogs(String passLogPrefix) {
+    try {
+      final tempDir = Directory.systemTemp;
+      for (final entity in tempDir.listSync()) {
+        if (entity is File && entity.path.startsWith(passLogPrefix)) {
+          try {
+            entity.deleteSync();
+          } catch (_) {}
+        }
+      }
+    } catch (_) {}
   }
 
   /// Cancels the currently running FFmpeg process, if any.
