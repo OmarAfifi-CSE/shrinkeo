@@ -60,6 +60,8 @@ class CompressionCubit extends Cubit<CompressionState> {
            hardwareEncoder: _parseHardwareEncoder(prefs),
            audioMode: _parseAudioMode(prefs),
            enableAudioDenoise: prefs.getBool('enableAudioDenoise') ?? false,
+           audioNormalizeMode: _parseAudioNormalizeMode(prefs),
+           audioChannelsMode: _parseAudioChannelsMode(prefs),
            resolutionMode: _parseResolutionMode(prefs),
            frameRateMode: _parseFrameRateMode(prefs),
            outputFormat: _parseOutputFormat(prefs),
@@ -123,6 +125,28 @@ class CompressionCubit extends Cubit<CompressionState> {
       );
     }
     return AudioMode.copy;
+  }
+
+  static AudioNormalizeMode _parseAudioNormalizeMode(SharedPreferences prefs) {
+    final modeStr = prefs.getString('audioNormalizeMode');
+    if (modeStr != null) {
+      return AudioNormalizeMode.values.firstWhere(
+        (e) => e.name == modeStr,
+        orElse: () => AudioNormalizeMode.off,
+      );
+    }
+    return AudioNormalizeMode.off;
+  }
+
+  static AudioChannelsMode _parseAudioChannelsMode(SharedPreferences prefs) {
+    final modeStr = prefs.getString('audioChannelsMode');
+    if (modeStr != null) {
+      return AudioChannelsMode.values.firstWhere(
+        (e) => e.name == modeStr,
+        orElse: () => AudioChannelsMode.original,
+      );
+    }
+    return AudioChannelsMode.original;
   }
 
   static ResolutionMode _parseResolutionMode(SharedPreferences prefs) {
@@ -241,6 +265,18 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(enableAudioDenoise: enabled));
   }
 
+  /// Updates the audio volume normalization mode.
+  void updateAudioNormalizeMode(AudioNormalizeMode mode) {
+    _prefs.setString('audioNormalizeMode', mode.name);
+    emit(state.copyWith(audioNormalizeMode: mode));
+  }
+
+  /// Updates the audio channels mode.
+  void updateAudioChannelsMode(AudioChannelsMode mode) {
+    _prefs.setString('audioChannelsMode', mode.name);
+    emit(state.copyWith(audioChannelsMode: mode));
+  }
+
   /// Updates the resolution mode setting.
   void updateResolutionMode(ResolutionMode mode) {
     _prefs.setString('resolutionMode', mode.name);
@@ -306,6 +342,8 @@ class CompressionCubit extends Cubit<CompressionState> {
     _prefs.setString('hardwareEncoder', HardwareEncoder.software.name);
     _prefs.setString('audioMode', AudioMode.copy.name);
     _prefs.setBool('enableAudioDenoise', false);
+    _prefs.setString('audioNormalizeMode', AudioNormalizeMode.off.name);
+    _prefs.setString('audioChannelsMode', AudioChannelsMode.original.name);
     _prefs.setString('resolutionMode', ResolutionMode.original.name);
     _prefs.setString('frameRateMode', FrameRateMode.original.name);
     _prefs.setString('outputFormat', OutputFormat.original.name);
@@ -323,6 +361,8 @@ class CompressionCubit extends Cubit<CompressionState> {
         hardwareEncoder: HardwareEncoder.software,
         audioMode: AudioMode.copy,
         enableAudioDenoise: false,
+        audioNormalizeMode: AudioNormalizeMode.off,
+        audioChannelsMode: AudioChannelsMode.original,
         resolutionMode: ResolutionMode.original,
         frameRateMode: FrameRateMode.original,
         outputFormat: OutputFormat.original,
@@ -787,6 +827,8 @@ class CompressionCubit extends Cubit<CompressionState> {
           hardwareEncoder: state.hardwareEncoder,
           audioMode: state.audioMode,
           enableAudioDenoise: state.enableAudioDenoise,
+          audioNormalizeMode: state.audioNormalizeMode,
+          audioChannelsMode: state.audioChannelsMode,
           resolutionMode: state.resolutionMode,
           frameRateMode: state.frameRateMode,
         )) {

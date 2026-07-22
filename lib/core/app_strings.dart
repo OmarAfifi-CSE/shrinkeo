@@ -144,4 +144,24 @@ class AppStrings {
 
   static const String maintenanceTitle = 'System Maintenance';
   static const String maintenanceDescDefault = 'Shrinkeo is currently undergoing maintenance. Please try again later.';
+
+  // ---- Audio Normalization ----
+  static const String audioNormTitle = 'Audio Volume Normalization';
+  static const String audioNormOffLabel = 'Off';
+  static const String audioNormOffDesc = 'Keep original dynamic volume.';
+  static const String audioNormSpeechLabel = '🗣️ Speech';
+  static const String audioNormSpeechDesc = 'EBU R128 (-16 LUFS) broadcast loudness for clear dialogue.';
+  static const String audioNormDynamicLabel = '🍿 Movie Dynamic';
+  static const String audioNormDynamicDesc = 'Dynaudnorm smooths quiet & loud scenes smoothly.';
+  static const String audioNormBoostLabel = '⚡ Soft Boost';
+  static const String audioNormBoostDesc = 'Fixed +3dB volume gain boost for low-audio videos.';
+
+  // ---- Audio Channels ----
+  static const String audioChanTitle = 'Audio Channels Downmix';
+  static const String audioChanOriginalLabel = 'Original';
+  static const String audioChanOriginalDesc = 'Preserve exact source audio channels (Mono, Stereo, 5.1, etc.).';
+  static const String audioChanStereoLabel = 'Stereo (2.0)';
+  static const String audioChanStereoDesc = 'Standard 2-channel compatibility for all screens.';
+  static const String audioChanMonoLabel = 'Mono (1.0)';
+  static const String audioChanMonoDesc = 'Single channel downmix - 50% extra audio size savings.';
 }

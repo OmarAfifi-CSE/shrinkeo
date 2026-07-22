@@ -31,6 +31,8 @@ class SettingsPanel extends StatelessWidget {
           prev.customOutputDirectory != curr.customOutputDirectory ||
           prev.audioMode != curr.audioMode ||
           prev.enableAudioDenoise != curr.enableAudioDenoise ||
+          prev.audioNormalizeMode != curr.audioNormalizeMode ||
+          prev.audioChannelsMode != curr.audioChannelsMode ||
           prev.resolutionMode != curr.resolutionMode ||
           prev.frameRateMode != curr.frameRateMode ||
           prev.outputFormat != curr.outputFormat ||
@@ -72,6 +74,14 @@ class _SettingsContentState extends State<_SettingsContent>
         setState(() {});
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant _SettingsContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.state != widget.state) {
+      setState(() {});
+    }
   }
 
   @override
@@ -238,7 +248,7 @@ class _SettingsContentState extends State<_SettingsContent>
               height: _tabController.index == 0
                   ? 400.0
                   : _tabController.index == 1
-                      ? 125.0
+                      ? 230.0
                       : (widget.state.outputLocationMode ==
                               OutputLocationMode.unified
                           ? 320.0
@@ -317,11 +327,24 @@ class _SettingsContentState extends State<_SettingsContent>
   }
 
   Widget _buildAudioTab(bool isLocked, CompressionState state) {
-    return Column(
+    return Row(
       key: const ValueKey('tab_audio'),
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _AudioModeSection(state: state, isLocked: isLocked),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _AudioModeSection(state: state, isLocked: isLocked),
+              const SizedBox(height: 14),
+              _AudioChannelsSection(state: state, isLocked: isLocked),
+            ],
+          ),
+        ),
+        const SizedBox(width: 24),
+        Expanded(
+          child: _AudioNormalizeSection(state: state, isLocked: isLocked),
+        ),
       ],
     );
   }

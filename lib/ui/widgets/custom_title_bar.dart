@@ -144,12 +144,18 @@ class CustomTitleBar extends StatelessWidget {
                 BlocBuilder<CompressionCubit, CompressionState>(
                   buildWhen: (prev, curr) =>
                       prev.crfQuality != curr.crfQuality ||
+                      prev.isTargetSizeMode != curr.isTargetSizeMode ||
+                      prev.targetSizeMB != curr.targetSizeMB ||
                       prev.encodingPreset != curr.encodingPreset,
                   builder: (context, state) {
                     final isDark = theme.brightness == Brightness.dark;
                     final badgeColor = isDark
                         ? AppColors.primaryAccentLight
                         : AppColors.primaryAccent;
+
+                    final modeText = state.isTargetSizeMode
+                        ? '${state.targetSizeMB.toStringAsFixed(state.targetSizeMB % 1 == 0 ? 0 : 1)} MB'
+                        : 'CRF ${state.crfQuality}';
 
                     return Padding(
                       padding: const EdgeInsets.only(right: 6),
@@ -166,7 +172,7 @@ class CustomTitleBar extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'CRF ${state.crfQuality} · ${state.encodingPreset.label}',
+                          '$modeText · ${state.encodingPreset.label}',
                           style: TextStyle(
                             color: badgeColor,
                             fontSize: 10,

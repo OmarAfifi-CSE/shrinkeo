@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 import '../cubit/compression_state.dart'
-    show AudioMode, FrameRateMode, HardwareEncoder, ResolutionMode, VideoCodec;
+    show AudioChannelsMode, AudioMode, AudioNormalizeMode, FrameRateMode, HardwareEncoder, ResolutionMode, VideoCodec;
 
 /// Data class containing detailed progress information.
 class CompressionProgress {
@@ -148,6 +148,8 @@ class FfmpegService {
     required HardwareEncoder hardwareEncoder,
     required AudioMode audioMode,
     bool enableAudioDenoise = false,
+    AudioNormalizeMode audioNormalizeMode = AudioNormalizeMode.off,
+    AudioChannelsMode audioChannelsMode = AudioChannelsMode.original,
     required ResolutionMode resolutionMode,
     required FrameRateMode frameRateMode,
   }) async* {
@@ -269,6 +271,19 @@ class FfmpegService {
 
     args.addAll(['-pix_fmt', 'yuv420p']);
 
+    // Build Audio Filters chain & processing flags
+    final List<String> audioFilterList = [];
+    if (enableAudioDenoise) audioFilterList.add('afftdn');
+    if (audioNormalizeMode == AudioNormalizeMode.speech) {
+      audioFilterList.add('loudnorm=I=-16:TP=-1.5:LRA=11');
+    } else if (audioNormalizeMode == AudioNormalizeMode.dynamic) {
+      audioFilterList.add('dynaudnorm=f=150:g=15');
+    } else if (audioNormalizeMode == AudioNormalizeMode.boost) {
+      audioFilterList.add('volume=3dB');
+    }
+
+    final bool hasAudioProcessing = audioFilterList.isNotEmpty || audioChannelsMode != AudioChannelsMode.original;
+
     // --- Audio & Video Rate Control ---
     if (isTargetSizeMode && totalMs > 0) {
       // Use 95% safety margin to account for MP4 container muxing overhead and prevent target overshoots
@@ -281,37 +296,41 @@ class FfmpegService {
       if (audioMode == AudioMode.mute) {
         args.add('-an');
         audioBitrateBps = 0;
-      } else if (audioMode == AudioMode.aac256) {
-        if (enableAudioDenoise) args.addAll(['-af', 'afftdn']);
-        args.addAll(['-acodec', 'aac', '-b:a', '256k']);
-        audioBitrateBps = 256000;
-      } else if (audioMode == AudioMode.aac128) {
-        if (enableAudioDenoise) args.addAll(['-af', 'afftdn']);
-        args.addAll(['-acodec', 'aac', '-b:a', '128k']);
-        audioBitrateBps = 128000;
-      } else if (audioMode == AudioMode.aac64) {
-        if (enableAudioDenoise) args.addAll(['-af', 'afftdn']);
-        args.addAll(['-acodec', 'aac', '-b:a', '64k']);
-        audioBitrateBps = 64000;
       } else {
-        // Default / AudioMode.copy in Target Size Mode:
-        // Rule: If target bitrate is equivalent to CRF 28 or better (>= 650 kbps), preserve 100% original Audio Copy!
-        // If target bitrate squeezes video below CRF 28 (< 650 kbps), compress audio to protect video quality.
-        if (enableAudioDenoise) {
-          args.addAll(['-af', 'afftdn', '-acodec', 'aac', '-b:a', '192k']);
-          audioBitrateBps = 192000;
-        } else if (totalBitrateBps >= 650000) {
-          // Equivalent to CRF 28 or better: Copy original audio track verbatim!
-          args.addAll(['-acodec', 'copy']);
-          audioBitrateBps = 160000;
-        } else if (totalBitrateBps >= 300000) {
-          // Squeezed below CRF 28: Compress audio to 96k AAC to protect video
-          args.addAll(['-acodec', 'aac', '-b:a', '96k']);
-          audioBitrateBps = 96000;
-        } else {
-          // Heavily squeezed: Compress audio to 64k AAC to protect video
+        if (audioFilterList.isNotEmpty) {
+          args.addAll(['-af', audioFilterList.join(',')]);
+        }
+        if (audioChannelsMode == AudioChannelsMode.mono) {
+          args.addAll(['-ac', '1']);
+        } else if (audioChannelsMode == AudioChannelsMode.stereo) {
+          args.addAll(['-ac', '2']);
+        }
+
+        if (audioMode == AudioMode.aac256) {
+          args.addAll(['-acodec', 'aac', '-b:a', '256k']);
+          audioBitrateBps = 256000;
+        } else if (audioMode == AudioMode.aac128) {
+          args.addAll(['-acodec', 'aac', '-b:a', '128k']);
+          audioBitrateBps = 128000;
+        } else if (audioMode == AudioMode.aac64) {
           args.addAll(['-acodec', 'aac', '-b:a', '64k']);
           audioBitrateBps = 64000;
+        } else {
+          // Default / AudioMode.copy in Target Size Mode:
+          if (hasAudioProcessing) {
+            final String fallbackBitrate = audioChannelsMode == AudioChannelsMode.mono ? '96k' : '128k';
+            args.addAll(['-acodec', 'aac', '-b:a', fallbackBitrate]);
+            audioBitrateBps = audioChannelsMode == AudioChannelsMode.mono ? 96000 : 128000;
+          } else if (totalBitrateBps >= 650000) {
+            args.addAll(['-acodec', 'copy']);
+            audioBitrateBps = 160000;
+          } else if (totalBitrateBps >= 300000) {
+            args.addAll(['-acodec', 'aac', '-b:a', '96k']);
+            audioBitrateBps = 96000;
+          } else {
+            args.addAll(['-acodec', 'aac', '-b:a', '64k']);
+            audioBitrateBps = 64000;
+          }
         }
       }
 
@@ -394,11 +413,18 @@ class FfmpegService {
       if (audioMode == AudioMode.mute) {
         args.add('-an');
       } else {
-        if (enableAudioDenoise) {
-          args.addAll(['-af', 'afftdn']);
+        if (audioFilterList.isNotEmpty) {
+          args.addAll(['-af', audioFilterList.join(',')]);
         }
-        if (audioMode == AudioMode.copy && enableAudioDenoise) {
-          args.addAll(['-acodec', 'aac', '-b:a', '256k']);
+        if (audioChannelsMode == AudioChannelsMode.mono) {
+          args.addAll(['-ac', '1']);
+        } else if (audioChannelsMode == AudioChannelsMode.stereo) {
+          args.addAll(['-ac', '2']);
+        }
+
+        if (audioMode == AudioMode.copy && hasAudioProcessing) {
+          final String fallbackBitrate = audioChannelsMode == AudioChannelsMode.mono ? '96k' : '128k';
+          args.addAll(['-acodec', 'aac', '-b:a', fallbackBitrate]);
         } else if (audioMode == AudioMode.copy) {
           args.addAll(['-acodec', 'copy']);
         } else if (audioMode == AudioMode.aac256) {

@@ -846,6 +846,98 @@ class _AudioModeSection extends StatelessWidget {
   }
 }
 
+/// Section for selecting Audio Volume Normalization.
+class _AudioNormalizeSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _AudioNormalizeSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppStrings.audioNormTitle,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: AudioNormalizeMode.values.map((mode) {
+            return _OptionChip(
+              label: mode.label,
+              isSelected: state.audioNormalizeMode == mode,
+              isLocked: isLocked,
+              onTap: () => cubit.updateAudioNormalizeMode(mode),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: state.audioNormalizeMode.label,
+          description: state.audioNormalizeMode.description,
+          icon: Icons.volume_up_rounded,
+        ),
+      ],
+    );
+  }
+}
+
+/// Section for selecting Audio Channels Downmixing.
+class _AudioChannelsSection extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _AudioChannelsSection({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppStrings.audioChanTitle,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          children: AudioChannelsMode.values.map((mode) {
+            return _OptionChip(
+              label: mode.label,
+              isSelected: state.audioChannelsMode == mode,
+              isLocked: isLocked,
+              onTap: () => cubit.updateAudioChannelsMode(mode),
+            );
+          }).toList(),
+        ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: state.audioChannelsMode.label,
+          description: state.audioChannelsMode.description,
+          icon: Icons.surround_sound_rounded,
+        ),
+      ],
+    );
+  }
+}
+
 /// Compact inline badge toggle chip for Denoise settings.
 class _DenoiseBadgeChip extends StatefulWidget {
   final String label;

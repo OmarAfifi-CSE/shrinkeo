@@ -77,6 +77,31 @@ enum AudioMode {
   const AudioMode(this.label, this.description);
 }
 
+/// Options for Audio Volume Normalization.
+enum AudioNormalizeMode {
+  off(AppStrings.audioNormOffLabel, AppStrings.audioNormOffDesc),
+  speech(AppStrings.audioNormSpeechLabel, AppStrings.audioNormSpeechDesc),
+  dynamic(AppStrings.audioNormDynamicLabel, AppStrings.audioNormDynamicDesc),
+  boost(AppStrings.audioNormBoostLabel, AppStrings.audioNormBoostDesc);
+
+  final String label;
+  final String description;
+
+  const AudioNormalizeMode(this.label, this.description);
+}
+
+/// Options for Audio Channels Downmixing.
+enum AudioChannelsMode {
+  original(AppStrings.audioChanOriginalLabel, AppStrings.audioChanOriginalDesc),
+  stereo(AppStrings.audioChanStereoLabel, AppStrings.audioChanStereoDesc),
+  mono(AppStrings.audioChanMonoLabel, AppStrings.audioChanMonoDesc);
+
+  final String label;
+  final String description;
+
+  const AudioChannelsMode(this.label, this.description);
+}
+
 /// Options for Downscaling Resolution.
 enum ResolutionMode {
   original(AppStrings.resOriginalLabel, AppStrings.resOriginalDesc),
@@ -187,6 +212,12 @@ class CompressionState extends Equatable {
   /// Whether Audio Denoise (FFT mic & fan noise reduction) is enabled.
   final bool enableAudioDenoise;
 
+  /// Selected Audio Normalization Mode.
+  final AudioNormalizeMode audioNormalizeMode;
+
+  /// Selected Audio Channels Mode.
+  final AudioChannelsMode audioChannelsMode;
+
   /// Selected Resolution Downscale.
   final ResolutionMode resolutionMode;
 
@@ -239,6 +270,8 @@ class CompressionState extends Equatable {
     this.hardwareEncoder = HardwareEncoder.software,
     this.audioMode = AudioMode.copy, // Copy Original by default
     this.enableAudioDenoise = false,
+    this.audioNormalizeMode = AudioNormalizeMode.off, // Off by default
+    this.audioChannelsMode = AudioChannelsMode.original, // Original by default
     this.resolutionMode = ResolutionMode.original,
     this.frameRateMode = FrameRateMode.original,
     this.outputFormat = OutputFormat.original, // Original by default
@@ -274,6 +307,8 @@ class CompressionState extends Equatable {
     HardwareEncoder? hardwareEncoder,
     AudioMode? audioMode,
     bool? enableAudioDenoise,
+    AudioNormalizeMode? audioNormalizeMode,
+    AudioChannelsMode? audioChannelsMode,
     ResolutionMode? resolutionMode,
     FrameRateMode? frameRateMode,
     OutputFormat? outputFormat,
@@ -309,6 +344,8 @@ class CompressionState extends Equatable {
       hardwareEncoder: hardwareEncoder ?? this.hardwareEncoder,
       audioMode: audioMode ?? this.audioMode,
       enableAudioDenoise: enableAudioDenoise ?? this.enableAudioDenoise,
+      audioNormalizeMode: audioNormalizeMode ?? this.audioNormalizeMode,
+      audioChannelsMode: audioChannelsMode ?? this.audioChannelsMode,
       resolutionMode: resolutionMode ?? this.resolutionMode,
       frameRateMode: frameRateMode ?? this.frameRateMode,
       outputFormat: outputFormat ?? this.outputFormat,
@@ -378,6 +415,8 @@ class CompressionState extends Equatable {
     hardwareEncoder,
     audioMode,
     enableAudioDenoise,
+    audioNormalizeMode,
+    audioChannelsMode,
     resolutionMode,
     frameRateMode,
     outputFormat,
