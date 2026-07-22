@@ -54,6 +54,7 @@ class CompressionCubit extends Cubit<CompressionState> {
            crfQuality: prefs.getInt('crfQuality') ?? 22,
            encodingPreset: _parsePreset(prefs),
            videoCodec: _parseCodec(prefs),
+           enableVideoDenoise: prefs.getBool('enableVideoDenoise') ?? false,
            hardwareEncoder: _parseHardwareEncoder(prefs),
            audioMode: _parseAudioMode(prefs),
            enableAudioDenoise: prefs.getBool('enableAudioDenoise') ?? false,
@@ -189,6 +190,12 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(videoCodec: codec));
   }
 
+  /// Toggles video noise reduction (3D spatial-temporal grain reduction).
+  void toggleVideoDenoise(bool enabled) {
+    _prefs.setBool('enableVideoDenoise', enabled);
+    emit(state.copyWith(enableVideoDenoise: enabled));
+  }
+
   /// Updates the hardware encoder setting.
   void updateHardwareEncoder(HardwareEncoder encoder) {
     _prefs.setString('hardwareEncoder', encoder.name);
@@ -266,6 +273,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     _prefs.setInt('crfQuality', 22);
     _prefs.setString('encodingPreset', EncodingPreset.fast.name);
     _prefs.setString('videoCodec', VideoCodec.h264.name);
+    _prefs.setBool('enableVideoDenoise', false);
     _prefs.setString('hardwareEncoder', HardwareEncoder.software.name);
     _prefs.setString('audioMode', AudioMode.copy.name);
     _prefs.setBool('enableAudioDenoise', false);
@@ -280,6 +288,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         crfQuality: 22,
         encodingPreset: EncodingPreset.fast,
         videoCodec: VideoCodec.h264,
+        enableVideoDenoise: false,
         hardwareEncoder: HardwareEncoder.software,
         audioMode: AudioMode.copy,
         enableAudioDenoise: false,
@@ -736,6 +745,7 @@ class CompressionCubit extends Cubit<CompressionState> {
           crf: state.crfQuality,
           preset: state.encodingPreset.value,
           codec: state.videoCodec,
+          enableVideoDenoise: state.enableVideoDenoise,
           hardwareEncoder: state.hardwareEncoder,
           audioMode: state.audioMode,
           enableAudioDenoise: state.enableAudioDenoise,

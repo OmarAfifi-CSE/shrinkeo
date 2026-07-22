@@ -78,6 +78,8 @@ class AppStrings {
   static const String audioMuteDesc = 'Removes the audio track completely to save space.';
   static const String enableAudioDenoiseTitle = 'Remove Mic & Fan Noise';
   static const String enableAudioDenoiseDesc = 'Applies FFT spectral filtering to eliminate background mic hiss, fan noise, and room hum.';
+  static const String enableVideoDenoiseTitle = 'Clean Video Noise & Grain';
+  static const String enableVideoDenoiseDesc = 'Applies 3D spatial-temporal filtering to remove low-light digital grain and boost compression by 15-25%.';
 
   // ---- Resolutions ----
   static const String resOriginalLabel = 'Original';

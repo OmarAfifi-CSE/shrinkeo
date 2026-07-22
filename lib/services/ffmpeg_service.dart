@@ -140,6 +140,7 @@ class FfmpegService {
     int crf = 22,
     String preset = 'fast',
     required VideoCodec codec,
+    bool enableVideoDenoise = false,
     required HardwareEncoder hardwareEncoder,
     required AudioMode audioMode,
     bool enableAudioDenoise = false,
@@ -353,13 +354,18 @@ class FfmpegService {
           "scale='if(gt(iw,ih),640,360)':'if(gt(iw,ih),360,640)':force_original_aspect_ratio=decrease";
     }
 
-    if (scaleFilter != null) {
-      // Chain a second scale to guarantee even dimensions (required by most encoders)
-      args.addAll(['-vf', '$scaleFilter,scale=trunc(iw/2)*2:trunc(ih/2)*2']);
-    } else {
-      // Even if Original resolution, we MUST ensure even dimensions to prevent encoder crashes
-      args.addAll(['-vf', 'scale=trunc(iw/2)*2:trunc(ih/2)*2']);
+    final videoFilters = <String>[];
+
+    if (enableVideoDenoise) {
+      videoFilters.add('hqdn3d=4:3:6:4.5');
     }
+
+    if (scaleFilter != null) {
+      videoFilters.add(scaleFilter);
+    }
+    videoFilters.add('scale=trunc(iw/2)*2:trunc(ih/2)*2');
+
+    args.addAll(['-vf', videoFilters.join(',')]);
 
     // --- Frame Rate ---
     if (frameRateMode == FrameRateMode.fps60) {

@@ -510,6 +510,66 @@ class _CodecSection extends StatelessWidget {
           description: state.videoCodec.description,
           icon: Icons.movie_creation_rounded,
         ),
+        const SizedBox(height: 8),
+        InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: isLocked ? null : () => cubit.toggleVideoDenoise(!state.enableVideoDenoise),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+            decoration: BoxDecoration(
+              color: state.enableVideoDenoise
+                  ? theme.colorScheme.primary.withValues(alpha: 0.1)
+                  : theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: state.enableVideoDenoise
+                    ? theme.colorScheme.primary
+                    : theme.dividerColor.withValues(alpha: 0.2),
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.auto_fix_high_rounded,
+                  size: 20,
+                  color: state.enableVideoDenoise
+                      ? theme.colorScheme.primary
+                      : theme.iconTheme.color,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppStrings.enableVideoDenoiseTitle,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: state.enableVideoDenoise
+                              ? theme.colorScheme.primary
+                              : theme.textTheme.bodyMedium?.color,
+                        ),
+                      ),
+                      Text(
+                        AppStrings.enableVideoDenoiseDesc,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontSize: 11,
+                          color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Switch(
+                  value: state.enableVideoDenoise,
+                  onChanged: isLocked
+                      ? null
+                      : (val) => cubit.toggleVideoDenoise(val),
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }

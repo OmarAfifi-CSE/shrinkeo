@@ -169,6 +169,9 @@ class CompressionState extends Equatable {
   /// Selected Video Codec.
   final VideoCodec videoCodec;
 
+  /// Whether Video Denoise (3D spatial-temporal grain reduction) is enabled.
+  final bool enableVideoDenoise;
+
   /// Selected Hardware Encoder.
   final HardwareEncoder hardwareEncoder;
 
@@ -224,6 +227,7 @@ class CompressionState extends Equatable {
     this.crfQuality = 22,
     this.encodingPreset = EncodingPreset.fast,
     this.videoCodec = VideoCodec.h264,
+    this.enableVideoDenoise = false,
     this.hardwareEncoder = HardwareEncoder.software,
     this.audioMode = AudioMode.copy, // Copy Original by default
     this.enableAudioDenoise = false,
@@ -256,6 +260,7 @@ class CompressionState extends Equatable {
     int? crfQuality,
     EncodingPreset? encodingPreset,
     VideoCodec? videoCodec,
+    bool? enableVideoDenoise,
     HardwareEncoder? hardwareEncoder,
     AudioMode? audioMode,
     bool? enableAudioDenoise,
@@ -288,6 +293,7 @@ class CompressionState extends Equatable {
       crfQuality: crfQuality ?? this.crfQuality,
       encodingPreset: encodingPreset ?? this.encodingPreset,
       videoCodec: videoCodec ?? this.videoCodec,
+      enableVideoDenoise: enableVideoDenoise ?? this.enableVideoDenoise,
       hardwareEncoder: hardwareEncoder ?? this.hardwareEncoder,
       audioMode: audioMode ?? this.audioMode,
       enableAudioDenoise: enableAudioDenoise ?? this.enableAudioDenoise,
@@ -354,6 +360,7 @@ class CompressionState extends Equatable {
     crfQuality,
     encodingPreset,
     videoCodec,
+    enableVideoDenoise,
     hardwareEncoder,
     audioMode,
     enableAudioDenoise,

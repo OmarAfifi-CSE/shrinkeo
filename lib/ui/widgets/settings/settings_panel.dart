@@ -26,6 +26,7 @@ class SettingsPanel extends StatelessWidget {
           prev.deleteOriginalOnSuccess != curr.deleteOriginalOnSuccess ||
           prev.encodingPreset != curr.encodingPreset ||
           prev.videoCodec != curr.videoCodec ||
+          prev.enableVideoDenoise != curr.enableVideoDenoise ||
           prev.hardwareEncoder != curr.hardwareEncoder ||
           prev.crfQuality != curr.crfQuality ||
           prev.isProcessing != curr.isProcessing ||
