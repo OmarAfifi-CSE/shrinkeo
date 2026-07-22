@@ -694,6 +694,7 @@ class _CodecSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               AppStrings.videoCodecTitle,
@@ -701,6 +702,14 @@ class _CodecSection extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 color: theme.textTheme.bodyMedium?.color,
               ),
+            ),
+            _DenoiseBadgeChip(
+              label: 'Clean Noise',
+              icon: Icons.auto_fix_high_rounded,
+              isEnabled: state.enableVideoDenoise,
+              isLocked: isLocked,
+              tooltip: AppStrings.enableVideoDenoiseDesc,
+              onTap: () => cubit.toggleVideoDenoise(!state.enableVideoDenoise),
             ),
           ],
         ),
@@ -722,66 +731,6 @@ class _CodecSection extends StatelessWidget {
           label: state.videoCodec.label,
           description: state.videoCodec.description,
           icon: Icons.movie_creation_rounded,
-        ),
-        const SizedBox(height: 8),
-        InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: isLocked ? null : () => cubit.toggleVideoDenoise(!state.enableVideoDenoise),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              color: state.enableVideoDenoise
-                  ? theme.colorScheme.primary.withValues(alpha: 0.1)
-                  : theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(
-                color: state.enableVideoDenoise
-                    ? theme.colorScheme.primary
-                    : theme.dividerColor.withValues(alpha: 0.2),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.auto_fix_high_rounded,
-                  size: 20,
-                  color: state.enableVideoDenoise
-                      ? theme.colorScheme.primary
-                      : theme.iconTheme.color,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppStrings.enableVideoDenoiseTitle,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: state.enableVideoDenoise
-                              ? theme.colorScheme.primary
-                              : theme.textTheme.bodyMedium?.color,
-                        ),
-                      ),
-                      Text(
-                        AppStrings.enableVideoDenoiseDesc,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          fontSize: 11,
-                          color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Switch(
-                  value: state.enableVideoDenoise,
-                  onChanged: isLocked
-                      ? null
-                      : (val) => cubit.toggleVideoDenoise(val),
-                ),
-              ],
-            ),
-          ),
         ),
       ],
     );
@@ -838,7 +787,7 @@ class _HardwareEncoderSection extends StatelessWidget {
   }
 }
 
-/// Section for selecting the Audio Mode.
+/// Section for selecting the Audio Track Mode.
 class _AudioModeSection extends StatelessWidget {
   final CompressionState state;
   final bool isLocked;
@@ -853,12 +802,25 @@ class _AudioModeSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppStrings.audioModeTitle,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: theme.textTheme.bodyMedium?.color,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              AppStrings.audioModeTitle,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: theme.textTheme.bodyMedium?.color,
+              ),
+            ),
+            _DenoiseBadgeChip(
+              label: 'Remove Noise',
+              icon: Icons.graphic_eq_rounded,
+              isEnabled: state.enableAudioDenoise,
+              isLocked: isLocked,
+              tooltip: AppStrings.enableAudioDenoiseDesc,
+              onTap: () => cubit.toggleAudioDenoise(!state.enableAudioDenoise),
+            ),
+          ],
         ),
         const SizedBox(height: 6),
         Wrap(
@@ -877,69 +839,124 @@ class _AudioModeSection extends StatelessWidget {
         _InfoBox(
           label: state.audioMode.label,
           description: state.audioMode.description,
-          icon: Icons.graphic_eq_rounded,
+          icon: Icons.audiotrack_rounded,
         ),
-        const SizedBox(height: 8),
-        InkWell(
-          borderRadius: BorderRadius.circular(8),
-          onTap: isLocked ? null : () => cubit.toggleAudioDenoise(!state.enableAudioDenoise),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      ],
+    );
+  }
+}
+
+/// Compact inline badge toggle chip for Denoise settings.
+class _DenoiseBadgeChip extends StatefulWidget {
+  final String label;
+  final IconData icon;
+  final bool isEnabled;
+  final bool isLocked;
+  final String tooltip;
+  final VoidCallback onTap;
+
+  const _DenoiseBadgeChip({
+    required this.label,
+    required this.icon,
+    required this.isEnabled,
+    required this.isLocked,
+    required this.tooltip,
+    required this.onTap,
+  });
+
+  @override
+  State<_DenoiseBadgeChip> createState() => _DenoiseBadgeChipState();
+}
+
+class _DenoiseBadgeChipState extends State<_DenoiseBadgeChip> {
+  bool _isHovering = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+    final inactiveBorder = isDark
+        ? AppColors.borderDark
+        : AppColors.borderLight;
+
+    return Tooltip(
+      message: widget.tooltip,
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovering = true),
+        onExit: (_) => setState(() => _isHovering = false),
+        cursor: widget.isLocked
+            ? SystemMouseCursors.basic
+            : SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: widget.isLocked ? null : widget.onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: state.enableAudioDenoise
-                  ? theme.colorScheme.primary.withValues(alpha: 0.1)
-                  : theme.colorScheme.surface,
-              borderRadius: BorderRadius.circular(8),
+              color: widget.isEnabled
+                  ? activeColor.withValues(alpha: 0.18)
+                  : _isHovering && !widget.isLocked
+                  ? activeColor.withValues(alpha: 0.08)
+                  : inactiveBorder.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(6),
               border: Border.all(
-                color: state.enableAudioDenoise
-                    ? theme.colorScheme.primary
-                    : theme.dividerColor.withValues(alpha: 0.2),
+                color: widget.isEnabled
+                    ? activeColor
+                    : _isHovering && !widget.isLocked
+                    ? activeColor.withValues(alpha: 0.4)
+                    : inactiveBorder.withValues(alpha: 0.3),
               ),
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  Icons.noise_control_off_rounded,
-                  size: 20,
-                  color: state.enableAudioDenoise
-                      ? theme.colorScheme.primary
-                      : theme.iconTheme.color,
+                  widget.icon,
+                  size: 11,
+                  color: widget.isEnabled
+                      ? activeColor
+                      : theme.textTheme.bodySmall?.color?.withValues(alpha: 0.6),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppStrings.enableAudioDenoiseTitle,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          color: state.enableAudioDenoise
-                              ? theme.colorScheme.primary
-                              : theme.textTheme.bodyMedium?.color,
-                        ),
-                      ),
-                      Text(
-                        AppStrings.enableAudioDenoiseDesc,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          fontSize: 11,
-                          color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
-                        ),
-                      ),
-                    ],
+                const SizedBox(width: 4),
+                Text(
+                  widget.label,
+                  style: TextStyle(
+                    color: widget.isEnabled
+                        ? activeColor
+                        : theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                    fontSize: 10,
+                    fontWeight: widget.isEnabled ? FontWeight.w700 : FontWeight.w500,
                   ),
                 ),
-                Switch(
-                  value: state.enableAudioDenoise,
-                  onChanged: isLocked
-                      ? null
-                      : (val) => cubit.toggleAudioDenoise(val),
+                const SizedBox(width: 4),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: widget.isEnabled
+                        ? activeColor
+                        : inactiveBorder.withValues(alpha: 0.4),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    widget.isEnabled ? 'ON' : 'OFF',
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w800,
+                      color: widget.isEnabled
+                          ? Colors.white
+                          : theme.textTheme.bodySmall?.color?.withValues(alpha: 0.6),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }
