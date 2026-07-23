@@ -413,14 +413,14 @@ class _CompressionResult extends StatelessWidget {
     if (video.fileSizeBytes > 0) {
       if (savedBytes > 0) {
         percent = (savedBytes / video.fileSizeBytes * 100).toStringAsFixed(0);
-        badgeText = '${AppStrings.savedPrefix} $percent%';
+        badgeText = '${AppStrings.savedPrefix} \u200E$percent%';
         badgeColor = AppColors.successGreen;
       } else if (savedBytes < 0) {
         final increasedBytes = -savedBytes;
         percent = (increasedBytes / video.fileSizeBytes * 100).toStringAsFixed(
           0,
         );
-        badgeText = '+$percent% ${AppStrings.largerSuffix}';
+        badgeText = '\u200E+$percent% ${AppStrings.largerSuffix}';
         badgeColor = Theme.of(context).brightness == Brightness.dark
             ? Colors.redAccent.shade200
             : AppColors.errorRed;

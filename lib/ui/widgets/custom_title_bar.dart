@@ -5,7 +5,6 @@ import 'package:window_manager/window_manager.dart';
 
 import '../../core/app_constants.dart';
 import '../../core/app_strings.dart';
-import '../../core/language_helper.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../app_colors.dart';
@@ -18,8 +17,10 @@ class CustomTitleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return GestureDetector(
-      onPanStart: (_) => windowManager.startDragging(),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: GestureDetector(
+        onPanStart: (_) => windowManager.startDragging(),
       child: Container(
         height: 42,
         color: Colors.transparent,
@@ -102,7 +103,7 @@ class CustomTitleBar extends StatelessWidget {
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                '${AppStrings.savedSpacePrefix} ${formatBytes(state.globalSavedBytes)}',
+                                '${AppStrings.savedSpacePrefix} \u200E${formatBytes(state.globalSavedBytes)}',
                                 style: TextStyle(
                                   color: badgeColor,
                                   fontSize: 10,
@@ -172,21 +173,21 @@ class CustomTitleBar extends StatelessWidget {
                             color: badgeColor.withValues(alpha: 0.3),
                           ),
                         ),
-                        child: Text(
-                          '$modeText · ${state.encodingPreset.label}',
-                          style: TextStyle(
-                            color: badgeColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
+                        child: Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: Text(
+                            '$modeText · ${state.encodingPreset.label}',
+                            style: TextStyle(
+                              color: badgeColor,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
                     );
                   },
                 ),
-
-                // Language Selector
-                const _LanguageSelectorButton(),
 
                 // Theme toggle
                 BlocBuilder<CompressionCubit, CompressionState>(
@@ -205,6 +206,24 @@ class CustomTitleBar extends StatelessWidget {
                       onTap: () =>
                           context.read<CompressionCubit>().toggleTheme(),
                       tooltip: isDark ? AppStrings.lightThemeTooltip : AppStrings.darkThemeTooltip,
+                    );
+                  },
+                ),
+
+                // Language toggle (Globe icon next to Settings)
+                BlocBuilder<CompressionCubit, CompressionState>(
+                  buildWhen: (prev, curr) =>
+                      prev.isLanguageExpanded != curr.isLanguageExpanded ||
+                      prev.languageCode != curr.languageCode,
+                  builder: (context, state) {
+                    return _TitleBarButton(
+                      icon: Icons.language_rounded,
+                      iconColor: state.isLanguageExpanded
+                          ? theme.colorScheme.primary
+                          : theme.iconTheme.color,
+                      onTap: () =>
+                          context.read<CompressionCubit>().toggleLanguageSection(),
+                      tooltip: 'Language / اللغة',
                     );
                   },
                 ),
@@ -254,7 +273,8 @@ class CustomTitleBar extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),
+  );
   }
 }
 
@@ -431,97 +451,6 @@ class _SupportButtonState extends State<_SupportButton> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _LanguageSelectorButton extends StatelessWidget {
-  const _LanguageSelectorButton();
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return BlocBuilder<CompressionCubit, CompressionState>(
-      buildWhen: (prev, curr) => prev.languageCode != curr.languageCode,
-      builder: (context, state) {
-        final currentCode = state.languageCode;
-        final flag = LanguageHelper.getFlag(currentCode);
-        return PopupMenuButton<String>(
-          tooltip: 'Language',
-          offset: const Offset(0, 32),
-          color: theme.colorScheme.surface,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          onSelected: (code) {
-            context.read<CompressionCubit>().changeLanguage(code);
-          },
-          itemBuilder: (context) => LanguageHelper.supportedCodes.map((code) {
-            final isSelected = code == currentCode;
-            return PopupMenuItem<String>(
-              value: code,
-              child: Row(
-                children: [
-                  Text(
-                    LanguageHelper.getFlag(code),
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    LanguageHelper.getNativeName(code),
-                    style: TextStyle(
-                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                      color: isSelected ? theme.colorScheme.primary : null,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '(${LanguageHelper.getEnglishName(code)})',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: theme.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
-                    ),
-                  ),
-                  if (isSelected) ...[
-                    const Spacer(),
-                    Icon(
-                      Icons.check_rounded,
-                      size: 16,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ],
-                ],
-              ),
-            );
-          }).toList(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  flag,
-                  style: const TextStyle(fontSize: 14),
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  currentCode.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: theme.iconTheme.color,
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_drop_down_rounded,
-                  size: 16,
-                  color: theme.iconTheme.color,
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

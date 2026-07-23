@@ -72,14 +72,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get modeTargetSizeLabel => 'حجم محدد (ميجابايت)';
 
   @override
-  String get crfQualityTitle => 'جودة CRF (معامل المعدل الثابت)';
+  String get crfQualityTitle => 'جودة ‎CRF (معامل المعدل الثابت)';
 
   @override
   String get targetSizeLabel => 'الحجم المستهدف للملف (ميجابايت)';
 
   @override
   String get targetSizeDesc =>
-      'يحسب معدل البت للالتزام بالحجم المستهدف (الأدنى: 1 ميجابايت). الحدود المنخفضة جداً للفيديوهات الطويلة ستقلل الجودة البصرية.';
+      'يحسب معدل البت للالتزام بالحجم المستهدف (الأدنى: ‎1 MB). الحدود المنخفضة جداً للفيديوهات الطويلة ستقلل الجودة البصرية.';
 
   @override
   String get encodingSpeedTitle => 'سرعة الترميز';
@@ -111,7 +111,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get presetFasterDesc => 'تحسين خفيف للسرعة مع ضغط ممتاز عموماً.';
 
   @override
-  String get presetFastLabel => 'سريع (مستحسن)';
+  String get presetFastLabel => 'سريع';
 
   @override
   String get presetFastDesc =>
@@ -139,7 +139,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'يستغرق أطول وقت ولكنه يضمن أقصى توفير للمساحة.';
 
   @override
-  String get videoCodecTitle => 'ترميز الفيديو (Codec)';
+  String get videoCodecTitle => 'ترميز الفيديو (‎Codec)';
 
   @override
   String get codecH264Label => 'H.264';
@@ -159,37 +159,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get codecAv1Desc =>
-      'جيل جديد من الترميز: أقصى كفاءة ضغط (أصغر بنسبة 30% من H.265).';
+      'جيل جديد من الترميز: أقصى كفاءة ضغط (أصغر بنسبة ‎30% من ‎H.265).';
 
   @override
-  String get hardwareEncoderTitle => 'المسرّع المادي (GPU)';
+  String get hardwareEncoderTitle => 'المسرّع المادي (‎GPU)';
 
   @override
-  String get hwSoftwareLabel => 'المعالج (CPU)';
+  String get hwSoftwareLabel => 'المعالج (‎CPU)';
 
   @override
   String get hwSoftwareDesc => 'الأبطأ، لكنه أعلى توافقية وأصغر حجم ملف.';
 
   @override
-  String get hwNvidiaLabel => 'إنفيديا (NVENC)';
+  String get hwNvidiaLabel => 'إنفيديا (‎NVENC)';
 
   @override
   String get hwNvidiaDesc => 'ضغط فائق السرعة لكروت كروت إنفيديا.';
 
   @override
-  String get hwAmdLabel => 'إيه إم دي (AMF)';
+  String get hwAmdLabel => 'إيه إم دي (‎AMF)';
 
   @override
-  String get hwAmdDesc => 'ضغط فائق السرعة لكروت AMD.';
+  String get hwAmdDesc => 'ضغط فائق السرعة لكروت ‎AMD.';
 
   @override
-  String get hwIntelLabel => 'إنتل (QSV)';
+  String get hwIntelLabel => 'إنتل (‎QSV)';
 
   @override
   String get hwIntelDesc => 'ضغط فائق السرعة لكروت إنتل المدمجة والمنفصلة.';
 
   @override
-  String get resolutionTitle => 'أقصى دقة (Resolution)';
+  String get resolutionTitle => 'أقصى دقة (‎Resolution)';
 
   @override
   String get resOriginalLabel => 'الأصلية';
@@ -201,41 +201,41 @@ class AppLocalizationsAr extends AppLocalizations {
   String get res4kLabel => '4K';
 
   @override
-  String get res4kDesc => 'تخفيض الدقة لـ 4K كأقصى حد (جودة فائقة).';
+  String get res4kDesc => 'تخفيض الدقة لـ ‎4K كأقصى حد (جودة فائقة).';
 
   @override
   String get res2kLabel => '2K';
 
   @override
-  String get res2kDesc => 'تخفيض الدقة لـ 2K كأقصى حد (جودة عالية).';
+  String get res2kDesc => 'تخفيض الدقة لـ ‎2K كأقصى حد (جودة عالية).';
 
   @override
   String get res1080pLabel => '1080p';
 
   @override
-  String get res1080pDesc => 'تخفيض الدقة لـ 1080p (الدقة القياسية العالية).';
+  String get res1080pDesc => 'تخفيض الدقة لـ ‎1080p (الدقة القياسية العالية).';
 
   @override
   String get res720pLabel => '720p';
 
   @override
   String get res720pDesc =>
-      'تخفيض الدقة لـ 720p (مناسبة للشاشات الصغيرة والهواتف).';
+      'تخفيض الدقة لـ ‎720p (مناسبة للشاشات الصغيرة والهواتف).';
 
   @override
   String get res480pLabel => '480p';
 
   @override
-  String get res480pDesc => 'تخفيض الدقة لـ 480p (جودة DVD، حجم صغير جداً).';
+  String get res480pDesc => 'تخفيض الدقة لـ ‎480p (جودة ‎DVD، حجم صغير جداً).';
 
   @override
   String get res360pLabel => '360p';
 
   @override
-  String get res360pDesc => 'تخفيض الدقة لـ 360p (ضغط شديد للغاية).';
+  String get res360pDesc => 'تخفيض الدقة لـ ‎360p (ضغط شديد للغاية).';
 
   @override
-  String get frameRateTitle => 'معدل الإطارات (FPS)';
+  String get frameRateTitle => 'معدل الإطارات (‎FPS)';
 
   @override
   String get fpsOriginalLabel => 'الأصلي';
@@ -244,19 +244,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get fpsOriginalDesc => 'الحفاظ على عدد الإطارات الأصلي في الثانية.';
 
   @override
-  String get fps60Label => '60 إطار/ث';
+  String get fps60Label => '‎60 إطار/ث';
 
   @override
   String get fps60Desc => 'نعومة فائقة، مثالي للألعاب والرياضة.';
 
   @override
-  String get fps30Label => '30 إطار/ث';
+  String get fps30Label => '‎30 إطار/ث';
 
   @override
   String get fps30Desc => 'نعومة قياسية وتوازن رائع لأغلب الفيديوهات.';
 
   @override
-  String get fps24Label => '24 إطار/ث';
+  String get fps24Label => '‎24 إطار/ث';
 
   @override
   String get fps24Desc => 'طابع سينمائي وتوفير إضافي في المساحة.';
@@ -266,7 +266,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enableVideoDenoiseDesc =>
-      'تطبيق فلتر ثلاثي الأبعاد لإزالة التحبب الرقمي وتحسين الضغط بنسبة 15-25%.';
+      'تطبيق فلتر ثلاثي الأبعاد لإزالة التحبب الرقمي وتحسين الضغط بنسبة ‎15-25%.';
 
   @override
   String get exportFormatTitle => 'صيغة التصدير';
@@ -275,31 +275,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exportVideoLabel => 'فيديو قياسي';
 
   @override
-  String get exportVideoDesc => 'تصدير كملف فيديو بصيغ MP4/MKV/MOV';
+  String get exportVideoDesc => 'تصدير كملف فيديو بصيغ ‎MP4/MKV/MOV';
 
   @override
-  String get exportGifLabel => 'صورة متحركة GIF';
+  String get exportGifLabel => 'صورة متحركة ‎GIF';
 
   @override
   String get exportGifDesc => 'تحويل الفيديو إلى صورة متحركة عالية الجودة';
 
   @override
-  String get exportMp3Label => 'استخراج MP3';
+  String get exportMp3Label => 'استخراج ‎MP3';
 
   @override
-  String get exportMp3Desc => 'استخراج الصوت فقط بصيغة MP3 جودة 320kbps';
+  String get exportMp3Desc => 'استخراج الصوت فقط بصيغة ‎MP3 جودة ‎320kbps';
 
   @override
-  String get exportAacLabel => 'استخراج AAC';
+  String get exportAacLabel => 'استخراج ‎AAC';
 
   @override
-  String get exportAacDesc => 'استخراج الصوت بصيغة AAC عالية الجودة';
+  String get exportAacDesc => 'استخراج الصوت بصيغة ‎AAC عالية الجودة';
 
   @override
-  String get exportWavLabel => 'استخراج WAV';
+  String get exportWavLabel => 'استخراج ‎WAV';
 
   @override
-  String get exportWavDesc => 'استخراج الصوت خام بدون أي ضغط WAV';
+  String get exportWavDesc => 'استخراج الصوت خام بدون أي ضغط ‎WAV';
 
   @override
   String get privacyScrubbingTitle => 'الخصوصية وإزالة بيانات المكان';
@@ -308,14 +308,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String get keepMetadataLabel => 'إبقاء البيانات';
 
   @override
-  String get stripGpsExifLabel => 'إزالة GPS/EXIF';
+  String get stripGpsExifLabel => 'إزالة ‎GPS/EXIF';
 
   @override
   String get stripGpsExifInfoTitle => 'تطهير الموقع والبيانات';
 
   @override
   String get stripGpsExifInfoDesc =>
-      'حذف معلومات الكاميرا، موقع الـ GPS، والتواريخ من الفيديو.';
+      'حذف معلومات الكاميرا، موقع الـ ‎GPS، والتواريخ من الفيديو.';
 
   @override
   String get keepMetadataInfoDesc => 'الحفاظ على بيانات الفيديو الأصلية كاملة.';
@@ -346,7 +346,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get speedOriginalDesc => 'سرعة الفيديو الطبيعية الأصلية';
 
   @override
-  String get speedSlow05Label => '0.5x بطيء';
+  String get speedSlow05Label => '‎0.5x بطيء';
 
   @override
   String get speedSlow05Desc => 'تقليل السرعة للنصف (العرض البطيء)';
@@ -355,19 +355,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get speedFast15Label => '1.5x';
 
   @override
-  String get speedFast15Desc => 'تسريع خفيف للفيديو بنسبة 1.5x';
+  String get speedFast15Desc => 'تسريع خفيف للفيديو بنسبة ‎1.5x';
 
   @override
-  String get speedFast20Label => '2.0x سريع';
+  String get speedFast20Label => '‎2.0x سريع';
 
   @override
   String get speedFast20Desc => 'مضاعفة سرعة التشغيل مرتين';
 
   @override
-  String get speedTimelapse40Label => '4.0x تايم لابس';
+  String get speedTimelapse40Label => '‎4.0x تايم لابس';
 
   @override
-  String get speedTimelapse40Desc => 'تسريع فائق 4x لعمل المقاطع السريعة';
+  String get speedTimelapse40Desc => 'تسريع فائق ‎4x لعمل المقاطع السريعة';
 
   @override
   String get canvasAspectRatioTitle => 'نسبة أبعاد الشاشة';
@@ -421,7 +421,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aspectCustomDesc => 'تحديد نسبة أبعاد مخصصة حسب رغبتك';
 
   @override
-  String get customRatioTooltip => 'اكتب نسبة مخصصة مثل 16:10 أو 2:1';
+  String get customRatioTooltip => 'اكتب نسبة مخصصة مثل ‎16:10 أو ‎2:1';
 
   @override
   String get rotationFlipTitle => 'التدوير والقلب';
@@ -436,7 +436,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rot90Label => '90° يميناً';
 
   @override
-  String get rot90Desc => 'تدوير الفيديو 90 درجة باتجاه عقارب الساعة';
+  String get rot90Desc => 'تدوير الفيديو ‎90 درجة باتجاه عقارب الساعة';
 
   @override
   String get rot180Label => '180° مقلوب';
@@ -448,7 +448,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rot270Label => '270° يساراً';
 
   @override
-  String get rot270Desc => 'تدوير الفيديو 270 درجة باتجاه عقارب الساعة';
+  String get rot270Desc => 'تدوير الفيديو ‎270 درجة باتجاه عقارب الساعة';
 
   @override
   String get rotFlipHLabel => 'قلب أفقي';
@@ -470,7 +470,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get customRotationTooltip =>
-      'اكتب زاوية التدوير بالدرجات مثل 45 أو 30';
+      'اكتب زاوية التدوير بالدرجات مثل ‎45 أو ‎30';
 
   @override
   String get trimVideoTitle => 'قص الفيديو';
@@ -508,21 +508,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get audioAac256Desc =>
-      'ضغط الصوت لـ AAC 256kbps (جودة ممتازة وحجم معتدل).';
+      'ضغط الصوت لـ ‎AAC 256kbps (جودة ممتازة وحجم معتدل).';
 
   @override
   String get audioAac128Label => 'متوازن';
 
   @override
   String get audioAac128Desc =>
-      'ضغط الصوت لـ AAC 128kbps (جودة ممتازة وحجم صغير - معيار الويب).';
+      'ضغط الصوت لـ ‎AAC 128kbps (جودة ممتازة وحجم صغير - معيار الويب).';
 
   @override
   String get audioAac64Label => 'حجم ضئيل';
 
   @override
   String get audioAac64Desc =>
-      'ضغط الصوت لـ AAC 64kbps (مناسب للشرح والبودكاست وحجم ضئيل).';
+      'ضغط الصوت لـ ‎AAC 64kbps (مناسب للشرح والبودكاست وحجم ضئيل).';
 
   @override
   String get audioMuteLabel => 'كتم الصوت';
@@ -531,7 +531,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get audioMuteDesc => 'حذف المسار الصوتي بالكامل لتوفير المساحة.';
 
   @override
-  String get audioNormTitle => 'موازنة مستوى الصوت (Normalization)';
+  String get audioNormTitle => 'موازنة مستوى الصوت (‎Normalization)';
 
   @override
   String get audioNormOffLabel => 'إيقاف';
@@ -544,7 +544,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get audioNormSpeechDesc =>
-      'معيار EBU R128 (-16 LUFS) لوضوح المحادثات والشروحات.';
+      'معيار ‎EBU R128 (‎-16 LUFS) لوضوح المحادثات والشروحات.';
 
   @override
   String get audioNormDynamicLabel => 'ديناميكي سينمائي';
@@ -558,31 +558,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get audioNormBoostDesc =>
-      'رفع الصوت بمقدار ثابت +3dB للفيديوهات ذات الصوت المنخفض.';
+      'رفع الصوت بمقدار ثابت ‎+3dB للفيديوهات ذات الصوت المنخفض.';
 
   @override
-  String get audioChanTitle => 'قنوات الصوت (Downmix)';
+  String get audioChanTitle => 'قنوات الصوت (‎Downmix)';
 
   @override
   String get audioChanOriginalLabel => 'الأصلية';
 
   @override
   String get audioChanOriginalDesc =>
-      'الحفاظ على عدد قنوات الصوت الأصلية (ستيريو، 5.1، الخ).';
+      'الحفاظ على عدد قنوات الصوت الأصلية (ستيريو، ‎5.1، الخ).';
 
   @override
-  String get audioChanStereoLabel => 'ستيريو (2.0)';
+  String get audioChanStereoLabel => 'ستيريو (‎2.0)';
 
   @override
   String get audioChanStereoDesc =>
       'تحويل إلى قناتين ستيريو متوافقين مع جميع الأجهزة.';
 
   @override
-  String get audioChanMonoLabel => 'مونو (1.0)';
+  String get audioChanMonoLabel => 'مونو (‎1.0)';
 
   @override
   String get audioChanMonoDesc =>
-      'دمج الصوت في قناة واحدة - توفير إضافي 50% في حجم الصوت.';
+      'دمج الصوت في قناة واحدة - توفير إضافي ‎50% في حجم الصوت.';
 
   @override
   String get removeNoiseLabel => 'إزالة الضوضاء';
@@ -644,7 +644,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'نقل الفيديوهات الأصلية لسلة المهملات تلقائياً بعد نجاح الضغط.';
 
   @override
-  String get outputFormatTitle => 'صيغة الحاوية (Container)';
+  String get outputFormatTitle => 'صيغة الحاوية (‎Container)';
 
   @override
   String get formatOriginalLabel => 'الأصلية';
@@ -752,7 +752,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dragDropHereMsg => 'اسحب وأسقط ملفات الفيديوهات أو المجلدات هنا';
 
   @override
-  String get supportedFormatsMsg => 'يدعم بسلاسة صيغ MP4, MKV, MOV, AVI, WMV';
+  String get supportedFormatsMsg => 'يدعم بسلاسة صيغ ‎MP4, MKV, MOV, AVI, WMV';
 
   @override
   String get selectFilesBtn => 'اختر الملفات';
@@ -839,7 +839,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String versionAvailableMsg(String version) {
-    return 'الإصدار $version متوفر الآن.';
+    return 'الإصدار ‎$version متوفر الآن.';
   }
 
   @override
@@ -853,18 +853,54 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ffmpegNotFoundGlobalError =>
-      'لم يتم العثور على مكتبات FFmpeg. يرجى التأكد من التثبيت الصحيح.';
+      'لم يتم العثور على مكتبات ‎FFmpeg. يرجى التأكد من التثبيت الصحيح.';
 
   @override
   String get ffmpegMissingError =>
-      'مكتبات FFmpeg مفقودة أو تالفة.\n\nيرجى إعادة تثبيت Shrinkeo أو التثبيت يدوياً عبر:\nwinget install Gyan.FFmpeg';
+      'مكتبات ‎FFmpeg مفقودة أو تالفة.\n\nيرجى إعادة تثبيت Shrinkeo أو التثبيت يدوياً عبر:\n‎winget install Gyan.FFmpeg';
 
   @override
   String hwFallbackNotificationBody(String encoderLabel) {
-    return 'فشل المسرع $encoderLabel. تم التحول تلقائياً للضغط بواسطة المعالج (CPU).';
+    return 'فشل المسرع ‎$encoderLabel. تم التحول تلقائياً للضغط بواسطة المعالج (‎CPU).';
   }
 
   @override
   String get failedDownloadUpdateMsg =>
       'فشل تحميل التحديث. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String customRatioActiveTitle(Object ratio) {
+    return 'نسبة مخصصة (‎$ratio)';
+  }
+
+  @override
+  String customRatioActiveDesc(Object ratio) {
+    return 'إضافة إطار للمقطع بنسبة مخصصة ‎$ratio.';
+  }
+
+  @override
+  String customAngleActiveTitle(Object angle) {
+    return 'زاوية مخصصة (‎$angle°)';
+  }
+
+  @override
+  String customAngleActiveDesc(Object angle) {
+    return 'تدوير الفيديو بزاوية مخصصة ‎$angle° درجة.';
+  }
+
+  @override
+  String trimActiveDesc(Object end, Object start) {
+    return 'قص المقطع بين ‎$start و ‎$end.';
+  }
+
+  @override
+  String targetSizeLimitLabel(Object size) {
+    return 'حد الحجم ‎$size MB';
+  }
+
+  @override
+  String get customMbSizeTooltip => 'ادخل الحجم بالميجابايت';
+
+  @override
+  String get trimTimeTooltip => 'ادخل الوقت مثلاً 5 (5 ثواني) أو 1:30';
 }

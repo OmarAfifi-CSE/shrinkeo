@@ -18,7 +18,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get savedSpacePrefix => 'Đã tiết kiệm:';
 
   @override
-  String get supportButtonText => 'Mua cho tôi ly cà phê';
+  String get supportButtonText => 'Ủng hộ dự án';
 
   @override
   String get lightThemeTooltip => 'Giao diện Sáng';
@@ -110,7 +110,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get presetFasterDesc => 'Tốc độ tốt và nén hiệu quả.';
 
   @override
-  String get presetFastLabel => 'Nhanh (Khuyên dùng)';
+  String get presetFastLabel => 'Nhanh';
 
   @override
   String get presetFastDesc => 'Cân bằng tuyệt vời giữa tốc độ và dung lượng.';
@@ -834,4 +834,41 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get failedDownloadUpdateMsg =>
       'Tải bản cập nhật thất bại. Vui lòng thử lại.';
+
+  @override
+  String customRatioActiveTitle(Object ratio) {
+    return 'Custom Ratio ($ratio)';
+  }
+
+  @override
+  String customRatioActiveDesc(Object ratio) {
+    return 'Padded canvas for custom $ratio ratio.';
+  }
+
+  @override
+  String customAngleActiveTitle(Object angle) {
+    return 'Custom Angle ($angle°)';
+  }
+
+  @override
+  String customAngleActiveDesc(Object angle) {
+    return 'Rotates video by custom $angle° degree angle.';
+  }
+
+  @override
+  String trimActiveDesc(Object end, Object start) {
+    return 'Cuts video clip between $start and $end.';
+  }
+
+  @override
+  String targetSizeLimitLabel(Object size) {
+    return '$size MB Limit';
+  }
+
+  @override
+  String get customMbSizeTooltip => 'Type custom MB size';
+
+  @override
+  String get trimTimeTooltip =>
+      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
 }

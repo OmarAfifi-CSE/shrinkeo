@@ -24,192 +24,406 @@ enum CompressionPhase {
 
 /// Available FFmpeg encoding speed presets, ordered fastest to slowest.
 enum EncodingPreset {
-  ultrafast('ultrafast', AppStrings.presetUltrafastLabel, AppStrings.presetUltrafastDesc),
-  superfast('superfast', AppStrings.presetSuperfastLabel, AppStrings.presetSuperfastDesc),
-  veryfast('veryfast', AppStrings.presetVeryfastLabel, AppStrings.presetVeryfastDesc),
-  faster('faster', AppStrings.presetFasterLabel, AppStrings.presetFasterDesc),
-  fast('fast', AppStrings.presetFastLabel, AppStrings.presetFastDesc),
-  medium('medium', AppStrings.presetMediumLabel, AppStrings.presetMediumDesc),
-  slow('slow', AppStrings.presetSlowLabel, AppStrings.presetSlowDesc),
-  veryslow('veryslow', AppStrings.presetVeryslowLabel, AppStrings.presetVeryslowDesc);
+  ultrafast('ultrafast'),
+  superfast('superfast'),
+  veryfast('veryfast'),
+  faster('faster'),
+  fast('fast'),
+  medium('medium'),
+  slow('slow'),
+  veryslow('veryslow');
 
   final String value;
-  final String label;
-  final String description;
 
-  const EncodingPreset(this.value, this.label, this.description);
+  const EncodingPreset(this.value);
+
+  String get label {
+    switch (this) {
+      case EncodingPreset.ultrafast: return AppStrings.presetUltrafastLabel;
+      case EncodingPreset.superfast: return AppStrings.presetSuperfastLabel;
+      case EncodingPreset.veryfast: return AppStrings.presetVeryfastLabel;
+      case EncodingPreset.faster: return AppStrings.presetFasterLabel;
+      case EncodingPreset.fast: return AppStrings.presetFastLabel;
+      case EncodingPreset.medium: return AppStrings.presetMediumLabel;
+      case EncodingPreset.slow: return AppStrings.presetSlowLabel;
+      case EncodingPreset.veryslow: return AppStrings.presetVeryslowLabel;
+    }
+  }
+
+  String get description {
+    switch (this) {
+      case EncodingPreset.ultrafast: return AppStrings.presetUltrafastDesc;
+      case EncodingPreset.superfast: return AppStrings.presetSuperfastDesc;
+      case EncodingPreset.veryfast: return AppStrings.presetVeryfastDesc;
+      case EncodingPreset.faster: return AppStrings.presetFasterDesc;
+      case EncodingPreset.fast: return AppStrings.presetFastDesc;
+      case EncodingPreset.medium: return AppStrings.presetMediumDesc;
+      case EncodingPreset.slow: return AppStrings.presetSlowDesc;
+      case EncodingPreset.veryslow: return AppStrings.presetVeryslowDesc;
+    }
+  }
 }
 
 enum VideoCodec {
-  h264(AppStrings.codecH264Label, AppStrings.codecH264Desc),
-  h265(AppStrings.codecH265Label, AppStrings.codecH265Desc),
-  av1(AppStrings.codecAv1Label, AppStrings.codecAv1Desc);
+  h264,
+  h265,
+  av1;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case VideoCodec.h264: return AppStrings.codecH264Label;
+      case VideoCodec.h265: return AppStrings.codecH265Label;
+      case VideoCodec.av1: return AppStrings.codecAv1Label;
+    }
+  }
 
-  const VideoCodec(this.label, this.description);
+  String get description {
+    switch (this) {
+      case VideoCodec.h264: return AppStrings.codecH264Desc;
+      case VideoCodec.h265: return AppStrings.codecH265Desc;
+      case VideoCodec.av1: return AppStrings.codecAv1Desc;
+    }
+  }
 }
 
 enum HardwareEncoder {
-  software(AppStrings.hwSoftwareLabel, AppStrings.hwSoftwareDesc),
-  nvidia(AppStrings.hwNvidiaLabel, AppStrings.hwNvidiaDesc),
-  amd(AppStrings.hwAmdLabel, AppStrings.hwAmdDesc),
-  intel(AppStrings.hwIntelLabel, AppStrings.hwIntelDesc);
+  software,
+  nvidia,
+  amd,
+  intel;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case HardwareEncoder.software: return AppStrings.hwSoftwareLabel;
+      case HardwareEncoder.nvidia: return AppStrings.hwNvidiaLabel;
+      case HardwareEncoder.amd: return AppStrings.hwAmdLabel;
+      case HardwareEncoder.intel: return AppStrings.hwIntelLabel;
+    }
+  }
 
-  const HardwareEncoder(this.label, this.description);
+  String get description {
+    switch (this) {
+      case HardwareEncoder.software: return AppStrings.hwSoftwareDesc;
+      case HardwareEncoder.nvidia: return AppStrings.hwNvidiaDesc;
+      case HardwareEncoder.amd: return AppStrings.hwAmdDesc;
+      case HardwareEncoder.intel: return AppStrings.hwIntelDesc;
+    }
+  }
 }
 
 /// Options for Audio Compression/Muting.
 enum AudioMode {
-  copy(AppStrings.audioOriginalLabel, AppStrings.audioOriginalDesc),
-  aac256(AppStrings.audioAac256Label, AppStrings.audioAac256Desc),
-  aac128(AppStrings.audioAac128Label, AppStrings.audioAac128Desc),
-  aac64(AppStrings.audioAac64Label, AppStrings.audioAac64Desc),
-  mute(AppStrings.audioMuteLabel, AppStrings.audioMuteDesc);
+  copy,
+  aac256,
+  aac128,
+  aac64,
+  mute;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case AudioMode.copy: return AppStrings.audioOriginalLabel;
+      case AudioMode.aac256: return AppStrings.audioAac256Label;
+      case AudioMode.aac128: return AppStrings.audioAac128Label;
+      case AudioMode.aac64: return AppStrings.audioAac64Label;
+      case AudioMode.mute: return AppStrings.audioMuteLabel;
+    }
+  }
 
-  const AudioMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case AudioMode.copy: return AppStrings.audioOriginalDesc;
+      case AudioMode.aac256: return AppStrings.audioAac256Desc;
+      case AudioMode.aac128: return AppStrings.audioAac128Desc;
+      case AudioMode.aac64: return AppStrings.audioAac64Desc;
+      case AudioMode.mute: return AppStrings.audioMuteDesc;
+    }
+  }
 }
 
 /// Options for Audio Volume Normalization.
 enum AudioNormalizeMode {
-  off(AppStrings.audioNormOffLabel, AppStrings.audioNormOffDesc),
-  speech(AppStrings.audioNormSpeechLabel, AppStrings.audioNormSpeechDesc),
-  dynamic(AppStrings.audioNormDynamicLabel, AppStrings.audioNormDynamicDesc),
-  boost(AppStrings.audioNormBoostLabel, AppStrings.audioNormBoostDesc);
+  off,
+  speech,
+  dynamic,
+  boost;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case AudioNormalizeMode.off: return AppStrings.audioNormOffLabel;
+      case AudioNormalizeMode.speech: return AppStrings.audioNormSpeechLabel;
+      case AudioNormalizeMode.dynamic: return AppStrings.audioNormDynamicLabel;
+      case AudioNormalizeMode.boost: return AppStrings.audioNormBoostLabel;
+    }
+  }
 
-  const AudioNormalizeMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case AudioNormalizeMode.off: return AppStrings.audioNormOffDesc;
+      case AudioNormalizeMode.speech: return AppStrings.audioNormSpeechDesc;
+      case AudioNormalizeMode.dynamic: return AppStrings.audioNormDynamicDesc;
+      case AudioNormalizeMode.boost: return AppStrings.audioNormBoostDesc;
+    }
+  }
 }
 
 /// Options for Audio Channels Downmixing.
 enum AudioChannelsMode {
-  original(AppStrings.audioChanOriginalLabel, AppStrings.audioChanOriginalDesc),
-  stereo(AppStrings.audioChanStereoLabel, AppStrings.audioChanStereoDesc),
-  mono(AppStrings.audioChanMonoLabel, AppStrings.audioChanMonoDesc);
+  original,
+  stereo,
+  mono;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case AudioChannelsMode.original: return AppStrings.audioChanOriginalLabel;
+      case AudioChannelsMode.stereo: return AppStrings.audioChanStereoLabel;
+      case AudioChannelsMode.mono: return AppStrings.audioChanMonoLabel;
+    }
+  }
 
-  const AudioChannelsMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case AudioChannelsMode.original: return AppStrings.audioChanOriginalDesc;
+      case AudioChannelsMode.stereo: return AppStrings.audioChanStereoDesc;
+      case AudioChannelsMode.mono: return AppStrings.audioChanMonoDesc;
+    }
+  }
 }
 
 /// Options for Downscaling Resolution.
 enum ResolutionMode {
-  original(AppStrings.resOriginalLabel, AppStrings.resOriginalDesc),
-  p2160(AppStrings.res4kLabel, AppStrings.res4kDesc),
-  p1440(AppStrings.res2kLabel, AppStrings.res2kDesc),
-  p1080(AppStrings.res1080pLabel, AppStrings.res1080pDesc),
-  p720(AppStrings.res720pLabel, AppStrings.res720pDesc),
-  p480(AppStrings.res480pLabel, AppStrings.res480pDesc),
-  p360(AppStrings.res360pLabel, AppStrings.res360pDesc);
+  original,
+  p2160,
+  p1440,
+  p1080,
+  p720,
+  p480,
+  p360;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case ResolutionMode.original: return AppStrings.resOriginalLabel;
+      case ResolutionMode.p2160: return AppStrings.res4kLabel;
+      case ResolutionMode.p1440: return AppStrings.res2kLabel;
+      case ResolutionMode.p1080: return AppStrings.res1080pLabel;
+      case ResolutionMode.p720: return AppStrings.res720pLabel;
+      case ResolutionMode.p480: return AppStrings.res480pLabel;
+      case ResolutionMode.p360: return AppStrings.res360pLabel;
+    }
+  }
 
-  const ResolutionMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case ResolutionMode.original: return AppStrings.resOriginalDesc;
+      case ResolutionMode.p2160: return AppStrings.res4kDesc;
+      case ResolutionMode.p1440: return AppStrings.res2kDesc;
+      case ResolutionMode.p1080: return AppStrings.res1080pDesc;
+      case ResolutionMode.p720: return AppStrings.res720pDesc;
+      case ResolutionMode.p480: return AppStrings.res480pDesc;
+      case ResolutionMode.p360: return AppStrings.res360pDesc;
+    }
+  }
 }
 
 enum FrameRateMode {
-  original(AppStrings.fpsOriginalLabel, AppStrings.fpsOriginalDesc),
-  fps60(AppStrings.fps60Label, AppStrings.fps60Desc),
-  fps30(AppStrings.fps30Label, AppStrings.fps30Desc),
-  fps24(AppStrings.fps24Label, AppStrings.fps24Desc);
+  original,
+  fps60,
+  fps30,
+  fps24;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case FrameRateMode.original: return AppStrings.fpsOriginalLabel;
+      case FrameRateMode.fps60: return AppStrings.fps60Label;
+      case FrameRateMode.fps30: return AppStrings.fps30Label;
+      case FrameRateMode.fps24: return AppStrings.fps24Label;
+    }
+  }
 
-  const FrameRateMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case FrameRateMode.original: return AppStrings.fpsOriginalDesc;
+      case FrameRateMode.fps60: return AppStrings.fps60Desc;
+      case FrameRateMode.fps30: return AppStrings.fps30Desc;
+      case FrameRateMode.fps24: return AppStrings.fps24Desc;
+    }
+  }
 }
 
 /// Options for Video Container Format.
 enum OutputFormat {
-  original(AppStrings.formatOriginalLabel, AppStrings.formatOriginalDesc, null),
-  mp4(AppStrings.formatMp4Label, AppStrings.formatMp4Desc, '.mp4'),
-  mkv(AppStrings.formatMkvLabel, AppStrings.formatMkvDesc, '.mkv'),
-  mov(AppStrings.formatMovLabel, AppStrings.formatMovDesc, '.mov');
+  original(null),
+  mp4('.mp4'),
+  mkv('.mkv'),
+  mov('.mov');
 
-  final String label;
-  final String description;
   final String? extension;
 
-  const OutputFormat(this.label, this.description, this.extension);
+  const OutputFormat(this.extension);
+
+  String get label {
+    switch (this) {
+      case OutputFormat.original: return AppStrings.formatOriginalLabel;
+      case OutputFormat.mp4: return AppStrings.formatMp4Label;
+      case OutputFormat.mkv: return AppStrings.formatMkvLabel;
+      case OutputFormat.mov: return AppStrings.formatMovLabel;
+    }
+  }
+
+  String get description {
+    switch (this) {
+      case OutputFormat.original: return AppStrings.formatOriginalDesc;
+      case OutputFormat.mp4: return AppStrings.formatMp4Desc;
+      case OutputFormat.mkv: return AppStrings.formatMkvDesc;
+      case OutputFormat.mov: return AppStrings.formatMovDesc;
+    }
+  }
 }
 
 /// Options for Output Folder Behavior
 enum OutputLocationMode {
-  unified(AppStrings.outputLocationUnifiedLabel, AppStrings.outputLocationUnifiedDesc),
-  sameAsOriginal(AppStrings.outputLocationSameLabel, AppStrings.outputLocationSameDesc);
+  unified,
+  sameAsOriginal;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case OutputLocationMode.unified: return AppStrings.outputLocationUnifiedLabel;
+      case OutputLocationMode.sameAsOriginal: return AppStrings.outputLocationSameLabel;
+    }
+  }
 
-  const OutputLocationMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case OutputLocationMode.unified: return AppStrings.outputLocationUnifiedDesc;
+      case OutputLocationMode.sameAsOriginal: return AppStrings.outputLocationSameDesc;
+    }
+  }
 }
 
 enum VideoRotationMode {
-  original(AppStrings.rotOriginalLabel, AppStrings.rotOriginalDesc),
-  deg90(AppStrings.rot90Label, AppStrings.rot90Desc),
-  deg180(AppStrings.rot180Label, AppStrings.rot180Desc),
-  deg270(AppStrings.rot270Label, AppStrings.rot270Desc),
-  flipH(AppStrings.rotFlipHLabel, AppStrings.rotFlipHDesc),
-  flipV(AppStrings.rotFlipVLabel, AppStrings.rotFlipVDesc),
-  custom(AppStrings.rotCustomLabel, AppStrings.rotCustomDesc);
+  original,
+  deg90,
+  deg180,
+  deg270,
+  flipH,
+  flipV,
+  custom;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case VideoRotationMode.original: return AppStrings.rotOriginalLabel;
+      case VideoRotationMode.deg90: return AppStrings.rot90Label;
+      case VideoRotationMode.deg180: return AppStrings.rot180Label;
+      case VideoRotationMode.deg270: return AppStrings.rot270Label;
+      case VideoRotationMode.flipH: return AppStrings.rotFlipHLabel;
+      case VideoRotationMode.flipV: return AppStrings.rotFlipVLabel;
+      case VideoRotationMode.custom: return AppStrings.rotCustomLabel;
+    }
+  }
 
-  const VideoRotationMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case VideoRotationMode.original: return AppStrings.rotOriginalDesc;
+      case VideoRotationMode.deg90: return AppStrings.rot90Desc;
+      case VideoRotationMode.deg180: return AppStrings.rot180Desc;
+      case VideoRotationMode.deg270: return AppStrings.rot270Desc;
+      case VideoRotationMode.flipH: return AppStrings.rotFlipHDesc;
+      case VideoRotationMode.flipV: return AppStrings.rotFlipVDesc;
+      case VideoRotationMode.custom: return AppStrings.rotCustomDesc;
+    }
+  }
 }
 
 enum VideoSpeedMode {
-  original(AppStrings.speedOriginalLabel, AppStrings.speedOriginalDesc),
-  slow05(AppStrings.speedSlow05Label, AppStrings.speedSlow05Desc),
-  fast15(AppStrings.speedFast15Label, AppStrings.speedFast15Desc),
-  fast20(AppStrings.speedFast20Label, AppStrings.speedFast20Desc),
-  timelapse40(AppStrings.speedTimelapse40Label, AppStrings.speedTimelapse40Desc);
+  original,
+  slow05,
+  fast15,
+  fast20,
+  timelapse40;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case VideoSpeedMode.original: return AppStrings.speedOriginalLabel;
+      case VideoSpeedMode.slow05: return AppStrings.speedSlow05Label;
+      case VideoSpeedMode.fast15: return AppStrings.speedFast15Label;
+      case VideoSpeedMode.fast20: return AppStrings.speedFast20Label;
+      case VideoSpeedMode.timelapse40: return AppStrings.speedTimelapse40Label;
+    }
+  }
 
-  const VideoSpeedMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case VideoSpeedMode.original: return AppStrings.speedOriginalDesc;
+      case VideoSpeedMode.slow05: return AppStrings.speedSlow05Desc;
+      case VideoSpeedMode.fast15: return AppStrings.speedFast15Desc;
+      case VideoSpeedMode.fast20: return AppStrings.speedFast20Desc;
+      case VideoSpeedMode.timelapse40: return AppStrings.speedTimelapse40Desc;
+    }
+  }
 }
 
 enum AspectRatioMode {
-  original(AppStrings.aspectOriginalLabel, AppStrings.aspectOriginalDesc),
-  shorts916(AppStrings.aspectShortsLabel, AppStrings.aspectShortsDesc),
-  square11(AppStrings.aspectSquareLabel, AppStrings.aspectSquareDesc),
-  portrait45(AppStrings.aspectPortraitLabel, AppStrings.aspectPortraitDesc),
-  widescreen169(AppStrings.aspectWidescreenLabel, AppStrings.aspectWidescreenDesc),
-  classic43(AppStrings.aspectClassicLabel, AppStrings.aspectClassicDesc),
-  cinema219(AppStrings.aspectCinemaLabel, AppStrings.aspectCinemaDesc),
-  custom(AppStrings.aspectCustomLabel, AppStrings.aspectCustomDesc);
+  original,
+  shorts916,
+  square11,
+  portrait45,
+  widescreen169,
+  classic43,
+  cinema219,
+  custom;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case AspectRatioMode.original: return AppStrings.aspectOriginalLabel;
+      case AspectRatioMode.shorts916: return AppStrings.aspectShortsLabel;
+      case AspectRatioMode.square11: return AppStrings.aspectSquareLabel;
+      case AspectRatioMode.portrait45: return AppStrings.aspectPortraitLabel;
+      case AspectRatioMode.widescreen169: return AppStrings.aspectWidescreenLabel;
+      case AspectRatioMode.classic43: return AppStrings.aspectClassicLabel;
+      case AspectRatioMode.cinema219: return AppStrings.aspectCinemaLabel;
+      case AspectRatioMode.custom: return AppStrings.aspectCustomLabel;
+    }
+  }
 
-  const AspectRatioMode(this.label, this.description);
+  String get description {
+    switch (this) {
+      case AspectRatioMode.original: return AppStrings.aspectOriginalDesc;
+      case AspectRatioMode.shorts916: return AppStrings.aspectShortsDesc;
+      case AspectRatioMode.square11: return AppStrings.aspectSquareDesc;
+      case AspectRatioMode.portrait45: return AppStrings.aspectPortraitDesc;
+      case AspectRatioMode.widescreen169: return AppStrings.aspectWidescreenDesc;
+      case AspectRatioMode.classic43: return AppStrings.aspectClassicDesc;
+      case AspectRatioMode.cinema219: return AppStrings.aspectCinemaDesc;
+      case AspectRatioMode.custom: return AppStrings.aspectCustomDesc;
+    }
+  }
 }
 
 enum ExportType {
-  video(AppStrings.exportVideoLabel, AppStrings.exportVideoDesc),
-  gif(AppStrings.exportGifLabel, AppStrings.exportGifDesc),
-  mp3(AppStrings.exportMp3Label, AppStrings.exportMp3Desc),
-  aac(AppStrings.exportAacLabel, AppStrings.exportAacDesc),
-  wav(AppStrings.exportWavLabel, AppStrings.exportWavDesc);
+  video,
+  gif,
+  mp3,
+  aac,
+  wav;
 
-  final String label;
-  final String description;
+  String get label {
+    switch (this) {
+      case ExportType.video: return AppStrings.exportVideoLabel;
+      case ExportType.gif: return AppStrings.exportGifLabel;
+      case ExportType.mp3: return AppStrings.exportMp3Label;
+      case ExportType.aac: return AppStrings.exportAacLabel;
+      case ExportType.wav: return AppStrings.exportWavLabel;
+    }
+  }
 
-  const ExportType(this.label, this.description);
+  String get description {
+    switch (this) {
+      case ExportType.video: return AppStrings.exportVideoDesc;
+      case ExportType.gif: return AppStrings.exportGifDesc;
+      case ExportType.mp3: return AppStrings.exportMp3Desc;
+      case ExportType.aac: return AppStrings.exportAacDesc;
+      case ExportType.wav: return AppStrings.exportWavDesc;
+    }
+  }
 }
 
 /// Immutable state for the [CompressionCubit].
@@ -293,6 +507,9 @@ class CompressionState extends Equatable {
   /// Whether the settings panel is expanded in the UI.
   final bool isSettingsExpanded;
 
+  /// Whether the language panel is expanded in the UI.
+  final bool isLanguageExpanded;
+
   /// User-defined custom output directory.
   /// If null, the default behavior (saving next to the original) is used.
   final String? customOutputDirectory;
@@ -373,6 +590,7 @@ class CompressionState extends Equatable {
     this.outputLocationMode = OutputLocationMode.unified, // Unified by default
     this.themeMode = ThemeMode.system,
     this.isSettingsExpanded = false,
+    this.isLanguageExpanded = false,
     this.customOutputDirectory,
     this.deleteOriginalOnSuccess = false,
     this.globalEta,
@@ -422,6 +640,7 @@ class CompressionState extends Equatable {
     OutputLocationMode? outputLocationMode,
     ThemeMode? themeMode,
     bool? isSettingsExpanded,
+    bool? isLanguageExpanded,
     String? customOutputDirectory,
     bool clearCustomOutputDirectory = false,
     bool? deleteOriginalOnSuccess,
@@ -471,6 +690,7 @@ class CompressionState extends Equatable {
       outputLocationMode: outputLocationMode ?? this.outputLocationMode,
       themeMode: themeMode ?? this.themeMode,
       isSettingsExpanded: isSettingsExpanded ?? this.isSettingsExpanded,
+      isLanguageExpanded: isLanguageExpanded ?? this.isLanguageExpanded,
       customOutputDirectory: clearCustomOutputDirectory
           ? null
           : (customOutputDirectory ?? this.customOutputDirectory),
@@ -554,6 +774,7 @@ class CompressionState extends Equatable {
     outputLocationMode,
     themeMode,
     isSettingsExpanded,
+    isLanguageExpanded,
     customOutputDirectory,
     deleteOriginalOnSuccess,
     globalEta,

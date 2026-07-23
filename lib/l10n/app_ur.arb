@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "کل محفوظ شدہ جگہ",
   "savedSpacePrefix": "بچت:",
-  "supportButtonText": "مجھے ایک کافی پلائیں",
+  "supportButtonText": "پراجیکٹ کا تعاون کریں",
   "lightThemeTooltip": "لائٹ تھیم",
   "darkThemeTooltip": "ڈارک تھیم",
   "settingsTooltip": "ترتیبات",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "اوسط سے زیادہ تیز۔",
   "presetFasterLabel": "تیز تر",
   "presetFasterDesc": "اچھی رفتار اور بہترین کمپریشن۔",
-  "presetFastLabel": "تیز (تجویز کردہ)",
+  "presetFastLabel": "تیز",
   "presetFastDesc": "رفتار اور سائز کی بچت کا بہترین توازن۔",
   "presetMediumLabel": "درمیانہ",
   "presetMediumDesc": "ڈیفالٹ توازن۔",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg نہیں ملا۔",
   "ffmpegMissingError": "FFmpeg یا FFprobe غائب یا خراب ہے۔",
   "hwFallbackNotificationBody": "{encoderLabel} ناکام رہا۔ CPU پر سوئچ کر دیا گیا۔",
-  "failedDownloadUpdateMsg": "اپ ڈیٹ ڈاؤن لوڈ میں ناکامی ہوئی۔ دوبارہ کوشش کریں۔"
+  "failedDownloadUpdateMsg": "اپ ڈیٹ ڈاؤن لوڈ میں ناکامی ہوئی۔ دوبارہ کوشش کریں۔",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

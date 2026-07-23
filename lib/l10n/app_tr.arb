@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Toplam Kazanılan Alan",
   "savedSpacePrefix": "Tasarruf:",
-  "supportButtonText": "Bana bir kahve ısmarla",
+  "supportButtonText": "Projeyi Destekle",
   "lightThemeTooltip": "Açık Tema",
   "darkThemeTooltip": "Koyu Tema",
   "settingsTooltip": "Ayarlar",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Ortalamadan daha hızlı.",
   "presetFasterLabel": "Daha Hızlı",
   "presetFasterDesc": "İyi hız ve sıkıştırma.",
-  "presetFastLabel": "Hızlı (Önerilen)",
+  "presetFastLabel": "Hızlı",
   "presetFastDesc": "Hız ve boyut arasında mükemmel denge.",
   "presetMediumLabel": "Orta",
   "presetMediumDesc": "Varsayılan denge.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg bulunamadı.",
   "ffmpegMissingError": "FFmpeg veya FFprobe eksik veya bozuk.",
   "hwFallbackNotificationBody": "{encoderLabel} başarısız oldu. CPU'ya geçildi.",
-  "failedDownloadUpdateMsg": "Güncelleme indirilemedi. Lütfen tekrar deneyin."
+  "failedDownloadUpdateMsg": "Güncelleme indirilemedi. Lütfen tekrar deneyin.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

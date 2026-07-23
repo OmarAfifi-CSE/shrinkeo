@@ -215,14 +215,14 @@ class _UpdateDialogState extends State<UpdateDialog> {
             children: [
               Icon(Icons.warning_amber_rounded, color: warningRed),
               const SizedBox(width: 8),
-              const Text(AppStrings.skipUpdateConfirmTitle),
+              Text(AppStrings.skipUpdateConfirmTitle),
             ],
           ),
-          content: const SizedBox(
+          content: SizedBox(
             width: 400,
             child: Text(
               AppStrings.skipUpdateConfirmDesc,
-              style: TextStyle(fontSize: 14, height: 1.5),
+              style: const TextStyle(fontSize: 14, height: 1.5),
             ),
           ),
           actions: [
@@ -230,9 +230,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
               onPressed: () {
                 Navigator.of(context).pop(); // Close confirm dialog
               },
-              child: const Text(
-                AppStrings.skipUpdateCancelBtn,
-                style: TextStyle(fontWeight: FontWeight.w600),
+              child: Text(AppStrings.skipUpdateCancelBtn,
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
             TextButton(
@@ -507,9 +506,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: const Text(
-                                  AppStrings.exitAppBtn,
-                                  style: TextStyle(
+                                child: Text(AppStrings.exitAppBtn,
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 13.0,
                                   ),
@@ -602,9 +600,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
                               size: 16,
                               color: AppColors.primaryAccent,
                             ),
-                            label: const Text(
-                              AppStrings.downloadFromWebsiteBtn,
-                              style: TextStyle(
+                            label: Text(AppStrings.downloadFromWebsiteBtn,
+                              style: const TextStyle(
                                 color: AppColors.primaryAccent,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,

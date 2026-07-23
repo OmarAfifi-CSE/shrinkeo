@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Total Ruang Hemat",
   "savedSpacePrefix": "Hemat:",
-  "supportButtonText": "Traktir saya kopi",
+  "supportButtonText": "Dukung Proyek",
   "lightThemeTooltip": "Tema Terang",
   "darkThemeTooltip": "Tema Gelap",
   "settingsTooltip": "Pengaturan",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Lebih cepat dari rata-rata.",
   "presetFasterLabel": "Lebih Cepat",
   "presetFasterDesc": "Kecepatan dan kompresi yang baik.",
-  "presetFastLabel": "Cepat (Direkomendasikan)",
+  "presetFastLabel": "Cepat",
   "presetFastDesc": "Keseimbangan terbaik antara kecepatan dan ukuran.",
   "presetMediumLabel": "Sedang",
   "presetMediumDesc": "Keseimbangan default.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg tidak ditemukan.",
   "ffmpegMissingError": "FFmpeg atau FFprobe hilang atau rusak.",
   "hwFallbackNotificationBody": "{encoderLabel} gagal. Beralih ke CPU.",
-  "failedDownloadUpdateMsg": "Gagal mengunduh pembaruan. Silakan coba lagi."
+  "failedDownloadUpdateMsg": "Gagal mengunduh pembaruan. Silakan coba lagi.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

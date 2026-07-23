@@ -393,7 +393,20 @@ class CompressionCubit extends Cubit<CompressionState> {
 
   /// Toggles the settings panel expansion.
   void toggleSettings() {
-    emit(state.copyWith(isSettingsExpanded: !state.isSettingsExpanded));
+    final nextSettings = !state.isSettingsExpanded;
+    emit(state.copyWith(
+      isSettingsExpanded: nextSettings,
+      isLanguageExpanded: nextSettings ? false : state.isLanguageExpanded,
+    ));
+  }
+
+  /// Toggles the language section expansion.
+  void toggleLanguageSection() {
+    final nextLanguage = !state.isLanguageExpanded;
+    emit(state.copyWith(
+      isLanguageExpanded: nextLanguage,
+      isSettingsExpanded: nextLanguage ? false : state.isSettingsExpanded,
+    ));
   }
 
   /// Updates the custom output directory.

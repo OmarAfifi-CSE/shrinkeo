@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Spațiu total economisit",
   "savedSpacePrefix": "Economisit:",
-  "supportButtonText": "Cumpără-mi o cafea",
+  "supportButtonText": "Susține proiectul",
   "lightThemeTooltip": "Tema Luminoasă",
   "darkThemeTooltip": "Tema Întunecată",
   "settingsTooltip": "Setări",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Mai rapid decât media.",
   "presetFasterLabel": "Mai Rapid",
   "presetFasterDesc": "Viteză bună și compresie ridicată.",
-  "presetFastLabel": "Rapid (Recomandat)",
+  "presetFastLabel": "Rapid",
   "presetFastDesc": "Cel mai bun echilibru între viteză și dimensiune.",
   "presetMediumLabel": "Mediu",
   "presetMediumDesc": "Echilibru implicit.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg nu a fost găsit.",
   "ffmpegMissingError": "FFmpeg sau FFprobe lipsește sau este deteriorat.",
   "hwFallbackNotificationBody": "{encoderLabel} a eșuat. S-a trecut automat la CPU.",
-  "failedDownloadUpdateMsg": "Descărcarea actualizării a eșuat. Încercați din nou."
+  "failedDownloadUpdateMsg": "Descărcarea actualizării a eșuat. Încercați din nou.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

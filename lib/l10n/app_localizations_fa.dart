@@ -18,7 +18,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get savedSpacePrefix => 'صرفه‌جویی:';
 
   @override
-  String get supportButtonText => 'خرید یک قهوه برای من';
+  String get supportButtonText => 'حمایت از پروژه';
 
   @override
   String get lightThemeTooltip => 'تم روشن';
@@ -108,7 +108,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get presetFasterDesc => 'سرعت و فشرده‌سازی مناسب.';
 
   @override
-  String get presetFastLabel => 'سریع (پیشنهادی)';
+  String get presetFastLabel => 'سریع';
 
   @override
   String get presetFastDesc => 'بهترین تعادل بین سرعت و حجم.';
@@ -830,4 +830,41 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get failedDownloadUpdateMsg =>
       'دانلود آپدیت ناموفق بود. مجددا سعی کنید.';
+
+  @override
+  String customRatioActiveTitle(Object ratio) {
+    return 'Custom Ratio ($ratio)';
+  }
+
+  @override
+  String customRatioActiveDesc(Object ratio) {
+    return 'Padded canvas for custom $ratio ratio.';
+  }
+
+  @override
+  String customAngleActiveTitle(Object angle) {
+    return 'Custom Angle ($angle°)';
+  }
+
+  @override
+  String customAngleActiveDesc(Object angle) {
+    return 'Rotates video by custom $angle° degree angle.';
+  }
+
+  @override
+  String trimActiveDesc(Object end, Object start) {
+    return 'Cuts video clip between $start and $end.';
+  }
+
+  @override
+  String targetSizeLimitLabel(Object size) {
+    return '$size MB Limit';
+  }
+
+  @override
+  String get customMbSizeTooltip => 'Type custom MB size';
+
+  @override
+  String get trimTimeTooltip =>
+      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
 }

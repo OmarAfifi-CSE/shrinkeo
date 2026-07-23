@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Всего сэкономлено места",
   "savedSpacePrefix": "Сэкономлено:",
-  "supportButtonText": "Купить мне кофе",
+  "supportButtonText": "Поддержать проект",
   "lightThemeTooltip": "Светлая тема",
   "darkThemeTooltip": "Темная тема",
   "settingsTooltip": "Настройки",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Быстрее среднего.",
   "presetFasterLabel": "Быстрее",
   "presetFasterDesc": "Хорошая скорость и сжатие.",
-  "presetFastLabel": "Быстрый (Рекомендуется)",
+  "presetFastLabel": "Быстрый",
   "presetFastDesc": "Отличный баланс скорости и размера.",
   "presetMediumLabel": "Средний",
   "presetMediumDesc": "Стандартный баланс.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg не найден.",
   "ffmpegMissingError": "FFmpeg или FFprobe отсутствует или поврежден.",
   "hwFallbackNotificationBody": "{encoderLabel} не сработал. Переключено на CPU.",
-  "failedDownloadUpdateMsg": "Не удалось скачать обновление. Попробуйте еще раз."
+  "failedDownloadUpdateMsg": "Не удалось скачать обновление. Попробуйте еще раз.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

@@ -18,7 +18,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get savedSpacePrefix => 'சேமிக்கப்பட்டது:';
 
   @override
-  String get supportButtonText => 'எனக்கு ஒரு காபி வாங்கித் தரவும்';
+  String get supportButtonText => 'திட்டத்தை ஆதரிக்கவும்';
 
   @override
   String get lightThemeTooltip => 'லைட் تھیம்';
@@ -110,7 +110,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get presetFasterDesc => 'நல்ல வேகம் மற்றும் சிறந்த அமுக்கம்.';
 
   @override
-  String get presetFastLabel => 'வேகம் (பரிந்துரைக்கப்படுகிறது)';
+  String get presetFastLabel => 'வேகம்';
 
   @override
   String get presetFastDesc => 'வேகம் மற்றும் அளவின் சிறந்த சமநிலை.';
@@ -846,4 +846,41 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get failedDownloadUpdateMsg =>
       'புதுப்பிப்பைப் பதிவிறக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String customRatioActiveTitle(Object ratio) {
+    return 'Custom Ratio ($ratio)';
+  }
+
+  @override
+  String customRatioActiveDesc(Object ratio) {
+    return 'Padded canvas for custom $ratio ratio.';
+  }
+
+  @override
+  String customAngleActiveTitle(Object angle) {
+    return 'Custom Angle ($angle°)';
+  }
+
+  @override
+  String customAngleActiveDesc(Object angle) {
+    return 'Rotates video by custom $angle° degree angle.';
+  }
+
+  @override
+  String trimActiveDesc(Object end, Object start) {
+    return 'Cuts video clip between $start and $end.';
+  }
+
+  @override
+  String targetSizeLimitLabel(Object size) {
+    return '$size MB Limit';
+  }
+
+  @override
+  String get customMbSizeTooltip => 'Type custom MB size';
+
+  @override
+  String get trimTimeTooltip =>
+      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
 }

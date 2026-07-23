@@ -6,6 +6,7 @@ import 'package:window_manager/window_manager.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
+import 'core/app_strings.dart';
 import 'core/language_helper.dart';
 
 import 'cubit/compression_cubit.dart';
@@ -93,6 +94,10 @@ class ShrinkeoApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             themeMode: state.themeMode,
             locale: Locale(state.languageCode),
+            builder: (context, child) {
+              AppStrings.setContext(context);
+              return child!;
+            },
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,

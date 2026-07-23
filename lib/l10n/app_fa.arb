@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "مجموع فضای ذخیره‌شده",
   "savedSpacePrefix": "صرفه‌جویی:",
-  "supportButtonText": "خرید یک قهوه برای من",
+  "supportButtonText": "حمایت از پروژه",
   "lightThemeTooltip": "تم روشن",
   "darkThemeTooltip": "تم تاریک",
   "settingsTooltip": "تنظیمات",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "سریع‌تر از حد معمول.",
   "presetFasterLabel": "سریع‌تر",
   "presetFasterDesc": "سرعت و فشرده‌سازی مناسب.",
-  "presetFastLabel": "سریع (پیشنهادی)",
+  "presetFastLabel": "سریع",
   "presetFastDesc": "بهترین تعادل بین سرعت و حجم.",
   "presetMediumLabel": "متوسط",
   "presetMediumDesc": "تعادل پیش‌فرض.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "برنامه FFmpeg یافت نشد.",
   "ffmpegMissingError": "فایل‌های FFmpeg مفقود یا خراب است.",
   "hwFallbackNotificationBody": "{encoderLabel} ناموفق بود. به CPU تغییر یافت.",
-  "failedDownloadUpdateMsg": "دانلود آپدیت ناموفق بود. مجددا سعی کنید."
+  "failedDownloadUpdateMsg": "دانلود آپدیت ناموفق بود. مجددا سعی کنید.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

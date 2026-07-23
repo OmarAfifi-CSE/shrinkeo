@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "మొత్తం సేవ్ చేసిన ఖాళీ",
   "savedSpacePrefix": "సేవ్ చేయబడింది:",
-  "supportButtonText": "నాకు కాఫీ కొనివ్వండి",
+  "supportButtonText": "ప్రాజెక్ట్‌కు మద్దతు ఇవ్వండి",
   "lightThemeTooltip": "లైట్ థీమ్",
   "darkThemeTooltip": "డార్క్ థీమ్",
   "settingsTooltip": "సెట్టింగ్‌లు",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "సగటు కంటే వేగంగా.",
   "presetFasterLabel": "వేగవంతమైన",
   "presetFasterDesc": "మంచి వేగం మరియు గొప్ప కుదింపు.",
-  "presetFastLabel": "వేగంగా (సిఫార్సు చేయబడింది)",
+  "presetFastLabel": "వేగంగా",
   "presetFastDesc": "వేగం మరియు పరిమాణం యొక్క ఉత్తమ సమతుల్యత.",
   "presetMediumLabel": "మధ్యస్థం",
   "presetMediumDesc": "డిఫాల్ట్ సమతుల్యత.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg కనుగొనబడలేదు.",
   "ffmpegMissingError": "FFmpeg లేదా FFprobe పోయింది లేదా పాడైంది.",
   "hwFallbackNotificationBody": "{encoderLabel} విఫలమైంది. CPU కి మారింది.",
-  "failedDownloadUpdateMsg": "అప్‌డేట్ డౌన్‌లోడ్ విఫలమైంది. మళ్ళీ ప్రయత్నించండి."
+  "failedDownloadUpdateMsg": "అప్‌డేట్ డౌన్‌లోడ్ విఫలమైంది. మళ్ళీ ప్రయత్నించండి.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

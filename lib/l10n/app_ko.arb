@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "전 세계 총 절약된 용량",
   "savedSpacePrefix": "절약:",
-  "supportButtonText": "커피 한 잔 후원하기",
+  "supportButtonText": "프로젝트 후원",
   "lightThemeTooltip": "라이트 테마",
   "darkThemeTooltip": "다크 테마",
   "settingsTooltip": "설정",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "평균보다 빠른 속도.",
   "presetFasterLabel": "더 빠름 (Faster)",
   "presetFasterDesc": "속도와 압축률의 좋은 균형.",
-  "presetFastLabel": "빠름 (Fast - 추천)",
+  "presetFastLabel": "빠름",
   "presetFastDesc": "속도와 용량 절감의 최고 추천 균형.",
   "presetMediumLabel": "보통 (Medium)",
   "presetMediumDesc": "기본 밸런스 설정.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg을 찾을 수 없습니다.",
   "ffmpegMissingError": "FFmpeg 또는 FFprobe가 없거나 손상되었습니다.",
   "hwFallbackNotificationBody": "{encoderLabel} 가속 실패. CPU로 전환되었습니다.",
-  "failedDownloadUpdateMsg": "업데이트 다운로드 실패. 다시 시도해 주세요."
+  "failedDownloadUpdateMsg": "업데이트 다운로드 실패. 다시 시도해 주세요.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

@@ -30,7 +30,7 @@ class _OutputDirectorySection extends StatelessWidget {
                 height: 40,
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  alignment: Alignment.centerLeft,
+                  alignment: AlignmentDirectional.centerStart,
                   decoration: BoxDecoration(
                     color:
                         (Theme.of(context).brightness == Brightness.dark
@@ -75,7 +75,7 @@ class _OutputDirectorySection extends StatelessWidget {
                         } catch (_) {}
                       },
                 icon: const Icon(Icons.folder_open_rounded, size: 16),
-                label: const Text(AppStrings.changeBtn),
+                label: Text(AppStrings.changeBtn),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
@@ -350,7 +350,7 @@ class _CrfSection extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           _InfoBox(
-            label: '${state.targetSizeMB.toStringAsFixed(state.targetSizeMB.truncateToDouble() == state.targetSizeMB ? 0 : 1)} MB Limit',
+            label: AppStrings.targetSizeLimitLabel(state.targetSizeMB.toStringAsFixed(state.targetSizeMB.truncateToDouble() == state.targetSizeMB ? 0 : 1)),
             description: AppStrings.targetSizeDesc,
             icon: Icons.track_changes_rounded,
           ),
@@ -1550,10 +1550,10 @@ class _ToolsTabContent extends StatelessWidget {
                   const SizedBox(height: 6),
                   _InfoBox(
                     label: state.aspectRatioMode == AspectRatioMode.custom
-                        ? 'Custom Ratio (${state.customAspectRatio})'
+                        ? AppStrings.customRatioActiveTitle(state.customAspectRatio)
                         : state.aspectRatioMode.label,
                     description: state.aspectRatioMode == AspectRatioMode.custom
-                        ? 'Padded canvas for custom ${state.customAspectRatio} ratio.'
+                        ? AppStrings.customRatioActiveDesc(state.customAspectRatio)
                         : state.aspectRatioMode.description,
                     icon: Icons.crop_rounded,
                   ),
@@ -1597,10 +1597,10 @@ class _ToolsTabContent extends StatelessWidget {
                   const SizedBox(height: 6),
                   _InfoBox(
                     label: state.videoRotationMode == VideoRotationMode.custom
-                        ? 'Custom Angle (${state.customRotationAngle.toInt()}°)'
+                        ? AppStrings.customAngleActiveTitle(state.customRotationAngle.toInt().toString())
                         : state.videoRotationMode.label,
                     description: state.videoRotationMode == VideoRotationMode.custom
-                        ? 'Rotates video by custom ${state.customRotationAngle.toInt()}° degree angle.'
+                        ? AppStrings.customAngleActiveDesc(state.customRotationAngle.toInt().toString())
                         : state.videoRotationMode.description,
                     icon: Icons.rotate_right_rounded,
                   ),
@@ -1725,7 +1725,7 @@ class _TrimSectionState extends State<_TrimSection> {
         _InfoBox(
           label: widget.state.trimEnabled ? AppStrings.trimActiveTitle : AppStrings.fullVideoLabel,
           description: widget.state.trimEnabled
-              ? 'Cuts video clip between ${widget.state.trimStartTime} and ${widget.state.trimEndTime}.'
+              ? AppStrings.trimActiveDesc(widget.state.trimStartTime, widget.state.trimEndTime)
               : AppStrings.fullVideoDesc,
           icon: Icons.content_cut_rounded,
         ),

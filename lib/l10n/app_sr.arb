@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Укупно уштеђен простор",
   "savedSpacePrefix": "Уштеђено:",
-  "supportButtonText": "Купи ми кафу",
+  "supportButtonText": "Подржи пројекат",
   "lightThemeTooltip": "Светла тема",
   "darkThemeTooltip": "Тамна тема",
   "settingsTooltip": "Подешавања",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Брже од просека.",
   "presetFasterLabel": "Брже",
   "presetFasterDesc": "Добра брзина и одлична компресија.",
-  "presetFastLabel": "Брзо (Препоручено)",
+  "presetFastLabel": "Брзо",
   "presetFastDesc": "Најбољи баланс брзине и величине.",
   "presetMediumLabel": "Средње",
   "presetMediumDesc": "Подразумевани баланс.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg није пронађен.",
   "ffmpegMissingError": "FFmpeg или FFprobe недостаје или је оштећен.",
   "hwFallbackNotificationBody": "{encoderLabel} није успео. Пребачено на CPU.",
-  "failedDownloadUpdateMsg": "Преузимање ажурирања није успело. Покушајте поново."
+  "failedDownloadUpdateMsg": "Преузимање ажурирања није успело. Покушајте поново.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

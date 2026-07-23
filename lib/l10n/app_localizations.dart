@@ -203,7 +203,7 @@ abstract class AppLocalizations {
   /// No description provided for @supportButtonText.
   ///
   /// In en, this message translates to:
-  /// **'Buy me a coffee'**
+  /// **'Support Project'**
   String get supportButtonText;
 
   /// No description provided for @lightThemeTooltip.
@@ -1813,6 +1813,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to download update. Please try again.'**
   String get failedDownloadUpdateMsg;
+
+  /// No description provided for @customRatioActiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Ratio ({ratio})'**
+  String customRatioActiveTitle(Object ratio);
+
+  /// No description provided for @customRatioActiveDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Padded canvas for custom {ratio} ratio.'**
+  String customRatioActiveDesc(Object ratio);
+
+  /// No description provided for @customAngleActiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Angle ({angle}°)'**
+  String customAngleActiveTitle(Object angle);
+
+  /// No description provided for @customAngleActiveDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Rotates video by custom {angle}° degree angle.'**
+  String customAngleActiveDesc(Object angle);
+
+  /// No description provided for @trimActiveDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Cuts video clip between {start} and {end}.'**
+  String trimActiveDesc(Object end, Object start);
+
+  /// No description provided for @targetSizeLimitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB Limit'**
+  String targetSizeLimitLabel(Object size);
+
+  /// No description provided for @customMbSizeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Type custom MB size'**
+  String get customMbSizeTooltip;
+
+  /// No description provided for @trimTimeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30'**
+  String get trimTimeTooltip;
 }
 
 class _AppLocalizationsDelegate

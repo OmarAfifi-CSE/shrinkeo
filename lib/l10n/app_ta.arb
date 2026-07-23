@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "மொத்த சேமிக்கப்பட்ட இடம்",
   "savedSpacePrefix": "சேமிக்கப்பட்டது:",
-  "supportButtonText": "எனக்கு ஒரு காபி வாங்கித் தரவும்",
+  "supportButtonText": "திட்டத்தை ஆதரிக்கவும்",
   "lightThemeTooltip": "லைட் تھیம்",
   "darkThemeTooltip": "டார்க் تھیம்",
   "settingsTooltip": "அமைப்புகள்",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "சராசரியை விட வேகம்.",
   "presetFasterLabel": "வேகமானது",
   "presetFasterDesc": "நல்ல வேகம் மற்றும் சிறந்த அமுக்கம்.",
-  "presetFastLabel": "வேகம் (பரிந்துரைக்கப்படுகிறது)",
+  "presetFastLabel": "வேகம்",
   "presetFastDesc": "வேகம் மற்றும் அளவின் சிறந்த சமநிலை.",
   "presetMediumLabel": "நடுத்தர",
   "presetMediumDesc": "இயல்புநிலை சமநிலை.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg கிடைக்கவில்லை.",
   "ffmpegMissingError": "FFmpeg அல்லது FFprobe இல்லை அல்லது சேதமடைந்துள்ளது.",
   "hwFallbackNotificationBody": "{encoderLabel} தோல்வியடைந்தது. CPU க்கு மாறபட்டது.",
-  "failedDownloadUpdateMsg": "புதுப்பிப்பைப் பதிவிறக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
+  "failedDownloadUpdateMsg": "புதுப்பிப்பைப் பதிவிறக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "ആകെ ലാഭിച്ച സ്ഥലം",
   "savedSpacePrefix": "ലാഭിച്ചു:",
-  "supportButtonText": "എനിക്ക് ഒരു കോഫി വാങ്ങി തരൂ",
+  "supportButtonText": "പ്രോജക്റ്റിനെ പിന്തുണയ്ക്കുക",
   "lightThemeTooltip": "ലൈറ്റ് തീം",
   "darkThemeTooltip": "ഡാർക്ക് തീം",
   "settingsTooltip": "ക്രമീകരണങ്ങൾ",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "ശരാശരിയേക്കാൾ വേഗത്തിൽ.",
   "presetFasterLabel": "വേഗതയുള്ളത്",
   "presetFasterDesc": "നല്ല വേഗതയും മികച്ച കംപ്രഷനും.",
-  "presetFastLabel": "വേഗത്തിൽ (ശുപാർശ ചെയ്യുന്നത്)",
+  "presetFastLabel": "വേഗത്തിൽ",
   "presetFastDesc": "വേഗതയുടെയും വലുപ്പത്തിന്റെയും മികച്ച സന്തുലിതാവസ്ഥ.",
   "presetMediumLabel": "ഇടത്തരം",
   "presetMediumDesc": "സാധാരണ സന്തുലിതാവസ്ഥ.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg കണ്ടെത്തിയില്ല.",
   "ffmpegMissingError": "FFmpeg അല്ലെങ്കിൽ FFprobe നഷ്ടപ്പെട്ടു അല്ലെങ്കിൽ കേടായി.",
   "hwFallbackNotificationBody": "{encoderLabel} പരാജയപ്പെട്ടു. CPU ലേക്ക് മാറ്റി.",
-  "failedDownloadUpdateMsg": "അപ്ഡേറ്റ് ഡൗൺലോഡ് പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കുക."
+  "failedDownloadUpdateMsg": "അപ്ഡേറ്റ് ഡൗൺലോഡ് പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കുക.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

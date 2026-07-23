@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Totaal bespaarde ruimte",
   "savedSpacePrefix": "Bespaard:",
-  "supportButtonText": "Koop een koffie voor mij",
+  "supportButtonText": "Steun het project",
   "lightThemeTooltip": "Licht Thema",
   "darkThemeTooltip": "Donker Thema",
   "settingsTooltip": "Instellingen",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Sneller dan gemiddeld.",
   "presetFasterLabel": "Sneller",
   "presetFasterDesc": "Goede snelheid en compressie.",
-  "presetFastLabel": "Snel (Aanbevolen)",
+  "presetFastLabel": "Snel",
   "presetFastDesc": "Beste balans tussen snelheid en grootte.",
   "presetMediumLabel": "Gemiddeld",
   "presetMediumDesc": "Standaard balans.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg niet gefunden.",
   "ffmpegMissingError": "FFmpeg of FFprobe ontbreekt of is beschadigd.",
   "hwFallbackNotificationBody": "{encoderLabel} mislukt. Oorgeschakeld naar CPU.",
-  "failedDownloadUpdateMsg": "Downloaden van update mislukt. Probeer opnieuw."
+  "failedDownloadUpdateMsg": "Downloaden van update mislukt. Probeer opnieuw.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

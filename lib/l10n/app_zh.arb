@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "全球已累计节省空间",
   "savedSpacePrefix": "已节省:",
-  "supportButtonText": "请我喝杯咖啡",
+  "supportButtonText": "支持项目",
   "lightThemeTooltip": "浅色模式",
   "darkThemeTooltip": "深色模式",
   "settingsTooltip": "设置",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "高于平均速度，体积适中。",
   "presetFasterLabel": "较快 (Faster)",
   "presetFasterDesc": "速度与压缩率良好平衡。",
-  "presetFastLabel": "快 (Fast - 推荐)",
+  "presetFastLabel": "快",
   "presetFastDesc": "速度与体积的最佳推荐平衡。",
   "presetMediumLabel": "中等 (Medium)",
   "presetMediumDesc": "标准默认平衡方案。",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "未找到 FFmpeg 依赖组件。",
   "ffmpegMissingError": "FFmpeg 或 FFprobe 组件缺失或损坏。",
   "hwFallbackNotificationBody": "{encoderLabel} 加速失败，已自动切换为 CPU 软件压缩。",
-  "failedDownloadUpdateMsg": "下载更新失败，请重试。"
+  "failedDownloadUpdateMsg": "下载更新失败，请重试。",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Συνολικός Χώρος που Εξοικονομήθηκε",
   "savedSpacePrefix": "Εξοικονόμηση:",
-  "supportButtonText": "Κέρασέ με έναν καφέ",
+  "supportButtonText": "Υποστήριξη έργου",
   "lightThemeTooltip": "Φωτεινό Θέμα",
   "darkThemeTooltip": "Σκούρο Θέμα",
   "settingsTooltip": "Ρυθμίσεις",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Γρηγορότερο από το μέσο όρο.",
   "presetFasterLabel": "Γρηγορότερο",
   "presetFasterDesc": "Καλή ταχύτητα και υψηλή συμπίεση.",
-  "presetFastLabel": "Γρήγορο (Συνιστάται)",
+  "presetFastLabel": "Γρήγορο",
   "presetFastDesc": "Εξαιρετική ισορροπία ταχύτητας και μεγέθους.",
   "presetMediumLabel": "Μεσαίο",
   "presetMediumDesc": "Προεπιλεγμένη ισορροπία.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "Το FFmpeg δεν βρέθηκε.",
   "ffmpegMissingError": "Το FFmpeg ή το FFprobe λείπει ή είναι κατεστραμμένο.",
   "hwFallbackNotificationBody": "Το {encoderLabel} απέτυχε. Αυτόματη αλλαγή σε CPU.",
-  "failedDownloadUpdateMsg": "Η λήψη της ενημέρωσης απέτυχε. Δοκιμάστε ξανά."
+  "failedDownloadUpdateMsg": "Η λήψη της ενημέρωσης απέτυχε. Δοκιμάστε ξανά.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

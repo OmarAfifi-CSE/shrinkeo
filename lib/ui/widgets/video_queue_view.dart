@@ -105,7 +105,7 @@ class VideoQueueView extends StatelessWidget {
                     OutlinedButton.icon(
                       onPressed: pickMultipleFiles,
                       icon: const Icon(Icons.note_add_rounded, size: 16),
-                      label: const Text(AppStrings.addFilesBtn),
+                      label: Text(AppStrings.addFilesBtn),
                     ),
                     const SizedBox(width: 12),
                     OutlinedButton.icon(
@@ -114,7 +114,7 @@ class VideoQueueView extends StatelessWidget {
                         Icons.create_new_folder_rounded,
                         size: 16,
                       ),
-                      label: const Text(AppStrings.addFolderBtn),
+                      label: Text(AppStrings.addFolderBtn),
                     ),
                   ],
                 ),

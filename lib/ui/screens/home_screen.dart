@@ -18,6 +18,7 @@ import '../widgets/aurora_background.dart';
 import '../widgets/bottom_action_bar.dart';
 import '../widgets/custom_title_bar.dart';
 import '../widgets/drop_zone_widget.dart';
+import '../widgets/language_panel.dart';
 import '../widgets/settings/settings_panel.dart';
 import '../widgets/video_queue_view.dart';
 import '../widgets/update_dialog.dart';
@@ -156,9 +157,8 @@ class HomeScreen extends StatefulWidget {
                                               alpha: 0.03,
                                             ),
                                     ),
-                                    child: const Text(
-                                      AppStrings.keepCompressingBtn,
-                                      style: TextStyle(
+                                    child: Text(AppStrings.keepCompressingBtn,
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14,
                                       ),
@@ -197,9 +197,8 @@ class HomeScreen extends StatefulWidget {
                                               strokeWidth: 2,
                                             ),
                                           )
-                                        : const Text(
-                                            AppStrings.closeAppBtn,
-                                            style: TextStyle(
+                                        : Text(AppStrings.closeAppBtn,
+                                            style: const TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 14,
                                             ),
@@ -282,6 +281,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    AppStrings.setContext(context);
     return MultiBlocListener(
       listeners: [
         BlocListener<CompressionCubit, CompressionState>(
@@ -322,7 +322,8 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         BlocListener<CompressionCubit, CompressionState>(
           listenWhen: (previous, current) =>
-              !previous.isSettingsExpanded && current.isSettingsExpanded,
+              (!previous.isSettingsExpanded && current.isSettingsExpanded) ||
+              (!previous.isLanguageExpanded && current.isLanguageExpanded),
           listener: (context, state) {
             if (_scrollController.hasClients) {
               _scrollController.animateTo(
@@ -375,6 +376,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 child: CustomScrollView(
                                   controller: _scrollController,
                                   slivers: [
+                                    const SliverToBoxAdapter(child: LanguagePanel()),
                                     const SliverToBoxAdapter(child: SettingsPanel()),
                                     BlocBuilder<CompressionCubit, CompressionState>(
                                       builder: (context, state) {

@@ -1,381 +1,398 @@
+import 'package:flutter/material.dart';
+import '../l10n/app_localizations.dart';
+
 class AppStrings {
+  static BuildContext? _context;
+
+  static void setContext(BuildContext context) {
+    _context = context;
+  }
+
+  static AppLocalizations? get _l10n {
+    if (_context != null) {
+      try {
+        return AppLocalizations.of(_context!);
+      } catch (_) {}
+    }
+    return null;
+  }
+
   // ===========================================================================
   // 1. APP BRANDING & TITLE BAR
   // ===========================================================================
-  static const String appName = 'Shrinkeo';
-  static const String totalSpaceSaved = 'Total Space Saved Globally';
-  static const String savedSpacePrefix = 'Saved:';
-  static const String supportButtonText = 'Buy me a coffee';
+  static String get appName => _l10n?.appName ?? 'Shrinkeo';
+  static String get totalSpaceSaved => _l10n?.totalSpaceSaved ?? 'Total Space Saved Globally';
+  static String get savedSpacePrefix => _l10n?.savedSpacePrefix ?? 'Saved:';
+  static String get supportButtonText => _l10n?.supportButtonText ?? 'Buy me a coffee';
 
   // Title Bar Tooltips
-  static const String lightThemeTooltip = 'Light Theme';
-  static const String darkThemeTooltip = 'Dark Theme';
-  static const String settingsTooltip = 'Settings';
-  static const String minimizeTooltip = 'Minimize';
-  static const String closeTooltip = 'Close';
-  static const String restoreTooltip = 'Restore';
-  static const String maximizeTooltip = 'Maximize';
+  static String get lightThemeTooltip => _l10n?.lightThemeTooltip ?? 'Light Theme';
+  static String get darkThemeTooltip => _l10n?.darkThemeTooltip ?? 'Dark Theme';
+  static String get settingsTooltip => _l10n?.settingsTooltip ?? 'Settings';
+  static String get minimizeTooltip => _l10n?.minimizeTooltip ?? 'Minimize';
+  static String get closeTooltip => _l10n?.closeTooltip ?? 'Close';
+  static String get restoreTooltip => _l10n?.restoreTooltip ?? 'Restore';
+  static String get maximizeTooltip => _l10n?.maximizeTooltip ?? 'Maximize';
 
   // ===========================================================================
   // 2. MAIN NAVIGATION TABS
   // ===========================================================================
-  static const String tabCompressionQuality = 'Compression & Quality';
-  static const String tabVideoEditingTools = 'Video Editing & Tools';
-  static const String tabAudioSettings = 'Audio Settings';
-  static const String tabEngineOutput = 'Engine & Output';
+  static String get tabCompressionQuality => _l10n?.tabCompressionQuality ?? 'Compression & Quality';
+  static String get tabVideoEditingTools => _l10n?.tabVideoEditingTools ?? 'Video Editing & Tools';
+  static String get tabAudioSettings => _l10n?.tabAudioSettings ?? 'Audio Settings';
+  static String get tabEngineOutput => _l10n?.tabEngineOutput ?? 'Engine & Output';
 
   // ===========================================================================
   // 3. TAB 1: COMPRESSION & QUALITY SETTINGS
   // ===========================================================================
-  static const String compressionSettingsTitle = 'Compression Settings';
-  static const String resetToDefaults = 'Reset to Defaults';
-  static const String resetDefaultTooltip = 'Reset to default';
+  static String get compressionSettingsTitle => _l10n?.compressionSettingsTitle ?? 'Compression Settings';
+  static String get resetToDefaults => _l10n?.resetToDefaults ?? 'Reset to Defaults';
+  static String get resetDefaultTooltip => _l10n?.resetDefaultTooltip ?? 'Reset to default';
 
   // Compression Mode & Target Size
-  static const String modeTargetSizeTitle = 'Compression Target Mode';
-  static const String modeCrfLabel = 'Quality (CRF)';
-  static const String modeTargetSizeLabel = 'Target Size (MB)';
-  static const String crfQualityTitle = 'CRF Quality (Constant Rate Factor)';
-  static const String targetSizeLabel = 'Target File Size (MB)';
-  static const String targetSizeDesc =
-      'Calculates bitrate to fit within size limit (Min: 1 MB). Extremely low limits on long videos will lower visual resolution.';
+  static String get modeTargetSizeTitle => _l10n?.modeTargetSizeTitle ?? 'Compression Target Mode';
+  static String get modeCrfLabel => _l10n?.modeCrfLabel ?? 'Quality (CRF)';
+  static String get modeTargetSizeLabel => _l10n?.modeTargetSizeLabel ?? 'Target Size (MB)';
+  static String get crfQualityTitle => _l10n?.crfQualityTitle ?? 'CRF Quality (Constant Rate Factor)';
+  static String get targetSizeLabel => _l10n?.targetSizeLabel ?? 'Target File Size (MB)';
+  static String get targetSizeDesc => _l10n?.targetSizeDesc ?? 'Calculates bitrate to fit within size limit (Min: 1 MB). Extremely low limits on long videos will lower visual resolution.';
 
   // Encoding Speed Presets
-  static const String encodingSpeedTitle = 'Encoding Speed';
-  static const String presetUltrafastLabel = 'Ultrafast';
-  static const String presetUltrafastDesc = 'Max speed, but achieves the least file size reduction.';
-  static const String presetSuperfastLabel = 'Superfast';
-  static const String presetSuperfastDesc = 'Very quick encoding with lower compression efficiency.';
-  static const String presetVeryfastLabel = 'Very Fast';
-  static const String presetVeryfastDesc = 'Faster than average, providing moderate size reduction.';
-  static const String presetFasterLabel = 'Faster';
-  static const String presetFasterDesc = 'A slight speed boost with good overall compression.';
-  static const String presetFastLabel = 'Fast';
-  static const String presetFastDesc = 'Great balance of speed and size reduction. Recommended.';
-  static const String presetMediumLabel = 'Medium';
-  static const String presetMediumDesc = 'Default balance of encoding speed and compression.';
-  static const String presetSlowLabel = 'Slow';
-  static const String presetSlowDesc = 'Slower process, but yields significantly smaller files.';
-  static const String presetVeryslowLabel = 'Very Slow';
-  static const String presetVeryslowDesc = 'Takes longest, but guarantees maximum file size reduction.';
+  static String get encodingSpeedTitle => _l10n?.encodingSpeedTitle ?? 'Encoding Speed';
+  static String get presetUltrafastLabel => _l10n?.presetUltrafastLabel ?? 'Ultrafast';
+  static String get presetUltrafastDesc => _l10n?.presetUltrafastDesc ?? 'Max speed, but achieves the least file size reduction.';
+  static String get presetSuperfastLabel => _l10n?.presetSuperfastLabel ?? 'Superfast';
+  static String get presetSuperfastDesc => _l10n?.presetSuperfastDesc ?? 'Very quick encoding with lower compression efficiency.';
+  static String get presetVeryfastLabel => _l10n?.presetVeryfastLabel ?? 'Very Fast';
+  static String get presetVeryfastDesc => _l10n?.presetVeryfastDesc ?? 'Faster than average, providing moderate size reduction.';
+  static String get presetFasterLabel => _l10n?.presetFasterLabel ?? 'Faster';
+  static String get presetFasterDesc => _l10n?.presetFasterDesc ?? 'A slight speed boost with good overall compression.';
+  static String get presetFastLabel => _l10n?.presetFastLabel ?? 'Fast';
+  static String get presetFastDesc => _l10n?.presetFastDesc ?? 'Great balance of speed and size reduction. Recommended.';
+  static String get presetMediumLabel => _l10n?.presetMediumLabel ?? 'Medium';
+  static String get presetMediumDesc => _l10n?.presetMediumDesc ?? 'Default balance of encoding speed and compression.';
+  static String get presetSlowLabel => _l10n?.presetSlowLabel ?? 'Slow';
+  static String get presetSlowDesc => _l10n?.presetSlowDesc ?? 'Slower process, but yields significantly smaller files.';
+  static String get presetVeryslowLabel => _l10n?.presetVeryslowLabel ?? 'Very Slow';
+  static String get presetVeryslowDesc => _l10n?.presetVeryslowDesc ?? 'Takes longest, but guarantees maximum file size reduction.';
 
   // Video Codecs
-  static const String videoCodecTitle = 'Video Codec';
-  static const String codecH264Label = 'H.264';
-  static const String codecH264Desc = 'Maximum compatibility with older devices & browsers.';
-  static const String codecH265Label = 'H.265 / HEVC';
-  static const String codecH265Desc = 'Better compression efficiency (smaller files).';
-  static const String codecAv1Label = 'AV1';
-  static const String codecAv1Desc = 'Next-gen codec: Maximum compression efficiency (30% smaller than H.265).';
+  static String get videoCodecTitle => _l10n?.videoCodecTitle ?? 'Video Codec';
+  static String get codecH264Label => _l10n?.codecH264Label ?? 'H.264';
+  static String get codecH264Desc => _l10n?.codecH264Desc ?? 'Maximum compatibility with older devices & browsers.';
+  static String get codecH265Label => _l10n?.codecH265Label ?? 'H.265 / HEVC';
+  static String get codecH265Desc => _l10n?.codecH265Desc ?? 'Better compression efficiency (smaller files).';
+  static String get codecAv1Label => _l10n?.codecAv1Label ?? 'AV1';
+  static String get codecAv1Desc => _l10n?.codecAv1Desc ?? 'Next-gen codec: Maximum compression efficiency (30% smaller than H.265).';
 
   // Hardware Acceleration (GPU)
-  static const String hardwareEncoderTitle = 'Hardware Encoder (GPU)';
-  static const String hwSoftwareLabel = 'Software (CPU)';
-  static const String hwSoftwareDesc = 'Slowest, but maximum compatibility & smallest files.';
-  static const String hwNvidiaLabel = 'Nvidia (NVENC)';
-  static const String hwNvidiaDesc = 'Extremely fast encoding for Nvidia GPUs (slightly larger files).';
-  static const String hwAmdLabel = 'AMD (AMF)';
-  static const String hwAmdDesc = 'Extremely fast encoding for AMD GPUs (slightly larger files).';
-  static const String hwIntelLabel = 'Intel (QSV)';
-  static const String hwIntelDesc = 'Extremely fast encoding for Intel GPUs (slightly larger files).';
+  static String get hardwareEncoderTitle => _l10n?.hardwareEncoderTitle ?? 'Hardware Encoder (GPU)';
+  static String get hwSoftwareLabel => _l10n?.hwSoftwareLabel ?? 'Software (CPU)';
+  static String get hwSoftwareDesc => _l10n?.hwSoftwareDesc ?? 'Slowest, but maximum compatibility & smallest files.';
+  static String get hwNvidiaLabel => _l10n?.hwNvidiaLabel ?? 'Nvidia (NVENC)';
+  static String get hwNvidiaDesc => _l10n?.hwNvidiaDesc ?? 'Extremely fast encoding for Nvidia GPUs (slightly larger files).';
+  static String get hwAmdLabel => _l10n?.hwAmdLabel ?? 'AMD (AMF)';
+  static String get hwAmdDesc => _l10n?.hwAmdDesc ?? 'Extremely fast encoding for AMD GPUs (slightly larger files).';
+  static String get hwIntelLabel => _l10n?.hwIntelLabel ?? 'Intel (QSV)';
+  static String get hwIntelDesc => _l10n?.hwIntelDesc ?? 'Extremely fast encoding for Intel GPUs (slightly larger files).';
 
   // Resolution Downscaling
-  static const String resolutionTitle = 'Max Resolution';
-  static const String resOriginalLabel = 'Original';
-  static const String resOriginalDesc = 'Keep the original video resolution.';
-  static const String res4kLabel = '4K';
-  static const String res4kDesc = 'Scale down to 4K max (Extremely high quality).';
-  static const String res2kLabel = '2K';
-  static const String res2kDesc = 'Scale down to 2K max (High quality).';
-  static const String res1080pLabel = '1080p';
-  static const String res1080pDesc = 'Scale down to 1080p max (Standard HD quality).';
-  static const String res720pLabel = '720p';
-  static const String res720pDesc = 'Scale down to 720p max (Good for mobile viewing).';
-  static const String res480pLabel = '480p';
-  static const String res480pDesc = 'Scale down to 480p max (DVD quality, very small size).';
-  static const String res360pLabel = '360p';
-  static const String res360pDesc = 'Scale down to 360p max (Extreme compression, low quality).';
+  static String get resolutionTitle => _l10n?.resolutionTitle ?? 'Max Resolution';
+  static String get resOriginalLabel => _l10n?.resOriginalLabel ?? 'Original';
+  static String get resOriginalDesc => _l10n?.resOriginalDesc ?? 'Keep the original video resolution.';
+  static String get res4kLabel => _l10n?.res4kLabel ?? '4K';
+  static String get res4kDesc => _l10n?.res4kDesc ?? 'Scale down to 4K max (Extremely high quality).';
+  static String get res2kLabel => _l10n?.res2kLabel ?? '2K';
+  static String get res2kDesc => _l10n?.res2kDesc ?? 'Scale down to 2K max (High quality).';
+  static String get res1080pLabel => _l10n?.res1080pLabel ?? '1080p';
+  static String get res1080pDesc => _l10n?.res1080pDesc ?? 'Scale down to 1080p max (Standard HD quality).';
+  static String get res720pLabel => _l10n?.res720pLabel ?? '720p';
+  static String get res720pDesc => _l10n?.res720pDesc ?? 'Scale down to 720p max (Good for mobile viewing).';
+  static String get res480pLabel => _l10n?.res480pLabel ?? '480p';
+  static String get res480pDesc => _l10n?.res480pDesc ?? 'Scale down to 480p max (DVD quality, very small size).';
+  static String get res360pLabel => _l10n?.res360pLabel ?? '360p';
+  static String get res360pDesc => _l10n?.res360pDesc ?? 'Scale down to 360p max (Extreme compression, low quality).';
 
   // Frame Rate (FPS)
-  static const String frameRateTitle = 'Frame Rate (FPS)';
-  static const String fpsOriginalLabel = 'Original';
-  static const String fpsOriginalDesc = 'Keeps the exact same framerate as the source video.';
-  static const String fps60Label = '60 fps';
-  static const String fps60Desc = 'Ultra smooth, ideal for gaming or sports (creates larger files).';
-  static const String fps30Label = '30 fps';
-  static const String fps30Desc = 'Standard smoothness, great balance for most videos.';
-  static const String fps24Label = '24 fps';
-  static const String fps24Desc = 'Cinematic look, useful for movies and saving space.';
+  static String get frameRateTitle => _l10n?.frameRateTitle ?? 'Frame Rate (FPS)';
+  static String get fpsOriginalLabel => _l10n?.fpsOriginalLabel ?? 'Original';
+  static String get fpsOriginalDesc => _l10n?.fpsOriginalDesc ?? 'Keeps the exact same framerate as the source video.';
+  static String get fps60Label => _l10n?.fps60Label ?? '60 fps';
+  static String get fps60Desc => _l10n?.fps60Desc ?? 'Ultra smooth, ideal for gaming or sports (creates larger files).';
+  static String get fps30Label => _l10n?.fps30Label ?? '30 fps';
+  static String get fps30Desc => _l10n?.fps30Desc ?? 'Standard smoothness, great balance for most videos.';
+  static String get fps24Label => _l10n?.fps24Label ?? '24 fps';
+  static String get fps24Desc => _l10n?.fps24Desc ?? 'Cinematic look, useful for movies and saving space.';
 
   // Video Grain & Noise Clean
-  static const String enableVideoDenoiseTitle = 'Clean Video Noise & Grain';
-  static const String enableVideoDenoiseDesc = 'Applies 3D spatial-temporal filtering to remove low-light digital grain and boost compression by 15-25%.';
+  static String get enableVideoDenoiseTitle => _l10n?.enableVideoDenoiseTitle ?? 'Clean Video Noise & Grain';
+  static String get enableVideoDenoiseDesc => _l10n?.enableVideoDenoiseDesc ?? 'Applies 3D spatial-temporal filtering to remove low-light digital grain and boost compression by 15-25%.';
 
   // ===========================================================================
   // 4. TAB 2: VIDEO EDITING & TOOLS
   // ===========================================================================
   // Export Format
-  static const String exportFormatTitle = 'Export Format';
-  static const String exportVideoLabel = 'Standard Video';
-  static const String exportVideoDesc = 'Export to MP4/MKV/MOV container';
-  static const String exportGifLabel = 'Animated GIF';
-  static const String exportGifDesc = 'Export high-quality animated GIF clip';
-  static const String exportMp3Label = 'Extract MP3';
-  static const String exportMp3Desc = 'Extract audio track as 320kbps MP3';
-  static const String exportAacLabel = 'Extract AAC';
-  static const String exportAacDesc = 'Extract audio track as high-quality AAC';
-  static const String exportWavLabel = 'Extract WAV';
-  static const String exportWavDesc = 'Extract uncompressed studio WAV audio';
+  static String get exportFormatTitle => _l10n?.exportFormatTitle ?? 'Export Format';
+  static String get exportVideoLabel => _l10n?.exportVideoLabel ?? 'Standard Video';
+  static String get exportVideoDesc => _l10n?.exportVideoDesc ?? 'Export to MP4/MKV/MOV container';
+  static String get exportGifLabel => _l10n?.exportGifLabel ?? 'Animated GIF';
+  static String get exportGifDesc => _l10n?.exportGifDesc ?? 'Export high-quality animated GIF clip';
+  static String get exportMp3Label => _l10n?.exportMp3Label ?? 'Extract MP3';
+  static String get exportMp3Desc => _l10n?.exportMp3Desc ?? 'Extract audio track as 320kbps MP3';
+  static String get exportAacLabel => _l10n?.exportAacLabel ?? 'Extract AAC';
+  static String get exportAacDesc => _l10n?.exportAacDesc ?? 'Extract audio track as high-quality AAC';
+  static String get exportWavLabel => _l10n?.exportWavLabel ?? 'Extract WAV';
+  static String get exportWavDesc => _l10n?.exportWavDesc ?? 'Extract uncompressed studio WAV audio';
 
   // Privacy & GPS Scrubbing
-  static const String privacyScrubbingTitle = 'Privacy & GPS Scrubbing';
-  static const String keepMetadataLabel = 'Keep Metadata';
-  static const String stripGpsExifLabel = 'Strip GPS/EXIF';
-  static const String stripGpsExifInfoTitle = 'Strip GPS & Metadata';
-  static const String stripGpsExifInfoDesc = 'Removes camera info, GPS location, & timestamps.';
-  static const String keepMetadataInfoDesc = 'Preserves original video EXIF metadata.';
+  static String get privacyScrubbingTitle => _l10n?.privacyScrubbingTitle ?? 'Privacy & GPS Scrubbing';
+  static String get keepMetadataLabel => _l10n?.keepMetadataLabel ?? 'Keep Metadata';
+  static String get stripGpsExifLabel => _l10n?.stripGpsExifLabel ?? 'Strip GPS/EXIF';
+  static String get stripGpsExifInfoTitle => _l10n?.stripGpsExifInfoTitle ?? 'Strip GPS & Metadata';
+  static String get stripGpsExifInfoDesc => _l10n?.stripGpsExifInfoDesc ?? 'Removes camera info, GPS location, & timestamps.';
+  static String get keepMetadataInfoDesc => _l10n?.keepMetadataInfoDesc ?? 'Preserves original video EXIF metadata.';
 
   // Auto-Crop Black Bars
-  static const String autoCropBlackBarsTitle = 'Auto-Crop Black Bars';
-  static const String autoCropLabel = 'Auto-Crop';
-  static const String autoCropActiveTitle = 'Auto-Crop Active';
-  static const String autoCropActiveDesc = 'Removes black letterbox borders from video.';
-  static const String autoCropDisabledDesc = 'Keeps original video frame borders.';
+  static String get autoCropBlackBarsTitle => _l10n?.autoCropBlackBarsTitle ?? 'Auto-Crop Black Bars';
+  static String get autoCropLabel => _l10n?.autoCropLabel ?? 'Auto-Crop';
+  static String get autoCropActiveTitle => _l10n?.autoCropActiveTitle ?? 'Auto-Crop Active';
+  static String get autoCropActiveDesc => _l10n?.autoCropActiveDesc ?? 'Removes black letterbox borders from video.';
+  static String get autoCropDisabledDesc => _l10n?.autoCropDisabledDesc ?? 'Keeps original video frame borders.';
 
   // Playback Speed
-  static const String playbackSpeedTitle = 'Playback Speed';
-  static const String speedOriginalLabel = '1.0x';
-  static const String speedOriginalDesc = 'Normal video speed';
-  static const String speedSlow05Label = '0.5x Slow-mo';
-  static const String speedSlow05Desc = 'Half speed playback';
-  static const String speedFast15Label = '1.5x Speed';
-  static const String speedFast15Desc = 'Slight speed up';
-  static const String speedFast20Label = '2.0x Fast';
-  static const String speedFast20Desc = 'Double speed playback';
-  static const String speedTimelapse40Label = '4.0x Timelapse';
-  static const String speedTimelapse40Desc = 'Ultra fast timelapse';
+  static String get playbackSpeedTitle => _l10n?.playbackSpeedTitle ?? 'Playback Speed';
+  static String get speedOriginalLabel => _l10n?.speedOriginalLabel ?? '1.0x';
+  static String get speedOriginalDesc => _l10n?.speedOriginalDesc ?? 'Normal video speed';
+  static String get speedSlow05Label => _l10n?.speedSlow05Label ?? '0.5x Slow-mo';
+  static String get speedSlow05Desc => _l10n?.speedSlow05Desc ?? 'Half speed playback';
+  static String get speedFast15Label => _l10n?.speedFast15Label ?? '1.5x Speed';
+  static String get speedFast15Desc => _l10n?.speedFast15Desc ?? 'Slight speed up';
+  static String get speedFast20Label => _l10n?.speedFast20Label ?? '2.0x Fast';
+  static String get speedFast20Desc => _l10n?.speedFast20Desc ?? 'Double speed playback';
+  static String get speedTimelapse40Label => _l10n?.speedTimelapse40Label ?? '4.0x Timelapse';
+  static String get speedTimelapse40Desc => _l10n?.speedTimelapse40Desc ?? 'Ultra fast timelapse';
 
   // Canvas Aspect Ratio
-  static const String canvasAspectRatioTitle = 'Canvas Aspect Ratio';
-  static const String aspectOriginalLabel = 'Original';
-  static const String aspectOriginalDesc = 'Keep original video dimensions';
-  static const String aspectShortsLabel = '9:16 Shorts';
-  static const String aspectShortsDesc = 'Padded canvas for TikTok & Reels';
-  static const String aspectSquareLabel = '1:1 Square';
-  static const String aspectSquareDesc = 'Padded canvas for Instagram feed posts';
-  static const String aspectPortraitLabel = '4:5 Portrait';
-  static const String aspectPortraitDesc = 'Padded canvas for Instagram vertical posts';
-  static const String aspectWidescreenLabel = '16:9 Wide';
-  static const String aspectWidescreenDesc = 'Padded canvas for YouTube & TV screens';
-  static const String aspectClassicLabel = '4:3 Classic';
-  static const String aspectClassicDesc = 'Padded canvas for classic TV screens';
-  static const String aspectCinemaLabel = '21:9 Cinema';
-  static const String aspectCinemaDesc = 'Padded canvas for Ultrawide cinema monitors';
-  static const String aspectCustomLabel = 'Custom Ratio';
-  static const String aspectCustomDesc = 'Padded canvas for custom aspect ratio';
-  static const String customRatioTooltip = 'Type custom ratio e.g. 16:10, 2:1, 18:9';
+  static String get canvasAspectRatioTitle => _l10n?.canvasAspectRatioTitle ?? 'Canvas Aspect Ratio';
+  static String get aspectOriginalLabel => _l10n?.aspectOriginalLabel ?? 'Original';
+  static String get aspectOriginalDesc => _l10n?.aspectOriginalDesc ?? 'Keep original video dimensions';
+  static String get aspectShortsLabel => _l10n?.aspectShortsLabel ?? '9:16 Shorts';
+  static String get aspectShortsDesc => _l10n?.aspectShortsDesc ?? 'Padded canvas for TikTok & Reels';
+  static String get aspectSquareLabel => _l10n?.aspectSquareLabel ?? '1:1 Square';
+  static String get aspectSquareDesc => _l10n?.aspectSquareDesc ?? 'Padded canvas for Instagram feed posts';
+  static String get aspectPortraitLabel => _l10n?.aspectPortraitLabel ?? '4:5 Portrait';
+  static String get aspectPortraitDesc => _l10n?.aspectPortraitDesc ?? 'Padded canvas for Instagram vertical posts';
+  static String get aspectWidescreenLabel => _l10n?.aspectWidescreenLabel ?? '16:9 Wide';
+  static String get aspectWidescreenDesc => _l10n?.aspectWidescreenDesc ?? 'Padded canvas for YouTube & TV screens';
+  static String get aspectClassicLabel => _l10n?.aspectClassicLabel ?? '4:3 Classic';
+  static String get aspectClassicDesc => _l10n?.aspectClassicDesc ?? 'Padded canvas for classic TV screens';
+  static String get aspectCinemaLabel => _l10n?.aspectCinemaLabel ?? '21:9 Cinema';
+  static String get aspectCinemaDesc => _l10n?.aspectCinemaDesc ?? 'Padded canvas for Ultrawide cinema monitors';
+  static String get aspectCustomLabel => _l10n?.aspectCustomLabel ?? 'Custom Ratio';
+  static String get aspectCustomDesc => _l10n?.aspectCustomDesc ?? 'Padded canvas for custom aspect ratio';
+  static String get customRatioTooltip => _l10n?.customRatioTooltip ?? 'Type custom ratio e.g. 16:10, 2:1, 18:9';
 
   // Rotation & Flip
-  static const String rotationFlipTitle = 'Rotation & Flip';
-  static const String rotOriginalLabel = 'Original (0°)';
-  static const String rotOriginalDesc = 'Keep original orientation';
-  static const String rot90Label = '90° CW';
-  static const String rot90Desc = 'Rotate 90 degrees right';
-  static const String rot180Label = '180° Flip';
-  static const String rot180Desc = 'Rotate upside down';
-  static const String rot270Label = '270° CW';
-  static const String rot270Desc = 'Rotate 90 degrees left';
-  static const String rotFlipHLabel = 'Flip H';
-  static const String rotFlipHDesc = 'Mirror image horizontally';
-  static const String rotFlipVLabel = 'Flip V';
-  static const String rotFlipVDesc = 'Mirror image vertically';
-  static const String rotCustomLabel = 'Custom Angle';
-  static const String rotCustomDesc = 'Rotate by custom degree angle';
-  static const String customRotationTooltip = 'Type degree angle e.g. 45, 30, 120';
+  static String get rotationFlipTitle => _l10n?.rotationFlipTitle ?? 'Rotation & Flip';
+  static String get rotOriginalLabel => _l10n?.rotOriginalLabel ?? 'Original (0°)';
+  static String get rotOriginalDesc => _l10n?.rotOriginalDesc ?? 'Keep original orientation';
+  static String get rot90Label => _l10n?.rot90Label ?? '90° CW';
+  static String get rot90Desc => _l10n?.rot90Desc ?? 'Rotate 90 degrees right';
+  static String get rot180Label => _l10n?.rot180Label ?? '180° Flip';
+  static String get rot180Desc => _l10n?.rot180Desc ?? 'Rotate upside down';
+  static String get rot270Label => _l10n?.rot270Label ?? '270° CW';
+  static String get rot270Desc => _l10n?.rot270Desc ?? 'Rotate 90 degrees left';
+  static String get rotFlipHLabel => _l10n?.rotFlipHLabel ?? 'Flip H';
+  static String get rotFlipHDesc => _l10n?.rotFlipHDesc ?? 'Mirror image horizontally';
+  static String get rotFlipVLabel => _l10n?.rotFlipVLabel ?? 'Flip V';
+  static String get rotFlipVDesc => _l10n?.rotFlipVDesc ?? 'Mirror image vertically';
+  static String get rotCustomLabel => _l10n?.rotCustomLabel ?? 'Custom Angle';
+  static String get rotCustomDesc => _l10n?.rotCustomDesc ?? 'Rotate by custom degree angle';
+  static String get customRotationTooltip => _l10n?.customRotationTooltip ?? 'Type degree angle e.g. 45, 30, 120';
 
   // Trim Video
-  static const String trimVideoTitle = 'Trim Video';
-  static const String fullVideoLabel = 'Full Video';
-  static const String cutClipLabel = 'Cut Clip';
-  static const String trimStartLabel = 'Start';
-  static const String trimEndLabel = 'End';
-  static const String trimActiveTitle = 'Trim Active';
-  static const String fullVideoDesc = 'Processes the entire video duration without trimming.';
+  static String get trimVideoTitle => _l10n?.trimVideoTitle ?? 'Trim Video';
+  static String get fullVideoLabel => _l10n?.fullVideoLabel ?? 'Full Video';
+  static String get cutClipLabel => _l10n?.cutClipLabel ?? 'Cut Clip';
+  static String get trimStartLabel => _l10n?.trimStartLabel ?? 'Start';
+  static String get trimEndLabel => _l10n?.trimEndLabel ?? 'End';
+  static String get trimActiveTitle => _l10n?.trimActiveTitle ?? 'Trim Active';
+  static String get fullVideoDesc => _l10n?.fullVideoDesc ?? 'Processes the entire video duration without trimming.';
 
   // ===========================================================================
   // 5. TAB 3: AUDIO SETTINGS
   // ===========================================================================
   // Audio Track Mode
-  static const String audioModeTitle = 'Audio Track Mode';
-  static const String audioOriginalLabel = 'Original';
-  static const String audioOriginalDesc = 'Preserves original audio track (No quality loss).';
-  static const String audioAac256Label = 'High Quality';
-  static const String audioAac256Desc = 'Compresses to AAC 256kbps (Excellent quality, moderate size).';
-  static const String audioAac128Label = 'Balanced';
-  static const String audioAac128Desc = 'Compresses to AAC 128kbps (Good quality, small size - Web Standard).';
-  static const String audioAac64Label = 'Low Quality';
-  static const String audioAac64Desc = 'Compresses to AAC 64kbps (Best for speech/podcasts, tiny size).';
-  static const String audioMuteLabel = 'Mute Audio';
-  static const String audioMuteDesc = 'Removes the audio track completely to save space.';
+  static String get audioModeTitle => _l10n?.audioModeTitle ?? 'Audio Track Mode';
+  static String get audioOriginalLabel => _l10n?.audioOriginalLabel ?? 'Original';
+  static String get audioOriginalDesc => _l10n?.audioOriginalDesc ?? 'Preserves original audio track (No quality loss).';
+  static String get audioAac256Label => _l10n?.audioAac256Label ?? 'High Quality';
+  static String get audioAac256Desc => _l10n?.audioAac256Desc ?? 'Compresses to AAC 256kbps (Excellent quality, moderate size).';
+  static String get audioAac128Label => _l10n?.audioAac128Label ?? 'Balanced';
+  static String get audioAac128Desc => _l10n?.audioAac128Desc ?? 'Compresses to AAC 128kbps (Good quality, small size - Web Standard).';
+  static String get audioAac64Label => _l10n?.audioAac64Label ?? 'Low Quality';
+  static String get audioAac64Desc => _l10n?.audioAac64Desc ?? 'Compresses to AAC 64kbps (Best for speech/podcasts, tiny size).';
+  static String get audioMuteLabel => _l10n?.audioMuteLabel ?? 'Mute Audio';
+  static String get audioMuteDesc => _l10n?.audioMuteDesc ?? 'Removes the audio track completely to save space.';
 
   // Audio Normalization
-  static const String audioNormTitle = 'Audio Volume Normalization';
-  static const String audioNormOffLabel = 'Off';
-  static const String audioNormOffDesc = 'Keep original dynamic volume.';
-  static const String audioNormSpeechLabel = 'Speech';
-  static const String audioNormSpeechDesc = 'EBU R128 (-16 LUFS) broadcast loudness for clear dialogue.';
-  static const String audioNormDynamicLabel = 'Movie Dynamic';
-  static const String audioNormDynamicDesc = 'Dynaudnorm smooths quiet & loud scenes smoothly.';
-  static const String audioNormBoostLabel = 'Soft Boost';
-  static const String audioNormBoostDesc = 'Fixed +3dB volume gain boost for low-audio videos.';
+  static String get audioNormTitle => _l10n?.audioNormTitle ?? 'Audio Volume Normalization';
+  static String get audioNormOffLabel => _l10n?.audioNormOffLabel ?? 'Off';
+  static String get audioNormOffDesc => _l10n?.audioNormOffDesc ?? 'Keep original dynamic volume.';
+  static String get audioNormSpeechLabel => _l10n?.audioNormSpeechLabel ?? 'Speech';
+  static String get audioNormSpeechDesc => _l10n?.audioNormSpeechDesc ?? 'EBU R128 (-16 LUFS) broadcast loudness for clear dialogue.';
+  static String get audioNormDynamicLabel => _l10n?.audioNormDynamicLabel ?? 'Movie Dynamic';
+  static String get audioNormDynamicDesc => _l10n?.audioNormDynamicDesc ?? 'Dynaudnorm smooths quiet & loud scenes smoothly.';
+  static String get audioNormBoostLabel => _l10n?.audioNormBoostLabel ?? 'Soft Boost';
+  static String get audioNormBoostDesc => _l10n?.audioNormBoostDesc ?? 'Fixed +3dB volume gain boost for low-audio videos.';
 
   // Audio Channels
-  static const String audioChanTitle = 'Audio Channels Downmix';
-  static const String audioChanOriginalLabel = 'Original';
-  static const String audioChanOriginalDesc = 'Preserve exact source audio channels (Mono, Stereo, 5.1, etc.).';
-  static const String audioChanStereoLabel = 'Stereo (2.0)';
-  static const String audioChanStereoDesc = 'Standard 2-channel compatibility for all screens.';
-  static const String audioChanMonoLabel = 'Mono (1.0)';
-  static const String audioChanMonoDesc = 'Single channel downmix - 50% extra audio size savings.';
+  static String get audioChanTitle => _l10n?.audioChanTitle ?? 'Audio Channels Downmix';
+  static String get audioChanOriginalLabel => _l10n?.audioChanOriginalLabel ?? 'Original';
+  static String get audioChanOriginalDesc => _l10n?.audioChanOriginalDesc ?? 'Preserve exact source audio channels (Mono, Stereo, 5.1, etc.).';
+  static String get audioChanStereoLabel => _l10n?.audioChanStereoLabel ?? 'Stereo (2.0)';
+  static String get audioChanStereoDesc => _l10n?.audioChanStereoDesc ?? 'Standard 2-channel compatibility for all screens.';
+  static String get audioChanMonoLabel => _l10n?.audioChanMonoLabel ?? 'Mono (1.0)';
+  static String get audioChanMonoDesc => _l10n?.audioChanMonoDesc ?? 'Single channel downmix - 50% extra audio size savings.';
 
   // Audio Noise Removal
-  static const String removeNoiseLabel = 'Remove Noise';
-  static const String enableAudioDenoiseTitle = 'Remove Mic & Fan Noise';
-  static const String enableAudioDenoiseDesc = 'Applies FFT spectral filtering to eliminate background mic hiss, fan noise, and room hum.';
+  static String get removeNoiseLabel => _l10n?.removeNoiseLabel ?? 'Remove Noise';
+  static String get enableAudioDenoiseTitle => _l10n?.enableAudioDenoiseTitle ?? 'Remove Mic & Fan Noise';
+  static String get enableAudioDenoiseDesc => _l10n?.enableAudioDenoiseDesc ?? 'Applies FFT spectral filtering to eliminate background mic hiss, fan noise, and room hum.';
 
   // ===========================================================================
   // 6. TAB 4: ENGINE & OUTPUT SETTINGS
   // ===========================================================================
   // Output Directory
-  static const String outputDirectoryTitle = 'Output Directory';
-  static const String defaultOutputDirectory = 'Default (Next to original file)';
-  static const String selectOutputFolderTitle = 'Select Output Folder';
-  static const String clearOutputFolder = 'Clear custom folder (Use default)';
-  static const String changeBtn = 'Change';
+  static String get outputDirectoryTitle => _l10n?.outputDirectoryTitle ?? 'Output Directory';
+  static String get defaultOutputDirectory => _l10n?.defaultOutputDirectory ?? 'Default (Next to original file)';
+  static String get selectOutputFolderTitle => _l10n?.selectOutputFolderTitle ?? 'Select Output Folder';
+  static String get clearOutputFolder => _l10n?.clearOutputFolder ?? 'Clear custom folder (Use default)';
+  static String get changeBtn => _l10n?.changeBtn ?? 'Change';
 
   // Output Location Behavior
-  static const String outputLocationTitle = 'Output Location Behavior';
-  static const String outputLocationUnifiedLabel = 'Unified Folder';
-  static const String outputLocationUnifiedDesc = 'All compressed videos are saved into a single folder.';
-  static const String outputLocationSameLabel = 'Same as Original';
-  static const String outputLocationSameDesc = 'Each video is saved in a subfolder next to its original location.';
+  static String get outputLocationTitle => _l10n?.outputLocationTitle ?? 'Output Location Behavior';
+  static String get outputLocationUnifiedLabel => _l10n?.outputLocationUnifiedLabel ?? 'Unified Folder';
+  static String get outputLocationUnifiedDesc => _l10n?.outputLocationUnifiedDesc ?? 'All compressed videos are saved into a single folder.';
+  static String get outputLocationSameLabel => _l10n?.outputLocationSameLabel ?? 'Same as Original';
+  static String get outputLocationSameDesc => _l10n?.outputLocationSameDesc ?? 'Each video is saved in a subfolder next to its original location.';
 
   // File Management
-  static const String fileManagementTitle = 'File Management';
-  static const String keepOriginalsLabel = 'Keep Originals';
-  static const String keepOriginalsDesc = 'Keeps the original videos untouched after compression.';
-  static const String toRecycleBinLabel = 'To Recycle Bin';
-  static const String toRecycleBinDesc = 'Moves originals to the Recycle Bin after successful compression.';
+  static String get fileManagementTitle => _l10n?.fileManagementTitle ?? 'File Management';
+  static String get keepOriginalsLabel => _l10n?.keepOriginalsLabel ?? 'Keep Originals';
+  static String get keepOriginalsDesc => _l10n?.keepOriginalsDesc ?? 'Keeps the original videos untouched after compression.';
+  static String get toRecycleBinLabel => _l10n?.toRecycleBinLabel ?? 'To Recycle Bin';
+  static String get toRecycleBinDesc => _l10n?.toRecycleBinDesc ?? 'Moves originals to the Recycle Bin after successful compression.';
 
   // Output Container Options
-  static const String outputFormatTitle = 'Output Format (Container)';
-  static const String formatOriginalLabel = 'Original';
-  static const String formatOriginalDesc = 'Keep original format (Fastest, no container changes).';
-  static const String formatMp4Label = 'MP4';
-  static const String formatMp4Desc = 'Maximum compatibility across all devices and web browsers.';
-  static const String formatMkvLabel = 'MKV';
-  static const String formatMkvDesc = 'Resilient format, great for multiple audio/subtitle tracks.';
-  static const String formatMovLabel = 'MOV';
-  static const String formatMovDesc = 'High quality Apple QuickTime format, great for editing.';
+  static String get outputFormatTitle => _l10n?.outputFormatTitle ?? 'Output Format (Container)';
+  static String get formatOriginalLabel => _l10n?.formatOriginalLabel ?? 'Original';
+  static String get formatOriginalDesc => _l10n?.formatOriginalDesc ?? 'Keep original format (Fastest, no container changes).';
+  static String get formatMp4Label => _l10n?.formatMp4Label ?? 'MP4';
+  static String get formatMp4Desc => _l10n?.formatMp4Desc ?? 'Maximum compatibility across all devices and web browsers.';
+  static String get formatMkvLabel => _l10n?.formatMkvLabel ?? 'MKV';
+  static String get formatMkvDesc => _l10n?.formatMkvDesc ?? 'Resilient format, great for multiple audio/subtitle tracks.';
+  static String get formatMovLabel => _l10n?.formatMovLabel ?? 'MOV';
+  static String get formatMovDesc => _l10n?.formatMovDesc ?? 'High quality Apple QuickTime format, great for editing.';
 
   // ===========================================================================
   // 7. VIDEO QUEUE, CARDS & STATUS CHIPS
   // ===========================================================================
-  static const String scanningFilesMsg = 'Scanning files... This may take a moment.';
-  static const String addFilesBtn = 'Add Files';
-  static const String addFolderBtn = 'Add Folder';
-  static const String dragDropMoreMsg = 'Or drag & drop more videos anywhere';
-  static const String openOutputFolderTooltip = 'Open Output Folder';
+  static String get scanningFilesMsg => _l10n?.scanningFilesMsg ?? 'Scanning files... This may take a moment.';
+  static String get addFilesBtn => _l10n?.addFilesBtn ?? 'Add Files';
+  static String get addFolderBtn => _l10n?.addFolderBtn ?? 'Add Folder';
+  static String get dragDropMoreMsg => _l10n?.dragDropMoreMsg ?? 'Or drag & drop more videos anywhere';
+  static String get openOutputFolderTooltip => _l10n?.openOutputFolderTooltip ?? 'Open Output Folder';
 
   // Processing Statuses
-  static const String statusQueued = 'Queued';
-  static const String statusAnalyzing = 'Analyzing';
-  static const String statusCompressing = 'Compressing';
-  static const String statusDone = 'Done';
-  static const String statusFailed = 'Failed';
-  static const String statusCancelled = 'Cancelled';
+  static String get statusQueued => _l10n?.statusQueued ?? 'Queued';
+  static String get statusAnalyzing => _l10n?.statusAnalyzing ?? 'Analyzing';
+  static String get statusCompressing => _l10n?.statusCompressing ?? 'Compressing';
+  static String get statusDone => _l10n?.statusDone ?? 'Done';
+  static String get statusFailed => _l10n?.statusFailed ?? 'Failed';
+  static String get statusCancelled => _l10n?.statusCancelled ?? 'Cancelled';
 
   // File Card Results & Badges
-  static const String savedPrefix = 'Saved';
-  static const String largerSuffix = 'Larger';
-  static const String largerSizeWarning =
-      'Output size might be larger than original. Consider cancelling and resetting settings to default.';
+  static String get savedPrefix => _l10n?.savedPrefix ?? 'Saved';
+  static String get largerSuffix => _l10n?.largerSuffix ?? 'Larger';
+  static String get largerSizeWarning => _l10n?.largerSizeWarning ?? 'Output size might be larger than original. Consider cancelling and resetting settings to default.';
 
   // ===========================================================================
   // 8. BOTTOM ACTION BAR & QUEUE SUMMARY
   // ===========================================================================
-  static const String clearCompletedBtn = 'Clear Completed';
-  static const String clearAllBtn = 'Clear All';
-  static const String stopAllBtn = 'Stop All';
-  static const String startCompressionBtn = 'Start Compression';
-  static const String allDoneLabel = 'All Done!';
-  static const String openFolderBtn = 'Open Folder';
-  static const String totalEtaLabel = 'Total ETA';
-  static const String totalSavedLabel = 'Total Saved';
-  static const String videoSingle = 'video';
-  static const String videosPlural = 'videos';
+  static String get clearCompletedBtn => _l10n?.clearCompletedBtn ?? 'Clear Completed';
+  static String get clearAllBtn => _l10n?.clearAllBtn ?? 'Clear All';
+  static String get stopAllBtn => _l10n?.stopAllBtn ?? 'Stop All';
+  static String get startCompressionBtn => _l10n?.startCompressionBtn ?? 'Start Compression';
+  static String get allDoneLabel => _l10n?.allDoneLabel ?? 'All Done!';
+  static String get openFolderBtn => _l10n?.openFolderBtn ?? 'Open Folder';
+  static String get totalEtaLabel => _l10n?.totalEtaLabel ?? 'Total ETA';
+  static String get totalSavedLabel => _l10n?.totalSavedLabel ?? 'Total Saved';
+  static String get videoSingle => _l10n?.videoSingle ?? 'video';
+  static String get videosPlural => _l10n?.videosPlural ?? 'videos';
 
   // ===========================================================================
   // 9. DROP ZONE & FULLSCREEN OVERLAY
   // ===========================================================================
-  static const String releaseToAddVideosMsg = 'Release to add videos';
-  static const String dragDropHereMsg = 'Drag & drop video files or folders here';
-  static const String supportedFormatsMsg = 'Seamlessly supports MP4, MKV, MOV, AVI, WMV';
-  static const String selectFilesBtn = 'Select Files';
-  static const String selectFolderBtn = 'Select Folder';
-  static const String releaseToShrinkTitle = 'Release to Shrink';
-  static const String filesWillBeAddedDesc = 'Your files will be added to the queue.';
-  static const String disabledLabel = 'Disabled';
+  static String get releaseToAddVideosMsg => _l10n?.releaseToAddVideosMsg ?? 'Release to add videos';
+  static String get dragDropHereMsg => _l10n?.dragDropHereMsg ?? 'Drag & drop video files or folders here';
+  static String get supportedFormatsMsg => _l10n?.supportedFormatsMsg ?? 'Seamlessly supports MP4, MKV, MOV, AVI, WMV';
+  static String get selectFilesBtn => _l10n?.selectFilesBtn ?? 'Select Files';
+  static String get selectFolderBtn => _l10n?.selectFolderBtn ?? 'Select Folder';
+  static String get releaseToShrinkTitle => _l10n?.releaseToShrinkTitle ?? 'Release to Shrink';
+  static String get filesWillBeAddedDesc => _l10n?.filesWillBeAddedDesc ?? 'Your files will be added to the queue.';
+  static String get disabledLabel => _l10n?.disabledLabel ?? 'Disabled';
 
   // ===========================================================================
   // 10. DIALOGS, UPDATES & MAINTENANCE
   // ===========================================================================
   // App Close Confirmation
-  static const String compressionInProgressTitle = 'Compression in Progress';
-  static const String confirmCloseDesc =
-      'Are you sure you want to close Shrinkeo?\nThis will cancel all current compressions and you might lose your progress.';
-  static const String keepCompressingBtn = 'Keep Compressing';
-  static const String closeAppBtn = 'Close App';
-  static const String lockedSettingsWarning = 'Locked during compression';
+  static String get compressionInProgressTitle => _l10n?.compressionInProgressTitle ?? 'Compression in Progress';
+  static String get confirmCloseDesc => _l10n?.confirmCloseDesc ?? 'Are you sure you want to close Shrinkeo?\nThis will cancel all current compressions and you might lose your progress.';
+  static String get keepCompressingBtn => _l10n?.keepCompressingBtn ?? 'Keep Compressing';
+  static String get closeAppBtn => _l10n?.closeAppBtn ?? 'Close App';
+  static String get lockedSettingsWarning => _l10n?.lockedSettingsWarning ?? 'Locked during compression';
 
   // Software Updates & Remote Config
-  static const String updateRequiredTitle = 'Update Required';
-  static const String updateRequiredDescNewVersion =
-      'A new version of Shrinkeo is available with important improvements. Please update to continue.';
-  static const String updateRequiredDescOldVersion =
-      'Your version is no longer supported. Please update to continue using the app.';
-  static const String updateNowBtn = 'Update Now';
-  static const String laterBtn = 'Later';
-  static const String updateAvailableTitle = 'Update Available';
-  static const String whatsNewTitle = "What's New:";
-  static const String exitAppBtn = 'Exit App';
-  static const String retryBtn = 'Retry';
-  static const String downloadFromWebsiteBtn = 'Download from Website';
-  static const String failedDownloadUpdateMsg = 'Failed to download update. Please try again.';
+  static String get updateRequiredTitle => _l10n?.updateRequiredTitle ?? 'Update Required';
+  static String get updateRequiredDescNewVersion => _l10n?.updateRequiredDescNewVersion ?? 'A new version of Shrinkeo is available with important improvements. Please update to continue.';
+  static String get updateRequiredDescOldVersion => _l10n?.updateRequiredDescOldVersion ?? 'Your version is no longer supported. Please update to continue using the app.';
+  static String get updateNowBtn => _l10n?.updateNowBtn ?? 'Update Now';
+  static String get laterBtn => _l10n?.laterBtn ?? 'Later';
+  static String get updateAvailableTitle => _l10n?.updateAvailableTitle ?? 'Update Available';
+  static String get whatsNewTitle => _l10n?.whatsNewTitle ?? "What's New:";
+  static String get exitAppBtn => _l10n?.exitAppBtn ?? 'Exit App';
+  static String get retryBtn => _l10n?.retryBtn ?? 'Retry';
+  static String get downloadFromWebsiteBtn => _l10n?.downloadFromWebsiteBtn ?? 'Download from Website';
+  static String get failedDownloadUpdateMsg => _l10n?.failedDownloadUpdateMsg ?? 'Failed to download update. Please try again.';
 
-  static const String skipUpdateConfirmTitle = 'Skip Critical Update?';
-  static const String skipUpdateConfirmDesc =
-      'This update contains critical bug fixes and improvements. We highly recommend updating now to ensure the app functions correctly.\n\nAre you sure you want to skip it for now?';
-  static const String skipUpdateCancelBtn = 'Cancel';
-  static const String skipUpdateConfirmBtn = 'I understand, Skip it';
+  static String get skipUpdateConfirmTitle => _l10n?.skipUpdateConfirmTitle ?? 'Skip Critical Update?';
+  static String get skipUpdateConfirmDesc => _l10n?.skipUpdateConfirmDesc ?? 'This update contains critical bug fixes and improvements. We highly recommend updating now to ensure the app functions correctly.\n\nAre you sure you want to skip it for now?';
+  static String get skipUpdateCancelBtn => _l10n?.skipUpdateCancelBtn ?? 'Cancel';
+  static String get skipUpdateConfirmBtn => _l10n?.skipUpdateConfirmBtn ?? 'I understand, Skip it';
 
-  static const String maintenanceTitle = 'System Maintenance';
-  static const String maintenanceDescDefault =
-      'Shrinkeo is currently undergoing maintenance. Please try again later.';
+  static String get maintenanceTitle => _l10n?.maintenanceTitle ?? 'System Maintenance';
+  static String get maintenanceDescDefault => _l10n?.maintenanceDescDefault ?? 'Shrinkeo is currently undergoing maintenance. Please try again later.';
 
-  static String versionAvailableMsg(String version) => 'Version $version is now available.';
+  static String versionAvailableMsg(String version) => _l10n?.versionAvailableMsg(version) ?? 'Version $version is now available.';
 
   // ===========================================================================
   // 11. HARDWARE ENCODER & SYSTEM ERRORS
   // ===========================================================================
-  static const String hwEncoderNotSupportedTitle = 'Hardware Encoder Not Supported';
-  static const String failedCreateFolderError = 'Failed to create output folder';
-  static const String failedProbeDurationError = 'Failed to probe duration';
-  static const String ffmpegNotFoundGlobalError =
-      'FFmpeg was not found. Please ensure FFmpeg is bundled in the data directory.';
-  static const String ffmpegMissingError =
-      'FFmpeg or FFprobe is missing or corrupted.\n\nPlease reinstall Shrinkeo or manually fix the installation using:\nwinget install Gyan.FFmpeg';
+  static String get hwEncoderNotSupportedTitle => _l10n?.hwEncoderNotSupportedTitle ?? 'Hardware Encoder Not Supported';
+  static String get failedCreateFolderError => _l10n?.failedCreateFolderError ?? 'Failed to create output folder';
+  static String get failedProbeDurationError => _l10n?.failedProbeDurationError ?? 'Failed to probe duration';
+  static String get ffmpegNotFoundGlobalError => _l10n?.ffmpegNotFoundGlobalError ?? 'FFmpeg was not found. Please ensure FFmpeg is bundled in the data directory.';
+  static String get ffmpegMissingError => _l10n?.ffmpegMissingError ?? 'FFmpeg or FFprobe is missing or corrupted.\n\nPlease reinstall Shrinkeo or manually fix the installation using:\nwinget install Gyan.FFmpeg';
 
-  static String hwFallbackNotificationBody(String encoderLabel) =>
-      '$encoderLabel failed. Automatically switched to Software (CPU) encoding.';
+  static String hwFallbackNotificationBody(String encoderLabel) => _l10n?.hwFallbackNotificationBody(encoderLabel) ?? '$encoderLabel failed. Automatically switched to Software (CPU) encoding.';
+
+  static String customRatioActiveTitle(String ratio) => _l10n?.customRatioActiveTitle(ratio) ?? 'Custom Ratio ($ratio)';
+  static String customRatioActiveDesc(String ratio) => _l10n?.customRatioActiveDesc(ratio) ?? 'Padded canvas for custom $ratio ratio.';
+  static String customAngleActiveTitle(String angle) => _l10n?.customAngleActiveTitle(angle) ?? 'Custom Angle ($angle°)';
+  static String customAngleActiveDesc(String angle) => _l10n?.customAngleActiveDesc(angle) ?? 'Rotates video by custom $angle° degree angle.';
+  static String trimActiveDesc(String start, String end) => _l10n?.trimActiveDesc(start, end) ?? 'Cuts video clip between $start and $end.';
+  static String targetSizeLimitLabel(String size) => _l10n?.targetSizeLimitLabel(size) ?? '$size MB Limit';
+  static String get customMbSizeTooltip => _l10n?.customMbSizeTooltip ?? 'Type custom MB size';
+  static String get trimTimeTooltip => _l10n?.trimTimeTooltip ?? 'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
 }

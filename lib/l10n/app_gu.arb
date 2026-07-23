@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "કુલ બચાવેલ જગ્યા",
   "savedSpacePrefix": "બચાવેલ:",
-  "supportButtonText": "મને કોફી ખરીદી આપો",
+  "supportButtonText": "Support Project",
   "lightThemeTooltip": "લાઇટ થીમ",
   "darkThemeTooltip": "ડાર્ક થીમ",
   "settingsTooltip": "સેટિંગ્સ",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "સરેરાશ કરતાં ઝડપી.",
   "presetFasterLabel": "વધુ ઝડપી",
   "presetFasterDesc": "સારી ઝડપ અને ઉત્તમ કોમ્પ્રેસન.",
-  "presetFastLabel": "ઝડપી (ભલામણ કરેલ)",
+  "presetFastLabel": "ઝડપી",
   "presetFastDesc": "ઝડપ અને સાઈઝનું શ્રેષ્ઠ સંતુલન.",
   "presetMediumLabel": "મધ્યમ",
   "presetMediumDesc": "ડિફૉલ્ટ સંતુલન.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg મળ્યું નથી.",
   "ffmpegMissingError": "FFmpeg અથવા FFprobe ગાયબ અથવા ક્ષતિગ્રસ્ત છે.",
   "hwFallbackNotificationBody": "{encoderLabel} નિષ્ફળ ગયું. CPU પર સ્વિચ કર્યું.",
-  "failedDownloadUpdateMsg": "અપડેટ ડાઉનલોડ કરવામાં નિષ્ફળતા. ફરી પ્રયાસ કરો."
+  "failedDownloadUpdateMsg": "અપડેટ ડાઉનલોડ કરવામાં નિષ્ફળતા. ફરી પ્રયાસ કરો.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

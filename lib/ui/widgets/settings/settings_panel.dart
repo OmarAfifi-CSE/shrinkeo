@@ -168,9 +168,8 @@ class _SettingsContentState extends State<_SettingsContent>
                     onPressed: () =>
                         context.read<CompressionCubit>().resetToDefaults(),
                     icon: const Icon(Icons.refresh_rounded, size: 14),
-                    label: const Text(
-                      AppStrings.resetToDefaults,
-                      style: TextStyle(
+                    label: Text(AppStrings.resetToDefaults,
+                      style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
@@ -237,13 +236,13 @@ class _SettingsContentState extends State<_SettingsContent>
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
                 ),
-                tabs: const [
+                tabs: [
                   Tab(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.tune_rounded, size: 15),
-                        SizedBox(width: 6),
+                        const Icon(Icons.tune_rounded, size: 15),
+                        const SizedBox(width: 6),
                         Text(AppStrings.tabCompressionQuality),
                       ],
                     ),
@@ -252,8 +251,8 @@ class _SettingsContentState extends State<_SettingsContent>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.transform_rounded, size: 15),
-                        SizedBox(width: 6),
+                        const Icon(Icons.transform_rounded, size: 15),
+                        const SizedBox(width: 6),
                         Text(AppStrings.tabVideoEditingTools),
                       ],
                     ),
@@ -262,8 +261,8 @@ class _SettingsContentState extends State<_SettingsContent>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.graphic_eq_rounded, size: 15),
-                        SizedBox(width: 6),
+                        const Icon(Icons.graphic_eq_rounded, size: 15),
+                        const SizedBox(width: 6),
                         Text(AppStrings.tabAudioSettings),
                       ],
                     ),
@@ -272,8 +271,8 @@ class _SettingsContentState extends State<_SettingsContent>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.settings_suggest_rounded, size: 15),
-                        SizedBox(width: 6),
+                        const Icon(Icons.settings_suggest_rounded, size: 15),
+                        const SizedBox(width: 6),
                         Text(AppStrings.tabEngineOutput),
                       ],
                     ),

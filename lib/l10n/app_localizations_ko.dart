@@ -18,7 +18,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get savedSpacePrefix => '절약:';
 
   @override
-  String get supportButtonText => '커피 한 잔 후원하기';
+  String get supportButtonText => '프로젝트 후원';
 
   @override
   String get lightThemeTooltip => '라이트 테마';
@@ -108,7 +108,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get presetFasterDesc => '속도와 압축률의 좋은 균형.';
 
   @override
-  String get presetFastLabel => '빠름 (Fast - 추천)';
+  String get presetFastLabel => '빠름';
 
   @override
   String get presetFastDesc => '속도와 용량 절감의 최고 추천 균형.';
@@ -827,4 +827,41 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get failedDownloadUpdateMsg => '업데이트 다운로드 실패. 다시 시도해 주세요.';
+
+  @override
+  String customRatioActiveTitle(Object ratio) {
+    return 'Custom Ratio ($ratio)';
+  }
+
+  @override
+  String customRatioActiveDesc(Object ratio) {
+    return 'Padded canvas for custom $ratio ratio.';
+  }
+
+  @override
+  String customAngleActiveTitle(Object angle) {
+    return 'Custom Angle ($angle°)';
+  }
+
+  @override
+  String customAngleActiveDesc(Object angle) {
+    return 'Rotates video by custom $angle° degree angle.';
+  }
+
+  @override
+  String trimActiveDesc(Object end, Object start) {
+    return 'Cuts video clip between $start and $end.';
+  }
+
+  @override
+  String targetSizeLimitLabel(Object size) {
+    return '$size MB Limit';
+  }
+
+  @override
+  String get customMbSizeTooltip => 'Type custom MB size';
+
+  @override
+  String get trimTimeTooltip =>
+      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
 }

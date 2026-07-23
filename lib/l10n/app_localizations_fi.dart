@@ -18,7 +18,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get savedSpacePrefix => 'Säästetty:';
 
   @override
-  String get supportButtonText => 'Osta minulle kahvi';
+  String get supportButtonText => 'Tue projektia';
 
   @override
   String get lightThemeTooltip => 'Vaalea teema';
@@ -110,7 +110,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get presetFasterDesc => 'Hyvä nopeus ja korkea pakkaus.';
 
   @override
-  String get presetFastLabel => 'Nopea (Suositeltu)';
+  String get presetFastLabel => 'Nopea';
 
   @override
   String get presetFastDesc => 'Paras tasapaino nopeuden ja koon välillä.';
@@ -840,4 +840,41 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get failedDownloadUpdateMsg =>
       'Päivityksen lataus epäonnistui. Yritä uudelleen.';
+
+  @override
+  String customRatioActiveTitle(Object ratio) {
+    return 'Custom Ratio ($ratio)';
+  }
+
+  @override
+  String customRatioActiveDesc(Object ratio) {
+    return 'Padded canvas for custom $ratio ratio.';
+  }
+
+  @override
+  String customAngleActiveTitle(Object angle) {
+    return 'Custom Angle ($angle°)';
+  }
+
+  @override
+  String customAngleActiveDesc(Object angle) {
+    return 'Rotates video by custom $angle° degree angle.';
+  }
+
+  @override
+  String trimActiveDesc(Object end, Object start) {
+    return 'Cuts video clip between $start and $end.';
+  }
+
+  @override
+  String targetSizeLimitLabel(Object size) {
+    return '$size MB Limit';
+  }
+
+  @override
+  String get customMbSizeTooltip => 'Type custom MB size';
+
+  @override
+  String get trimTimeTooltip =>
+      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
 }

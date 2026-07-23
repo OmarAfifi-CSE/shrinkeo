@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Celkový ušetrený priestor",
   "savedSpacePrefix": "Ušetrené:",
-  "supportButtonText": "Kúp mi kávu",
+  "supportButtonText": "Podporiť projekt",
   "lightThemeTooltip": "Svetlý motív",
   "darkThemeTooltip": "Tmavý motív",
   "settingsTooltip": "Nastavenia",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Rýchlejší ako priemer.",
   "presetFasterLabel": "Rýchlejší",
   "presetFasterDesc": "Dobrá rýchlosť a vysoká kompresia.",
-  "presetFastLabel": "Rýchly (Odporúčané)",
+  "presetFastLabel": "Rýchly",
   "presetFastDesc": "Najlepšia rovnováha rýchlosti a veľkosti.",
   "presetMediumLabel": "Stredný",
   "presetMediumDesc": "Predvolená rovnováha.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg nebol nájdený.",
   "ffmpegMissingError": "FFmpeg alebo FFprobe chýba alebo je poškodený.",
   "hwFallbackNotificationBody": "{encoderLabel} zlyhal. Prepnuté na CPU.",
-  "failedDownloadUpdateMsg": "Stiahnutie aktualizácie zlyhalo. Skúste znova."
+  "failedDownloadUpdateMsg": "Stiahnutie aktualizácie zlyhalo. Skúste znova.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

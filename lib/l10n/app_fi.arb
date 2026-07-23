@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Yhteensä säästetty tila",
   "savedSpacePrefix": "Säästetty:",
-  "supportButtonText": "Osta minulle kahvi",
+  "supportButtonText": "Tue projektia",
   "lightThemeTooltip": "Vaalea teema",
   "darkThemeTooltip": "Tumma teema",
   "settingsTooltip": "Asetukset",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Keskimääräistä nopeampi.",
   "presetFasterLabel": "Nopeampi",
   "presetFasterDesc": "Hyvä nopeus ja korkea pakkaus.",
-  "presetFastLabel": "Nopea (Suositeltu)",
+  "presetFastLabel": "Nopea",
   "presetFastDesc": "Paras tasapaino nopeuden ja koon välillä.",
   "presetMediumLabel": "Keskitaso",
   "presetMediumDesc": "Oletustasapaino.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg-ohjelmaa ei löytynyt.",
   "ffmpegMissingError": "FFmpeg tai FFprobe puuttuu tai on vahingoittunut.",
   "hwFallbackNotificationBody": "{encoderLabel} epäonnistui. Vaihdettu CPU:lle.",
-  "failedDownloadUpdateMsg": "Päivityksen lataus epäonnistui. Yritä uudelleen."
+  "failedDownloadUpdateMsg": "Päivityksen lataus epäonnistui. Yritä uudelleen.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

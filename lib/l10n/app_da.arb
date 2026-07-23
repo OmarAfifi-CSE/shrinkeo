@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Samlet sparet plads",
   "savedSpacePrefix": "Sparet:",
-  "supportButtonText": "Køb mig en kaffe",
+  "supportButtonText": "Støt projektet",
   "lightThemeTooltip": "Lyst tema",
   "darkThemeTooltip": "Mørkt tema",
   "settingsTooltip": "Indstillinger",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Hurtigere end gennemsnittet.",
   "presetFasterLabel": "Hurtigere",
   "presetFasterDesc": "God hastighed og høj komprimering.",
-  "presetFastLabel": "Hurtig (Anbefalet)",
+  "presetFastLabel": "Hurtig",
   "presetFastDesc": "Bedste balance mellem hastighed og størrelse.",
   "presetMediumLabel": "Medium",
   "presetMediumDesc": "Standard balance.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg blev ikke fundet.",
   "ffmpegMissingError": "FFmpeg eller FFprobe mangler eller er beskadiget.",
   "hwFallbackNotificationBody": "{encoderLabel} fejlede. Skiftede til CPU.",
-  "failedDownloadUpdateMsg": "Download af opdatering fejlede. Prøv igen."
+  "failedDownloadUpdateMsg": "Download af opdatering fejlede. Prøv igen.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

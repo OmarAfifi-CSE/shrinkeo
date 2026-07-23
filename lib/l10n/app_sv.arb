@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Totalt sparat utrymme",
   "savedSpacePrefix": "Sparat:",
-  "supportButtonText": "Köp mig en kaffe",
+  "supportButtonText": "Stöd projektet",
   "lightThemeTooltip": "Ljust tema",
   "darkThemeTooltip": "Mörkt tema",
   "settingsTooltip": "Inställningar",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Snabbare än genomsnittet.",
   "presetFasterLabel": "Snabbare",
   "presetFasterDesc": "Bra hastighet och hög komprimering.",
-  "presetFastLabel": "Snabb (Rekommenderas)",
+  "presetFastLabel": "Snabb",
   "presetFastDesc": "Bästa balansen mellan hastighet och storlek.",
   "presetMediumLabel": "Medium",
   "presetMediumDesc": "Standardbalans.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg hittades inte.",
   "ffmpegMissingError": "FFmpeg eller FFprobe saknas eller är skadad.",
   "hwFallbackNotificationBody": "{encoderLabel} misslyckades. Växlade till CPU.",
-  "failedDownloadUpdateMsg": "Laddning av uppdatering misslyckades. Försök igen."
+  "failedDownloadUpdateMsg": "Laddning av uppdatering misslyckades. Försök igen.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

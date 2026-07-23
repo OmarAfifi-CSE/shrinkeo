@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Jumla ya nafasi iliyookolewa",
   "savedSpacePrefix": "Imeokolewa:",
-  "supportButtonText": "Ninunulie kahawa",
+  "supportButtonText": "Saidia Mradi",
   "lightThemeTooltip": "Mada Inayowaka",
   "darkThemeTooltip": "Mada Giza",
   "settingsTooltip": "Mipangilio",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Haraka kuliko wastani.",
   "presetFasterLabel": "Haraka Zaidi",
   "presetFasterDesc": "Kasi nzuri na mgandamizo bora.",
-  "presetFastLabel": "Haraka (Inapendekezwa)",
+  "presetFastLabel": "Haraka",
   "presetFastDesc": "Ulinganifu bora wa kasi na ukubwa.",
   "presetMediumLabel": "Wastani",
   "presetMediumDesc": "Ulinganifu wa chaguo-msingi.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpeg haikupatikana.",
   "ffmpegMissingError": "FFmpeg au FFprobe haipo au imeharibika.",
   "hwFallbackNotificationBody": "{encoderLabel} imefeli. Imebadilishwa kwenda CPU.",
-  "failedDownloadUpdateMsg": "Kupakua sasisho kummefeli. Jaribu tena."
+  "failedDownloadUpdateMsg": "Kupakua sasisho kummefeli. Jaribu tena.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

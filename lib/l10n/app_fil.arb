@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "Kabuuang Puwang na Na-save",
   "savedSpacePrefix": "Na-save:",
-  "supportButtonText": "Ilibre mo ako ng kape",
+  "supportButtonText": "Support Project",
   "lightThemeTooltip": "Liwanag na Tema",
   "darkThemeTooltip": "Madilim na Tema",
   "settingsTooltip": "Mga Setting",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "Mas mabilis kaysa karaniwan.",
   "presetFasterLabel": "Mabilis-bilis",
   "presetFasterDesc": "Magandang bilis at mahusay na kompresyon.",
-  "presetFastLabel": "Mabilis (Inirerekomenda)",
+  "presetFastLabel": "Mabilis",
   "presetFastDesc": "Pinakamagandang balanse ng bilis at laki.",
   "presetMediumLabel": "Katamtaman",
   "presetMediumDesc": "Default na balanse.",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "Hindi nahanap ang FFmpeg.",
   "ffmpegMissingError": "Nawawala o sira ang FFmpeg o FFprobe.",
   "hwFallbackNotificationBody": "Pumalya ang {encoderLabel}. Lumipat sa CPU.",
-  "failedDownloadUpdateMsg": "Pumalya ang pag-download ng update. Subukang ulit."
+  "failedDownloadUpdateMsg": "Pumalya ang pag-download ng update. Subukang ulit.",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

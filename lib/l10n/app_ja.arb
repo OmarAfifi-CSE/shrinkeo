@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "世界中で削減された総容量",
   "savedSpacePrefix": "削減:",
-  "supportButtonText": "コーヒーを奢る",
+  "supportButtonText": "プロジェクトを支援",
   "lightThemeTooltip": "ライトテーマ",
   "darkThemeTooltip": "ダークテーマ",
   "settingsTooltip": "設定",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "平均より速い速度。",
   "presetFasterLabel": "やや高速 (Faster)",
   "presetFasterDesc": "速度と圧縮率のバランス良好。",
-  "presetFastLabel": "推奨 (Fast)",
+  "presetFastLabel": "高速",
   "presetFastDesc": "速度と削減率の最高バランス。",
   "presetMediumLabel": "標準 (Medium)",
   "presetMediumDesc": "デフォルトバランス。",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "FFmpegが見つかりません。",
   "ffmpegMissingError": "FFmpegまたはFFprobeが存在しないか破損しています。",
   "hwFallbackNotificationBody": "{encoderLabel}失敗。CPUへ切り替えました。",
-  "failedDownloadUpdateMsg": "アップデートのダウンロードに失敗しました。再試行してください。"
+  "failedDownloadUpdateMsg": "アップデートのダウンロードに失敗しました。再試行してください。",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

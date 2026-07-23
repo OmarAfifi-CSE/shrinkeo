@@ -3,7 +3,7 @@
   "appName": "Shrinkeo",
   "totalSpaceSaved": "พื้นที่ที่ประหยัดได้ทั้งหมด",
   "savedSpacePrefix": "ประหยัดไป:",
-  "supportButtonText": "เลี้ยงกาแฟฉัน",
+  "supportButtonText": "สนับสนุนโครงการ",
   "lightThemeTooltip": "โหมดสว่าง",
   "darkThemeTooltip": "โหมดมืด",
   "settingsTooltip": "การตั้งค่า",
@@ -33,7 +33,7 @@
   "presetVeryfastDesc": "เร็วกว่าค่าเฉลี่ย",
   "presetFasterLabel": "เร็วกว่า (Faster)",
   "presetFasterDesc": "ความเร็วดีและบีบอัดได้เยี่ยม",
-  "presetFastLabel": "เร็ว (แนะนำ)",
+  "presetFastLabel": "เร็ว",
   "presetFastDesc": "สมดุลที่ดีที่สุดระหว่างความเร็วและขนาดไฟล์",
   "presetMediumLabel": "ปานกลาง (Medium)",
   "presetMediumDesc": "ความสมดุลมาตรฐาน",
@@ -271,5 +271,13 @@
   "ffmpegNotFoundGlobalError": "ไม่พบโปรแกรม FFmpeg",
   "ffmpegMissingError": "โปรแกรม FFmpeg หรือ FFprobe สียหายหรือสูญหาย",
   "hwFallbackNotificationBody": "{encoderLabel} ล้มเหลว สลับไปใช้ CPU แทนให้อัตโนมัติ",
-  "failedDownloadUpdateMsg": "ดาวน์โหลดอัปเดตไม่สำเร็จ โปรดลองอีกครั้ง"
+  "failedDownloadUpdateMsg": "ดาวน์โหลดอัปเดตไม่สำเร็จ โปรดลองอีกครั้ง",
+  "customRatioActiveTitle": "Custom Ratio ({ratio})",
+  "customRatioActiveDesc": "Padded canvas for custom {ratio} ratio.",
+  "customAngleActiveTitle": "Custom Angle ({angle}°)",
+  "customAngleActiveDesc": "Rotates video by custom {angle}° degree angle.",
+  "trimActiveDesc": "Cuts video clip between {start} and {end}.",
+  "targetSizeLimitLabel": "{size} MB Limit",
+  "customMbSizeTooltip": "Type custom MB size",
+  "trimTimeTooltip": "Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30"
 }

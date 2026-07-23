@@ -52,7 +52,7 @@ class BottomActionBar extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () => cubit.clearCompleted(),
                     icon: const Icon(Icons.cleaning_services_rounded, size: 16),
-                    label: const Text(AppStrings.clearCompletedBtn),
+                    label: Text(AppStrings.clearCompletedBtn),
                   ),
                 ),
 
@@ -63,7 +63,7 @@ class BottomActionBar extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () => cubit.clearAll(),
                     icon: const Icon(Icons.delete_sweep_rounded, size: 16),
-                    label: const Text(AppStrings.clearAllBtn),
+                    label: Text(AppStrings.clearAllBtn),
                   ),
                 ),
 
@@ -76,13 +76,13 @@ class BottomActionBar extends StatelessWidget {
                     foregroundColor: Colors.white,
                   ),
                   icon: const Icon(Icons.stop_rounded, size: 18),
-                  label: const Text(AppStrings.stopAllBtn),
+                  label: Text(AppStrings.stopAllBtn),
                 )
               else if (state.canStart)
                 ElevatedButton.icon(
                   onPressed: () => cubit.startCompression(),
                   icon: const Icon(Icons.play_arrow_rounded, size: 20),
-                  label: const Text(AppStrings.startCompressionBtn),
+                  label: Text(AppStrings.startCompressionBtn),
                 )
               else if (state.phase == CompressionPhase.completed)
                 Row(
@@ -139,7 +139,7 @@ class BottomActionBar extends StatelessWidget {
                             ),
                           ),
                           icon: const Icon(Icons.folder_open_rounded, size: 18),
-                          label: const Text(AppStrings.openFolderBtn),
+                          label: Text(AppStrings.openFolderBtn),
                         ),
                       ),
                     ],
@@ -245,7 +245,7 @@ class _QueueSummary extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  '${AppStrings.totalEtaLabel}: ${_formatDuration(state.globalEta!)}',
+                  '${AppStrings.totalEtaLabel}: \u200E${_formatDuration(state.globalEta!)}',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 12,
@@ -273,7 +273,7 @@ class _QueueSummary extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  '${AppStrings.totalSavedLabel}: ${VideoFile.formatFileSize(totalSavedBytes)}',
+                  '${AppStrings.totalSavedLabel}: \u200E${VideoFile.formatFileSize(totalSavedBytes)}',
                   style: const TextStyle(
                     color: AppColors.successGreen,
                     fontSize: 12,
