@@ -269,7 +269,7 @@ class FfmpegService {
     // Note: Subtitles are ignored to prevent MP4 container crashes with unsupported subtitle formats (like PGS/SRT).
     args.addAll(['-map', '0:v:0', '-map', '0:a?']);
 
-    args.addAll(['-pix_fmt', 'yuv420p']);
+    args.addAll(['-pix_fmt', 'yuv420p', '-movflags', '+faststart']);
 
     // Build Audio Filters chain & processing flags
     final List<String> audioFilterList = [];
