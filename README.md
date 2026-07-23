@@ -16,7 +16,7 @@
   <a href="https://ko-fi.com/omarafifi" target="_blank"><img src="https://cdn.ko-fi.com/cdn/kofi3.png?v=3" height="40" alt="Buy Me a Coffee at ko-fi.com" /></a>
   <br><br>
 
-  <p>Shrinkeo is a lightning-fast, privacy-first desktop application designed to compress videos without sacrificing quality. Say goodbye to subscription-based cloud compressors and keep your data 100% offline.</p>
+  <p>Shrinkeo is a powerful, lightning-fast, and completely offline video compressor & editing suite for Windows. Compress videos by target size or CRF, export GIFs/MP3, trim clips, denoise audio/video, normalize volume, and stream fast with MP4 FastStart—all powered by full GPU acceleration (NVIDIA/AMD/Intel/AV1), 44 global languages, and zero cloud uploads.</p>
 </div>
 
 ---
