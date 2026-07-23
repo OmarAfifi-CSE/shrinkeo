@@ -1,3 +1,4 @@
+import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -236,13 +237,11 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                           itemBuilder: (context, index) {
                             final code = filteredCodes[index];
                             final isSelected = code == widget.state.languageCode;
-                            final flag = LanguageHelper.getFlag(code);
                             final nativeName = LanguageHelper.getNativeName(code);
                             final englishName = LanguageHelper.getEnglishName(code);
 
                             return _LanguageCard(
                               code: code,
-                              flag: flag,
                               nativeName: nativeName,
                               englishName: englishName,
                               isSelected: isSelected,
@@ -267,7 +266,6 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
 
 class _LanguageCard extends StatefulWidget {
   final String code;
-  final String flag;
   final String nativeName;
   final String englishName;
   final bool isSelected;
@@ -276,7 +274,6 @@ class _LanguageCard extends StatefulWidget {
 
   const _LanguageCard({
     required this.code,
-    required this.flag,
     required this.nativeName,
     required this.englishName,
     required this.isSelected,
@@ -342,9 +339,17 @@ class _LanguageCardState extends State<_LanguageCard> {
           ),
           child: Row(
             children: [
-              Text(
-                widget.flag,
-                style: const TextStyle(fontSize: 20),
+              SizedBox(
+                width: 26,
+                height: 18,
+                child: CountryFlag.fromCountryCode(
+                  LanguageHelper.getCountryCode(widget.code),
+                  theme: const ImageTheme(
+                    width: 26,
+                    height: 18,
+                    shape: RoundedRectangle(4),
+                  ),
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(

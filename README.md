@@ -33,20 +33,24 @@ Video files are massive. Sharing them on WhatsApp, Discord, or email is a nightm
 
 We didn't cut any corners. Shrinkeo is packed with every feature you need to get the perfect compression:
 
+*   🌐 **44 World Languages & Live Search**: Native localization covering **95%+ of global users** with a dedicated Globe Language Selector (`🌐`), live search bar, country flag badges, and 100% instant runtime translation without app restarts.
 *   🔒 **100% Offline & Private**: Your videos never leave your computer. No cloud uploads, no privacy risks, and absolutely zero file size limits.
-*   🗂️ **Smart Segmented Settings Panel**: Effortlessly tune settings across 3 logical tabs (`🎬 Video & Format`, `🎵 Audio Settings`, `⚙️ Engine & Output`) with a 60 FPS directional sliding pill indicator.
+*   🗂️ **Segmented Settings & Quick Tools**: Effortlessly tune settings across 4 logical tabs (`🎬 Compression & Quality`, `🛠️ Video Editing & Tools`, `🎵 Audio Settings`, `⚙️ Engine & Save Location`).
+*   🎬 **Video Editing & Export Pipeline**: Export directly to **Animated GIF**, extract audio to **MP3 (320kbps)**, **AAC**, or **WAV**, trim lossless clips (`HH:MM:SS`), adjust speed (`0.5x` to `4.0x`), strip GPS/EXIF camera privacy metadata, and auto-crop black bars.
+*   📐 **Custom Aspect Ratios & Rotation Angles**: Apply custom ratios (e.g. `16:10`, `2:1`) with padded canvas or rotate videos by any custom angle (`45°`, `30°`, `90°`, `180°`, `270°`, horizontal/vertical flip).
 *   🎯 **Target Size (MB) & CRF Modes**: Choose between visual quality control using the professional **CRF (Constant Rate Factor)** slider, or specify an exact target size (e.g. **25 MB for Discord** or **10 MB for Email**) powered by 2-Pass VBR rate control.
 *   🎥 **Next-Gen Codec Support**: Compress using industry standards like **H.264**, **H.265 (HEVC)**, **VP9**, or the next-gen **AV1**.
-*   ⚡ **Hardware & CPU Encoding**: Stick to the highly optimized **Software (CPU)** default for maximum quality, or manually harness your hardware by explicitly selecting **NVIDIA (NVENC), AMD (AMF), or Intel (QSV)** graphics cards for blazing-fast compression.
+*   ⚡ **Hardware & CPU Encoding**: Harness your hardware with **NVIDIA (NVENC), AMD (AMF), or Intel (QSV)** graphics cards for blazing-fast compression, or stick to optimized **Software (CPU)** encoding.
+*   🚀 **Web-Optimized MP4 FastStart**: Encodes with `-movflags +faststart` so your exported MP4 videos stream instantly in browsers and media players without downloading the full file first.
 *   📢 **Audio Volume Normalization**: Normalize low-volume lectures, webinars, or vlogs using **Speech (EBU R128 -16 LUFS)**, **Movie Dynamic**, or **Soft Boost (+3dB)** filters without audio clipping.
 *   📻 **Audio Channels Downmix**: Convert surround sound tracks to **Stereo (2.0)** or **Mono (1.0)** to save up to 50% extra audio file space.
 *   🧹 **Video & Audio Noise Reduction**: Remove video grain with **Video Denoise (3D spatial-temporal)** and eliminate mic/fan hiss using **Audio Denoise (FFT reduction)**.
 *   📐 **Downscale & Cap FPS**: Easily downscale massive 4K videos to 1080p or 720p with a single click, and cap framerates to reduce stutter and save space.
-*   📦 **Multiple Output Formats**: Export your perfectly compressed videos to **MP4, MKV, or MOV** containers.
+*   📦 **Multiple Container Formats**: Export your compressed videos to **MP4, MKV, or MOV** containers.
 *   🚀 **Drag, Drop, and Queue**: Drag and drop 100+ videos into Shrinkeo and let it process the entire queue sequentially while you grab a coffee.
-*   🖱️ **Seamless Context Menu Integration**: Select any videos on your PC, hit `Shift + Right Click`, and choose **"Compress with Shrinkeo"**. Uses clean per-user (`HKCU`) registry integration—zero Administrator (UAC) prompts required!
-*   📊 **Satisfying Analytics**: Watch live progress, get accurate ETAs, compare original vs. compressed file sizes instantly, and track your **Global Saved Space** across all your compressions over time!
-*   🎨 **Premium Interface**: A stunning glassmorphism design with a custom title bar, smooth micro-animations, hover effects, and built-in dark/light modes. Designed for maximum productivity and an elegant user experience.
+*   🖱️ **Seamless Context Menu Integration**: Select any videos on your PC, hit `Shift + Right Click`, and choose **"Compress with Shrinkeo"**—zero Administrator (UAC) prompts required!
+*   📊 **Satisfying Analytics**: Watch live progress, get accurate ETAs, compare original vs. compressed file sizes instantly, and track your **Global Saved Space** over time!
+*   🎨 **Premium Material Design**: Clean glassmorphism design with crisp Material Icons, custom title bar, smooth micro-animations, hover effects, and built-in dark/light modes.
 
 ---
 

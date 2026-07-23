@@ -243,98 +243,98 @@ class LanguageHelper {
     }
   }
 
-  static String getFlag(String code) {
+  static String getCountryCode(String code) {
     switch (code.toLowerCase()) {
       case 'en':
-        return '🇺🇸';
+        return 'US';
       case 'ar':
-        return '🇸🇦';
+        return 'EG';
       case 'fr':
-        return '🇫🇷';
+        return 'FR';
       case 'es':
-        return '🇪🇸';
+        return 'ES';
       case 'de':
-        return '🇩🇪';
+        return 'DE';
       case 'it':
-        return '🇮🇹';
+        return 'IT';
       case 'pt':
-        return '🇧🇷';
+        return 'BR';
       case 'ru':
-        return '🇷🇺';
+        return 'RU';
       case 'tr':
-        return '🇹🇷';
+        return 'TR';
       case 'zh':
-        return '🇨🇳';
+        return 'CN';
       case 'ja':
-        return '🇯🇵';
+        return 'JP';
       case 'ko':
-        return '🇰🇷';
+        return 'KR';
       case 'hi':
-        return '🇮🇳';
+        return 'IN';
       case 'vi':
-        return '🇻🇳';
+        return 'VN';
       case 'id':
-        return '🇮🇩';
+        return 'ID';
       case 'pl':
-        return '🇵🇱';
+        return 'PL';
       case 'nl':
-        return '🇳🇱';
+        return 'NL';
       case 'th':
-        return '🇹🇭';
+        return 'TH';
       case 'sv':
-        return '🇸🇪';
+        return 'SE';
       case 'uk':
-        return '🇺🇦';
+        return 'UA';
       case 'ro':
-        return '🇷🇴';
+        return 'RO';
       case 'el':
-        return '🇬🇷';
+        return 'GR';
       case 'cs':
-        return '🇨🇿';
+        return 'CZ';
       case 'hu':
-        return '🇭🇺';
+        return 'HU';
       case 'fa':
-        return '🇮🇷';
+        return 'IR';
       case 'bn':
-        return '🇧🇩';
+        return 'BD';
       case 'ur':
-        return '🇵🇰';
+        return 'PK';
       case 'fil':
-        return '🇵🇭';
+        return 'PH';
       case 'ta':
-        return '🇮🇳';
+        return 'IN';
       case 'sw':
-        return '🇰🇪';
+        return 'KE';
       case 'ms':
-        return '🇲🇾';
+        return 'MY';
       case 'da':
-        return '🇩🇰';
+        return 'DK';
       case 'nb':
-        return '🇳🇴';
+        return 'NO';
       case 'fi':
-        return '🇫🇮';
+        return 'FI';
       case 'mr':
-        return '🇮🇳';
+        return 'IN';
       case 'te':
-        return '🇮🇳';
+        return 'IN';
       case 'gu':
-        return '🇮🇳';
+        return 'IN';
       case 'kn':
-        return '🇮🇳';
+        return 'IN';
       case 'ml':
-        return '🇮🇳';
+        return 'IN';
       case 'ca':
-        return '🇪🇸';
+        return 'ES';
       case 'sk':
-        return '🇸🇰';
+        return 'SK';
       case 'bg':
-        return '🇧🇬';
+        return 'BG';
       case 'sr':
-        return '🇷🇸';
+        return 'RS';
       case 'hr':
-        return '🇭🇷';
+        return 'HR';
       default:
-        return '🏳️';
+        return code.toUpperCase();
     }
   }
 
