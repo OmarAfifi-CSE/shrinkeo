@@ -1254,3 +1254,550 @@ class _InfoBox extends StatelessWidget {
     );
   }
 }
+
+/// Tools & Editing Tab Content
+class _ToolsTabContent extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _ToolsTabContent({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      key: const ValueKey('tab_tools'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Row 1: Export Format (1 line) & Privacy Scrubbing (1 line)
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Export Format',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: theme.textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: ExportType.values.map((type) {
+                      String label;
+                      if (type == ExportType.video) {
+                        label = '🎥 Video';
+                      } else if (type == ExportType.gif) {
+                        label = '🖼️ GIF';
+                      } else if (type == ExportType.mp3) {
+                        label = '🎵 MP3';
+                      } else if (type == ExportType.aac) {
+                        label = '🎼 AAC';
+                      } else {
+                        label = '🎧 WAV';
+                      }
+                      return _OptionChip(
+                        label: label,
+                        isSelected: state.exportType == type,
+                        isLocked: isLocked,
+                        onTap: () => cubit.updateExportType(type),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 6),
+                  _InfoBox(
+                    label: state.exportType.label,
+                    description: state.exportType.description,
+                    icon: state.exportType == ExportType.video
+                        ? Icons.movie_creation_rounded
+                        : state.exportType == ExportType.gif
+                            ? Icons.gif_box_rounded
+                            : Icons.audiotrack_rounded,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Privacy & GPS Scrubbing',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: theme.textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: [
+                      _OptionChip(
+                        label: 'Keep Metadata',
+                        isSelected: !state.stripMetadata,
+                        isLocked: isLocked,
+                        onTap: () => cubit.toggleStripMetadata(false),
+                      ),
+                      _OptionChip(
+                        label: '🛡️ Strip GPS/EXIF',
+                        isSelected: state.stripMetadata,
+                        isLocked: isLocked,
+                        onTap: () => cubit.toggleStripMetadata(true),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  _InfoBox(
+                    label: state.stripMetadata ? 'Strip GPS & Metadata' : 'Keep Metadata',
+                    description: state.stripMetadata
+                        ? 'Removes camera info, GPS location, & timestamps.'
+                        : 'Preserves original video EXIF metadata.',
+                    icon: Icons.shield_outlined,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+
+        // Row 2: Auto-Crop Black Bars (1 line) & Playback Speed (1 line)
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Auto-Crop Black Bars',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: theme.textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: [
+                      _OptionChip(
+                        label: 'Disabled',
+                        isSelected: !state.autoCropBlackBars,
+                        isLocked: isLocked,
+                        onTap: () => cubit.toggleAutoCropBlackBars(false),
+                      ),
+                      _OptionChip(
+                        label: '✂️ Auto-Crop',
+                        isSelected: state.autoCropBlackBars,
+                        isLocked: isLocked,
+                        onTap: () => cubit.toggleAutoCropBlackBars(true),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  _InfoBox(
+                    label: state.autoCropBlackBars ? 'Auto-Crop Active' : 'Disabled',
+                    description: state.autoCropBlackBars
+                        ? 'Removes black letterbox borders from video.'
+                        : 'Keeps original video frame borders.',
+                    icon: Icons.crop_free_rounded,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Playback Speed',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: theme.textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: VideoSpeedMode.values.map((mode) {
+                      String label;
+                      if (mode == VideoSpeedMode.original) {
+                        label = '1.0x';
+                      } else if (mode == VideoSpeedMode.slow05) {
+                        label = '0.5x Slow';
+                      } else if (mode == VideoSpeedMode.fast15) {
+                        label = '1.5x';
+                      } else if (mode == VideoSpeedMode.fast20) {
+                        label = '2.0x Fast';
+                      } else {
+                        label = '4.0x Lapse';
+                      }
+                      return _OptionChip(
+                        label: label,
+                        isSelected: state.videoSpeedMode == mode,
+                        isLocked: isLocked,
+                        onTap: () => cubit.updateVideoSpeedMode(mode),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 6),
+                  _InfoBox(
+                    label: state.videoSpeedMode.label,
+                    description: state.videoSpeedMode.description,
+                    icon: Icons.speed_rounded,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+
+        // Row 3: Canvas Aspect Ratio (2 lines) & Rotation & Flip (2 lines)
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Canvas Aspect Ratio',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: theme.textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: AspectRatioMode.values.map((mode) {
+                      return _OptionChip(
+                        label: mode.label,
+                        isSelected: state.aspectRatioMode == mode,
+                        isLocked: isLocked,
+                        onTap: () => cubit.updateAspectRatioMode(mode),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 6),
+                  _InfoBox(
+                    label: state.aspectRatioMode.label,
+                    description: state.aspectRatioMode.description,
+                    icon: Icons.crop_rounded,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Rotation & Flip',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: theme.textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: VideoRotationMode.values.map((mode) {
+                      return _OptionChip(
+                        label: mode.label,
+                        isSelected: state.videoRotationMode == mode,
+                        isLocked: isLocked,
+                        onTap: () => cubit.updateVideoRotationMode(mode),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 6),
+                  _InfoBox(
+                    label: state.videoRotationMode.label,
+                    description: state.videoRotationMode.description,
+                    icon: Icons.rotate_right_rounded,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+
+        // Row 4: Lossless Cut / Trim Video
+        _TrimSection(state: state, isLocked: isLocked),
+      ],
+    );
+  }
+}
+
+class _TrimSection extends StatefulWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _TrimSection({required this.state, required this.isLocked});
+
+  @override
+  State<_TrimSection> createState() => _TrimSectionState();
+}
+
+class _TrimSectionState extends State<_TrimSection> {
+  late TextEditingController _startController;
+  late TextEditingController _endController;
+  final FocusNode _startFocusNode = FocusNode();
+  final FocusNode _endFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _startController = TextEditingController(text: widget.state.trimStartTime);
+    _endController = TextEditingController(text: widget.state.trimEndTime);
+  }
+
+  @override
+  void didUpdateWidget(covariant _TrimSection oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!_startFocusNode.hasFocus &&
+        oldWidget.state.trimStartTime != widget.state.trimStartTime) {
+      if (_startController.text != widget.state.trimStartTime) {
+        _startController.text = widget.state.trimStartTime;
+      }
+    }
+    if (!_endFocusNode.hasFocus &&
+        oldWidget.state.trimEndTime != widget.state.trimEndTime) {
+      if (_endController.text != widget.state.trimEndTime) {
+        _endController.text = widget.state.trimEndTime;
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _startController.dispose();
+    _endController.dispose();
+    _startFocusNode.dispose();
+    _endFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Lossless Cut / Trim Video',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w500,
+            color: theme.textTheme.bodyMedium?.color,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _OptionChip(
+              label: 'Full Video',
+              isSelected: !widget.state.trimEnabled,
+              isLocked: widget.isLocked,
+              onTap: () => cubit.toggleTrim(false),
+            ),
+            const SizedBox(width: 6),
+            _OptionChip(
+              label: 'Cut Clip (Trim)',
+              isSelected: widget.state.trimEnabled,
+              isLocked: widget.isLocked,
+              onTap: () => cubit.toggleTrim(true),
+            ),
+            if (widget.state.trimEnabled) ...[
+              const SizedBox(width: 10),
+              _TrimTimeInput(
+                label: 'Start',
+                controller: _startController,
+                focusNode: _startFocusNode,
+                isLocked: widget.isLocked,
+                onChanged: (val) => cubit.updateTrimStartTime(val),
+              ),
+              const SizedBox(width: 8),
+              _TrimTimeInput(
+                label: 'End',
+                controller: _endController,
+                focusNode: _endFocusNode,
+                isLocked: widget.isLocked,
+                onChanged: (val) => cubit.updateTrimEndTime(val),
+              ),
+            ],
+          ],
+        ),
+        const SizedBox(height: 6),
+        _InfoBox(
+          label: widget.state.trimEnabled ? 'Trim Active' : 'Full Video',
+          description: widget.state.trimEnabled
+              ? 'Losslessly cuts the video clip between ${widget.state.trimStartTime} and ${widget.state.trimEndTime}.'
+              : 'Processes the entire video duration without trimming.',
+          icon: Icons.content_cut_rounded,
+        ),
+      ],
+    );
+  }
+}
+
+/// Compact inline text input for trim Start and End times with smart auto-formatting.
+class _TrimTimeInput extends StatefulWidget {
+  final String label;
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final bool isLocked;
+  final ValueChanged<String> onChanged;
+
+  const _TrimTimeInput({
+    required this.label,
+    required this.controller,
+    required this.focusNode,
+    required this.isLocked,
+    required this.onChanged,
+  });
+
+  @override
+  State<_TrimTimeInput> createState() => _TrimTimeInputState();
+}
+
+class _TrimTimeInputState extends State<_TrimTimeInput> {
+  @override
+  void initState() {
+    super.initState();
+    widget.focusNode.addListener(_onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    widget.focusNode.removeListener(_onFocusChange);
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (!widget.focusNode.hasFocus) {
+      // Auto-format input to HH:MM:SS on blur (e.g. "5" -> "00:00:05", "1:30" -> "00:01:30")
+      final formatted = _formatTimestamp(widget.controller.text);
+      if (widget.controller.text != formatted) {
+        widget.controller.text = formatted;
+      }
+      widget.onChanged(formatted);
+    }
+  }
+
+  static String _formatTimestamp(String input) {
+    final trimmed = input.trim();
+    if (trimmed.isEmpty) return '00:00:00';
+
+    // HH:MM:SS
+    final hhmmss = RegExp(r'^(\d{1,2}):(\d{1,2}):(\d{1,2})$').firstMatch(trimmed);
+    if (hhmmss != null) {
+      final h = int.parse(hhmmss.group(1)!).toString().padLeft(2, '0');
+      final m = int.parse(hhmmss.group(2)!).toString().padLeft(2, '0');
+      final s = int.parse(hhmmss.group(3)!).toString().padLeft(2, '0');
+      return '$h:$m:$s';
+    }
+
+    // MM:SS
+    final mmss = RegExp(r'^(\d{1,2}):(\d{1,2})$').firstMatch(trimmed);
+    if (mmss != null) {
+      final m = int.parse(mmss.group(1)!).toString().padLeft(2, '0');
+      final s = int.parse(mmss.group(2)!).toString().padLeft(2, '0');
+      return '00:$m:$s';
+    }
+
+    // Pure number (seconds)
+    final seconds = int.tryParse(trimmed);
+    if (seconds != null) {
+      final h = seconds ~/ 3600;
+      final m = (seconds % 3600) ~/ 60;
+      final s = seconds % 60;
+      return '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+    }
+
+    return trimmed;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+
+    return Tooltip(
+      message: 'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30',
+      child: Container(
+        width: 120,
+        height: 33,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          color: activeColor.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: activeColor.withValues(alpha: 0.4),
+          ),
+        ),
+        child: Row(
+          children: [
+            Text(
+              '${widget.label}:',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+                color: activeColor,
+              ),
+            ),
+            const SizedBox(width: 4),
+            Expanded(
+              child: TextField(
+                controller: widget.controller,
+                focusNode: widget.focusNode,
+                enabled: !widget.isLocked,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: theme.textTheme.bodyMedium?.color,
+                ),
+                decoration: const InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.zero,
+                  border: InputBorder.none,
+                  hintText: '00:00:00',
+                ),
+                onChanged: widget.onChanged,
+                onSubmitted: (val) {
+                  final formatted = _formatTimestamp(val);
+                  widget.controller.text = formatted;
+                  widget.onChanged(formatted);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

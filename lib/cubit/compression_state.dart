@@ -155,6 +155,61 @@ enum OutputLocationMode {
   const OutputLocationMode(this.label, this.description);
 }
 
+enum VideoRotationMode {
+  original('Original (0°)', 'Keep original orientation'),
+  deg90('90° Clockwise', 'Rotate 90 degrees right'),
+  deg180('180° Flip', 'Rotate upside down'),
+  deg270('270° Clockwise', 'Rotate 90 degrees left'),
+  flipH('Horizontal Flip', 'Mirror image horizontally'),
+  flipV('Vertical Flip', 'Mirror image vertically');
+
+  final String label;
+  final String description;
+
+  const VideoRotationMode(this.label, this.description);
+}
+
+enum VideoSpeedMode {
+  original('Original (1.0x)', 'Normal video speed'),
+  slow05('0.5x Slow-mo', 'Half speed playback'),
+  fast15('1.5x Speed', 'Slight speed up'),
+  fast20('2.0x Fast', 'Double speed playback'),
+  timelapse40('4.0x Timelapse', 'Ultra fast timelapse');
+
+  final String label;
+  final String description;
+
+  const VideoSpeedMode(this.label, this.description);
+}
+
+enum AspectRatioMode {
+  original('Original', 'Keep original video dimensions'),
+  shorts916('9:16 Shorts/Reels', 'Padded canvas for TikTok & Reels'),
+  square11('1:1 Square', 'Padded canvas for Instagram feed posts'),
+  portrait45('4:5 Portrait', 'Padded canvas for Instagram vertical posts'),
+  widescreen169('16:9 Widescreen', 'Padded canvas for YouTube & TV screens'),
+  classic43('4:3 Classic', 'Padded canvas for classic TV screens'),
+  cinema219('21:9 Cinema', 'Padded canvas for Ultrawide cinema monitors');
+
+  final String label;
+  final String description;
+
+  const AspectRatioMode(this.label, this.description);
+}
+
+enum ExportType {
+  video('Standard Video', 'Export to MP4/MKV/MOV container'),
+  gif('Animated GIF', 'Export high-quality animated GIF clip'),
+  mp3('Extract MP3', 'Extract audio track as 320kbps MP3'),
+  aac('Extract AAC', 'Extract audio track as high-quality AAC'),
+  wav('Extract WAV', 'Extract uncompressed studio WAV audio');
+
+  final String label;
+  final String description;
+
+  const ExportType(this.label, this.description);
+}
+
 /// Immutable state for the [CompressionCubit].
 class CompressionState extends Equatable {
   /// List of all video files in the queue.
@@ -252,6 +307,35 @@ class CompressionState extends Equatable {
   /// Total bytes saved globally across all compressions
   final int globalSavedBytes;
 
+  // ---- Quick Tools & Editing Settings ----
+
+  /// Whether Lossless Trim is enabled.
+  final bool trimEnabled;
+
+  /// Start time for video trimming (format HH:MM:SS or MM:SS).
+  final String trimStartTime;
+
+  /// End time for video trimming (format HH:MM:SS or MM:SS).
+  final String trimEndTime;
+
+  /// Selected Video Rotation & Flip orientation.
+  final VideoRotationMode videoRotationMode;
+
+  /// Selected Video Playback Speed.
+  final VideoSpeedMode videoSpeedMode;
+
+  /// Selected Aspect Ratio Padding.
+  final AspectRatioMode aspectRatioMode;
+
+  /// Selected Export Type (Video vs GIF).
+  final ExportType exportType;
+
+  /// Whether to strip metadata/EXIF/GPS info for privacy.
+  final bool stripMetadata;
+
+  /// Whether to auto-crop black bars from the top/bottom of video.
+  final bool autoCropBlackBars;
+
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -283,6 +367,15 @@ class CompressionState extends Equatable {
     this.globalEta,
     this.compressionStartTime,
     this.globalSavedBytes = 0,
+    this.trimEnabled = false,
+    this.trimStartTime = '00:00:00',
+    this.trimEndTime = '00:00:00',
+    this.videoRotationMode = VideoRotationMode.original,
+    this.videoSpeedMode = VideoSpeedMode.original,
+    this.aspectRatioMode = AspectRatioMode.original,
+    this.exportType = ExportType.video,
+    this.stripMetadata = false,
+    this.autoCropBlackBars = false,
   });
 
   /// Creates a copy with the given fields overridden.
@@ -323,6 +416,15 @@ class CompressionState extends Equatable {
     DateTime? compressionStartTime,
     bool clearCompressionStartTime = false,
     int? globalSavedBytes,
+    bool? trimEnabled,
+    String? trimStartTime,
+    String? trimEndTime,
+    VideoRotationMode? videoRotationMode,
+    VideoSpeedMode? videoSpeedMode,
+    AspectRatioMode? aspectRatioMode,
+    ExportType? exportType,
+    bool? stripMetadata,
+    bool? autoCropBlackBars,
   }) {
     return CompressionState(
       videos: videos ?? this.videos,
@@ -361,6 +463,15 @@ class CompressionState extends Equatable {
           ? null
           : (compressionStartTime ?? this.compressionStartTime),
       globalSavedBytes: globalSavedBytes ?? this.globalSavedBytes,
+      trimEnabled: trimEnabled ?? this.trimEnabled,
+      trimStartTime: trimStartTime ?? this.trimStartTime,
+      trimEndTime: trimEndTime ?? this.trimEndTime,
+      videoRotationMode: videoRotationMode ?? this.videoRotationMode,
+      videoSpeedMode: videoSpeedMode ?? this.videoSpeedMode,
+      aspectRatioMode: aspectRatioMode ?? this.aspectRatioMode,
+      exportType: exportType ?? this.exportType,
+      stripMetadata: stripMetadata ?? this.stripMetadata,
+      autoCropBlackBars: autoCropBlackBars ?? this.autoCropBlackBars,
     );
   }
 
@@ -428,5 +539,14 @@ class CompressionState extends Equatable {
     globalEta,
     compressionStartTime,
     globalSavedBytes,
+    trimEnabled,
+    trimStartTime,
+    trimEndTime,
+    videoRotationMode,
+    videoSpeedMode,
+    aspectRatioMode,
+    exportType,
+    stripMetadata,
+    autoCropBlackBars,
   ];
 }

@@ -17,26 +17,7 @@ class SettingsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CompressionCubit, CompressionState>(
-      buildWhen: (prev, curr) =>
-          prev.isSettingsExpanded != curr.isSettingsExpanded ||
-          prev.deleteOriginalOnSuccess != curr.deleteOriginalOnSuccess ||
-          prev.encodingPreset != curr.encodingPreset ||
-          prev.videoCodec != curr.videoCodec ||
-          prev.enableVideoDenoise != curr.enableVideoDenoise ||
-          prev.hardwareEncoder != curr.hardwareEncoder ||
-          prev.crfQuality != curr.crfQuality ||
-          prev.isTargetSizeMode != curr.isTargetSizeMode ||
-          prev.targetSizeMB != curr.targetSizeMB ||
-          prev.isProcessing != curr.isProcessing ||
-          prev.customOutputDirectory != curr.customOutputDirectory ||
-          prev.audioMode != curr.audioMode ||
-          prev.enableAudioDenoise != curr.enableAudioDenoise ||
-          prev.audioNormalizeMode != curr.audioNormalizeMode ||
-          prev.audioChannelsMode != curr.audioChannelsMode ||
-          prev.resolutionMode != curr.resolutionMode ||
-          prev.frameRateMode != curr.frameRateMode ||
-          prev.outputFormat != curr.outputFormat ||
-          prev.outputLocationMode != curr.outputLocationMode,
+      buildWhen: (prev, curr) => prev != curr,
       builder: (context, state) {
         return AnimatedCrossFade(
           duration: const Duration(milliseconds: 250),
@@ -68,7 +49,7 @@ class _SettingsContentState extends State<_SettingsContent>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
         setState(() {});
@@ -260,6 +241,7 @@ class _SettingsContentState extends State<_SettingsContent>
                   Tab(text: "🎬 Video & Format"),
                   Tab(text: "🎵 Audio Settings"),
                   Tab(text: "⚙️ Engine & Output"),
+                  Tab(text: "✂️ Quick Tools"),
                 ],
               ),
             ),
@@ -273,10 +255,12 @@ class _SettingsContentState extends State<_SettingsContent>
                   ? 400.0
                   : _tabController.index == 1
                       ? 230.0
-                      : (widget.state.outputLocationMode ==
-                              OutputLocationMode.unified
-                          ? 320.0
-                          : 230.0),
+                      : _tabController.index == 2
+                          ? (widget.state.outputLocationMode ==
+                                  OutputLocationMode.unified
+                              ? 320.0
+                              : 230.0)
+                          : 490.0,
               child: TabBarView(
                 controller: _tabController,
                 physics: const BouncingScrollPhysics(),
@@ -292,6 +276,10 @@ class _SettingsContentState extends State<_SettingsContent>
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: _buildEngineTab(isLocked, widget.state),
+                  ),
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: _ToolsTabContent(state: widget.state, isLocked: isLocked),
                   ),
                 ],
               ),

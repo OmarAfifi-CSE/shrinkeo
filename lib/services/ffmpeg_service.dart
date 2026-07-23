@@ -4,7 +4,18 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 import '../cubit/compression_state.dart'
-    show AudioChannelsMode, AudioMode, AudioNormalizeMode, FrameRateMode, HardwareEncoder, ResolutionMode, VideoCodec;
+    show
+        AspectRatioMode,
+        AudioChannelsMode,
+        AudioMode,
+        AudioNormalizeMode,
+        ExportType,
+        FrameRateMode,
+        HardwareEncoder,
+        ResolutionMode,
+        VideoCodec,
+        VideoRotationMode,
+        VideoSpeedMode;
 
 /// Data class containing detailed progress information.
 class CompressionProgress {
@@ -152,6 +163,15 @@ class FfmpegService {
     AudioChannelsMode audioChannelsMode = AudioChannelsMode.original,
     required ResolutionMode resolutionMode,
     required FrameRateMode frameRateMode,
+    bool trimEnabled = false,
+    String trimStartTime = '00:00:00',
+    String trimEndTime = '00:00:00',
+    VideoRotationMode videoRotationMode = VideoRotationMode.original,
+    VideoSpeedMode videoSpeedMode = VideoSpeedMode.original,
+    AspectRatioMode aspectRatioMode = AspectRatioMode.original,
+    ExportType exportType = ExportType.video,
+    bool stripMetadata = false,
+    bool autoCropBlackBars = false,
   }) async* {
     _isCancelled = false;
     final ffmpeg = ffmpegPath;
@@ -199,18 +219,187 @@ class FfmpegService {
     // For simplicity, we just pass -crf to software, and -cq for nvenc/amf.
     // Wait, FFmpeg handles -crf for many, but to be perfectly safe, let's use standard arguments.
     // Actually, -crf works for libx264 and libx265.
-    // For nvenc, -cq is used. Let's adjust args dynamically.
-    final args = [
+    // --- Audio Export Special Handling (MP3 / AAC / WAV) ---
+    if (exportType == ExportType.mp3 || exportType == ExportType.aac || exportType == ExportType.wav) {
+      final audioArgs = <String>[
+        '-y',
+        '-hide_banner',
+        '-loglevel',
+        'error',
+        '-stats',
+      ];
+      if (trimEnabled) {
+        if (trimStartTime.isNotEmpty && trimStartTime != '00:00:00') {
+          audioArgs.addAll(['-ss', trimStartTime]);
+        }
+        if (trimEndTime.isNotEmpty && trimEndTime != '00:00:00') {
+          audioArgs.addAll(['-to', trimEndTime]);
+        }
+      }
+      audioArgs.addAll(['-i', inputPath, '-vn']);
+
+      if (stripMetadata) {
+        audioArgs.addAll(['-map_metadata', '-1']);
+      }
+
+      final List<String> audioFilters = [];
+      if (enableAudioDenoise) audioFilters.add('afftdn');
+      if (audioNormalizeMode == AudioNormalizeMode.speech) {
+        audioFilters.add('loudnorm=I=-16:TP=-1.5:LRA=11');
+      } else if (audioNormalizeMode == AudioNormalizeMode.dynamic) {
+        audioFilters.add('dynaudnorm=f=150:g=15');
+      } else if (audioNormalizeMode == AudioNormalizeMode.boost) {
+        audioFilters.add('volume=3dB');
+      }
+      if (videoSpeedMode == VideoSpeedMode.slow05) audioFilters.add('atempo=0.5');
+      if (videoSpeedMode == VideoSpeedMode.fast15) audioFilters.add('atempo=1.5');
+      if (videoSpeedMode == VideoSpeedMode.fast20) audioFilters.add('atempo=2.0');
+      if (videoSpeedMode == VideoSpeedMode.timelapse40) audioFilters.add('atempo=2.0,atempo=2.0');
+
+      if (audioFilters.isNotEmpty) {
+        audioArgs.addAll(['-af', audioFilters.join(',')]);
+      }
+
+      if (audioChannelsMode == AudioChannelsMode.mono) {
+        audioArgs.addAll(['-ac', '1']);
+      } else if (audioChannelsMode == AudioChannelsMode.stereo) {
+        audioArgs.addAll(['-ac', '2']);
+      }
+
+      if (exportType == ExportType.mp3) {
+        audioArgs.addAll(['-acodec', 'libmp3lame', '-b:a', '320k']);
+      } else if (exportType == ExportType.aac) {
+        audioArgs.addAll(['-acodec', 'aac', '-b:a', '256k']);
+      } else if (exportType == ExportType.wav) {
+        audioArgs.addAll(['-acodec', 'pcm_s16le']);
+      }
+
+      audioArgs.add(outputPath);
+
+      _currentProcess = await Process.start(ffmpeg, audioArgs);
+      final process = _currentProcess!;
+
+      await for (final p in _streamFFmpegProgress(process, totalMs, outputPath)) {
+        if (_isCancelled) break;
+        yield p;
+      }
+      final exitCode = await process.exitCode;
+      _currentProcess = null;
+
+      if (_isCancelled) {
+        _isCancelled = false;
+        throw _CompressionCancelledException();
+      }
+      if (exitCode != 0) {
+        throw Exception('FFmpeg Audio export failed with exit code $exitCode');
+      }
+
+      yield CompressionProgress(progress: 1.0, speed: 0.0, eta: Duration.zero);
+      return;
+    }
+
+    // --- GIF Export Special Handling ---
+    if (exportType == ExportType.gif) {
+      final gifArgs = <String>[
+        '-y',
+        '-hide_banner',
+        '-loglevel',
+        'error',
+        '-stats',
+      ];
+      if (trimEnabled) {
+        if (trimStartTime.isNotEmpty && trimStartTime != '00:00:00') {
+          gifArgs.addAll(['-ss', trimStartTime]);
+        }
+        if (trimEndTime.isNotEmpty && trimEndTime != '00:00:00') {
+          gifArgs.addAll(['-to', trimEndTime]);
+        }
+      }
+      gifArgs.addAll(['-i', inputPath]);
+
+      final gifFilters = <String>[];
+      if (autoCropBlackBars) gifFilters.add('crop=in_w:in_h-trunc(in_h*0.12)');
+      if (videoRotationMode == VideoRotationMode.deg90) gifFilters.add('transpose=1');
+      if (videoRotationMode == VideoRotationMode.deg180) gifFilters.add('transpose=2,transpose=2');
+      if (videoRotationMode == VideoRotationMode.deg270) gifFilters.add('transpose=2');
+      if (videoRotationMode == VideoRotationMode.flipH) gifFilters.add('hflip');
+      if (videoRotationMode == VideoRotationMode.flipV) gifFilters.add('vflip');
+
+      if (videoSpeedMode == VideoSpeedMode.slow05) gifFilters.add('setpts=2.0*PTS');
+      if (videoSpeedMode == VideoSpeedMode.fast15) gifFilters.add('setpts=0.666667*PTS');
+      if (videoSpeedMode == VideoSpeedMode.fast20) gifFilters.add('setpts=0.5*PTS');
+      if (videoSpeedMode == VideoSpeedMode.timelapse40) gifFilters.add('setpts=0.25*PTS');
+
+      if (aspectRatioMode == AspectRatioMode.shorts916) {
+        gifFilters.add("scale='if(gt(iw/ih,9/16),480,-1)':'if(gt(iw/ih,9/16),-1,854)',pad=480:854:(480-iw)/2:(854-ih)/2:black");
+      } else if (aspectRatioMode == AspectRatioMode.square11) {
+        gifFilters.add("scale='if(gt(iw,ih),480,-1)':'if(gt(iw,ih),-1,480)',pad=480:480:(480-iw)/2:(480-ih)/2:black");
+      } else if (aspectRatioMode == AspectRatioMode.portrait45) {
+        gifFilters.add("scale='if(gt(iw/ih,4/5),480,-1)':'if(gt(iw/ih,4/5),-1,600)',pad=480:600:(480-iw)/2:(600-ih)/2:black");
+      } else if (aspectRatioMode == AspectRatioMode.widescreen169) {
+        gifFilters.add("scale='if(gt(iw/ih,16/9),854,-1)':'if(gt(iw/ih,16/9),-1,480)',pad=854:480:(854-iw)/2:(480-ih)/2:black");
+      } else if (aspectRatioMode == AspectRatioMode.classic43) {
+        gifFilters.add("scale='if(gt(iw/ih,4/3),640,-1)':'if(gt(iw/ih,4/3),-1,480)',pad=640:480:(640-iw)/2:(480-ih)/2:black");
+      } else if (aspectRatioMode == AspectRatioMode.cinema219) {
+        gifFilters.add("scale='if(gt(iw/ih,21/9),1120,-1)':'if(gt(iw/ih,21/9),-1,480)',pad=1120:480:(1120-iw)/2:(480-ih)/2:black");
+      } else {
+        gifFilters.add('scale=480:-1:flags=lanczos');
+      }
+
+      gifFilters.add('fps=15');
+      final filterGraph = '${gifFilters.join(',')},split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse';
+
+      gifArgs.addAll(['-vf', filterGraph, outputPath]);
+
+      _currentProcess = await Process.start(ffmpeg, gifArgs);
+      final process = _currentProcess!;
+
+      await for (final p in _streamFFmpegProgress(process, totalMs, outputPath)) {
+        if (_isCancelled) break;
+        yield p;
+      }
+      final exitCode = await process.exitCode;
+      _currentProcess = null;
+
+      if (_isCancelled) {
+        _isCancelled = false;
+        throw _CompressionCancelledException();
+      }
+      if (exitCode != 0) {
+        throw Exception('FFmpeg GIF export failed with exit code $exitCode');
+      }
+
+      yield CompressionProgress(progress: 1.0, speed: 0.0, eta: Duration.zero);
+      return;
+    }
+
+    final args = <String>[
       '-y',
       '-hide_banner',
       '-loglevel',
       'error',
       '-stats',
+    ];
+
+    if (trimEnabled) {
+      if (trimStartTime.isNotEmpty && trimStartTime != '00:00:00') {
+        args.addAll(['-ss', trimStartTime]);
+      }
+      if (trimEndTime.isNotEmpty && trimEndTime != '00:00:00') {
+        args.addAll(['-to', trimEndTime]);
+      }
+    }
+
+    args.addAll([
       '-i',
       inputPath,
       '-vcodec',
       vcodec,
-    ];
+    ]);
+
+    if (stripMetadata) {
+      args.addAll(['-map_metadata', '-1']);
+    }
 
     String mappedPreset = preset;
     if (hardwareEncoder == HardwareEncoder.nvidia) {
@@ -280,6 +469,16 @@ class FfmpegService {
       audioFilterList.add('dynaudnorm=f=150:g=15');
     } else if (audioNormalizeMode == AudioNormalizeMode.boost) {
       audioFilterList.add('volume=3dB');
+    }
+
+    if (videoSpeedMode == VideoSpeedMode.slow05) {
+      audioFilterList.add('atempo=0.5');
+    } else if (videoSpeedMode == VideoSpeedMode.fast15) {
+      audioFilterList.add('atempo=1.5');
+    } else if (videoSpeedMode == VideoSpeedMode.fast20) {
+      audioFilterList.add('atempo=2.0');
+    } else if (videoSpeedMode == VideoSpeedMode.timelapse40) {
+      audioFilterList.add('atempo=2.0,atempo=2.0');
     }
 
     final bool hasAudioProcessing = audioFilterList.isNotEmpty || audioChannelsMode != AudioChannelsMode.original;
@@ -506,6 +705,62 @@ class FfmpegService {
     }
 
     final videoFilters = <String>[];
+
+    // Auto Crop Black Bars
+    if (autoCropBlackBars) {
+      videoFilters.add('crop=in_w:in_h-trunc(in_h*0.12)');
+    }
+
+    // Rotation & Flip Filters
+    if (videoRotationMode == VideoRotationMode.deg90) {
+      videoFilters.add('transpose=1');
+    } else if (videoRotationMode == VideoRotationMode.deg180) {
+      videoFilters.add('transpose=2,transpose=2');
+    } else if (videoRotationMode == VideoRotationMode.deg270) {
+      videoFilters.add('transpose=2');
+    } else if (videoRotationMode == VideoRotationMode.flipH) {
+      videoFilters.add('hflip');
+    } else if (videoRotationMode == VideoRotationMode.flipV) {
+      videoFilters.add('vflip');
+    }
+
+    // Playback Speed Filters
+    if (videoSpeedMode == VideoSpeedMode.slow05) {
+      videoFilters.add('setpts=2.0*PTS');
+    } else if (videoSpeedMode == VideoSpeedMode.fast15) {
+      videoFilters.add('setpts=0.666667*PTS');
+    } else if (videoSpeedMode == VideoSpeedMode.fast20) {
+      videoFilters.add('setpts=0.5*PTS');
+    } else if (videoSpeedMode == VideoSpeedMode.timelapse40) {
+      videoFilters.add('setpts=0.25*PTS');
+    }
+
+    // Aspect Ratio Padding Filters
+    if (aspectRatioMode == AspectRatioMode.shorts916) {
+      videoFilters.add(
+        "scale='if(gt(iw/ih,9/16),1080,-1)':'if(gt(iw/ih,9/16),-1,1920)',pad=1080:1920:(1080-iw)/2:(1920-ih)/2:black",
+      );
+    } else if (aspectRatioMode == AspectRatioMode.square11) {
+      videoFilters.add(
+        "scale='if(gt(iw,ih),1080,-1)':'if(gt(iw,ih),-1,1080)',pad=1080:1080:(1080-iw)/2:(1080-ih)/2:black",
+      );
+    } else if (aspectRatioMode == AspectRatioMode.portrait45) {
+      videoFilters.add(
+        "scale='if(gt(iw/ih,4/5),1080,-1)':'if(gt(iw/ih,4/5),-1,1350)',pad=1080:1350:(1080-iw)/2:(1350-ih)/2:black",
+      );
+    } else if (aspectRatioMode == AspectRatioMode.widescreen169) {
+      videoFilters.add(
+        "scale='if(gt(iw/ih,16/9),1920,-1)':'if(gt(iw/ih,16/9),-1,1080)',pad=1920:1080:(1920-iw)/2:(1080-ih)/2:black",
+      );
+    } else if (aspectRatioMode == AspectRatioMode.classic43) {
+      videoFilters.add(
+        "scale='if(gt(iw/ih,4/3),1440,-1)':'if(gt(iw/ih,4/3),-1,1080)',pad=1440:1080:(1440-iw)/2:(1080-ih)/2:black",
+      );
+    } else if (aspectRatioMode == AspectRatioMode.cinema219) {
+      videoFilters.add(
+        "scale='if(gt(iw/ih,21/9),2560,-1)':'if(gt(iw/ih,21/9),-1,1080)',pad=2560:1080:(2560-iw)/2:(1080-ih)/2:black",
+      );
+    }
 
     if (enableVideoDenoise) {
       // Light, razor-sharp spatial-temporal denoise filter that removes noise without smearing visual details

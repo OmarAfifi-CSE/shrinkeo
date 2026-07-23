@@ -307,6 +307,51 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(deleteOriginalOnSuccess: delete));
   }
 
+  /// Toggles Lossless Video Trimming.
+  void toggleTrim(bool enabled) {
+    emit(state.copyWith(trimEnabled: enabled));
+  }
+
+  /// Updates Video Trim Start Time.
+  void updateTrimStartTime(String time) {
+    emit(state.copyWith(trimStartTime: time));
+  }
+
+  /// Updates Video Trim End Time.
+  void updateTrimEndTime(String time) {
+    emit(state.copyWith(trimEndTime: time));
+  }
+
+  /// Updates Video Rotation & Flip orientation.
+  void updateVideoRotationMode(VideoRotationMode mode) {
+    emit(state.copyWith(videoRotationMode: mode));
+  }
+
+  /// Updates Video Playback Speed.
+  void updateVideoSpeedMode(VideoSpeedMode mode) {
+    emit(state.copyWith(videoSpeedMode: mode));
+  }
+
+  /// Updates Aspect Ratio Padding Mode.
+  void updateAspectRatioMode(AspectRatioMode mode) {
+    emit(state.copyWith(aspectRatioMode: mode));
+  }
+
+  /// Updates Export Type (Video vs GIF vs Audio Extract).
+  void updateExportType(ExportType type) {
+    emit(state.copyWith(exportType: type));
+  }
+
+  /// Toggles Privacy & Metadata Scrubbing (-map_metadata -1).
+  void toggleStripMetadata(bool enabled) {
+    emit(state.copyWith(stripMetadata: enabled));
+  }
+
+  /// Toggles Auto-Crop Black Bars.
+  void toggleAutoCropBlackBars(bool enabled) {
+    emit(state.copyWith(autoCropBlackBars: enabled));
+  }
+
   /// Toggles between light and dark theme mode.
   void toggleTheme() {
     final newMode = state.themeMode == ThemeMode.dark
@@ -370,6 +415,15 @@ class CompressionCubit extends Cubit<CompressionState> {
         deleteOriginalOnSuccess: false,
         customOutputDirectory: null,
         clearCustomOutputDirectory: true,
+        trimEnabled: false,
+        trimStartTime: '00:00:00',
+        trimEndTime: '00:00:00',
+        videoRotationMode: VideoRotationMode.original,
+        videoSpeedMode: VideoSpeedMode.original,
+        aspectRatioMode: AspectRatioMode.original,
+        exportType: ExportType.video,
+        stripMetadata: false,
+        autoCropBlackBars: false,
       ),
     );
   }
@@ -782,11 +836,22 @@ class CompressionCubit extends Cubit<CompressionState> {
       emit(state.copyWith(outputFolderPath: outputFolder));
     }
 
-    // Preserve original filename but change extension to the selected output format.
+    // Preserve original filename but change extension to the selected output format, GIF, or audio format.
     String baseFileName = p.basenameWithoutExtension(video.fileName);
-    String targetExtension = state.outputFormat == OutputFormat.original
-        ? p.extension(video.fileName)
-        : state.outputFormat.extension!;
+    String targetExtension;
+    if (state.exportType == ExportType.gif) {
+      targetExtension = '.gif';
+    } else if (state.exportType == ExportType.mp3) {
+      targetExtension = '.mp3';
+    } else if (state.exportType == ExportType.aac) {
+      targetExtension = '.m4a';
+    } else if (state.exportType == ExportType.wav) {
+      targetExtension = '.wav';
+    } else {
+      targetExtension = state.outputFormat == OutputFormat.original
+          ? p.extension(video.fileName)
+          : state.outputFormat.extension!;
+    }
 
     String newFileName = '$baseFileName$targetExtension';
     String outputPath = p.join(outputFolder, newFileName);
@@ -831,6 +896,15 @@ class CompressionCubit extends Cubit<CompressionState> {
           audioChannelsMode: state.audioChannelsMode,
           resolutionMode: state.resolutionMode,
           frameRateMode: state.frameRateMode,
+          trimEnabled: state.trimEnabled,
+          trimStartTime: state.trimStartTime,
+          trimEndTime: state.trimEndTime,
+          videoRotationMode: state.videoRotationMode,
+          videoSpeedMode: state.videoSpeedMode,
+          aspectRatioMode: state.aspectRatioMode,
+          exportType: state.exportType,
+          stripMetadata: state.stripMetadata,
+          autoCropBlackBars: state.autoCropBlackBars,
         )) {
           if (_cancelRequested) break;
 
