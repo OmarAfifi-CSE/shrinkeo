@@ -238,10 +238,46 @@ class _SettingsContentState extends State<_SettingsContent>
                   fontSize: 12,
                 ),
                 tabs: const [
-                  Tab(text: "🎬 Compression & Quality"),
-                  Tab(text: "🎞️ Video Editing & Tools"),
-                  Tab(text: "🎵 Audio Settings"),
-                  Tab(text: "⚙️ Engine & Output"),
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.tune_rounded, size: 15),
+                        SizedBox(width: 6),
+                        Text("Compression & Quality"),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.transform_rounded, size: 15),
+                        SizedBox(width: 6),
+                        Text("Video Editing & Tools"),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.graphic_eq_rounded, size: 15),
+                        SizedBox(width: 6),
+                        Text("Audio Settings"),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.settings_suggest_rounded, size: 15),
+                        SizedBox(width: 6),
+                        Text("Engine & Output"),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

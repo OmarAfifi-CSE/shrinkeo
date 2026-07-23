@@ -604,12 +604,14 @@ class _ScaleLabel extends StatelessWidget {
 
 class _OptionChip extends StatefulWidget {
   final String label;
+  final IconData? icon;
   final bool isSelected;
   final bool isLocked;
   final VoidCallback onTap;
 
   const _OptionChip({
     required this.label,
+    this.icon,
     required this.isSelected,
     required this.isLocked,
     required this.onTap,
@@ -644,7 +646,7 @@ class _OptionChipState extends State<_OptionChip> {
         onTap: widget.isLocked ? null : widget.onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
           decoration: BoxDecoration(
             color: widget.isSelected
                 ? activeColor.withValues(alpha: 0.15)
@@ -660,17 +662,34 @@ class _OptionChipState extends State<_OptionChip> {
                   : inactiveBorder.withValues(alpha: 0.4),
             ),
           ),
-          child: Text(
-            widget.label,
-            style: TextStyle(
-              color: widget.isSelected
-                  ? activeColor
-                  : _isHovering && !widget.isLocked
-                  ? activeColor
-                  : theme.textTheme.bodySmall?.color,
-              fontSize: 12,
-              fontWeight: widget.isSelected ? FontWeight.w600 : FontWeight.w400,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.icon != null) ...[
+                Icon(
+                  widget.icon,
+                  size: 13,
+                  color: widget.isSelected
+                      ? activeColor
+                      : _isHovering && !widget.isLocked
+                      ? activeColor
+                      : theme.textTheme.bodySmall?.color?.withValues(alpha: 0.7),
+                ),
+                const SizedBox(width: 5),
+              ],
+              Text(
+                widget.label,
+                style: TextStyle(
+                  color: widget.isSelected
+                      ? activeColor
+                      : _isHovering && !widget.isLocked
+                      ? activeColor
+                      : theme.textTheme.bodySmall?.color,
+                  fontSize: 12,
+                  fontWeight: widget.isSelected ? FontWeight.w600 : FontWeight.w400,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -873,8 +892,17 @@ class _AudioNormalizeSection extends StatelessWidget {
           spacing: 6,
           runSpacing: 6,
           children: AudioNormalizeMode.values.map((mode) {
+            IconData? chipIcon;
+            if (mode == AudioNormalizeMode.speech) {
+              chipIcon = Icons.record_voice_over_rounded;
+            } else if (mode == AudioNormalizeMode.dynamic) {
+              chipIcon = Icons.movie_filter_rounded;
+            } else if (mode == AudioNormalizeMode.boost) {
+              chipIcon = Icons.bolt_rounded;
+            }
             return _OptionChip(
               label: mode.label,
+              icon: chipIcon,
               isSelected: state.audioNormalizeMode == mode,
               isLocked: isLocked,
               onTap: () => cubit.updateAudioNormalizeMode(mode),
@@ -1292,19 +1320,26 @@ class _ToolsTabContent extends StatelessWidget {
                     runSpacing: 4,
                     children: ExportType.values.map((type) {
                       String label;
+                      IconData chipIcon;
                       if (type == ExportType.video) {
-                        label = '🎥 Video';
+                        label = 'Video';
+                        chipIcon = Icons.movie_creation_rounded;
                       } else if (type == ExportType.gif) {
-                        label = '🖼️ GIF';
+                        label = 'GIF';
+                        chipIcon = Icons.gif_box_rounded;
                       } else if (type == ExportType.mp3) {
-                        label = '🎵 MP3';
+                        label = 'MP3';
+                        chipIcon = Icons.audiotrack_rounded;
                       } else if (type == ExportType.aac) {
-                        label = '🎼 AAC';
+                        label = 'AAC';
+                        chipIcon = Icons.music_note_rounded;
                       } else {
-                        label = '🎧 WAV';
+                        label = 'WAV';
+                        chipIcon = Icons.graphic_eq_rounded;
                       }
                       return _OptionChip(
                         label: label,
+                        icon: chipIcon,
                         isSelected: state.exportType == type,
                         isLocked: isLocked,
                         onTap: () => cubit.updateExportType(type),
@@ -1343,12 +1378,14 @@ class _ToolsTabContent extends StatelessWidget {
                     children: [
                       _OptionChip(
                         label: 'Keep Metadata',
+                        icon: Icons.info_outline_rounded,
                         isSelected: !state.stripMetadata,
                         isLocked: isLocked,
                         onTap: () => cubit.toggleStripMetadata(false),
                       ),
                       _OptionChip(
-                        label: '🛡️ Strip GPS/EXIF',
+                        label: 'Strip GPS/EXIF',
+                        icon: Icons.security_rounded,
                         isSelected: state.stripMetadata,
                         isLocked: isLocked,
                         onTap: () => cubit.toggleStripMetadata(true),
@@ -1392,12 +1429,14 @@ class _ToolsTabContent extends StatelessWidget {
                     children: [
                       _OptionChip(
                         label: 'Disabled',
+                        icon: Icons.crop_free_rounded,
                         isSelected: !state.autoCropBlackBars,
                         isLocked: isLocked,
                         onTap: () => cubit.toggleAutoCropBlackBars(false),
                       ),
                       _OptionChip(
-                        label: '✂️ Auto-Crop',
+                        label: 'Auto-Crop',
+                        icon: Icons.crop_rounded,
                         isSelected: state.autoCropBlackBars,
                         isLocked: isLocked,
                         onTap: () => cubit.toggleAutoCropBlackBars(true),
@@ -1433,19 +1472,25 @@ class _ToolsTabContent extends StatelessWidget {
                     runSpacing: 4,
                     children: VideoSpeedMode.values.map((mode) {
                       String label;
+                      IconData? chipIcon;
                       if (mode == VideoSpeedMode.original) {
                         label = '1.0x';
                       } else if (mode == VideoSpeedMode.slow05) {
                         label = '0.5x Slow';
+                        chipIcon = Icons.slow_motion_video_rounded;
                       } else if (mode == VideoSpeedMode.fast15) {
                         label = '1.5x';
+                        chipIcon = Icons.fast_forward_rounded;
                       } else if (mode == VideoSpeedMode.fast20) {
                         label = '2.0x Fast';
+                        chipIcon = Icons.speed_rounded;
                       } else {
                         label = '4.0x Lapse';
+                        chipIcon = Icons.shutter_speed_rounded;
                       }
                       return _OptionChip(
                         label: label,
+                        icon: chipIcon,
                         isSelected: state.videoSpeedMode == mode,
                         isLocked: isLocked,
                         onTap: () => cubit.updateVideoSpeedMode(mode),
@@ -1631,7 +1676,7 @@ class _TrimSectionState extends State<_TrimSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Lossless Cut / Trim Video',
+          'Trim Video',
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             color: theme.textTheme.bodyMedium?.color,
@@ -1643,13 +1688,15 @@ class _TrimSectionState extends State<_TrimSection> {
           children: [
             _OptionChip(
               label: 'Full Video',
+              icon: Icons.movie_rounded,
               isSelected: !widget.state.trimEnabled,
               isLocked: widget.isLocked,
               onTap: () => cubit.toggleTrim(false),
             ),
             const SizedBox(width: 6),
             _OptionChip(
-              label: 'Cut Clip (Trim)',
+              label: 'Cut Clip',
+              icon: Icons.content_cut_rounded,
               isSelected: widget.state.trimEnabled,
               isLocked: widget.isLocked,
               onTap: () => cubit.toggleTrim(true),
@@ -1678,7 +1725,7 @@ class _TrimSectionState extends State<_TrimSection> {
         _InfoBox(
           label: widget.state.trimEnabled ? 'Trim Active' : 'Full Video',
           description: widget.state.trimEnabled
-              ? 'Losslessly cuts the video clip between ${widget.state.trimStartTime} and ${widget.state.trimEndTime}.'
+              ? 'Cuts video clip between ${widget.state.trimStartTime} and ${widget.state.trimEndTime}.'
               : 'Processes the entire video duration without trimming.',
           icon: Icons.content_cut_rounded,
         ),

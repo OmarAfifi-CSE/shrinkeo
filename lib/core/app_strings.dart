@@ -149,11 +149,11 @@ class AppStrings {
   static const String audioNormTitle = 'Audio Volume Normalization';
   static const String audioNormOffLabel = 'Off';
   static const String audioNormOffDesc = 'Keep original dynamic volume.';
-  static const String audioNormSpeechLabel = '🗣️ Speech';
+  static const String audioNormSpeechLabel = 'Speech';
   static const String audioNormSpeechDesc = 'EBU R128 (-16 LUFS) broadcast loudness for clear dialogue.';
-  static const String audioNormDynamicLabel = '🍿 Movie Dynamic';
+  static const String audioNormDynamicLabel = 'Movie Dynamic';
   static const String audioNormDynamicDesc = 'Dynaudnorm smooths quiet & loud scenes smoothly.';
-  static const String audioNormBoostLabel = '⚡ Soft Boost';
+  static const String audioNormBoostLabel = 'Soft Boost';
   static const String audioNormBoostDesc = 'Fixed +3dB volume gain boost for low-audio videos.';
 
   // ---- Audio Channels ----
