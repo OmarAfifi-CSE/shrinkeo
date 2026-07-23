@@ -4,6 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
+import 'core/language_helper.dart';
+
 import 'cubit/compression_cubit.dart';
 import 'cubit/compression_state.dart';
 import 'services/desktop_integration_service.dart';
@@ -79,7 +83,8 @@ class ShrinkeoApp extends StatelessWidget {
       create: (_) => CompressionCubit(prefs: prefs),
       child: BlocBuilder<CompressionCubit, CompressionState>(
         buildWhen: (previous, current) =>
-            previous.themeMode != current.themeMode,
+            previous.themeMode != current.themeMode ||
+            previous.languageCode != current.languageCode,
         builder: (context, state) {
           return MaterialApp(
             title: 'Shrinkeo',
@@ -87,6 +92,14 @@ class ShrinkeoApp extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: state.themeMode,
+            locale: Locale(state.languageCode),
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: LanguageHelper.supportedLocales,
             home: const HomeScreen(),
           );
         },

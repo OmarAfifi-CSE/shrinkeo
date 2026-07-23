@@ -70,6 +70,7 @@ class CompressionCubit extends Cubit<CompressionState> {
            deleteOriginalOnSuccess:
                prefs.getBool('deleteOriginalOnSuccess') ?? false,
            globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
+           languageCode: prefs.getString('languageCode') ?? 'en',
          ),
        );
 
@@ -288,6 +289,12 @@ class CompressionCubit extends Cubit<CompressionState> {
   void updateFrameRateMode(FrameRateMode mode) {
     _prefs.setString('frameRateMode', mode.name);
     emit(state.copyWith(frameRateMode: mode));
+  }
+
+  /// Updates the application language.
+  void changeLanguage(String code) {
+    _prefs.setString('languageCode', code);
+    emit(state.copyWith(languageCode: code));
   }
 
   /// Updates the output format setting.

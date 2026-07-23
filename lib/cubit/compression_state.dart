@@ -344,6 +344,9 @@ class CompressionState extends Equatable {
   /// Custom rotation degree angle (e.g. 45.0, 30.0).
   final double customRotationAngle;
 
+  /// Active application language code (e.g. 'en', 'ar', 'es', 'fr', etc.).
+  final String languageCode;
+
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -386,6 +389,7 @@ class CompressionState extends Equatable {
     this.autoCropBlackBars = false,
     this.customAspectRatio = '16:10',
     this.customRotationAngle = 45.0,
+    this.languageCode = 'en',
   });
 
   /// Creates a copy with the given fields overridden.
@@ -437,6 +441,7 @@ class CompressionState extends Equatable {
     bool? autoCropBlackBars,
     String? customAspectRatio,
     double? customRotationAngle,
+    String? languageCode,
   }) {
     return CompressionState(
       videos: videos ?? this.videos,
@@ -486,6 +491,7 @@ class CompressionState extends Equatable {
       autoCropBlackBars: autoCropBlackBars ?? this.autoCropBlackBars,
       customAspectRatio: customAspectRatio ?? this.customAspectRatio,
       customRotationAngle: customRotationAngle ?? this.customRotationAngle,
+      languageCode: languageCode ?? this.languageCode,
     );
   }
 
@@ -564,5 +570,6 @@ class CompressionState extends Equatable {
     autoCropBlackBars,
     customAspectRatio,
     customRotationAngle,
+    languageCode,
   ];
 }
