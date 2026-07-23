@@ -172,6 +172,8 @@ class FfmpegService {
     ExportType exportType = ExportType.video,
     bool stripMetadata = false,
     bool autoCropBlackBars = false,
+    String customAspectRatio = '16:10',
+    double customRotationAngle = 45.0,
   }) async* {
     _isCancelled = false;
     final ffmpeg = ffmpegPath;
@@ -315,15 +317,20 @@ class FfmpegService {
           gifArgs.addAll(['-to', trimEndTime]);
         }
       }
-      gifArgs.addAll(['-i', inputPath]);
+      if (stripMetadata) {
+        gifArgs.addAll(['-map_metadata', '-1']);
+      }
 
       final gifFilters = <String>[];
-      if (autoCropBlackBars) gifFilters.add('crop=in_w:in_h-trunc(in_h*0.12)');
+      if (autoCropBlackBars) gifFilters.add('crop=in_w:trunc((in_h-trunc(in_h*0.12))/2)*2');
       if (videoRotationMode == VideoRotationMode.deg90) gifFilters.add('transpose=1');
       if (videoRotationMode == VideoRotationMode.deg180) gifFilters.add('transpose=2,transpose=2');
       if (videoRotationMode == VideoRotationMode.deg270) gifFilters.add('transpose=2');
       if (videoRotationMode == VideoRotationMode.flipH) gifFilters.add('hflip');
       if (videoRotationMode == VideoRotationMode.flipV) gifFilters.add('vflip');
+      if (videoRotationMode == VideoRotationMode.custom) {
+        gifFilters.add("rotate=$customRotationAngle*PI/180:ow='hypot(iw,ih)':oh='hypot(iw,ih)':c=black");
+      }
 
       if (videoSpeedMode == VideoSpeedMode.slow05) gifFilters.add('setpts=2.0*PTS');
       if (videoSpeedMode == VideoSpeedMode.fast15) gifFilters.add('setpts=0.666667*PTS');
@@ -342,6 +349,20 @@ class FfmpegService {
         gifFilters.add("scale='if(gt(iw/ih,4/3),640,-1)':'if(gt(iw/ih,4/3),-1,480)',pad=640:480:(640-iw)/2:(480-ih)/2:black");
       } else if (aspectRatioMode == AspectRatioMode.cinema219) {
         gifFilters.add("scale='if(gt(iw/ih,21/9),1120,-1)':'if(gt(iw/ih,21/9),-1,480)',pad=1120:480:(1120-iw)/2:(480-ih)/2:black");
+      } else if (aspectRatioMode == AspectRatioMode.custom) {
+        double ratio = 1.6;
+        final parts = customAspectRatio.split(':');
+        if (parts.length == 2) {
+          final w = double.tryParse(parts[0].trim());
+          final h = double.tryParse(parts[1].trim());
+          if (w != null && h != null && h > 0) ratio = w / h;
+        } else {
+          ratio = double.tryParse(customAspectRatio.trim()) ?? 1.6;
+        }
+        final targetH = (480 / ratio).round();
+        final evenH = (targetH ~/ 2) * 2;
+        final rStr = ratio.toStringAsFixed(4);
+        gifFilters.add("scale='if(gt(iw/ih,$rStr),480,-1)':'if(gt(iw/ih,$rStr),-1,$evenH)',pad=480:$evenH:(480-iw)/2:($evenH-ih)/2:black");
       } else {
         gifFilters.add('scale=480:-1:flags=lanczos');
       }
@@ -708,7 +729,7 @@ class FfmpegService {
 
     // Auto Crop Black Bars
     if (autoCropBlackBars) {
-      videoFilters.add('crop=in_w:in_h-trunc(in_h*0.12)');
+      videoFilters.add('crop=in_w:trunc((in_h-trunc(in_h*0.12))/2)*2');
     }
 
     // Rotation & Flip Filters
@@ -722,6 +743,8 @@ class FfmpegService {
       videoFilters.add('hflip');
     } else if (videoRotationMode == VideoRotationMode.flipV) {
       videoFilters.add('vflip');
+    } else if (videoRotationMode == VideoRotationMode.custom) {
+      videoFilters.add("rotate=$customRotationAngle*PI/180:ow='hypot(iw,ih)':oh='hypot(iw,ih)':c=black");
     }
 
     // Playback Speed Filters
@@ -759,6 +782,22 @@ class FfmpegService {
     } else if (aspectRatioMode == AspectRatioMode.cinema219) {
       videoFilters.add(
         "scale='if(gt(iw/ih,21/9),2560,-1)':'if(gt(iw/ih,21/9),-1,1080)',pad=2560:1080:(2560-iw)/2:(1080-ih)/2:black",
+      );
+    } else if (aspectRatioMode == AspectRatioMode.custom) {
+      double ratio = 1.6;
+      final parts = customAspectRatio.split(':');
+      if (parts.length == 2) {
+        final w = double.tryParse(parts[0].trim());
+        final h = double.tryParse(parts[1].trim());
+        if (w != null && h != null && h > 0) ratio = w / h;
+      } else {
+        ratio = double.tryParse(customAspectRatio.trim()) ?? 1.6;
+      }
+      final targetH = (1080 / ratio).round();
+      final evenH = (targetH ~/ 2) * 2;
+      final rStr = ratio.toStringAsFixed(4);
+      videoFilters.add(
+        "scale='if(gt(iw/ih,$rStr),1080,-1)':'if(gt(iw/ih,$rStr),-1,$evenH)',pad=1080:$evenH:(1080-iw)/2:($evenH-ih)/2:black",
       );
     }
 

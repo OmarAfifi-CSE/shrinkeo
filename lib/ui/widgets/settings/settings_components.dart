@@ -1484,19 +1484,32 @@ class _ToolsTabContent extends StatelessWidget {
                   Wrap(
                     spacing: 4,
                     runSpacing: 4,
-                    children: AspectRatioMode.values.map((mode) {
-                      return _OptionChip(
-                        label: mode.label,
-                        isSelected: state.aspectRatioMode == mode,
-                        isLocked: isLocked,
-                        onTap: () => cubit.updateAspectRatioMode(mode),
-                      );
-                    }).toList(),
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      ...AspectRatioMode.values.map((mode) {
+                        return _OptionChip(
+                          label: mode.label,
+                          isSelected: state.aspectRatioMode == mode,
+                          isLocked: isLocked,
+                          onTap: () => cubit.updateAspectRatioMode(mode),
+                        );
+                      }),
+                      if (state.aspectRatioMode == AspectRatioMode.custom)
+                        _CustomAspectRatioInput(
+                          ratio: state.customAspectRatio,
+                          isLocked: isLocked,
+                          onChanged: (val) => cubit.updateCustomAspectRatio(val),
+                        ),
+                    ],
                   ),
                   const SizedBox(height: 6),
                   _InfoBox(
-                    label: state.aspectRatioMode.label,
-                    description: state.aspectRatioMode.description,
+                    label: state.aspectRatioMode == AspectRatioMode.custom
+                        ? 'Custom Ratio (${state.customAspectRatio})'
+                        : state.aspectRatioMode.label,
+                    description: state.aspectRatioMode == AspectRatioMode.custom
+                        ? 'Padded canvas for custom ${state.customAspectRatio} ratio.'
+                        : state.aspectRatioMode.description,
                     icon: Icons.crop_rounded,
                   ),
                 ],
@@ -1518,19 +1531,32 @@ class _ToolsTabContent extends StatelessWidget {
                   Wrap(
                     spacing: 4,
                     runSpacing: 4,
-                    children: VideoRotationMode.values.map((mode) {
-                      return _OptionChip(
-                        label: mode.label,
-                        isSelected: state.videoRotationMode == mode,
-                        isLocked: isLocked,
-                        onTap: () => cubit.updateVideoRotationMode(mode),
-                      );
-                    }).toList(),
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      ...VideoRotationMode.values.map((mode) {
+                        return _OptionChip(
+                          label: mode.label,
+                          isSelected: state.videoRotationMode == mode,
+                          isLocked: isLocked,
+                          onTap: () => cubit.updateVideoRotationMode(mode),
+                        );
+                      }),
+                      if (state.videoRotationMode == VideoRotationMode.custom)
+                        _CustomRotationInput(
+                          angle: state.customRotationAngle,
+                          isLocked: isLocked,
+                          onChanged: (val) => cubit.updateCustomRotationAngle(val),
+                        ),
+                    ],
                   ),
                   const SizedBox(height: 6),
                   _InfoBox(
-                    label: state.videoRotationMode.label,
-                    description: state.videoRotationMode.description,
+                    label: state.videoRotationMode == VideoRotationMode.custom
+                        ? 'Custom Angle (${state.customRotationAngle.toInt()}°)'
+                        : state.videoRotationMode.label,
+                    description: state.videoRotationMode == VideoRotationMode.custom
+                        ? 'Rotates video by custom ${state.customRotationAngle.toInt()}° degree angle.'
+                        : state.videoRotationMode.description,
                     icon: Icons.rotate_right_rounded,
                   ),
                 ],
@@ -1796,6 +1822,263 @@ class _TrimTimeInputState extends State<_TrimTimeInput> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Inline input for custom aspect ratio (e.g. "16:10", "2:1", "18:9").
+class _CustomAspectRatioInput extends StatefulWidget {
+  final String ratio;
+  final bool isLocked;
+  final ValueChanged<String> onChanged;
+
+  const _CustomAspectRatioInput({
+    required this.ratio,
+    required this.isLocked,
+    required this.onChanged,
+  });
+
+  @override
+  State<_CustomAspectRatioInput> createState() => _CustomAspectRatioInputState();
+}
+
+class _CustomAspectRatioInputState extends State<_CustomAspectRatioInput> {
+  late TextEditingController _controller;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.ratio);
+    _focusNode.addListener(_onFocusChange);
+  }
+
+  @override
+  void didUpdateWidget(covariant _CustomAspectRatioInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!_focusNode.hasFocus &&
+        oldWidget.ratio != widget.ratio &&
+        _controller.text != widget.ratio) {
+      _controller.text = widget.ratio;
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus) {
+      _applyFormatting();
+    }
+  }
+
+  void _applyFormatting() {
+    final trimmed = _controller.text.trim();
+    final cubit = context.read<CompressionCubit>();
+    if (trimmed.isEmpty) {
+      // Reset custom ratio back to default 16:10 & revert to Original
+      cubit.updateCustomAspectRatio('16:10');
+      cubit.updateAspectRatioMode(AspectRatioMode.original);
+      return;
+    }
+    final formatted = _formatAspectRatio(trimmed);
+    if (_controller.text != formatted) {
+      _controller.text = formatted;
+    }
+    widget.onChanged(formatted);
+  }
+
+  static String _formatAspectRatio(String input) {
+    final trimmed = input.trim();
+    if (trimmed.isEmpty) return '16:10';
+
+    // Standard W:H or W/H or W-H or W H
+    final match = RegExp(r'^(\d+(?:\.\d+)?)\s*[:/\-\,\s]\s*(\d+(?:\.\d+)?)$').firstMatch(trimmed);
+    if (match != null) {
+      return '${match.group(1)}:${match.group(2)}';
+    }
+
+    // Pure number e.g. 2 -> 2:1
+    final val = double.tryParse(trimmed);
+    if (val != null) {
+      if (val == val.toInt().toDouble()) {
+        return '${val.toInt()}:1';
+      }
+      return '$val:1';
+    }
+
+    return trimmed;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+
+    return Tooltip(
+      message: 'Type custom ratio e.g. 16:10, 2:1, 18:9',
+      child: Container(
+        width: 85,
+        height: 33,
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        decoration: BoxDecoration(
+          color: activeColor.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: activeColor.withValues(alpha: 0.4),
+          ),
+        ),
+        child: Center(
+          child: TextField(
+            controller: _controller,
+            focusNode: _focusNode,
+            enabled: !widget.isLocked,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: theme.textTheme.bodyMedium?.color,
+            ),
+            decoration: const InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.zero,
+              border: InputBorder.none,
+            ),
+            onChanged: widget.onChanged,
+            onSubmitted: (_) => _applyFormatting(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Inline input for custom rotation degree angle (e.g. 45°, 30°).
+class _CustomRotationInput extends StatefulWidget {
+  final double angle;
+  final bool isLocked;
+  final ValueChanged<double> onChanged;
+
+  const _CustomRotationInput({
+    required this.angle,
+    required this.isLocked,
+    required this.onChanged,
+  });
+
+  @override
+  State<_CustomRotationInput> createState() => _CustomRotationInputState();
+}
+
+class _CustomRotationInputState extends State<_CustomRotationInput> {
+  late TextEditingController _controller;
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.angle.toInt().toString());
+    _focusNode.addListener(_onFocusChange);
+  }
+
+  @override
+  void didUpdateWidget(covariant _CustomRotationInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!_focusNode.hasFocus && oldWidget.angle != widget.angle) {
+      final textVal = widget.angle.toInt().toString();
+      if (_controller.text != textVal) {
+        _controller.text = textVal;
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (!_focusNode.hasFocus) {
+      _applyFormatting();
+    }
+  }
+
+  void _applyFormatting() {
+    final trimmed = _controller.text.trim();
+    final cubit = context.read<CompressionCubit>();
+    if (trimmed.isEmpty) {
+      // Reset custom angle back to default 45.0 & revert to Original
+      cubit.updateCustomRotationAngle(45.0);
+      cubit.updateVideoRotationMode(VideoRotationMode.original);
+      return;
+    }
+    final parsed = double.tryParse(trimmed);
+    if (parsed != null) {
+      final formatted = parsed.toInt().toString();
+      if (_controller.text != formatted) {
+        _controller.text = formatted;
+      }
+      widget.onChanged(parsed);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+
+    return Tooltip(
+      message: 'Type degree angle e.g. 45, 30, 120',
+      child: Container(
+        width: 75,
+        height: 33,
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        decoration: BoxDecoration(
+          color: activeColor.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: activeColor.withValues(alpha: 0.4),
+          ),
+        ),
+        child: Center(
+          child: TextField(
+            controller: _controller,
+            focusNode: _focusNode,
+            enabled: !widget.isLocked,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: theme.textTheme.bodyMedium?.color,
+            ),
+            decoration: const InputDecoration(
+              isDense: true,
+              contentPadding: EdgeInsets.zero,
+              border: InputBorder.none,
+            ),
+            onChanged: (val) {
+              final parsed = double.tryParse(val);
+              if (parsed != null) widget.onChanged(parsed);
+            },
+            onSubmitted: (_) => _applyFormatting(),
+          ),
         ),
       ),
     );

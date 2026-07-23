@@ -238,10 +238,10 @@ class _SettingsContentState extends State<_SettingsContent>
                   fontSize: 12,
                 ),
                 tabs: const [
-                  Tab(text: "🎬 Video & Format"),
+                  Tab(text: "🎬 Compression & Quality"),
+                  Tab(text: "🎞️ Video Editing & Tools"),
                   Tab(text: "🎵 Audio Settings"),
                   Tab(text: "⚙️ Engine & Output"),
-                  Tab(text: "✂️ Quick Tools"),
                 ],
               ),
             ),
@@ -254,13 +254,13 @@ class _SettingsContentState extends State<_SettingsContent>
               height: _tabController.index == 0
                   ? 400.0
                   : _tabController.index == 1
-                      ? 230.0
+                      ? 490.0
                       : _tabController.index == 2
-                          ? (widget.state.outputLocationMode ==
+                          ? 230.0
+                          : (widget.state.outputLocationMode ==
                                   OutputLocationMode.unified
                               ? 320.0
-                              : 230.0)
-                          : 490.0,
+                              : 230.0),
               child: TabBarView(
                 controller: _tabController,
                 physics: const BouncingScrollPhysics(),
@@ -271,15 +271,15 @@ class _SettingsContentState extends State<_SettingsContent>
                   ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
+                    child: _ToolsTabContent(state: widget.state, isLocked: isLocked),
+                  ),
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
                     child: _buildAudioTab(isLocked, widget.state),
                   ),
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: _buildEngineTab(isLocked, widget.state),
-                  ),
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: _ToolsTabContent(state: widget.state, isLocked: isLocked),
                   ),
                 ],
               ),

@@ -324,7 +324,13 @@ class CompressionCubit extends Cubit<CompressionState> {
 
   /// Updates Video Rotation & Flip orientation.
   void updateVideoRotationMode(VideoRotationMode mode) {
-    emit(state.copyWith(videoRotationMode: mode));
+    if (mode == VideoRotationMode.custom) {
+      final currentAngle = state.customRotationAngle;
+      final angleToUse = (currentAngle <= 0) ? 45.0 : currentAngle;
+      emit(state.copyWith(videoRotationMode: mode, customRotationAngle: angleToUse));
+    } else {
+      emit(state.copyWith(videoRotationMode: mode));
+    }
   }
 
   /// Updates Video Playback Speed.
@@ -334,7 +340,23 @@ class CompressionCubit extends Cubit<CompressionState> {
 
   /// Updates Aspect Ratio Padding Mode.
   void updateAspectRatioMode(AspectRatioMode mode) {
-    emit(state.copyWith(aspectRatioMode: mode));
+    if (mode == AspectRatioMode.custom) {
+      final currentRatio = state.customAspectRatio.trim();
+      final ratioToUse = currentRatio.isEmpty ? '16:10' : currentRatio;
+      emit(state.copyWith(aspectRatioMode: mode, customAspectRatio: ratioToUse));
+    } else {
+      emit(state.copyWith(aspectRatioMode: mode));
+    }
+  }
+
+  /// Updates Custom Aspect Ratio string (e.g. "16:10", "2:1", "18:9").
+  void updateCustomAspectRatio(String ratio) {
+    emit(state.copyWith(customAspectRatio: ratio));
+  }
+
+  /// Updates Custom Rotation Degree Angle (e.g. 45.0, 30.0).
+  void updateCustomRotationAngle(double angle) {
+    emit(state.copyWith(customRotationAngle: angle));
   }
 
   /// Updates Export Type (Video vs GIF vs Audio Extract).
@@ -905,6 +927,8 @@ class CompressionCubit extends Cubit<CompressionState> {
           exportType: state.exportType,
           stripMetadata: state.stripMetadata,
           autoCropBlackBars: state.autoCropBlackBars,
+          customAspectRatio: state.customAspectRatio,
+          customRotationAngle: state.customRotationAngle,
         )) {
           if (_cancelRequested) break;
 

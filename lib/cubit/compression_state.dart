@@ -157,11 +157,12 @@ enum OutputLocationMode {
 
 enum VideoRotationMode {
   original('Original (0°)', 'Keep original orientation'),
-  deg90('90° Clockwise', 'Rotate 90 degrees right'),
+  deg90('90° CW', 'Rotate 90 degrees right'),
   deg180('180° Flip', 'Rotate upside down'),
-  deg270('270° Clockwise', 'Rotate 90 degrees left'),
-  flipH('Horizontal Flip', 'Mirror image horizontally'),
-  flipV('Vertical Flip', 'Mirror image vertically');
+  deg270('270° CW', 'Rotate 90 degrees left'),
+  flipH('Flip H', 'Mirror image horizontally'),
+  flipV('Flip V', 'Mirror image vertically'),
+  custom('Custom Angle', 'Rotate by custom degree angle');
 
   final String label;
   final String description;
@@ -184,12 +185,13 @@ enum VideoSpeedMode {
 
 enum AspectRatioMode {
   original('Original', 'Keep original video dimensions'),
-  shorts916('9:16 Shorts/Reels', 'Padded canvas for TikTok & Reels'),
+  shorts916('9:16 Shorts', 'Padded canvas for TikTok & Reels'),
   square11('1:1 Square', 'Padded canvas for Instagram feed posts'),
   portrait45('4:5 Portrait', 'Padded canvas for Instagram vertical posts'),
-  widescreen169('16:9 Widescreen', 'Padded canvas for YouTube & TV screens'),
+  widescreen169('16:9 Wide', 'Padded canvas for YouTube & TV screens'),
   classic43('4:3 Classic', 'Padded canvas for classic TV screens'),
-  cinema219('21:9 Cinema', 'Padded canvas for Ultrawide cinema monitors');
+  cinema219('21:9 Cinema', 'Padded canvas for Ultrawide cinema monitors'),
+  custom('Custom Ratio', 'Padded canvas for custom aspect ratio');
 
   final String label;
   final String description;
@@ -336,6 +338,12 @@ class CompressionState extends Equatable {
   /// Whether to auto-crop black bars from the top/bottom of video.
   final bool autoCropBlackBars;
 
+  /// Custom aspect ratio string (e.g. "16:10", "2:1", "18:9").
+  final String customAspectRatio;
+
+  /// Custom rotation degree angle (e.g. 45.0, 30.0).
+  final double customRotationAngle;
+
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -376,6 +384,8 @@ class CompressionState extends Equatable {
     this.exportType = ExportType.video,
     this.stripMetadata = false,
     this.autoCropBlackBars = false,
+    this.customAspectRatio = '16:10',
+    this.customRotationAngle = 45.0,
   });
 
   /// Creates a copy with the given fields overridden.
@@ -425,6 +435,8 @@ class CompressionState extends Equatable {
     ExportType? exportType,
     bool? stripMetadata,
     bool? autoCropBlackBars,
+    String? customAspectRatio,
+    double? customRotationAngle,
   }) {
     return CompressionState(
       videos: videos ?? this.videos,
@@ -472,6 +484,8 @@ class CompressionState extends Equatable {
       exportType: exportType ?? this.exportType,
       stripMetadata: stripMetadata ?? this.stripMetadata,
       autoCropBlackBars: autoCropBlackBars ?? this.autoCropBlackBars,
+      customAspectRatio: customAspectRatio ?? this.customAspectRatio,
+      customRotationAngle: customRotationAngle ?? this.customRotationAngle,
     );
   }
 
@@ -548,5 +562,7 @@ class CompressionState extends Equatable {
     exportType,
     stripMetadata,
     autoCropBlackBars,
+    customAspectRatio,
+    customRotationAngle,
   ];
 }
