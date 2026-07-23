@@ -149,7 +149,7 @@ class _SettingsContentState extends State<_SettingsContent>
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
-                          'Locked during compression',
+                          AppStrings.lockedSettingsWarning,
                           style: TextStyle(
                             color: isDark
                                 ? warningColor
@@ -244,7 +244,7 @@ class _SettingsContentState extends State<_SettingsContent>
                       children: [
                         Icon(Icons.tune_rounded, size: 15),
                         SizedBox(width: 6),
-                        Text("Compression & Quality"),
+                        Text(AppStrings.tabCompressionQuality),
                       ],
                     ),
                   ),
@@ -254,7 +254,7 @@ class _SettingsContentState extends State<_SettingsContent>
                       children: [
                         Icon(Icons.transform_rounded, size: 15),
                         SizedBox(width: 6),
-                        Text("Video Editing & Tools"),
+                        Text(AppStrings.tabVideoEditingTools),
                       ],
                     ),
                   ),
@@ -264,7 +264,7 @@ class _SettingsContentState extends State<_SettingsContent>
                       children: [
                         Icon(Icons.graphic_eq_rounded, size: 15),
                         SizedBox(width: 6),
-                        Text("Audio Settings"),
+                        Text(AppStrings.tabAudioSettings),
                       ],
                     ),
                   ),
@@ -274,7 +274,7 @@ class _SettingsContentState extends State<_SettingsContent>
                       children: [
                         Icon(Icons.settings_suggest_rounded, size: 15),
                         SizedBox(width: 6),
-                        Text("Engine & Output"),
+                        Text(AppStrings.tabEngineOutput),
                       ],
                     ),
                   ),

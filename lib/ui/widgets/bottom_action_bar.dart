@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../../models/video_file.dart';
@@ -51,7 +52,7 @@ class BottomActionBar extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () => cubit.clearCompleted(),
                     icon: const Icon(Icons.cleaning_services_rounded, size: 16),
-                    label: const Text('Clear Completed'),
+                    label: const Text(AppStrings.clearCompletedBtn),
                   ),
                 ),
 
@@ -62,7 +63,7 @@ class BottomActionBar extends StatelessWidget {
                   child: TextButton.icon(
                     onPressed: () => cubit.clearAll(),
                     icon: const Icon(Icons.delete_sweep_rounded, size: 16),
-                    label: const Text('Clear All'),
+                    label: const Text(AppStrings.clearAllBtn),
                   ),
                 ),
 
@@ -75,13 +76,13 @@ class BottomActionBar extends StatelessWidget {
                     foregroundColor: Colors.white,
                   ),
                   icon: const Icon(Icons.stop_rounded, size: 18),
-                  label: const Text('Stop All'),
+                  label: const Text(AppStrings.stopAllBtn),
                 )
               else if (state.canStart)
                 ElevatedButton.icon(
                   onPressed: () => cubit.startCompression(),
                   icon: const Icon(Icons.play_arrow_rounded, size: 20),
-                  label: const Text('Start Compression'),
+                  label: const Text(AppStrings.startCompressionBtn),
                 )
               else if (state.phase == CompressionPhase.completed)
                 Row(
@@ -109,7 +110,7 @@ class BottomActionBar extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              'All Done!',
+                              AppStrings.allDoneLabel,
                               style: theme.textTheme.labelLarge?.copyWith(
                                 color: AppColors.successGreen,
                                 fontWeight: FontWeight.w600,
@@ -138,7 +139,7 @@ class BottomActionBar extends StatelessWidget {
                             ),
                           ),
                           icon: const Icon(Icons.folder_open_rounded, size: 18),
-                          label: const Text('Open Folder'),
+                          label: const Text(AppStrings.openFolderBtn),
                         ),
                       ),
                     ],
@@ -193,7 +194,7 @@ class _QueueSummary extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Text(
-          '$total video${total == 1 ? '' : 's'}',
+          '$total ${total == 1 ? AppStrings.videoSingle : AppStrings.videosPlural}',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodySmall?.color,
             fontSize: 13,
@@ -244,7 +245,7 @@ class _QueueSummary extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  'Total ETA: ${_formatDuration(state.globalEta!)}',
+                  '${AppStrings.totalEtaLabel}: ${_formatDuration(state.globalEta!)}',
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontSize: 12,
@@ -272,7 +273,7 @@ class _QueueSummary extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  'Total Saved: ${VideoFile.formatFileSize(totalSavedBytes)}',
+                  '${AppStrings.totalSavedLabel}: ${VideoFile.formatFileSize(totalSavedBytes)}',
                   style: const TextStyle(
                     color: AppColors.successGreen,
                     fontSize: 12,

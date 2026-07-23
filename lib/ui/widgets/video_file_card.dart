@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart' as p;
 
+import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../models/video_file.dart';
 import '../app_colors.dart';
@@ -316,7 +317,7 @@ class VideoFileCard extends StatelessWidget {
           if (video.outputPath != null) ...[
             const SizedBox(width: 8),
             Tooltip(
-              message: 'Open Output Folder',
+              message: AppStrings.openOutputFolderTooltip,
               child: IconButton(
                 icon: const Icon(Icons.folder_open_rounded, size: 18),
                 onPressed: () {
@@ -412,14 +413,14 @@ class _CompressionResult extends StatelessWidget {
     if (video.fileSizeBytes > 0) {
       if (savedBytes > 0) {
         percent = (savedBytes / video.fileSizeBytes * 100).toStringAsFixed(0);
-        badgeText = 'Saved $percent%';
+        badgeText = '${AppStrings.savedPrefix} $percent%';
         badgeColor = AppColors.successGreen;
       } else if (savedBytes < 0) {
         final increasedBytes = -savedBytes;
         percent = (increasedBytes / video.fileSizeBytes * 100).toStringAsFixed(
           0,
         );
-        badgeText = '+$percent% Larger';
+        badgeText = '+$percent% ${AppStrings.largerSuffix}';
         badgeColor = Theme.of(context).brightness == Brightness.dark
             ? Colors.redAccent.shade200
             : AppColors.errorRed;

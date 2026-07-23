@@ -156,13 +156,13 @@ enum OutputLocationMode {
 }
 
 enum VideoRotationMode {
-  original('Original (0°)', 'Keep original orientation'),
-  deg90('90° CW', 'Rotate 90 degrees right'),
-  deg180('180° Flip', 'Rotate upside down'),
-  deg270('270° CW', 'Rotate 90 degrees left'),
-  flipH('Flip H', 'Mirror image horizontally'),
-  flipV('Flip V', 'Mirror image vertically'),
-  custom('Custom Angle', 'Rotate by custom degree angle');
+  original(AppStrings.rotOriginalLabel, AppStrings.rotOriginalDesc),
+  deg90(AppStrings.rot90Label, AppStrings.rot90Desc),
+  deg180(AppStrings.rot180Label, AppStrings.rot180Desc),
+  deg270(AppStrings.rot270Label, AppStrings.rot270Desc),
+  flipH(AppStrings.rotFlipHLabel, AppStrings.rotFlipHDesc),
+  flipV(AppStrings.rotFlipVLabel, AppStrings.rotFlipVDesc),
+  custom(AppStrings.rotCustomLabel, AppStrings.rotCustomDesc);
 
   final String label;
   final String description;
@@ -171,11 +171,11 @@ enum VideoRotationMode {
 }
 
 enum VideoSpeedMode {
-  original('Original (1.0x)', 'Normal video speed'),
-  slow05('0.5x Slow-mo', 'Half speed playback'),
-  fast15('1.5x Speed', 'Slight speed up'),
-  fast20('2.0x Fast', 'Double speed playback'),
-  timelapse40('4.0x Timelapse', 'Ultra fast timelapse');
+  original(AppStrings.speedOriginalLabel, AppStrings.speedOriginalDesc),
+  slow05(AppStrings.speedSlow05Label, AppStrings.speedSlow05Desc),
+  fast15(AppStrings.speedFast15Label, AppStrings.speedFast15Desc),
+  fast20(AppStrings.speedFast20Label, AppStrings.speedFast20Desc),
+  timelapse40(AppStrings.speedTimelapse40Label, AppStrings.speedTimelapse40Desc);
 
   final String label;
   final String description;
@@ -184,14 +184,14 @@ enum VideoSpeedMode {
 }
 
 enum AspectRatioMode {
-  original('Original', 'Keep original video dimensions'),
-  shorts916('9:16 Shorts', 'Padded canvas for TikTok & Reels'),
-  square11('1:1 Square', 'Padded canvas for Instagram feed posts'),
-  portrait45('4:5 Portrait', 'Padded canvas for Instagram vertical posts'),
-  widescreen169('16:9 Wide', 'Padded canvas for YouTube & TV screens'),
-  classic43('4:3 Classic', 'Padded canvas for classic TV screens'),
-  cinema219('21:9 Cinema', 'Padded canvas for Ultrawide cinema monitors'),
-  custom('Custom Ratio', 'Padded canvas for custom aspect ratio');
+  original(AppStrings.aspectOriginalLabel, AppStrings.aspectOriginalDesc),
+  shorts916(AppStrings.aspectShortsLabel, AppStrings.aspectShortsDesc),
+  square11(AppStrings.aspectSquareLabel, AppStrings.aspectSquareDesc),
+  portrait45(AppStrings.aspectPortraitLabel, AppStrings.aspectPortraitDesc),
+  widescreen169(AppStrings.aspectWidescreenLabel, AppStrings.aspectWidescreenDesc),
+  classic43(AppStrings.aspectClassicLabel, AppStrings.aspectClassicDesc),
+  cinema219(AppStrings.aspectCinemaLabel, AppStrings.aspectCinemaDesc),
+  custom(AppStrings.aspectCustomLabel, AppStrings.aspectCustomDesc);
 
   final String label;
   final String description;
@@ -200,11 +200,11 @@ enum AspectRatioMode {
 }
 
 enum ExportType {
-  video('Standard Video', 'Export to MP4/MKV/MOV container'),
-  gif('Animated GIF', 'Export high-quality animated GIF clip'),
-  mp3('Extract MP3', 'Extract audio track as 320kbps MP3'),
-  aac('Extract AAC', 'Extract audio track as high-quality AAC'),
-  wav('Extract WAV', 'Extract uncompressed studio WAV audio');
+  video(AppStrings.exportVideoLabel, AppStrings.exportVideoDesc),
+  gif(AppStrings.exportGifLabel, AppStrings.exportGifDesc),
+  mp3(AppStrings.exportMp3Label, AppStrings.exportMp3Desc),
+  aac(AppStrings.exportAacLabel, AppStrings.exportAacDesc),
+  wav(AppStrings.exportWavLabel, AppStrings.exportWavDesc);
 
   final String label;
   final String description;

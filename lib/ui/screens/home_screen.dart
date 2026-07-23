@@ -10,6 +10,7 @@ import 'package:window_manager/window_manager.dart';
 
 import '../../services/desktop_integration_service.dart';
 
+import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../../services/update_service.dart';
@@ -107,7 +108,7 @@ class HomeScreen extends StatefulWidget {
                             const SizedBox(height: 24),
                             // Title
                             Text(
-                              'Compression in Progress',
+                              AppStrings.compressionInProgressTitle,
                               style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w800,
@@ -120,7 +121,7 @@ class HomeScreen extends StatefulWidget {
                             const SizedBox(height: 12),
                             // Description
                             Text(
-                              'Are you sure you want to close Shrinkeo?\nThis will cancel all current compressions and you might lose your progress.',
+                              AppStrings.confirmCloseDesc,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 14,
@@ -156,7 +157,7 @@ class HomeScreen extends StatefulWidget {
                                             ),
                                     ),
                                     child: const Text(
-                                      'Keep Compressing',
+                                      AppStrings.keepCompressingBtn,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14,
@@ -197,7 +198,7 @@ class HomeScreen extends StatefulWidget {
                                             ),
                                           )
                                         : const Text(
-                                            'Close App',
+                                            AppStrings.closeAppBtn,
                                             style: TextStyle(
                                               fontWeight: FontWeight.w700,
                                               fontSize: 14,
@@ -458,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen>
                                     ),
                                     const SizedBox(height: 32),
                                     Text(
-                                      'Release to Shrink',
+                                      AppStrings.releaseToShrinkTitle,
                                       style: theme.textTheme.headlineMedium
                                           ?.copyWith(
                                             fontWeight: FontWeight.w300,
@@ -468,7 +469,7 @@ class _HomeScreenState extends State<HomeScreen>
                                     ),
                                     const SizedBox(height: 12),
                                     Text(
-                                      'Your files will be added to the queue.',
+                                      AppStrings.filesWillBeAddedDesc,
                                       style: theme.textTheme.bodyLarge
                                           ?.copyWith(
                                             color: theme

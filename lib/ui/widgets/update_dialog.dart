@@ -186,7 +186,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
       if (mounted) {
         setState(() {
           _isDownloading = false;
-          _errorMessage = 'Failed to download update. Please try again.';
+          _errorMessage = AppStrings.failedDownloadUpdateMsg;
         });
       }
     }
@@ -312,7 +312,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.blockState?.title ?? 'Update Available',
+                              widget.blockState?.title ?? AppStrings.updateAvailableTitle,
                               style: TextStyle(
                                 color: textTheme.bodyLarge?.color,
                                 fontWeight: FontWeight.w700,
@@ -324,7 +324,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                                 widget.newVersion!.isNotEmpty) ...[
                               const SizedBox(height: 2),
                               Text(
-                                'Version ${widget.newVersion} is now available.',
+                                AppStrings.versionAvailableMsg(widget.newVersion!),
                                 style: TextStyle(
                                   color: textTheme.bodyMedium?.color,
                                   fontSize: 13.0,
@@ -341,7 +341,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                       widget.blockState!.isMaintenance == false) ...[
                     if (widget.blockState == null) ...[
                       Text(
-                        "What's New:",
+                        AppStrings.whatsNewTitle,
                         style: TextStyle(
                           color: textTheme.bodyLarge?.color,
                           fontWeight: FontWeight.w700,
@@ -508,7 +508,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                                   ),
                                 ),
                                 child: const Text(
-                                  'Exit App',
+                                  AppStrings.exitAppBtn,
                                   style: TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 13.0,
@@ -577,7 +577,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                                   ),
                                   child: Text(
                                     _errorMessage.isNotEmpty
-                                        ? 'Retry'
+                                        ? AppStrings.retryBtn
                                         : AppStrings.updateNowBtn,
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w700,
@@ -603,7 +603,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
                               color: AppColors.primaryAccent,
                             ),
                             label: const Text(
-                              'Download from Website',
+                              AppStrings.downloadFromWebsiteBtn,
                               style: TextStyle(
                                 color: AppColors.primaryAccent,
                                 fontSize: 13,

@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../../models/video_file.dart';
@@ -84,7 +85,7 @@ class VideoQueueView extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Scanning files... This may take a moment.',
+                  AppStrings.scanningFilesMsg,
                   style: TextStyle(
                     color: Theme.of(context).textTheme.bodySmall?.color,
                     fontSize: 13,
@@ -104,7 +105,7 @@ class VideoQueueView extends StatelessWidget {
                     OutlinedButton.icon(
                       onPressed: pickMultipleFiles,
                       icon: const Icon(Icons.note_add_rounded, size: 16),
-                      label: const Text('Add Files'),
+                      label: const Text(AppStrings.addFilesBtn),
                     ),
                     const SizedBox(width: 12),
                     OutlinedButton.icon(
@@ -113,7 +114,7 @@ class VideoQueueView extends StatelessWidget {
                         Icons.create_new_folder_rounded,
                         size: 16,
                       ),
-                      label: const Text('Add Folder'),
+                      label: const Text(AppStrings.addFolderBtn),
                     ),
                   ],
                 ),
@@ -130,7 +131,7 @@ class VideoQueueView extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Or drag & drop more videos anywhere',
+                      AppStrings.dragDropMoreMsg,
                       style: TextStyle(
                         color: Theme.of(
                           context,

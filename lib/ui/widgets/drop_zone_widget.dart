@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../app_colors.dart';
 
@@ -103,10 +104,10 @@ class DropZoneWidget extends StatelessWidget {
                       // Instructional text
                       Text(
                         isScanningFiles
-                            ? 'Scanning files... This may take a moment.'
+                            ? AppStrings.scanningFilesMsg
                             : isHovering
-                            ? 'Release to add videos'
-                            : 'Drag & drop video files or folders here',
+                            ? AppStrings.releaseToAddVideosMsg
+                            : AppStrings.dragDropHereMsg,
                         style: TextStyle(
                           color: isHovering
                               ? theme.colorScheme.primary
@@ -118,7 +119,7 @@ class DropZoneWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Seamlessly supports MP4, MKV, MOV, AVI, WMV',
+                        AppStrings.supportedFormatsMsg,
                         style: TextStyle(
                           color:
                               theme.textTheme.bodySmall?.color ??
@@ -138,12 +139,12 @@ class DropZoneWidget extends StatelessWidget {
                           children: [
                             _PickButton(
                               icon: Icons.file_copy_rounded,
-                              label: 'Select Files',
+                              label: AppStrings.selectFilesBtn,
                               onTap: () => _pickMultipleFiles(cubit),
                             ),
                             _PickButton(
                               icon: Icons.folder_rounded,
-                              label: 'Select Folder',
+                              label: AppStrings.selectFolderBtn,
                               onTap: () => _pickFolder(cubit),
                             ),
                           ],

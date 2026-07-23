@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as p;
 
+import '../core/app_strings.dart';
 import '../cubit/compression_state.dart'
     show
         AspectRatioMode,
@@ -92,11 +93,7 @@ class FfmpegService {
         );
       }
     } catch (e) {
-      throw Exception(
-        'FFmpeg or FFprobe is missing or corrupted.\n\n'
-        'Please reinstall Shrinkeo or manually fix the installation using:\n'
-        'winget install Gyan.FFmpeg',
-      );
+      throw Exception(AppStrings.ffmpegMissingError);
     }
   }
 

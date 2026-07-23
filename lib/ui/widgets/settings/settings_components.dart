@@ -75,7 +75,7 @@ class _OutputDirectorySection extends StatelessWidget {
                         } catch (_) {}
                       },
                 icon: const Icon(Icons.folder_open_rounded, size: 16),
-                label: const Text('Change'),
+                label: const Text(AppStrings.changeBtn),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                 ),
@@ -89,7 +89,7 @@ class _OutputDirectorySection extends StatelessWidget {
                     : () => cubit.updateCustomOutputDirectory(null),
                 icon: const Icon(Icons.clear_rounded, size: 18),
                 color: theme.textTheme.bodySmall?.color,
-                tooltip: 'Reset to default',
+                tooltip: AppStrings.resetDefaultTooltip,
               ),
             ],
           ],
@@ -161,7 +161,7 @@ class _FileManagementSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'File Management',
+          AppStrings.fileManagementTitle,
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             color: theme.textTheme.bodyMedium?.color,
@@ -173,13 +173,13 @@ class _FileManagementSection extends StatelessWidget {
           runSpacing: 6,
           children: [
             _OptionChip(
-              label: 'Keep Originals',
+              label: AppStrings.keepOriginalsLabel,
               isSelected: !state.deleteOriginalOnSuccess,
               isLocked: isLocked,
               onTap: () => cubit.updateDeleteOriginalOnSuccess(false),
             ),
             _OptionChip(
-              label: 'To Recycle Bin',
+              label: AppStrings.toRecycleBinLabel,
               isSelected: state.deleteOriginalOnSuccess,
               isLocked: isLocked,
               onTap: () => cubit.updateDeleteOriginalOnSuccess(true),
@@ -189,11 +189,11 @@ class _FileManagementSection extends StatelessWidget {
         const SizedBox(height: 6),
         _InfoBox(
           label: state.deleteOriginalOnSuccess
-              ? 'To Recycle Bin'
-              : 'Keep Originals',
+              ? AppStrings.toRecycleBinLabel
+              : AppStrings.keepOriginalsLabel,
           description: state.deleteOriginalOnSuccess
-              ? 'Moves originals to the Recycle Bin after successful compression.'
-              : 'Keeps the original videos untouched after compression.',
+              ? AppStrings.toRecycleBinDesc
+              : AppStrings.keepOriginalsDesc,
           icon: state.deleteOriginalOnSuccess
               ? Icons.delete_outline_rounded
               : Icons.save_rounded,
@@ -832,7 +832,7 @@ class _AudioModeSection extends StatelessWidget {
               ),
             ),
             _DenoiseBadgeChip(
-              label: 'Remove Noise',
+              label: AppStrings.removeNoiseLabel,
               icon: Icons.graphic_eq_rounded,
               isEnabled: state.enableAudioDenoise,
               isLocked: isLocked,
@@ -1308,7 +1308,7 @@ class _ToolsTabContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Export Format',
+                    AppStrings.exportFormatTitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: theme.textTheme.bodyMedium?.color,
@@ -1365,7 +1365,7 @@ class _ToolsTabContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Privacy & GPS Scrubbing',
+                    AppStrings.privacyScrubbingTitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: theme.textTheme.bodyMedium?.color,
@@ -1377,14 +1377,14 @@ class _ToolsTabContent extends StatelessWidget {
                     runSpacing: 4,
                     children: [
                       _OptionChip(
-                        label: 'Keep Metadata',
+                        label: AppStrings.keepMetadataLabel,
                         icon: Icons.info_outline_rounded,
                         isSelected: !state.stripMetadata,
                         isLocked: isLocked,
                         onTap: () => cubit.toggleStripMetadata(false),
                       ),
                       _OptionChip(
-                        label: 'Strip GPS/EXIF',
+                        label: AppStrings.stripGpsExifLabel,
                         icon: Icons.security_rounded,
                         isSelected: state.stripMetadata,
                         isLocked: isLocked,
@@ -1394,10 +1394,10 @@ class _ToolsTabContent extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   _InfoBox(
-                    label: state.stripMetadata ? 'Strip GPS & Metadata' : 'Keep Metadata',
+                    label: state.stripMetadata ? AppStrings.stripGpsExifInfoTitle : AppStrings.keepMetadataLabel,
                     description: state.stripMetadata
-                        ? 'Removes camera info, GPS location, & timestamps.'
-                        : 'Preserves original video EXIF metadata.',
+                        ? AppStrings.stripGpsExifInfoDesc
+                        : AppStrings.keepMetadataInfoDesc,
                     icon: Icons.shield_outlined,
                   ),
                 ],
@@ -1416,7 +1416,7 @@ class _ToolsTabContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Auto-Crop Black Bars',
+                    AppStrings.autoCropBlackBarsTitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: theme.textTheme.bodyMedium?.color,
@@ -1428,14 +1428,14 @@ class _ToolsTabContent extends StatelessWidget {
                     runSpacing: 4,
                     children: [
                       _OptionChip(
-                        label: 'Disabled',
+                        label: AppStrings.disabledLabel,
                         icon: Icons.crop_free_rounded,
                         isSelected: !state.autoCropBlackBars,
                         isLocked: isLocked,
                         onTap: () => cubit.toggleAutoCropBlackBars(false),
                       ),
                       _OptionChip(
-                        label: 'Auto-Crop',
+                        label: AppStrings.autoCropLabel,
                         icon: Icons.crop_rounded,
                         isSelected: state.autoCropBlackBars,
                         isLocked: isLocked,
@@ -1445,10 +1445,10 @@ class _ToolsTabContent extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   _InfoBox(
-                    label: state.autoCropBlackBars ? 'Auto-Crop Active' : 'Disabled',
+                    label: state.autoCropBlackBars ? AppStrings.autoCropActiveTitle : AppStrings.disabledLabel,
                     description: state.autoCropBlackBars
-                        ? 'Removes black letterbox borders from video.'
-                        : 'Keeps original video frame borders.',
+                        ? AppStrings.autoCropActiveDesc
+                        : AppStrings.autoCropDisabledDesc,
                     icon: Icons.crop_free_rounded,
                   ),
                 ],
@@ -1460,7 +1460,7 @@ class _ToolsTabContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Playback Speed',
+                    AppStrings.playbackSpeedTitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: theme.textTheme.bodyMedium?.color,
@@ -1519,7 +1519,7 @@ class _ToolsTabContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Canvas Aspect Ratio',
+                    AppStrings.canvasAspectRatioTitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: theme.textTheme.bodyMedium?.color,
@@ -1566,7 +1566,7 @@ class _ToolsTabContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Rotation & Flip',
+                    AppStrings.rotationFlipTitle,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: theme.textTheme.bodyMedium?.color,
@@ -1676,7 +1676,7 @@ class _TrimSectionState extends State<_TrimSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Trim Video',
+          AppStrings.trimVideoTitle,
           style: theme.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             color: theme.textTheme.bodyMedium?.color,
@@ -1687,7 +1687,7 @@ class _TrimSectionState extends State<_TrimSection> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _OptionChip(
-              label: 'Full Video',
+              label: AppStrings.fullVideoLabel,
               icon: Icons.movie_rounded,
               isSelected: !widget.state.trimEnabled,
               isLocked: widget.isLocked,
@@ -1695,7 +1695,7 @@ class _TrimSectionState extends State<_TrimSection> {
             ),
             const SizedBox(width: 6),
             _OptionChip(
-              label: 'Cut Clip',
+              label: AppStrings.cutClipLabel,
               icon: Icons.content_cut_rounded,
               isSelected: widget.state.trimEnabled,
               isLocked: widget.isLocked,
@@ -1704,7 +1704,7 @@ class _TrimSectionState extends State<_TrimSection> {
             if (widget.state.trimEnabled) ...[
               const SizedBox(width: 10),
               _TrimTimeInput(
-                label: 'Start',
+                label: AppStrings.trimStartLabel,
                 controller: _startController,
                 focusNode: _startFocusNode,
                 isLocked: widget.isLocked,
@@ -1712,7 +1712,7 @@ class _TrimSectionState extends State<_TrimSection> {
               ),
               const SizedBox(width: 8),
               _TrimTimeInput(
-                label: 'End',
+                label: AppStrings.trimEndLabel,
                 controller: _endController,
                 focusNode: _endFocusNode,
                 isLocked: widget.isLocked,
@@ -1723,10 +1723,10 @@ class _TrimSectionState extends State<_TrimSection> {
         ),
         const SizedBox(height: 6),
         _InfoBox(
-          label: widget.state.trimEnabled ? 'Trim Active' : 'Full Video',
+          label: widget.state.trimEnabled ? AppStrings.trimActiveTitle : AppStrings.fullVideoLabel,
           description: widget.state.trimEnabled
               ? 'Cuts video clip between ${widget.state.trimStartTime} and ${widget.state.trimEndTime}.'
-              : 'Processes the entire video duration without trimming.',
+              : AppStrings.fullVideoDesc,
           icon: Icons.content_cut_rounded,
         ),
       ],
@@ -1974,7 +1974,7 @@ class _CustomAspectRatioInputState extends State<_CustomAspectRatioInput> {
         : AppColors.primaryAccent;
 
     return Tooltip(
-      message: 'Type custom ratio e.g. 16:10, 2:1, 18:9',
+      message: AppStrings.customRatioTooltip,
       child: Container(
         width: 85,
         height: 33,
@@ -2092,7 +2092,7 @@ class _CustomRotationInputState extends State<_CustomRotationInput> {
         : AppColors.primaryAccent;
 
     return Tooltip(
-      message: 'Type degree angle e.g. 45, 30, 120',
+      message: AppStrings.customRotationTooltip,
       child: Container(
         width: 75,
         height: 33,

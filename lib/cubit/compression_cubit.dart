@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../core/app_strings.dart';
 import '../models/video_file.dart';
 import '../services/ffmpeg_service.dart';
 import '../services/file_scanner_service.dart';
@@ -699,7 +700,7 @@ class CompressionCubit extends Cubit<CompressionState> {
           emit(
             state.copyWith(
               phase: CompressionPhase.error,
-              globalError: 'Failed to create output folder: $e',
+              globalError: '${AppStrings.failedCreateFolderError}: $e',
             ),
           );
           return;
@@ -824,7 +825,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         safelyUpdateVideo(
           video.copyWith(
             status: VideoStatus.failed,
-            errorMessage: 'Failed to probe duration: $e',
+            errorMessage: '${AppStrings.failedProbeDurationError}: $e',
           ),
         );
         return;
@@ -1120,10 +1121,9 @@ class CompressionCubit extends Cubit<CompressionState> {
             'Hardware encoder failed. Auto-falling back to software: $errorMsg',
           );
 
-          final warningMsg =
-              '${state.hardwareEncoder.label} failed. Automatically switched to Software (CPU) encoding.';
+          final warningMsg = AppStrings.hwFallbackNotificationBody(state.hardwareEncoder.label);
           final notification = LocalNotification(
-            title: 'Hardware Encoder Not Supported',
+            title: AppStrings.hwEncoderNotSupportedTitle,
             body: warningMsg,
           );
           notification.show();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/app_strings.dart';
 import '../../models/video_file.dart';
 import '../app_colors.dart';
 
@@ -60,28 +61,28 @@ class StatusChip extends StatelessWidget {
   (String, Color, IconData) _statusConfig(VideoStatus status) {
     return switch (status) {
       VideoStatus.queued => (
-        'Queued',
+        AppStrings.statusQueued,
         AppColors.queuedGrey,
         Icons.schedule_rounded,
       ),
       VideoStatus.probing => (
-        'Analyzing',
+        AppStrings.statusAnalyzing,
         AppColors.infoBlue,
         Icons.analytics_rounded,
       ),
       VideoStatus.compressing => (
-        'Compressing',
+        AppStrings.statusCompressing,
         AppColors.primaryAccent,
         Icons.sync_rounded,
       ),
       VideoStatus.success => (
-        'Done',
+        AppStrings.statusDone,
         AppColors.successGreen,
         Icons.check_circle_rounded,
       ),
-      VideoStatus.failed => ('Failed', AppColors.errorRed, Icons.error_rounded),
+      VideoStatus.failed => (AppStrings.statusFailed, AppColors.errorRed, Icons.error_rounded),
       VideoStatus.cancelled => (
-        'Cancelled',
+        AppStrings.statusCancelled,
         AppColors.warningOrange,
         Icons.cancel_rounded,
       ),

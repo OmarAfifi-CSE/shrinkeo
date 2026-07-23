@@ -200,7 +200,7 @@ class CustomTitleBar extends StatelessWidget {
                       iconColor: theme.iconTheme.color,
                       onTap: () =>
                           context.read<CompressionCubit>().toggleTheme(),
-                      tooltip: isDark ? 'Light Theme' : 'Dark Theme',
+                      tooltip: isDark ? AppStrings.lightThemeTooltip : AppStrings.darkThemeTooltip,
                     );
                   },
                 ),
@@ -217,7 +217,7 @@ class CustomTitleBar extends StatelessWidget {
                           : theme.iconTheme.color,
                       onTap: () =>
                           context.read<CompressionCubit>().toggleSettings(),
-                      tooltip: 'Settings',
+                      tooltip: AppStrings.settingsTooltip,
                     );
                   },
                 ),
@@ -234,7 +234,7 @@ class CustomTitleBar extends StatelessWidget {
                   icon: Icons.remove_rounded,
                   iconColor: theme.iconTheme.color,
                   onTap: () => windowManager.minimize(),
-                  tooltip: 'Minimize',
+                  tooltip: AppStrings.minimizeTooltip,
                 ),
                 _MaximizeButton(),
                 _TitleBarButton(
@@ -242,7 +242,7 @@ class CustomTitleBar extends StatelessWidget {
                   iconColor: theme.iconTheme.color,
                   onTap: () => HomeScreen.handleAppClose(context),
                   hoverColor: AppColors.errorRed,
-                  tooltip: 'Close',
+                  tooltip: AppStrings.closeTooltip,
                 ),
               ],
             ),
@@ -302,7 +302,7 @@ class _MaximizeButtonState extends State<_MaximizeButton> with WindowListener {
           await windowManager.maximize();
         }
       },
-      tooltip: _isMaximized ? 'Restore' : 'Maximize',
+      tooltip: _isMaximized ? AppStrings.restoreTooltip : AppStrings.maximizeTooltip,
     );
   }
 }
