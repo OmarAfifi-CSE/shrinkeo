@@ -44,10 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // 3. Fetch actual release links from GitHub
-    const winBtn = document.getElementById('download-windows');
-    const heroBtn = document.querySelector('.hero-buttons .btn-primary'); // The top download button
-
+    // 3. Fetch latest version tag from GitHub for badge update
     async function fetchLatestRelease() {
         try {
             const response = await fetch('https://api.github.com/repos/OmarAfifi-CSE/shrinkeo/releases/latest');
@@ -59,21 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (versionBadge && data.tag_name) {
                 versionBadge.innerText = `${data.tag_name} is Here 🎬`;
             }
-            
-            let windowsUrl = '';
-
-            data.assets.forEach(asset => {
-                if (asset.name.endsWith('.exe') || asset.name.endsWith('.msix') || asset.name.endsWith('.zip')) {
-                    windowsUrl = asset.browser_download_url;
-                }
-            });
-
-            // Update CTA buttons
-            if (winBtn && windowsUrl) winBtn.href = windowsUrl;
-            if (heroBtn && windowsUrl) heroBtn.href = windowsUrl;
-            
         } catch (error) {
-            console.error('Error fetching release:', error);
+            console.error('Error fetching release tag:', error);
         }
     }
 
