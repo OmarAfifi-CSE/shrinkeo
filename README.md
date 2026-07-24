@@ -9,8 +9,9 @@
   <p><b>The Ultimate Offline Video Compression Tool. Sleek. Powerful. Secure.</b></p>
 
   <p>
+    <a href="https://apps.microsoft.com/store/detail/XP8JW74PJ5WXPV"><img alt="Microsoft Store" src="https://img.shields.io/badge/Microsoft_Store-Get_Shrinkeo-0078D4?style=for-the-badge&logo=microsoft-store&logoColor=white&labelColor=0A0A1A"></a>
+    <a href="https://github.com/OmarAfifi-CSE/shrinkeo/releases"><img alt="GitHub Downloads" src="https://img.shields.io/github/downloads/OmarAfifi-CSE/shrinkeo/total?label=GitHub_Downloads&style=for-the-badge&color=448AFF&logo=github&labelColor=0A0A1A"></a>
     <a href="https://github.com/OmarAfifi-CSE/shrinkeo/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/OmarAfifi-CSE/shrinkeo?style=for-the-badge&color=448AFF&logo=github&labelColor=0A0A1A"></a>
-    <a href="https://github.com/OmarAfifi-CSE/shrinkeo/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/OmarAfifi-CSE/shrinkeo/total?style=for-the-badge&color=448AFF&logo=github&labelColor=0A0A1A"></a>
     <a href="https://github.com/OmarAfifi-CSE/shrinkeo/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/badge/License-GPL_v3-448AFF?style=for-the-badge&labelColor=0A0A1A"></a>
   </p>
   <a href="https://ko-fi.com/omarafifi" target="_blank"><img src="https://cdn.ko-fi.com/cdn/kofi3.png?v=3" height="40" alt="Buy Me a Coffee at ko-fi.com" /></a>
