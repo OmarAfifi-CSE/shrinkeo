@@ -26,6 +26,9 @@ void main(List<String> args) async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Asynchronously pre-warm country flag SI vector assets in background
+  LanguageHelper.prewarmCountryFlags();
+
   // Load preferences before running the app.
   final prefs = await SharedPreferences.getInstance();
 

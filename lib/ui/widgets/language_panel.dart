@@ -165,7 +165,8 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                 style: const TextStyle(fontSize: 13),
                 decoration: InputDecoration(
                   isDense: true,
-                  hintText: 'Search language by name or code... / ابحث عن لغة...',
+                  hintText:
+                      'Search language by name or code... / ابحث عن لغة...',
                   hintStyle: TextStyle(
                     fontSize: 12,
                     color: theme.textTheme.bodySmall?.color?.withValues(
@@ -196,8 +197,8 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
             const SizedBox(height: 16),
 
             // Language Grid
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 280),
+            SizedBox(
+              height: 280,
               child: filteredCodes.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.all(24),
@@ -224,21 +225,25 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                         }
 
                         return GridView.builder(
-                          shrinkWrap: true,
                           physics: const BouncingScrollPhysics(),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: crossAxisCount,
-                            mainAxisExtent: 54,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
+                                crossAxisCount: crossAxisCount,
+                                mainAxisExtent: 54,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
                           itemCount: filteredCodes.length,
                           itemBuilder: (context, index) {
                             final code = filteredCodes[index];
-                            final isSelected = code == widget.state.languageCode;
-                            final nativeName = LanguageHelper.getNativeName(code);
-                            final englishName = LanguageHelper.getEnglishName(code);
+                            final isSelected =
+                                code == widget.state.languageCode;
+                            final nativeName = LanguageHelper.getNativeName(
+                              code,
+                            );
+                            final englishName = LanguageHelper.getEnglishName(
+                              code,
+                            );
 
                             return _LanguageCard(
                               code: code,
@@ -247,9 +252,9 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                               isSelected: isSelected,
                               activeColor: activeColor,
                               onTap: () {
-                                context
-                                    .read<CompressionCubit>()
-                                    .changeLanguage(code);
+                                context.read<CompressionCubit>().changeLanguage(
+                                  code,
+                                );
                               },
                             );
                           },
@@ -296,106 +301,108 @@ class _LanguageCardState extends State<_LanguageCard> {
     final backgroundColor = widget.isSelected
         ? widget.activeColor.withValues(alpha: isDark ? 0.2 : 0.12)
         : (_isHovered
-            ? (isDark
-                ? Colors.white.withValues(alpha: 0.06)
-                : Colors.black.withValues(alpha: 0.04))
-            : (isDark
-                ? Colors.black.withValues(alpha: 0.15)
-                : Colors.white.withValues(alpha: 0.4)));
+              ? (isDark
+                    ? Colors.white.withValues(alpha: 0.06)
+                    : Colors.black.withValues(alpha: 0.04))
+              : (isDark
+                    ? Colors.black.withValues(alpha: 0.15)
+                    : Colors.white.withValues(alpha: 0.4)));
 
     final borderColor = widget.isSelected
         ? widget.activeColor
         : (_isHovered
-            ? widget.activeColor.withValues(alpha: 0.4)
-            : (isDark
-                ? Colors.white.withValues(alpha: 0.08)
-                : Colors.black.withValues(alpha: 0.08)));
+              ? widget.activeColor.withValues(alpha: 0.4)
+              : (isDark
+                    ? Colors.white.withValues(alpha: 0.08)
+                    : Colors.black.withValues(alpha: 0.08)));
 
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: borderColor,
-              width: widget.isSelected ? 1.8 : 1.0,
+    return RepaintBoundary(
+      child: MouseRegion(
+        onEnter: (_) => setState(() => _isHovered = true),
+        onExit: (_) => setState(() => _isHovered = false),
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: widget.onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: borderColor,
+                width: widget.isSelected ? 1.8 : 1.0,
+              ),
+              boxShadow: widget.isSelected
+                  ? [
+                      BoxShadow(
+                        color: widget.activeColor.withValues(alpha: 0.2),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
             ),
-            boxShadow: widget.isSelected
-                ? [
-                    BoxShadow(
-                      color: widget.activeColor.withValues(alpha: 0.2),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 26,
+                  height: 18,
+                  child: CountryFlag.fromCountryCode(
+                    LanguageHelper.getCountryCode(widget.code),
+                    theme: const ImageTheme(
+                      width: 26,
+                      height: 18,
+                      shape: RoundedRectangle(4),
                     ),
-                  ]
-                : null,
-          ),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 26,
-                height: 18,
-                child: CountryFlag.fromCountryCode(
-                  LanguageHelper.getCountryCode(widget.code),
-                  theme: const ImageTheme(
-                    width: 26,
-                    height: 18,
-                    shape: RoundedRectangle(4),
                   ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.nativeName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: widget.isSelected
-                            ? FontWeight.w700
-                            : FontWeight.w600,
-                        color: widget.isSelected
-                            ? widget.activeColor
-                            : theme.textTheme.titleMedium?.color,
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      widget.englishName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: theme.textTheme.bodySmall?.color?.withValues(
-                          alpha: widget.isSelected ? 0.8 : 0.5,
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.nativeName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: widget.isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w600,
+                          color: widget.isSelected
+                              ? widget.activeColor
+                              : theme.textTheme.titleMedium?.color,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              if (widget.isSelected)
-                Padding(
-                  padding: const EdgeInsets.only(left: 4),
-                  child: Icon(
-                    Icons.check_circle_rounded,
-                    size: 16,
-                    color: widget.activeColor,
+                      const SizedBox(height: 1),
+                      Text(
+                        widget.englishName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: theme.textTheme.bodySmall?.color?.withValues(
+                            alpha: widget.isSelected ? 0.8 : 0.5,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-            ],
+                if (widget.isSelected)
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Icon(
+                      Icons.check_circle_rounded,
+                      size: 16,
+                      color: widget.activeColor,
+                    ),
+                  ),
+              ],
+            ),
           ),
         ),
       ),

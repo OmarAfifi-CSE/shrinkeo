@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 /// Helper utility for supported application languages, native names, flags, and typography.
 class LanguageHelper {
@@ -52,6 +53,19 @@ class LanguageHelper {
 
   static List<Locale> get supportedLocales =>
       supportedCodes.map((code) => Locale(code)).toList();
+
+  /// Asynchronously pre-warms all 44 country flag SI vector assets in memory
+  /// upon app startup so opening LanguagePanel is 100% smooth without asset loading hitches.
+  static Future<void> prewarmCountryFlags() async {
+    for (final code in supportedCodes) {
+      final countryCode = getCountryCode(code).toLowerCase();
+      try {
+        await rootBundle.load('packages/country_flags/res/si/$countryCode.si');
+      } catch (_) {
+        // Ignore fallback
+      }
+    }
+  }
 
   static String getNativeName(String code) {
     switch (code.toLowerCase()) {
