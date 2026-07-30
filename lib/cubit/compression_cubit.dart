@@ -75,6 +75,12 @@ class CompressionCubit extends Cubit<CompressionState> {
                prefs.getBool('deleteOriginalOnSuccess') ?? false,
            globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
            languageCode: prefs.getString('languageCode') ?? 'en',
+           imageQuality: prefs.getInt('imageQuality') ?? 75,
+           imageOutputFormat: _parseImageOutputFormat(prefs),
+           imageResizeMode: _parseImageResizeMode(prefs),
+           stripImageExif: prefs.getBool('stripImageExif') ?? false,
+           imageTargetSizeKB: prefs.getDouble('imageTargetSizeKB') ?? 500.0,
+           isImageTargetSizeMode: prefs.getBool('isImageTargetSizeMode') ?? false,
          ),
        );
 
@@ -87,6 +93,28 @@ class CompressionCubit extends Cubit<CompressionState> {
       );
     }
     return ThemeMode.system;
+  }
+
+  static ImageOutputFormat _parseImageOutputFormat(SharedPreferences prefs) {
+    final str = prefs.getString('imageOutputFormat');
+    if (str != null) {
+      return ImageOutputFormat.values.firstWhere(
+        (e) => e.name == str,
+        orElse: () => ImageOutputFormat.original,
+      );
+    }
+    return ImageOutputFormat.original;
+  }
+
+  static ImageResizeMode _parseImageResizeMode(SharedPreferences prefs) {
+    final str = prefs.getString('imageResizeMode');
+    if (str != null) {
+      return ImageResizeMode.values.firstWhere(
+        (e) => e.name == str,
+        orElse: () => ImageResizeMode.original,
+      );
+    }
+    return ImageResizeMode.original;
   }
 
   static EncodingPreset _parsePreset(SharedPreferences prefs) {
@@ -488,6 +516,13 @@ class CompressionCubit extends Cubit<CompressionState> {
     _prefs.setString('outputFormat', OutputFormat.original.name);
     _prefs.setString('outputLocationMode', OutputLocationMode.unified.name);
     _prefs.setBool('deleteOriginalOnSuccess', false);
+    _prefs.setInt('imageQuality', 75);
+    _prefs.setString('imageOutputFormat', ImageOutputFormat.original.name);
+    _prefs.setString('imageResizeMode', ImageResizeMode.original.name);
+    _prefs.setBool('stripImageExif', false);
+    _prefs.setDouble('imageTargetSizeKB', 500.0);
+    _prefs.setBool('isImageTargetSizeMode', false);
+    _prefs.setString('mediaActionIntent', MediaActionIntent.compressAndConvert.name);
 
     emit(
       state.copyWith(
@@ -518,6 +553,13 @@ class CompressionCubit extends Cubit<CompressionState> {
         exportType: ExportType.video,
         stripMetadata: false,
         autoCropBlackBars: false,
+        imageQuality: 75,
+        imageOutputFormat: ImageOutputFormat.original,
+        imageResizeMode: ImageResizeMode.original,
+        stripImageExif: false,
+        imageTargetSizeKB: 500.0,
+        isImageTargetSizeMode: false,
+        mediaActionIntent: MediaActionIntent.compressAndConvert,
       ),
     );
   }

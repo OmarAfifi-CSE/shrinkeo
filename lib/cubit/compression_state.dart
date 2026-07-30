@@ -446,6 +446,16 @@ enum ImageOutputFormat {
       case ImageOutputFormat.avif: return 'AVIF Image (.avif)';
     }
   }
+
+  String get description {
+    switch (this) {
+      case ImageOutputFormat.original: return 'Keep original format (Fastest, no conversion).';
+      case ImageOutputFormat.png: return 'Lossless PNG format with transparency support.';
+      case ImageOutputFormat.jpg: return 'Standard compressed JPEG format for universal compatibility.';
+      case ImageOutputFormat.webp: return 'Modern WebP format offering superior compression and small size.';
+      case ImageOutputFormat.avif: return 'Next-gen AVIF format with ultra-high compression efficiency.';
+    }
+  }
 }
 
 /// Options for Image Max Dimension Resizing.
@@ -466,6 +476,16 @@ enum ImageResizeMode {
       case ImageResizeMode.p1080: return 'Full HD Max (1920px)';
       case ImageResizeMode.p720: return 'HD Max (1280px)';
       case ImageResizeMode.p480: return 'SD Max (854px)';
+    }
+  }
+
+  String get description {
+    switch (this) {
+      case ImageResizeMode.original: return 'Keep original image width and height dimensions.';
+      case ImageResizeMode.p4k: return 'Scale down image max dimension to 3840px (4K max).';
+      case ImageResizeMode.p1080: return 'Scale down image max dimension to 1920px (Full HD max).';
+      case ImageResizeMode.p720: return 'Scale down image max dimension to 1280px (HD max).';
+      case ImageResizeMode.p480: return 'Scale down image max dimension to 854px (SD max).';
     }
   }
 }

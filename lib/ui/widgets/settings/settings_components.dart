@@ -2227,12 +2227,18 @@ class _ImageTab extends StatelessWidget {
                     );
                   }).toList(),
                 ),
+                const SizedBox(height: 6),
+                _InfoBox(
+                  label: state.imageOutputFormat.label,
+                  description: state.imageOutputFormat.description,
+                  icon: Icons.image_outlined,
+                ),
               ],
             ),
           ),
           const SizedBox(width: 14),
 
-          // Right Column: Resizing, PNG Quantization & EXIF Privacy
+          // Right Column: Resizing & EXIF Privacy
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -2256,6 +2262,12 @@ class _ImageTab extends StatelessWidget {
                       onTap: () => cubit.updateImageResizeMode(mode),
                     );
                   }).toList(),
+                ),
+                const SizedBox(height: 6),
+                _InfoBox(
+                  label: state.imageResizeMode.label,
+                  description: state.imageResizeMode.description,
+                  icon: Icons.aspect_ratio_rounded,
                 ),
                 const SizedBox(height: 12),
                 Text(
@@ -2284,6 +2296,18 @@ class _ImageTab extends StatelessWidget {
                       onTap: () => cubit.toggleStripImageExif(true),
                     ),
                   ],
+                ),
+                const SizedBox(height: 6),
+                _InfoBox(
+                  label: !state.stripImageExif
+                      ? AppStrings.keepMetadataLabel
+                      : AppStrings.stripGpsCameraInfoLabel,
+                  description: !state.stripImageExif
+                      ? AppStrings.keepMetadataInfoDesc
+                      : AppStrings.stripGpsExifInfoDesc,
+                  icon: !state.stripImageExif
+                      ? Icons.info_outline_rounded
+                      : Icons.security_rounded,
                 ),
               ],
             ),

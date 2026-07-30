@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_strings.dart';
 import '../../../cubit/compression_cubit.dart';
 import '../../../cubit/compression_state.dart';
-import '../../../models/video_file.dart';
 import '../../app_colors.dart';
 import '../glass_container.dart';
 
@@ -74,7 +73,6 @@ class _SettingsContentState extends State<_SettingsContent>
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<CompressionCubit>();
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final isLocked = widget.state.isProcessing;
@@ -193,48 +191,7 @@ class _SettingsContentState extends State<_SettingsContent>
                   ),
               ],
             ),
-            // -- Action Intent Selection Bar (Compress Only, Edit/Convert Only, Compress & Edit) --
-            Row(
-              children: [
-                Expanded(
-                  child: _ActionIntentChip(
-                    label: AppStrings.intentCompressOnly,
-                    icon: Icons.bolt_rounded,
-                    tooltip: AppStrings.intentCompressOnlyTooltip,
-                    isSelected: widget.state.mediaActionIntent == MediaActionIntent.compressOnly,
-                    onTap: isLocked
-                        ? null
-                        : () => cubit.updateActionIntent(MediaActionIntent.compressOnly),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _ActionIntentChip(
-                    label: AppStrings.intentEditConvertOnly,
-                    icon: Icons.auto_fix_high_rounded,
-                    tooltip: AppStrings.intentEditConvertOnlyTooltip,
-                    isSelected: widget.state.mediaActionIntent == MediaActionIntent.resizeOnly ||
-                                widget.state.mediaActionIntent == MediaActionIntent.convertOnly,
-                    onTap: isLocked
-                        ? null
-                        : () => cubit.updateActionIntent(MediaActionIntent.resizeOnly),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: _ActionIntentChip(
-                    label: AppStrings.intentCompressAndEdit,
-                    icon: Icons.auto_awesome_rounded,
-                    tooltip: AppStrings.intentCompressAndEditTooltip,
-                    isSelected: widget.state.mediaActionIntent == MediaActionIntent.compressAndConvert,
-                    onTap: isLocked
-                        ? null
-                        : () => cubit.updateActionIntent(MediaActionIntent.compressAndConvert),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
 
             // -- User's Custom Smooth Sliding TabBar --
             Container(
@@ -504,92 +461,6 @@ class _SettingsContentState extends State<_SettingsContent>
           _OutputDirectorySection(state: state, isLocked: isLocked),
         ],
       ],
-    );
-  }
-}
-
-class _ActionIntentChip extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final String tooltip;
-  final bool isSelected;
-  final VoidCallback? onTap;
-
-  const _ActionIntentChip({
-    required this.label,
-    required this.icon,
-    required this.tooltip,
-    required this.isSelected,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final activeColor = isDark
-        ? AppColors.primaryAccentLight
-        : AppColors.primaryAccent;
-
-    return Tooltip(
-      message: tooltip,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          height: 36,
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? activeColor.withValues(alpha: 0.18)
-                : isDark
-                    ? Colors.white.withValues(alpha: 0.04)
-                    : Colors.black.withValues(alpha: 0.03),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: isSelected
-                  ? activeColor.withValues(alpha: 0.8)
-                  : isDark
-                      ? AppColors.borderDark.withValues(alpha: 0.4)
-                      : AppColors.borderLight.withValues(alpha: 0.5),
-              width: isSelected ? 1.5 : 1.0,
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                size: 16,
-                color: isSelected
-                    ? activeColor
-                    : theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
-              ),
-              const SizedBox(width: 6),
-              Flexible(
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                      color: isSelected
-                          ? activeColor
-                          : theme.textTheme.bodyMedium?.color
-                              ?.withValues(alpha: 0.8),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.visible,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
