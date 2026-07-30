@@ -888,39 +888,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'نسبة مخصصة (‎$ratio)';
+    return 'نسبة أبعاد مخصصة ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'إضافة إطار للمقطع بنسبة مخصصة ‎$ratio.';
+    return 'تغيير أبعاد الفيديو إلى نسبة مخصصة ($ratio) مع إضافة حواف.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'زاوية مخصصة (‎$angle°)';
+    return 'زاوية تدوير مخصصة ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'تدوير الفيديو بزاوية مخصصة ‎$angle° درجة.';
+    return 'تدوير الفيديو بزاوية مخصصة قدرها $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'قص المقطع بين ‎$start و ‎$end.';
+    return 'قص مقطع الفيديو بدءاً من $start وحتى $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return 'حد الحجم ‎$size MB';
+    return 'حد أقصى $size ميجابايت';
   }
 
   @override
-  String get customMbSizeTooltip => 'ادخل الحجم بالميجابايت';
+  String get customMbSizeTooltip => 'أدخل الحجم بالميجابايت';
 
   @override
-  String get trimTimeTooltip => 'ادخل الوقت مثلاً 5 (5 ثواني) أو 1:30';
+  String get trimTimeTooltip =>
+      'أدخل التوقيت مثلاً: 5 (5 ثوانٍ)، 1:30 (دقيقة و30 ثانية)، أو 00:01:30';
 
   @override
   String get tabImageSuite => 'أدوات الصور';
@@ -1051,41 +1052,41 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get keepMetadataImageInfoDesc =>
-      'يحافظ على الصورة الأصلية EXIF ​​والبيانات الوصفية للكاميرا.';
+      'الحفاظ على بيانات الكاميرا والـ EXIF الخاصة بالصورة الأصلية.';
 
   @override
-  String get cleanNoiseLabel => 'الضوضاء النظيفة';
+  String get cleanNoiseLabel => 'تنظيف الضوضاء';
 
   @override
   String get outputLargerTooltip =>
-      'سيكون الإخراج أكبر من الأصلي!\nتوقف وحاول إعادة التعيين إلى الإعدادات الافتراضية.';
+      'سيكون الحجم الناتج أكبر من الملف الأصلي!\nأوقف الضغط وجرب إعادة التعيين.';
 
   @override
-  String get estimatedSizePrefix => 'EST:';
+  String get estimatedSizePrefix => 'تقديري:';
 
   @override
-  String get cancelBtnTooltip => 'يلغي';
+  String get cancelBtnTooltip => 'إلغاء';
 
   @override
-  String get removeBtnTooltip => 'يزيل';
+  String get removeBtnTooltip => 'إزالة';
 
   @override
   String get selectLanguageTitle => 'اختر اللغة';
 
   @override
-  String get searchLanguageHint => 'لغة البحث عن طريق الاسم أو الرمز...';
+  String get searchLanguageHint => 'ابحث عن لغة عن طريق الاسم أو الرمز...';
 
   @override
   String get noLanguagesMatchSearch => 'لا توجد لغات تطابق بحثك.';
 
   @override
-  String get languageTooltip => 'لغة';
+  String get languageTooltip => 'اللغة';
 
   @override
-  String get notifyCompressionCompleteTitle => 'اكتمال ضغط Shrinkeo';
+  String get notifyCompressionCompleteTitle => 'اكتمال عملية الضغط';
 
   @override
-  String get notifyOutputLargerTitle => 'إخراج أكبر من الأصلي';
+  String get notifyOutputLargerTitle => 'الحجم الناتج أكبر من الملف الأصلي';
 
   @override
   String languagesCountLabel(String count) {
@@ -1099,11 +1100,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return '($failed فشل)';
+    return ' (فشل $failed)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return 'من المتوقع أن يكون $fileName أكبر من حجم الملف الأصلي. فكر في إلغاء الإعدادات وإعادة ضبطها على الوضع الافتراضي.';
+    return 'من المتوقع أن يكون $fileName أكبر من حجم الملف الأصلي. يُفضل إلغاء الضغط وإعادة ضبط الإعدادات.';
   }
 }

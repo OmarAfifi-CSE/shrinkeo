@@ -864,40 +864,40 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Benutzerdefiniertes Verhältnis ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Angepasster Rahmen für das individuelle Verhältnis ($ratio).';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Benutzerdefinierter Winkel ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Dreht das Video um einen benutzerdefinierten Winkel von $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Schneidet das Video von $start bis $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Limit von $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'MB-Größe eingeben';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Zeit eingeben z.B. 5 (5s), 1:30 (1m30s) oder 00:01:30';
 
   @override
   String get tabImageSuite => 'Bilder-Suite';
@@ -1031,32 +1031,33 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get keepMetadataImageInfoDesc =>
-      'Behält die EXIF- und Kamerametadaten des Originalbilds bei.';
+      'Behält die ursprünglichen EXIF- und Kamerametadaten bei.';
 
   @override
-  String get cleanNoiseLabel => 'Sauberer Lärm';
+  String get cleanNoiseLabel => 'Rauschunterdrückung';
 
   @override
   String get outputLargerTooltip =>
-      'Die Ausgabe wird größer als das Original sein!\nStoppen Sie und versuchen Sie, auf die Standardeinstellungen zurückzusetzen.';
+      'Die Ausgabe wird größer sein als das Original!\nStoppen und auf Standard zurücksetzen.';
 
   @override
-  String get estimatedSizePrefix => 'Schätzung:';
+  String get estimatedSizePrefix => 'Ca.:';
 
   @override
-  String get cancelBtnTooltip => 'Stornieren';
+  String get cancelBtnTooltip => 'Abbrechen';
 
   @override
   String get removeBtnTooltip => 'Entfernen';
 
   @override
-  String get selectLanguageTitle => 'Wählen Sie Sprache aus';
+  String get selectLanguageTitle => 'Sprache auswählen';
 
   @override
   String get searchLanguageHint => 'Sprache nach Name oder Code suchen...';
 
   @override
-  String get noLanguagesMatchSearch => 'Zu Ihrer Suche passen keine Sprachen.';
+  String get noLanguagesMatchSearch =>
+      'Keine Sprachen entsprechen Ihrer Suche.';
 
   @override
   String get languageTooltip => 'Sprache';
@@ -1080,11 +1081,11 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return '($failed fehlgeschlagen)';
+    return ' ($failed fehlgeschlagen)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName wird voraussichtlich größer als die ursprüngliche Dateigröße sein. Ziehen Sie in Betracht, die Einstellungen abzubrechen und auf die Standardeinstellungen zurückzusetzen.';
+    return 'Es wird erwartet, dass $fileName größer als das Original ist. Erwägen Sie einen Abbruch und das Zurücksetzen.';
   }
 }

@@ -861,40 +861,40 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Mukautettu kuvasuhde ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Pehmustettu kangas mukautettua $ratio-kuvasuhdetta varten.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Mukautettu kulma ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Kiertää videota mukautetulla $angle° kulmalla.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Leikkaa videoleikkeen kohdasta $start kohtaan $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Raja $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Kirjoita mukautettu MB-koko';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Syötä aika esim. 5 (5s), 1:30 (1m30s), tai 00:01:30';
 
   @override
   String get tabImageSuite => 'Image Suite';
@@ -1030,7 +1030,7 @@ class AppLocalizationsFi extends AppLocalizations {
       'Säilyttää alkuperäisen kuvan EXIF- ja kameran metatiedot.';
 
   @override
-  String get cleanNoiseLabel => 'Puhdas melu';
+  String get cleanNoiseLabel => 'Puhdista kohina';
 
   @override
   String get outputLargerTooltip =>

@@ -852,40 +852,40 @@ class AppLocalizationsGu extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'કસ્ટમ ગુણોત્તર ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'કસ્ટમ $ratio ગુણોત્તર માટે પેડેડ કેનવાસ.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'કસ્ટમ ખૂણો ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'વિડિઓને કસ્ટમ $angle° ખૂણા પર ફેરવે છે.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return '$start અને $end વચ્ચે વિડિઓ ક્લિપ ಕಾપે છે.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size MB મર્યાદા';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'કસ્ટમ MB કદ લખો';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'સમય દાખલ કરો દા.ત. 5 (5s), 1:30 (1m30s), અથવા 00:01:30';
 
   @override
   String get tabImageSuite => 'છબી સ્યુટ';
@@ -1020,56 +1020,56 @@ class AppLocalizationsGu extends AppLocalizations {
       'મૂળ છબી EXIF ​​અને કેમેરા મેટાડેટા સાચવે છે.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'અવાજ દૂર કરો';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'આઉટપુટ મૂળ કરતાં મોટું હશે!\nરોકો અને ડિફોલ્ટ પર રીસેટ કરવાનો પ્રયાસ કરો.';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => 'અંદાજિત:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'રદ કરો';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => 'દૂર કરો';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => 'ભાષા પસંદ કરો';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => 'નામ અથવા કોડ દ્વારા ભાષા શોધો...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch => 'કોઈ ભાષા તમારી શોધ સાથે મેળ ખાતી નથી.';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => 'ભાષા';
 
   @override
-  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+  String get notifyCompressionCompleteTitle => 'Shrinkeo કમ્પ્રેશન પૂર્ણ';
 
   @override
-  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+  String get notifyOutputLargerTitle => 'આઉટપુટ મૂળ કરતાં મોટું';
 
   @override
   String languagesCountLabel(String count) {
-    return '$count Languages';
+    return '$count ભાષાઓ';
   }
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success વીડિયો સફળતાપૂર્વક સંકુચિત કર્યા.';
   }
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return ' ($failed failed)';
+    return '($failed નિષ્ફળ)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+    return '$fileName મૂળ ફાઇલ કદ કરતાં મોટી હોવાની અપેક્ષા છે. સેટિંગને ડિફૉલ્ટ પર રદ કરવા અને રીસેટ કરવાનું વિચારો.';
   }
 }

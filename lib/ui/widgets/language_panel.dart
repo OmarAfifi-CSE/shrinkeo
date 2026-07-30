@@ -15,14 +15,15 @@ class LanguagePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: BlocBuilder<CompressionCubit, CompressionState>(
-        buildWhen: (prev, curr) =>
-            prev.isLanguageExpanded != curr.isLanguageExpanded ||
-            prev.languageCode != curr.languageCode,
-        builder: (context, state) {
-          return AnimatedCrossFade(
+    return BlocBuilder<CompressionCubit, CompressionState>(
+      buildWhen: (prev, curr) =>
+          prev.isLanguageExpanded != curr.isLanguageExpanded ||
+          prev.languageCode != curr.languageCode,
+      builder: (context, state) {
+        final isRtl = LanguageHelper.isRtl(state.languageCode);
+        return Directionality(
+          textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+          child: AnimatedCrossFade(
             duration: const Duration(milliseconds: 250),
             sizeCurve: Curves.easeOut,
             crossFadeState: state.isLanguageExpanded
@@ -30,9 +31,9 @@ class LanguagePanel extends StatelessWidget {
                 : CrossFadeState.showFirst,
             firstChild: const SizedBox.shrink(),
             secondChild: _LanguagePanelContent(state: state),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
@@ -155,43 +156,50 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                       : Colors.black.withValues(alpha: 0.08),
                 ),
               ),
-              child: TextField(
-                controller: _searchController,
-                onChanged: (val) {
-                  setState(() {
-                    _searchQuery = val;
-                  });
-                },
-                textAlignVertical: TextAlignVertical.center,
-                style: const TextStyle(fontSize: 13),
-                decoration: InputDecoration(
-                  isDense: true,
-                  hintText: AppStrings.searchLanguageHint,
-                  hintStyle: TextStyle(
-                    fontSize: 12,
-                    color: theme.textTheme.bodySmall?.color?.withValues(
-                      alpha: 0.5,
+              child: Builder(
+                builder: (context) {
+                  final isRtl = Directionality.of(context) == TextDirection.rtl;
+                  return TextField(
+                    controller: _searchController,
+                    textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+                    textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                    onChanged: (val) {
+                      setState(() {
+                        _searchQuery = val;
+                      });
+                    },
+                    textAlignVertical: TextAlignVertical.center,
+                    style: const TextStyle(fontSize: 13),
+                    decoration: InputDecoration(
+                      isDense: true,
+                      hintText: AppStrings.searchLanguageHint,
+                      hintStyle: TextStyle(
+                        fontSize: 12,
+                        color: theme.textTheme.bodySmall?.color?.withValues(
+                          alpha: 0.5,
+                        ),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search_rounded,
+                        size: 18,
+                        color: activeColor,
+                      ),
+                      suffixIcon: _searchQuery.isNotEmpty
+                          ? IconButton(
+                              icon: const Icon(Icons.clear_rounded, size: 16),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() {
+                                  _searchQuery = '';
+                                });
+                              },
+                            )
+                          : null,
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                     ),
-                  ),
-                  prefixIcon: Icon(
-                    Icons.search_rounded,
-                    size: 18,
-                    color: activeColor,
-                  ),
-                  suffixIcon: _searchQuery.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear_rounded, size: 16),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() {
-                              _searchQuery = '';
-                            });
-                          },
-                        )
-                      : null,
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 16),

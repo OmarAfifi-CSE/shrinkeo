@@ -862,40 +862,40 @@ class AppLocalizationsTe extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'కస్టమ్ నిష్పత్తి ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'కస్టమ్ $ratio నిష్పత్తి కోసం ప్యాడెడ్ కాన్వాస్.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'కస్టమ్ కోణం ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'వీడియోను కస్టమ్ $angle° కోణంలో తిప్పుతుంది.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return '$start మరియు $end మధ్య వీడియో క్లిప్‌ను కట్ చేస్తుంది.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size MB పరిమితి';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'కస్టమ్ MB పరిమాణాన్ని టైప్ చేయండి';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'సమయం నమోదు చేయండి ఉదా. 5 (5s), 1:30 (1m30s), లేదా 00:01:30';
 
   @override
   String get tabImageSuite => 'చిత్రం సూట్';
@@ -1031,7 +1031,7 @@ class AppLocalizationsTe extends AppLocalizations {
       'అసలు చిత్రం EXIF ​​& కెమెరా మెటాడేటాను భద్రపరుస్తుంది.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'నాయిస్ తొలగించు';
 
   @override
   String get outputLargerTooltip =>

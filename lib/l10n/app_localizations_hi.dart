@@ -855,40 +855,40 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'कस्टम अनुपात ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'कस्टम $ratio अनुपात के लिए पैडेड कैनवास।';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'कस्टम कोण ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'वीडियो को कस्टम $angle° डिग्री कोण द्वारा घुमाता है।';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'वीडियो क्लिप को $start और $end के बीच काटता है।';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size MB सीमा';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'कस्टम MB आकार दर्ज करें';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'समय दर्ज करें उदा. 5 (5s), 1:30 (1m30s), या 00:01:30';
 
   @override
   String get tabImageSuite => 'इमेज सुइट';
@@ -1024,32 +1024,32 @@ class AppLocalizationsHi extends AppLocalizations {
       'मूल छवि EXIF ​​और कैमरा मेटाडेटा को सुरक्षित रखता है।';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'शोर साफ़ करें';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'आउटपुट मूल से बड़ा होगा!\nरोकें और डिफ़ॉल्ट पर रीसेट करें।';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => 'अनुमानित:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'रद्द करें';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => 'हटाएं';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => 'भाषा चुनें';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => 'नाम या कोड द्वारा भाषा खोजें...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch => 'आपकी खोज से कोई भाषा मेल नहीं खाती।';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => 'भाषा';
 
   @override
   String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';

@@ -848,40 +848,39 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return '사용자 지정 비율 ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return '사용자 지정 $ratio 비율을 위한 여백 프레임.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return '사용자 지정 각도 ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return '비디오를 사용자 지정 $angle° 각도로 회전합니다.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return '$start부터 $end까지 비디오를 자릅니다.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size MB 제한';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => '사용자 지정 MB 크기 입력';
 
   @override
-  String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+  String get trimTimeTooltip => '시간 입력 예: 5(5초), 1:30(1분30초) 또는 00:01:30';
 
   @override
   String get tabImageSuite => '이미지 스위트';
@@ -1002,59 +1001,58 @@ class AppLocalizationsKo extends AppLocalizations {
   String get imgRes480pDesc => '이미지 최대 크기를 854px(SD 최대)로 축소합니다.';
 
   @override
-  String get keepMetadataImageInfoDesc => '원본 이미지 EXIF ​​및 카메라 메타데이터를 보존합니다.';
+  String get keepMetadataImageInfoDesc => '원본 이미지의 EXIF 및 카메라 메타데이터를 유지합니다.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => '노이즈 감소';
 
   @override
-  String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+  String get outputLargerTooltip => '출력 파일이 원본보다 커집니다!\n중단하고 기본값으로 재설정하세요.';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => '예상:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => '취소';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => '제거';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => '언어 선택';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => '이름 또는 코드로 언어 검색...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch => '검색과 일치하는 언어가 없습니다.';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => '언어';
 
   @override
-  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+  String get notifyCompressionCompleteTitle => 'Shrinkeo 압축 완료';
 
   @override
-  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+  String get notifyOutputLargerTitle => '출력이 원본보다 큼';
 
   @override
   String languagesCountLabel(String count) {
-    return '$count Languages';
+    return '$count개 언어';
   }
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success개 비디오 압축 성공.';
   }
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return ' ($failed failed)';
+    return ' ($failed개 실패)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+    return '$fileName이(가) 원본보다 커질 것으로 예상됩니다. 취소하고 재설정하는 것을 고려하세요.';
   }
 }

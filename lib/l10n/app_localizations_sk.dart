@@ -862,40 +862,40 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Vlastný pomer ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Plátno s okrajmi pre vlastný pomer $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Vlastný uhol ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Otočí video o vlastný uhol $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Oriazne videoklip medzi $start a $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Limit $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Zadajte vlastnú veľkosť v MB';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Zadajte čas napr. 5 (5s), 1:30 (1m30s), alebo 00:01:30';
 
   @override
   String get tabImageSuite => 'Image Suite';
@@ -1034,7 +1034,7 @@ class AppLocalizationsSk extends AppLocalizations {
       'Zachováva pôvodný EXIF ​​obrázka a metadáta fotoaparátu.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Vyčistiť šum';
 
   @override
   String get outputLargerTooltip =>

@@ -857,40 +857,40 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'อัตราส่วนที่กำหนดเอง ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'ผืนผ้าใบพร้อมขอบสำหรับอัตราส่วน $ratio ที่กำหนดเอง';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'มุมที่กำหนดเอง ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'หมุนวิดีโอด้วยมุม $angle° ที่กำหนดเอง';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'ตัดคลิปวิดีโอระหว่าง $start ถึง $end';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'จำกัด $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'พิมพ์ขนาด MB ที่กำหนดเอง';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'ป้อนเวลา เช่น 5 (5 วินาที), 1:30 (1 นาที 30 วินาที) หรือ 00:01:30';
 
   @override
   String get tabImageSuite => 'ชุดรูปภาพ';
@@ -1024,14 +1024,14 @@ class AppLocalizationsTh extends AppLocalizations {
       'รักษาภาพต้นฉบับ EXIF ​​​​และข้อมูลเมตาของกล้อง';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'ลดเสียงรบกวน';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'ขนาดไฟล์ที่ได้จะใหญ่กว่าต้นฉบับ!\nหยุดและรีเซ็ตเป็นค่าเริ่มต้น';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => 'ประมาณ:';
 
   @override
   String get cancelBtnTooltip => 'Cancel';

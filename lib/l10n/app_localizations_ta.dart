@@ -867,40 +867,40 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'தனிப்பயன் விகிதம் ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'தனிப்பயன் $ratio விகிதത്തിற்கான கேன்வாஸ்.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'தனிப்பயன் கோணம் ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'தனிப்பயன் $angle° கோணத்தில் வீடியோவை சுழற்றுகிறது.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return '$start மற்றும் $end இடையே வீடியோவை வெட்டுகிறது.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size எம்பி வரம்பு';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'தனிப்பயன் எம்பி அளவை தட்டச்சு செய்க';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'நேரத்தை உள்ளிடவும் எ.கா. 5 (5 விநாடி), 1:30 (1 நிமி 30 விநாடி), அல்லது 00:01:30';
 
   @override
   String get tabImageSuite => 'பட தொகுப்பு';
@@ -1036,7 +1036,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'அசல் படம் EXIF ​​& கேமரா மெட்டாடேட்டாவைப் பாதுகாக்கிறது.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'இரைச்சலை நீக்கு';
 
   @override
   String get outputLargerTooltip =>

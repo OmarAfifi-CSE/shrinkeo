@@ -865,40 +865,40 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Proporció personalitzada ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Llenç amb farciment per a la proporció personalitzada $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Angle personalitzat ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Gira el vídeo un angle personalitzat de $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Retalla el clip de vídeo entre $start i $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Límit de $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Escriu la mida en MB personalitzada';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Escriu el temps p. ex. 5 (5s), 1:30 (1m30s), o 00:01:30';
 
   @override
   String get tabImageSuite => 'Suite d\'imatges';
@@ -1035,7 +1035,7 @@ class AppLocalizationsCa extends AppLocalizations {
       'Conserva la imatge original EXIF ​​i les metadades de la càmera.';
 
   @override
-  String get cleanNoiseLabel => 'Soroll net';
+  String get cleanNoiseLabel => 'Netejar soroll';
 
   @override
   String get outputLargerTooltip =>

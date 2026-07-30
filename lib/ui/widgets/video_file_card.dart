@@ -458,12 +458,15 @@ class _CompressionResult extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          '${VideoFile.formatFileSize(video.fileSizeBytes)} ➔ ${VideoFile.formatFileSize(video.outputSizeBytes ?? 0)}',
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium?.color,
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: Text(
+            '${VideoFile.formatFileSize(video.fileSizeBytes)} ➔ ${VideoFile.formatFileSize(video.outputSizeBytes ?? 0)}',
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         if (savedBytes != 0 && video.fileSizeBytes > 0) ...[

@@ -866,40 +866,40 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Kustom na Proposyon ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'May pad na canvas para sa kustom na $ratio proposyon.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Kustom na Anggulo ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Pina-ikot ang video sa kustom na $angle° anggulo.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Cuts video clip sa pagitan ng $start at $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Limit na $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'I-type ang kustom na laki ng MB';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Ipasok ang oras hal. 5 (5s), 1:30 (1m30s), o 00:01:30';
 
   @override
   String get tabImageSuite => 'Image Suite';
@@ -1037,56 +1037,60 @@ class AppLocalizationsFil extends AppLocalizations {
       'Pinapanatili ang orihinal na larawang EXIF ​​at metadata ng camera.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Linisin ang ingay';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Ang output ay magiging mas malaki kaysa sa orihinal!\nHuminto at subukang I-reset sa Mga Default.';
 
   @override
   String get estimatedSizePrefix => 'Est:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'Kanselahin';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => 'Alisin';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => 'Piliin ang Wika';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint =>
+      'Maghanap ng wika ayon sa pangalan o code...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch =>
+      'Walang mga wikang tumutugma sa iyong paghahanap.';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => 'Wika';
 
   @override
-  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+  String get notifyCompressionCompleteTitle =>
+      'Kumpleto na ang Shrinkeo Compression';
 
   @override
-  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+  String get notifyOutputLargerTitle =>
+      'Mas Malaki ang Output kaysa sa Orihinal';
 
   @override
   String languagesCountLabel(String count) {
-    return '$count Languages';
+    return '$count Wika';
   }
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Matagumpay na na-compress ang $success video.';
   }
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return ' ($failed failed)';
+    return '($failed ang nabigo)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+    return '$fileName ay inaasahang mas malaki kaysa sa orihinal na laki ng file. Pag-isipang kanselahin at i-reset ang mga setting sa default.';
   }
 }

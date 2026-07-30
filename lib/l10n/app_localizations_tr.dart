@@ -857,40 +857,40 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Özel Oran ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Özel $ratio oranı için dolgulu çerçeve.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Özel Açı ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Videoyu özel $angle° açıyla döndürür.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Videoyu $start ile $end arasında keser.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size MB Sınırı';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Özel MB boyutunu yazın';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Süre girin örn. 5 (5s), 1:30 (1m30s), veya 00:01:30';
 
   @override
   String get tabImageSuite => 'Resim Araçları';
@@ -1023,59 +1023,60 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get keepMetadataImageInfoDesc =>
-      'Orijinal görüntü EXIF\'sini ve kamera meta verilerini korur.';
+      'Orijinal fotoğrafın EXIF ve kamera meta verilerini korur.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Gürültü Azaltma';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Çıktı orijinalden daha büyük olacak!\nDurdurun ve varsayılanlara sıfırlayın.';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => 'Tahm:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'İptal';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => 'Kaldır';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => 'Dil seçin';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => 'Ada veya koda göre dil ara...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch => 'Aramanızla eşleşen dil bulunamadı.';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => 'Dil';
 
   @override
-  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+  String get notifyCompressionCompleteTitle =>
+      'Shrinkeo Sıkıştırması Tamamlandı';
 
   @override
-  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+  String get notifyOutputLargerTitle => 'Çıktı Orijinalden Daha Büyük';
 
   @override
   String languagesCountLabel(String count) {
-    return '$count Languages';
+    return '$count Dil';
   }
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success video başarıyla sıkıştırıldı.';
   }
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return ' ($failed failed)';
+    return ' ($failed başarısız)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+    return '$fileName dosyasının orijinalden büyük olması bekleniyor. İptal edip sıfırlamayı düşünün.';
   }
 }

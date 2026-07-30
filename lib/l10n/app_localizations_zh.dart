@@ -848,40 +848,39 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return '自定义比例 ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return '针对自定义 $ratio 比例的边框填充画布。';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return '自定义角度 ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return '将视频旋转自定义的 $angle° 角度。';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return '剪辑 $start 至 $end 之间的视频片段。';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '限制 $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => '输入自定义 MB 大小';
 
   @override
-  String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+  String get trimTimeTooltip => '输入时间，例如 5 (5秒)、1:30 (1分30秒) 或 00:01:30';
 
   @override
   String get tabImageSuite => '图像套件';
@@ -998,60 +997,58 @@ class AppLocalizationsZh extends AppLocalizations {
   String get imgRes480pDesc => '将图像最大尺寸缩小至 854 像素（SD 最大）。';
 
   @override
-  String get keepMetadataImageInfoDesc =>
-      'Preserves original image EXIF & camera metadata.';
+  String get keepMetadataImageInfoDesc => '保留原始图像的 EXIF 和相机元数据。';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => '降噪';
 
   @override
-  String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+  String get outputLargerTooltip => '输出文件将大于原始文件！\n建议停止并重置为默认设置。';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => '预估:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => '取消';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => '移除';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => '选择语言';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => '按名称或代码搜索语言...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch => '没有找到匹配的语言。';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => '语言';
 
   @override
-  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+  String get notifyCompressionCompleteTitle => 'Shrinkeo 压缩完成';
 
   @override
-  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+  String get notifyOutputLargerTitle => '输出大于原文件';
 
   @override
   String languagesCountLabel(String count) {
-    return '$count Languages';
+    return '$count 种语言';
   }
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '成功压缩 $success 个视频。';
   }
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return ' ($failed failed)';
+    return ' ($failed 失败)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+    return '$fileName 预计将大于原始文件大小。考虑取消并将设置重置为默认值。';
   }
 }

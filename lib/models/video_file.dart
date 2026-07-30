@@ -215,12 +215,12 @@ class VideoFile extends Equatable {
 
   /// Formats byte sizes into human-readable strings (e.g., "12.5 MB").
   static String formatFileSize(int bytes) {
-    if (bytes < 1024) return '$bytes B';
-    if (bytes < 1024 * 1024) return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    if (bytes < 1024) return '\u200E$bytes B';
+    if (bytes < 1024 * 1024) return '\u200E${(bytes / 1024).toStringAsFixed(1)} KB';
     if (bytes < 1024 * 1024 * 1024) {
-      return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+      return '\u200E${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
     }
-    return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
+    return '\u200E${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
   }
 
   /// Returns the compression ratio as a percentage string (e.g., "-42%").

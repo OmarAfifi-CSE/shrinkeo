@@ -860,40 +860,40 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Nisbah Kustom ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Kanvas berpad untuk nisbah kustom $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Sudut Kustom ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Memutar video mengikut sudut kustom $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Memotong klip video antara $start dan $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Ahad $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Taip saiz MB kustom';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Masukkan masa cth. 5 (5s), 1:30 (1m30s), atau 00:01:30';
 
   @override
   String get tabImageSuite => 'Suite Imej';
@@ -1029,7 +1029,7 @@ class AppLocalizationsMs extends AppLocalizations {
       'Mengekalkan imej asal EXIF ​​​​& metadata kamera.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Bersihkan bunyi';
 
   @override
   String get outputLargerTooltip =>

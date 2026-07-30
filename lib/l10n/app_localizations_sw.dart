@@ -857,40 +857,40 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Uwiano Maalum ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Turubai iliyowekwa pedi kwa uwiano maalum wa $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Pembe Maalum ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Huzungusha video kwa pembe maalum ya $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Hukata klip ya video kati ya $start na $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Kikomo cha $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Andika ukubwa maalum wa MB';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Weka muda mfano 5 (sekunde 5), 1:30 (dakika 1 sekunde 30), au 00:01:30';
 
   @override
   String get tabImageSuite => 'Suite ya Picha';
@@ -1027,7 +1027,7 @@ class AppLocalizationsSw extends AppLocalizations {
       'Huhifadhi picha halisi ya EXIF ​​na metadata ya kamera.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Safisha kelele';
 
   @override
   String get outputLargerTooltip =>

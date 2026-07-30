@@ -858,40 +858,40 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Користувацьке співвідношення ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Полотно з полями для співвідношення $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Кут користувача ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Повертає відео на користувацький кут $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Обрезає відеокліп між $start і $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Ліміт $size МБ';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Введіть розмір у МБ';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Введіть час, напр. 5 (5с), 1:30 (1хв30с) або 00:01:30';
 
   @override
   String get tabImageSuite => 'Image Suite';
@@ -1027,11 +1027,11 @@ class AppLocalizationsUk extends AppLocalizations {
       'Зберігає EXIF ​​оригінального зображення та метадані камери.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Очистити шум';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Розмір буде більшим за оригінал!\nЗупиніть і скиньте налаштування.';
 
   @override
   String get estimatedSizePrefix => 'Est:';

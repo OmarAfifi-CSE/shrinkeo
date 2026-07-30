@@ -860,40 +860,40 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Niestandardowe proporcje ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Płótno z marginesami dla proporcji $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Niestandardowy kąt ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Obraca wideo o niestandardowy kąt $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Tnie klip wideo między $start a $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Limit $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Wpisz niestandardowy rozmiar w MB';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Wpisz czas np. 5 (5s), 1:30 (1m30s), lub 00:01:30';
 
   @override
   String get tabImageSuite => 'Pakiet Obrazów';
@@ -1030,17 +1030,17 @@ class AppLocalizationsPl extends AppLocalizations {
       'Zachowuje oryginalny obraz EXIF ​​​​i metadane aparatu.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Usuń szum';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Plik wyjściowy będzie większy niż oryginał!\nZatrzymaj i zresetuj do ustawień domyślnych.';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => 'Szac:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'Anuluj';
 
   @override
   String get removeBtnTooltip => 'Remove';

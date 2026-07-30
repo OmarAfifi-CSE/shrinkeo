@@ -855,40 +855,40 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Tỷ lệ tùy chỉnh ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Khung hình có viền cho tỷ lệ tùy chỉnh $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Góc tùy chỉnh ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Xoay video theo góc tùy chỉnh $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Cắt video giữa $start và $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Giới hạn $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Nhập dung lượng MB tùy chỉnh';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Nhập thời gian ví dụ 5 (5 giây), 1:30 (1 phút 30 giây), hoặc 00:01:30';
 
   @override
   String get tabImageSuite => 'Bộ ảnh';
@@ -1024,26 +1024,26 @@ class AppLocalizationsVi extends AppLocalizations {
       'Bảo tồn siêu dữ liệu máy ảnh và EXIF ​​​​hình ảnh gốc.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Làm sạch tiếng ồn';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Kích thước đầu ra sẽ lớn hơn gốc!\nDừng lại và đặt lại về mặc định.';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => 'Ước tính:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'Hủy';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => 'Xóa';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => 'Chọn ngôn ngữ';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => 'Tìm kiếm ngôn ngữ theo tên hoặc mã...';
 
   @override
   String get noLanguagesMatchSearch => 'No languages match your search.';

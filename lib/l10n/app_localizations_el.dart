@@ -861,40 +861,40 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Προσαρμοσμένη αναλογία ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Καμβάς με περιθώρια για προσαρμοσμένη αναλογία $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Προσαρμοσμένη γωνία ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Περιστρέφει το βίντεο κατά προσαρμοσμένη γωνία $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Κόβει το βίντεο μεταξύ $start και $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Όριο $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Πληκτρολογήστε προσαρμοσμένο μέγεθος MB';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Εισαγάγετε χρόνο π.χ. 5 (5s), 1:30 (1m30s), ή 00:01:30';
 
   @override
   String get tabImageSuite => 'Σουίτα εικόνων';
@@ -1031,11 +1031,11 @@ class AppLocalizationsEl extends AppLocalizations {
       'Διατηρεί την αρχική εικόνα EXIF ​​& μεταδεδομένα κάμερας.';
 
   @override
-  String get cleanNoiseLabel => 'Καθαρός θόρυβος';
+  String get cleanNoiseLabel => 'Καθαρισμός θορύβου';
 
   @override
   String get outputLargerTooltip =>
-      'Η έξοδος θα είναι μεγαλύτερη από την αρχική!\nΣταματήστε και δοκιμάστε την Επαναφορά στις προεπιλογές.';
+      'Το μέγεθος θα είναι μεγαλύτερο από το πρωτότυπο!\nΣταματήστε και επαναφέρετε τις προεπιλογές.';
 
   @override
   String get estimatedSizePrefix => 'Εκτίμηση:';

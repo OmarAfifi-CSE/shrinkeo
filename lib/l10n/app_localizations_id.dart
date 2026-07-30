@@ -858,40 +858,40 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Rasio Kustom ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Kanvas berbingkai untuk rasio kustom $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Sudut Kustom ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Memutar video sebesar sudut kustom $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Memotong klip video antara $start dan $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Batas $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Ketik ukuran MB kustom';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Masukkan waktu misal 5 (5d), 1:30 (1m30d), atau 00:01:30';
 
   @override
   String get tabImageSuite => 'Rangkaian Gambar';
@@ -1028,26 +1028,26 @@ class AppLocalizationsId extends AppLocalizations {
       'Mempertahankan EXIF ​​gambar asli & metadata kamera.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Bersihkan kebisingan';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Ukuran hasil akan lebih besar dari aslinya!\nHentikan dan atur ulang ke default.';
 
   @override
   String get estimatedSizePrefix => 'Est:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'Batal';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => 'Hapus';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => 'Pilih Bahasa';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => 'Cari bahasa berdasarkan nama atau kode...';
 
   @override
   String get noLanguagesMatchSearch => 'No languages match your search.';

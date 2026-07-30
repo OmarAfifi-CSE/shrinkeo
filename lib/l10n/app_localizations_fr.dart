@@ -864,40 +864,40 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Ratio personnalisé ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Cadrage adapté au ratio personnalisé ($ratio).';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Angle personnalisé ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Pivote la vidéo d\'un angle personnalisé de $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Découpe la vidéo de $start à $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Limite de $size Mo';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Saisir la taille en Mo';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Saisir le temps ex. 5 (5s), 1:30 (1m30s), ou 00:01:30';
 
   @override
   String get tabImageSuite => 'Suite d\'Images';
@@ -1031,59 +1031,60 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get keepMetadataImageInfoDesc =>
-      'Préserve les métadonnées EXIF ​​et de l\'appareil photo de l\'image originale.';
+      'Conserve les métadonnées EXIF et les infos de l\'appareil d\'origine.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Réduction du bruit';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Le résultat sera plus grand que l\'original !\nArrêtez et réinitialisez les paramètres.';
 
   @override
   String get estimatedSizePrefix => 'Est:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'Annuler';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => 'Supprimer';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => 'Sélectionner la langue';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => 'Rechercher une langue par nom ou code...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch =>
+      'Aucune langue ne correspond à votre recherche.';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => 'Langue';
 
   @override
-  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+  String get notifyCompressionCompleteTitle => 'Compression Shrinkeo terminée';
 
   @override
-  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+  String get notifyOutputLargerTitle => 'Résultat plus grand que l\'original';
 
   @override
   String languagesCountLabel(String count) {
-    return '$count Languages';
+    return '$count langues';
   }
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success vidéos compressées avec succès.';
   }
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return ' ($failed failed)';
+    return ' ($failed échoués)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+    return 'Il est prévu que $fileName soit plus grand que le fichier d\'origine. Envisagez d\'annuler et de réinitialiser.';
   }
 }

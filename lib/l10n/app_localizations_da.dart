@@ -858,40 +858,40 @@ class AppLocalizationsDa extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Brugerdefineret forhold ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Udfyldt lærred til brugerdefineret $ratio-forhold.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Brugerdefineret vinkel ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Roterer video med en brugerdefineret vinkel på $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Klipper videoklip mellem $start og $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Grænse $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Indtast brugerdefineret MB-størrelse';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Indtast tid f.eks. 5 (5s), 1:30 (1m30s), eller 00:01:30';
 
   @override
   String get tabImageSuite => 'Image Suite';
@@ -1028,7 +1028,7 @@ class AppLocalizationsDa extends AppLocalizations {
       'Bevarer det originale billede EXIF ​​og kamerametadata.';
 
   @override
-  String get cleanNoiseLabel => 'Ren støj';
+  String get cleanNoiseLabel => 'Rens støj';
 
   @override
   String get outputLargerTooltip =>

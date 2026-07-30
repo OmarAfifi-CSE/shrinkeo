@@ -859,40 +859,40 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Rapporto personalizzato ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Inquadratura adattata al rapporto personalizzato ($ratio).';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Angolo personalizzato ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Ruota il video di un angolo personalizzato di $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Ritaglia il video da $start a $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Limite di $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Inserisci dimensione in MB';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Inserisci tempo es. 5 (5s), 1:30 (1m30s), o 00:01:30';
 
   @override
   String get tabImageSuite => 'Suite Immagini';
@@ -1026,59 +1026,61 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get keepMetadataImageInfoDesc =>
-      'Conserva l\'EXIF dell\'immagine originale e i metadati della fotocamera.';
+      'Conserva i metadati EXIF e le informazioni della fotocamera originali.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Riduzione del rumore';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'L\'output sarà più grande dell\'originale!\nInterrompi e ripristina le impostazioni predefinite.';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => 'Stima:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'Annulla';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => 'Rimuovi';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => 'Seleziona lingua';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => 'Cerca lingua per nome o codice...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch =>
+      'Nessuna lingua corrisponde alla ricerca.';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => 'Lingua';
 
   @override
-  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+  String get notifyCompressionCompleteTitle =>
+      'Compressione Shrinkeo completata';
 
   @override
-  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+  String get notifyOutputLargerTitle => 'Output più grande dell\'originale';
 
   @override
   String languagesCountLabel(String count) {
-    return '$count Languages';
+    return '$count lingue';
   }
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success video compressi con successo.';
   }
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return ' ($failed failed)';
+    return ' ($failed non riusciti)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+    return 'Si prevede che $fileName sia più grande dell\'originale. Valuta di annullare e ripristinare.';
   }
 }

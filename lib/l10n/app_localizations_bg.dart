@@ -859,40 +859,40 @@ class AppLocalizationsBg extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Персонализирано съотношение ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Платно с подложка за персонализирано съотношение $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Персонализиран ъгъл ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Завърта видеото под персонализиран ъгъл от $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Изрязва видеоклипа между $start и $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Лимит от $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Въведете размер в MB';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Въведете време напр. 5 (5s), 1:30 (1m30s), или 00:01:30';
 
   @override
   String get tabImageSuite => 'Image Suite';
@@ -1030,7 +1030,7 @@ class AppLocalizationsBg extends AppLocalizations {
       'Запазва оригиналните EXIF ​​изображения и метаданните на камерата.';
 
   @override
-  String get cleanNoiseLabel => 'Чист шум';
+  String get cleanNoiseLabel => 'Почистване на шум';
 
   @override
   String get outputLargerTooltip =>

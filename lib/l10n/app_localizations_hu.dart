@@ -866,40 +866,40 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Egyéni képarány ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Kitöltött vászon egyéni $ratio képarányhoz.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Egyéni szög ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Elforgatja a videót egyéni $angle° fokos szöggel.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Kivágja a videoklipet $start és $end között.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size MB korlát';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Adja meg az egyéni MB méretet';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Adja meg az időt pl. 5 (5s), 1:30 (1m30s), vagy 00:01:30';
 
   @override
   String get tabImageSuite => 'Image Suite';
@@ -1036,11 +1036,11 @@ class AppLocalizationsHu extends AppLocalizations {
       'Megőrzi az eredeti kép EXIF ​​és a kamera metaadatait.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Zajszűrés';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'A kimenet nagyobb lesz az eredetinél!\nÁllítsa le és állítsa vissza az alapértelmezetteket.';
 
   @override
   String get estimatedSizePrefix => 'Est:';

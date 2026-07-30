@@ -856,40 +856,40 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Anpassat förhållande ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Utfylld duk för anpassat $ratio-förhållande.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Anpassad vinkel ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Roterar videon med en anpassad vinkel på $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Klipper videoklippet mellan $start och $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Gräns $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Ange anpassad MB-storlek';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Ange tid t.ex. 5 (5s), 1:30 (1m30s), eller 00:01:30';
 
   @override
   String get tabImageSuite => 'Bildverktyg';
@@ -1024,14 +1024,14 @@ class AppLocalizationsSv extends AppLocalizations {
       'Bevarar originalbildens EXIF ​​och kamerametadata.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Rensa brus';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Utfilen blir större än originalet!\nStoppa och återställ till standard.';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => 'Uppsk:';
 
   @override
   String get cancelBtnTooltip => 'Cancel';

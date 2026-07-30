@@ -866,40 +866,40 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'Raport personalizat ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'Pânză cu spațiere pentru raportul personalizat $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'Unghi personalizat ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'Rotește videoclipul cu un unghi personalizat de $angle°.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'Taie clipul video între $start și $end.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'Limită $size MB';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'Introduceți dimensiunea MB personalizată';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'Introduceți timpul ex. 5 (5s), 1:30 (1m30s), sau 00:01:30';
 
   @override
   String get tabImageSuite => 'Image Suite';
@@ -1036,11 +1036,11 @@ class AppLocalizationsRo extends AppLocalizations {
       'Păstrează imaginea originală EXIF ​​și metadatele camerei.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'Curățare zgomot';
 
   @override
   String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+      'Fișierul rezultat va fi mai mare decât originalul!\nOpriți și resetați la valorile implicite.';
 
   @override
   String get estimatedSizePrefix => 'Est:';

@@ -851,40 +851,40 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'نسبت سفارشی ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'بوم حاشیه‌دار برای نسبت سفارشی $ratio.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'زاویه سفارشی ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'ویدیو را با زاویه سفارشی $angle° می‌چرخاند.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return 'کلیپ ویدیویی را بین $start و $end برش می‌دهد.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return 'محدودیت $size مگابایت';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'اندازه سفارشی مگابایت را تایپ کنید';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'زمان را وارد کنید مثلاً 5 (5 ثانیه)، 1:30 (1 دقیقه و 30 ثانیه) یا 00:01:30';
 
   @override
   String get tabImageSuite => 'ابزار تصاویر';
@@ -1018,11 +1018,11 @@ class AppLocalizationsFa extends AppLocalizations {
       'EXIF تصویر اصلی و ابرداده دوربین را حفظ می کند.';
 
   @override
-  String get cleanNoiseLabel => 'نویز تمیز';
+  String get cleanNoiseLabel => 'پاکسازی نویز';
 
   @override
   String get outputLargerTooltip =>
-      'خروجی بزرگتر از اصلی خواهد بود!\nتوقف کنید و Reset to Defaults را امتحان کنید.';
+      'حجم خروجی بزرگتر از فایل اصلی خواهد بود!\nمتوقف کنید و تنظیمات را بازنشانی کنید.';
 
   @override
   String get estimatedSizePrefix => 'برآورد:';

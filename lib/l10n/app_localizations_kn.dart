@@ -862,40 +862,40 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'ಕಸ್ಟಮ್ ಅನುಪಾತ ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'ಕಸ್ಟಮ್ $ratio ಅನುಪಾತಕ್ಕಾಗಿ ಪ್ಯಾಡ್ಡ್ ಕ್ಯಾನ್ವಾಸ್.';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'ಕಸ್ಟಮ್ ಕೋನ ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return 'ವೀಡಿಯೊವನ್ನು ಕಸ್ಟಮ್ $angle° ಕೋನದಲ್ಲಿ ತಿರುಗಿಸುತ್ತದೆ.';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return '$start ಮತ್ತು $end ನಡುವೆ ವೀಡಿಯೊ ತುಣುಕನ್ನು ಕತ್ತರಿಸುತ್ತದೆ.';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size MB ಮಿತಿ';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'ಕಸ್ಟಮ್ MB ಗಾತ್ರವನ್ನು ಟೈಪ್ ಮಾಡಿ';
 
   @override
   String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+      'ಸಮಯವನ್ನು ನಮೂದಿಸಿ ಉದಾ. 5 (5s), 1:30 (1m30s), ಅಥವಾ 00:01:30';
 
   @override
   String get tabImageSuite => 'ಚಿತ್ರ ಸೂಟ್';
@@ -1031,7 +1031,7 @@ class AppLocalizationsKn extends AppLocalizations {
       'ಮೂಲ ಚಿತ್ರ EXIF ​​ಮತ್ತು ಕ್ಯಾಮರಾ ಮೆಟಾಡೇಟಾವನ್ನು ಸಂರಕ್ಷಿಸುತ್ತದೆ.';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'ಶಬ್ದ ಶಮನಗೊಳಿಸಿ';
 
   @override
   String get outputLargerTooltip =>

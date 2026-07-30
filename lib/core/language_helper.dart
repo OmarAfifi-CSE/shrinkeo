@@ -54,6 +54,10 @@ class LanguageHelper {
   static List<Locale> get supportedLocales =>
       supportedCodes.map((code) => Locale(code)).toList();
 
+  static bool isRtl(String code) {
+    return ['ar', 'fa', 'ur', 'he'].contains(code.toLowerCase());
+  }
+
   /// Asynchronously pre-warms all 44 country flag SI vector assets in memory
   /// upon app startup so opening LanguagePanel is 100% smooth without asset loading hitches.
   static Future<void> prewarmCountryFlags() async {

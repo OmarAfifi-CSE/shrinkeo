@@ -848,40 +848,39 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String customRatioActiveTitle(Object ratio) {
-    return 'Custom Ratio ($ratio)';
+    return 'カスタム比率 ($ratio)';
   }
 
   @override
   String customRatioActiveDesc(Object ratio) {
-    return 'Padded canvas for custom $ratio ratio.';
+    return 'カスタム $ratio 比率用の余白付きフレーム。';
   }
 
   @override
   String customAngleActiveTitle(Object angle) {
-    return 'Custom Angle ($angle°)';
+    return 'カスタム角度 ($angle°)';
   }
 
   @override
   String customAngleActiveDesc(Object angle) {
-    return 'Rotates video by custom $angle° degree angle.';
+    return '動画をカスタム角度 $angle° 回転します。';
   }
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'Cuts video clip between $start and $end.';
+    return '$start から $end までの動画をカットします。';
   }
 
   @override
   String targetSizeLimitLabel(Object size) {
-    return '$size MB Limit';
+    return '$size MB 制限';
   }
 
   @override
-  String get customMbSizeTooltip => 'Type custom MB size';
+  String get customMbSizeTooltip => 'カスタム MB サイズを入力';
 
   @override
-  String get trimTimeTooltip =>
-      'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+  String get trimTimeTooltip => '時間を入力 例 5 (5秒)、1:30 (1分30秒)、00:01:30';
 
   @override
   String get tabImageSuite => '画像スイート';
@@ -1001,59 +1000,58 @@ class AppLocalizationsJa extends AppLocalizations {
   String get imgRes480pDesc => '画像の最大サイズを 854px (SD 最大) に縮小します。';
 
   @override
-  String get keepMetadataImageInfoDesc => '元の画像の EXIF とカメラのメタデータを保持します。';
+  String get keepMetadataImageInfoDesc => '元の画像の EXIF およびカメラメタデータを保持します。';
 
   @override
-  String get cleanNoiseLabel => 'Clean Noise';
+  String get cleanNoiseLabel => 'ノイズ低減';
 
   @override
-  String get outputLargerTooltip =>
-      'Output will be larger than original!\nStop and try Reset to Defaults.';
+  String get outputLargerTooltip => '出力サイズが元より大きくなります！\n停止してデフォルトに戻してください。';
 
   @override
-  String get estimatedSizePrefix => 'Est:';
+  String get estimatedSizePrefix => '推定:';
 
   @override
-  String get cancelBtnTooltip => 'Cancel';
+  String get cancelBtnTooltip => 'キャンセル';
 
   @override
-  String get removeBtnTooltip => 'Remove';
+  String get removeBtnTooltip => '削除';
 
   @override
-  String get selectLanguageTitle => 'Select Language';
+  String get selectLanguageTitle => '言語を選択';
 
   @override
-  String get searchLanguageHint => 'Search language by name or code...';
+  String get searchLanguageHint => '名前またはコードで言語を検索...';
 
   @override
-  String get noLanguagesMatchSearch => 'No languages match your search.';
+  String get noLanguagesMatchSearch => '検索に一致する言語が見つかりません。';
 
   @override
-  String get languageTooltip => 'Language';
+  String get languageTooltip => '言語';
 
   @override
-  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+  String get notifyCompressionCompleteTitle => 'Shrinkeo 圧縮完了';
 
   @override
-  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+  String get notifyOutputLargerTitle => '出力が元より大';
 
   @override
   String languagesCountLabel(String count) {
-    return '$count Languages';
+    return '$count の言語';
   }
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success 本の動画の圧縮に成功しました。';
   }
 
   @override
   String notifyCompressionCompleteFailed(String failed) {
-    return ' ($failed failed)';
+    return ' ($failed 件失敗)';
   }
 
   @override
   String notifyOutputLargerDesc(String fileName) {
-    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+    return '$fileName は元のファイルサイズより大きくなる見込みです。キャンセルして設定をデフォルトに戻すことを検討してください。';
   }
 }
