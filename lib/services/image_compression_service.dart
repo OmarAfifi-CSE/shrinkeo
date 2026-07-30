@@ -126,6 +126,8 @@ class ImageCompressionService {
             '-vf',
             'scale=${maxWidth ?? -1}:${maxHeight ?? -1}:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2'
           ],
+          '-pix_fmt',
+          'rgb24', // Force 24-bit full RGB color without YUV matrix shifts or limited range truncation
           if (stripExif) ...['-map_metadata', '-1'],
           tempBmpPath,
         ];
@@ -135,6 +137,8 @@ class ImageCompressionService {
           final mozArgs = [
             '-quality',
             '$quality',
+            '-sample',
+            '1x1', // 4:4:4 Chroma Subsampling: Preserves 100% vivid color saturation & sharp edges (TinyJPG style!)
             '-optimize',
             '-progressive',
             '-outfile',
@@ -169,6 +173,7 @@ class ImageCompressionService {
           '$quality',
           '-m',
           '6',
+          '-sharp_yuv', // Preserves sharp color edges and prevents color fading/washing out!
           '-o',
           outputPath,
           inputPath,
@@ -199,12 +204,17 @@ class ImageCompressionService {
 
     switch (outFormat) {
       case '.webp':
-        args.addAll(['-c:v', 'libwebp', '-quality', '$quality']);
+        args.addAll(['-c:v', 'libwebp', '-quality', '$quality', '-sharp_yuv', '1']);
         break;
 
       case '.avif':
         final crf = ((100 - quality) / 100 * 35 + 15).round().clamp(15, 52);
-        args.addAll(['-c:v', 'libavif', '-crf', '$crf']);
+        args.addAll(['-c:v', 'libavif', '-crf', '$crf', '-pix_fmt', 'yuv420p', '-color_range', 'pc']);
+        break;
+
+      case '.jpg':
+      case '.jpeg':
+        args.addAll(['-c:v', 'mjpeg', '-pix_fmt', 'yuvj420p', '-color_range', 'pc']);
         break;
 
       default:
