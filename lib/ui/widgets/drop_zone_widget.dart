@@ -166,7 +166,22 @@ class DropZoneWidget extends StatelessWidget {
     try {
       final result = await FilePicker.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['mp4', 'mkv', 'mov', 'avi', 'wmv'],
+        allowedExtensions: [
+          'mp4',
+          'mkv',
+          'mov',
+          'avi',
+          'wmv',
+          'webm',
+          'png',
+          'jpg',
+          'jpeg',
+          'webp',
+          'avif',
+          'bmp',
+          'tiff',
+          'heic',
+        ],
         allowMultiple: true,
       );
 

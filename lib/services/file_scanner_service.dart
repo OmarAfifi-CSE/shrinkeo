@@ -50,10 +50,10 @@ class FileScannerService {
     }
   }
 
-  /// Adds [filePath] to [results] if it has a valid video extension.
+  /// Adds [filePath] to [results] if it has a valid video or image media extension.
   void _addIfVideo(String filePath, Set<String> results) {
     final ext = p.extension(filePath).toLowerCase();
-    if (VideoFile.isValidVideoExtension(ext)) {
+    if (VideoFile.isValidMediaExtension(ext)) {
       results.add(p.normalize(filePath));
     }
   }

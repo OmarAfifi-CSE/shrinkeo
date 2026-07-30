@@ -428,7 +428,8 @@ class _CustomSizeInputState extends State<_CustomSizeInput> {
         ? AppColors.borderDark
         : AppColors.borderLight;
 
-    final isPreset = [8.0, 25.0, 50.0, 100.0, 500.0].any((mb) => (widget.targetSizeMB - mb).abs() < 0.1);
+    const presets = [8.0, 25.0, 50.0, 100.0, 500.0];
+    final isPreset = presets.any((val) => (widget.targetSizeMB - val).abs() < 0.1);
     final isCustomActive = _isFocused || !isPreset;
 
     return Focus(
@@ -2127,6 +2128,167 @@ class _CustomRotationInputState extends State<_CustomRotationInput> {
             onSubmitted: (_) => _applyFormatting(),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ImageTab extends StatelessWidget {
+  final CompressionState state;
+
+  const _ImageTab({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isLocked = state.isProcessing;
+    final cubit = context.read<CompressionCubit>();
+
+    return SingleChildScrollView(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Left Column: Image Quality Preset Modes & Output Format
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Compression Mode',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 6,
+                  runSpacing: 6,
+                  children: [
+                    _OptionChip(
+                      label: 'Smart Auto',
+                      icon: Icons.auto_awesome_rounded,
+                      isSelected: state.imageQuality == 75 || (state.imageQuality > 50 && state.imageQuality < 90),
+                      isLocked: isLocked,
+                      onTap: () => cubit.updateImageQuality(75),
+                    ),
+                    _OptionChip(
+                      label: 'Max Savings',
+                      icon: Icons.bolt_rounded,
+                      isSelected: state.imageQuality == 30 || state.imageQuality <= 40,
+                      isLocked: isLocked,
+                      onTap: () => cubit.updateImageQuality(30),
+                    ),
+                    _OptionChip(
+                      label: 'Ultra Fidelity',
+                      icon: Icons.high_quality_rounded,
+                      isSelected: state.imageQuality == 95 || state.imageQuality >= 90,
+                      isLocked: isLocked,
+                      onTap: () => cubit.updateImageQuality(95),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                if (state.imageQuality <= 40)
+                  const _InfoBox(
+                    label: 'Maximum Size Reduction',
+                    description: 'Aggressive compression saving up to 85-90% file size. Best for fast messaging, web uploads, and email attachments.',
+                    icon: Icons.bolt_rounded,
+                  )
+                else if (state.imageQuality >= 90)
+                  const _InfoBox(
+                    label: 'Ultra Master Detail',
+                    description: 'Preserves raw visual fidelity with minimal compression. Ideal for photography archives and high-res print work.',
+                    icon: Icons.high_quality_rounded,
+                  )
+                else
+                  const _InfoBox(
+                    label: 'Smart Auto (Recommended)',
+                    description: 'Automatically reduces file size by ~60-80% with 100% pristine visual clarity. Perfect for everyday photo optimization.',
+                    icon: Icons.auto_awesome_rounded,
+                  ),
+                const SizedBox(height: 12),
+                Text(
+                  'Target Image Format',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  children: ImageOutputFormat.values.map((fmt) {
+                    return _OptionChip(
+                      label: fmt.label,
+                      icon: Icons.image_outlined,
+                      isSelected: state.imageOutputFormat == fmt,
+                      isLocked: isLocked,
+                      onTap: () => cubit.updateImageOutputFormat(fmt),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 14),
+
+          // Right Column: Resizing, PNG Quantization & EXIF Privacy
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Dimension Resizing',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  children: ImageResizeMode.values.map((mode) {
+                    return _OptionChip(
+                      label: mode.label,
+                      icon: Icons.aspect_ratio_rounded,
+                      isSelected: state.imageResizeMode == mode,
+                      isLocked: isLocked,
+                      onTap: () => cubit.updateImageResizeMode(mode),
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'EXIF / Camera Privacy',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 4,
+                  runSpacing: 4,
+                  children: [
+                    _OptionChip(
+                      label: 'Strip GPS & Camera Info',
+                      icon: Icons.security_rounded,
+                      isSelected: state.stripImageExif,
+                      isLocked: isLocked,
+                      onTap: () => cubit.toggleStripImageExif(true),
+                    ),
+                    _OptionChip(
+                      label: 'Keep Metadata',
+                      icon: Icons.info_outline_rounded,
+                      isSelected: !state.stripImageExif,
+                      isLocked: isLocked,
+                      onTap: () => cubit.toggleStripImageExif(false),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

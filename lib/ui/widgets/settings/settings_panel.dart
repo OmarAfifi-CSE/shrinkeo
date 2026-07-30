@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/app_strings.dart';
 import '../../../cubit/compression_cubit.dart';
 import '../../../cubit/compression_state.dart';
+import '../../../models/video_file.dart';
 import '../../app_colors.dart';
 import '../glass_container.dart';
 
@@ -49,7 +50,7 @@ class _SettingsContentState extends State<_SettingsContent>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
         setState(() {});
@@ -73,6 +74,7 @@ class _SettingsContentState extends State<_SettingsContent>
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final isLocked = widget.state.isProcessing;
@@ -191,6 +193,47 @@ class _SettingsContentState extends State<_SettingsContent>
                   ),
               ],
             ),
+            // -- Action Intent Selection Bar (Compress Only, Edit/Convert Only, Compress & Edit) --
+            Row(
+              children: [
+                Expanded(
+                  child: _ActionIntentChip(
+                    label: 'Compress Only',
+                    icon: Icons.bolt_rounded,
+                    tooltip: 'Focus purely on reducing file size (Quality % or Target KB/MB)',
+                    isSelected: widget.state.mediaActionIntent == MediaActionIntent.compressOnly,
+                    onTap: isLocked
+                        ? null
+                        : () => cubit.updateActionIntent(MediaActionIntent.compressOnly),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _ActionIntentChip(
+                    label: 'Edit / Convert Only',
+                    icon: Icons.auto_fix_high_rounded,
+                    tooltip: 'Resize, rotate, trim, or convert format without reducing visual quality',
+                    isSelected: widget.state.mediaActionIntent == MediaActionIntent.resizeOnly ||
+                                widget.state.mediaActionIntent == MediaActionIntent.convertOnly,
+                    onTap: isLocked
+                        ? null
+                        : () => cubit.updateActionIntent(MediaActionIntent.resizeOnly),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: _ActionIntentChip(
+                    label: 'Compress & Edit',
+                    icon: Icons.auto_awesome_rounded,
+                    tooltip: 'Full control: Edit, resize, rotate AND compress file size together',
+                    isSelected: widget.state.mediaActionIntent == MediaActionIntent.compressAndConvert,
+                    onTap: isLocked
+                        ? null
+                        : () => cubit.updateActionIntent(MediaActionIntent.compressAndConvert),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 12),
 
             // -- User's Custom Smooth Sliding TabBar --
@@ -277,6 +320,16 @@ class _SettingsContentState extends State<_SettingsContent>
                       ],
                     ),
                   ),
+                  const Tab(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.image_rounded, size: 15),
+                        SizedBox(width: 6),
+                        Text('Image Suite'),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -292,10 +345,12 @@ class _SettingsContentState extends State<_SettingsContent>
                       ? 490.0
                       : _tabController.index == 2
                           ? 230.0
-                          : (widget.state.outputLocationMode ==
-                                  OutputLocationMode.unified
-                              ? 320.0
-                              : 230.0),
+                          : _tabController.index == 3
+                              ? (widget.state.outputLocationMode ==
+                                      OutputLocationMode.unified
+                                  ? 320.0
+                                  : 230.0)
+                              : 280.0,
               child: TabBarView(
                 controller: _tabController,
                 physics: const BouncingScrollPhysics(),
@@ -315,6 +370,10 @@ class _SettingsContentState extends State<_SettingsContent>
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: _buildEngineTab(isLocked, widget.state),
+                  ),
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: _ImageTab(state: widget.state),
                   ),
                 ],
               ),
@@ -430,6 +489,87 @@ class _SettingsContentState extends State<_SettingsContent>
           _OutputDirectorySection(state: state, isLocked: isLocked),
         ],
       ],
+    );
+  }
+}
+
+class _ActionIntentChip extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final String tooltip;
+  final bool isSelected;
+  final VoidCallback? onTap;
+
+  const _ActionIntentChip({
+    required this.label,
+    required this.icon,
+    required this.tooltip,
+    required this.isSelected,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          height: 36,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? activeColor.withValues(alpha: 0.18)
+                : isDark
+                    ? Colors.white.withValues(alpha: 0.04)
+                    : Colors.black.withValues(alpha: 0.03),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isSelected
+                  ? activeColor.withValues(alpha: 0.8)
+                  : isDark
+                      ? AppColors.borderDark.withValues(alpha: 0.4)
+                      : AppColors.borderLight.withValues(alpha: 0.5),
+              width: isSelected ? 1.5 : 1.0,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 16,
+                color: isSelected
+                    ? activeColor
+                    : theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
+              ),
+              const SizedBox(width: 6),
+              Flexible(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                    color: isSelected
+                        ? activeColor
+                        : theme.textTheme.bodyMedium?.color,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

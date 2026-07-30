@@ -14,6 +14,7 @@ import '../models/video_file.dart';
 import '../services/ffmpeg_service.dart';
 import '../services/file_scanner_service.dart';
 import '../services/output_folder_service.dart';
+import '../services/image_compression_service.dart';
 import 'compression_state.dart';
 
 /// Natural sort regex — pads numeric segments for proper ordering.
@@ -35,6 +36,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   final FfmpegService _ffmpegService;
   final FileScannerService _fileScannerService;
   final OutputFolderService _outputFolderService;
+  final ImageCompressionService _imageCompressionService;
 
   bool _cancelRequested = false;
 
@@ -44,10 +46,12 @@ class CompressionCubit extends Cubit<CompressionState> {
     FfmpegService? ffmpegService,
     FileScannerService? fileScannerService,
     OutputFolderService? outputFolderService,
+    ImageCompressionService? imageCompressionService,
     required SharedPreferences prefs,
   }) : _ffmpegService = ffmpegService ?? FfmpegService(),
        _fileScannerService = fileScannerService ?? FileScannerService(),
        _outputFolderService = outputFolderService ?? OutputFolderService(),
+       _imageCompressionService = imageCompressionService ?? ImageCompressionService(),
        _prefs = prefs,
        super(
          CompressionState(
@@ -419,6 +423,53 @@ class CompressionCubit extends Cubit<CompressionState> {
     );
   }
 
+  // ---------------------------------------------------------------------------
+  // Image Compression & Conversion Settings
+  // ---------------------------------------------------------------------------
+
+  /// Updates image quality (1-100).
+  void updateImageQuality(int quality) {
+    final clamped = quality.clamp(1, 100);
+    _prefs.setInt('imageQuality', clamped);
+    emit(state.copyWith(imageQuality: clamped));
+  }
+
+  /// Updates image output format.
+  void updateImageOutputFormat(ImageOutputFormat format) {
+    _prefs.setString('imageOutputFormat', format.name);
+    emit(state.copyWith(imageOutputFormat: format));
+  }
+
+  /// Updates image dimension resize mode.
+  void updateImageResizeMode(ImageResizeMode mode) {
+    _prefs.setString('imageResizeMode', mode.name);
+    emit(state.copyWith(imageResizeMode: mode));
+  }
+
+  /// Toggles EXIF/GPS camera privacy metadata stripping.
+  void toggleStripImageExif(bool enabled) {
+    _prefs.setBool('stripImageExif', enabled);
+    emit(state.copyWith(stripImageExif: enabled));
+  }
+
+  /// Updates target image size in KB.
+  void updateImageTargetSizeKB(double targetKB) {
+    _prefs.setDouble('imageTargetSizeKB', targetKB);
+    emit(state.copyWith(imageTargetSizeKB: targetKB));
+  }
+
+  /// Toggles target size mode for images.
+  void toggleImageTargetSizeMode(bool enabled) {
+    _prefs.setBool('isImageTargetSizeMode', enabled);
+    emit(state.copyWith(isImageTargetSizeMode: enabled));
+  }
+
+  /// Updates target action intent (Compress Only, Edit/Convert Only, or Compress & Edit).
+  void updateActionIntent(MediaActionIntent intent) {
+    _prefs.setString('mediaActionIntent', intent.name);
+    emit(state.copyWith(mediaActionIntent: intent));
+  }
+
   /// Resets all compression settings to their defaults.
   void resetToDefaults() {
     _prefs.setInt('crfQuality', 22);
@@ -521,13 +572,18 @@ class CompressionCubit extends Cubit<CompressionState> {
 
       final id = '${path.hashCode}_${DateTime.now().microsecondsSinceEpoch}';
 
+      final ext = p.extension(path).toLowerCase();
+      final isImage = VideoFile.isValidImageExtension(ext);
+      final mediaType = isImage ? MediaType.image : MediaType.video;
+
       newVideos.add(
         VideoFile(
           id: id,
           filePath: path,
           fileName: p.basename(path),
-          extension: p.extension(path).toLowerCase(),
+          extension: ext,
           fileSizeBytes: fileSize,
+          mediaType: mediaType,
         ),
       );
     }
@@ -556,6 +612,7 @@ class CompressionCubit extends Cubit<CompressionState> {
 
       for (final video in batch) {
         if (_cancelRequested) break;
+        if (video.mediaType == MediaType.image) continue;
         try {
           final totalDuration = await _ffmpegService.probeDuration(
             video.filePath,
@@ -806,6 +863,11 @@ class CompressionCubit extends Cubit<CompressionState> {
     if (initialIndex < 0) return;
 
     VideoFile video = state.videos[initialIndex];
+
+    if (video.mediaType == MediaType.image) {
+      await _processImageItem(videoId, globalOutputFolder, resolvedOutputFolders);
+      return;
+    }
 
     // Helper to safely update the video even if its index shifted.
     void safelyUpdateVideo(
@@ -1187,6 +1249,117 @@ class CompressionCubit extends Cubit<CompressionState> {
         );
         break;
       }
+    }
+  }
+
+  Future<void> _processImageItem(
+    String videoId,
+    String? globalOutputFolder,
+    Map<String, String> resolvedOutputFolders,
+  ) async {
+    int getIndex() => state.videos.indexWhere((v) => v.id == videoId);
+    int initialIndex = getIndex();
+    if (initialIndex < 0) return;
+
+    VideoFile video = state.videos[initialIndex];
+
+    void safelyUpdateVideo(VideoFile updatedVideo, {int? globalSavedBytes}) {
+      final idx = getIndex();
+      if (idx >= 0) {
+        _updateVideo(idx, updatedVideo, globalSavedBytes: globalSavedBytes);
+      }
+    }
+
+    safelyUpdateVideo(video.copyWith(status: VideoStatus.compressing, progress: 0.1));
+    emit(state.copyWith(currentIndex: getIndex(), phase: CompressionPhase.compressing));
+
+    // Resolve output folder
+    String outputFolder;
+    if (state.outputLocationMode == OutputLocationMode.unified && globalOutputFolder != null) {
+      outputFolder = globalOutputFolder;
+    } else {
+      final sourceDir = p.dirname(video.filePath);
+      if (resolvedOutputFolders.containsKey(sourceDir)) {
+        outputFolder = resolvedOutputFolders[sourceDir]!;
+      } else {
+        outputFolder = await _outputFolderService.resolveOutputFolder(sourceDir);
+        resolvedOutputFolders[sourceDir] = outputFolder;
+      }
+    }
+
+    if (state.outputFolderPath == null || !Directory(state.outputFolderPath!).existsSync()) {
+      emit(state.copyWith(outputFolderPath: outputFolder));
+    }
+
+    // Determine target extension
+    String targetExt = p.extension(video.fileName);
+    if (state.imageOutputFormat != ImageOutputFormat.original) {
+      targetExt = '.${state.imageOutputFormat.name}';
+    }
+
+    String baseName = p.basenameWithoutExtension(video.fileName);
+    String outputPath = p.join(outputFolder, '$baseName$targetExt');
+    int counter = 1;
+    while (File(outputPath).existsSync()) {
+      outputPath = p.join(outputFolder, '${baseName}_compressed_$counter$targetExt');
+      counter++;
+    }
+
+    // Parse max width/height if resize is enabled
+    int? maxDim;
+    if (state.imageResizeMode != ImageResizeMode.original) {
+      maxDim = int.tryParse(state.imageResizeMode.value);
+    }
+
+    try {
+      final result = await _imageCompressionService.processImage(
+        inputPath: video.filePath,
+        outputPath: outputPath,
+        actionIntent: video.actionIntent,
+        quality: state.imageQuality,
+        targetFormat: state.imageOutputFormat.value,
+        maxWidth: maxDim,
+        maxHeight: maxDim,
+        stripExif: state.stripImageExif,
+        onProgress: (prog) {
+          safelyUpdateVideo(video.copyWith(progress: prog, status: VideoStatus.compressing));
+        },
+      );
+
+      if (result.exitCode == 0 && File(outputPath).existsSync()) {
+        final outSizeBytes = await File(outputPath).length();
+        final savedBytes = (video.fileSizeBytes - outSizeBytes).clamp(0, video.fileSizeBytes);
+        final newGlobalSaved = state.globalSavedBytes + savedBytes;
+        _prefs.setInt('globalSavedBytes', newGlobalSaved);
+
+        safelyUpdateVideo(
+          video.copyWith(
+            status: VideoStatus.success,
+            progress: 1.0,
+            outputPath: outputPath,
+            outputSizeBytes: outSizeBytes,
+          ),
+          globalSavedBytes: newGlobalSaved,
+        );
+
+        if (state.deleteOriginalOnSuccess) {
+          try { await File(video.filePath).delete(); } catch (_) {}
+        }
+      } else {
+        safelyUpdateVideo(
+          video.copyWith(
+            status: VideoStatus.failed,
+            errorMessage: 'Image processing failed: ${result.stderr}',
+          ),
+        );
+      }
+    } catch (e) {
+      safelyUpdateVideo(
+        video.copyWith(
+          status: VideoStatus.failed,
+          errorMessage: 'Image processing error: $e',
+        ),
+      );
     }
   }
 

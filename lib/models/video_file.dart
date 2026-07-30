@@ -1,6 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-/// Status of an individual video in the compression queue.
+/// Type of media file (Video vs Image).
+enum MediaType { video, image }
+
+/// Intended processing action for a queued item.
+enum MediaActionIntent { compressOnly, convertOnly, resizeOnly, compressAndConvert }
+
+/// Status of an individual video/image in the processing queue.
 enum VideoStatus { queued, probing, compressing, success, failed, cancelled }
 
 /// Set of valid video file extensions accepted by the application.
@@ -10,6 +16,19 @@ const Set<String> validVideoExtensions = {
   '.mov',
   '.avi',
   '.wmv',
+  '.webm',
+};
+
+/// Set of valid image file extensions accepted by the application.
+const Set<String> validImageExtensions = {
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.webp',
+  '.avif',
+  '.bmp',
+  '.tiff',
+  '.heic',
 };
 
 /// Immutable model representing a single video file in the compression queue.
@@ -65,6 +84,18 @@ class VideoFile extends Equatable {
   /// Current processing speed multiplier (e.g., 1.5 for 1.5x speed).
   final double? processingSpeed;
 
+  /// Media type classification (video vs image).
+  final MediaType mediaType;
+
+  /// Intended processing action for this media item.
+  final MediaActionIntent actionIntent;
+
+  /// Image width in pixels (populated for images).
+  final int? imageWidth;
+
+  /// Image height in pixels (populated for images).
+  final int? imageHeight;
+
   const VideoFile({
     required this.id,
     required this.filePath,
@@ -83,6 +114,10 @@ class VideoFile extends Equatable {
     this.thumbnailPath,
     this.eta,
     this.processingSpeed,
+    this.mediaType = MediaType.video,
+    this.actionIntent = MediaActionIntent.compressAndConvert,
+    this.imageWidth,
+    this.imageHeight,
   });
 
   /// Creates a copy with the given fields overridden.
@@ -104,6 +139,10 @@ class VideoFile extends Equatable {
     String? thumbnailPath,
     Duration? eta,
     double? processingSpeed,
+    MediaType? mediaType,
+    MediaActionIntent? actionIntent,
+    int? imageWidth,
+    int? imageHeight,
     // Allow explicitly setting nullable fields to null.
     bool clearTotalDuration = false,
     bool clearOutputPath = false,
@@ -115,6 +154,7 @@ class VideoFile extends Equatable {
     bool clearThumbnailPath = false,
     bool clearEta = false,
     bool clearProcessingSpeed = false,
+    bool clearImageDimensions = false,
   }) {
     return VideoFile(
       id: id ?? this.id,
@@ -150,12 +190,27 @@ class VideoFile extends Equatable {
       processingSpeed: clearProcessingSpeed
           ? null
           : (processingSpeed ?? this.processingSpeed),
+      mediaType: mediaType ?? this.mediaType,
+      actionIntent: actionIntent ?? this.actionIntent,
+      imageWidth: clearImageDimensions ? null : (imageWidth ?? this.imageWidth),
+      imageHeight: clearImageDimensions ? null : (imageHeight ?? this.imageHeight),
     );
   }
 
   /// Checks whether [ext] is a valid video file extension.
   static bool isValidVideoExtension(String ext) {
     return validVideoExtensions.contains(ext.toLowerCase());
+  }
+
+  /// Checks whether [ext] is a valid image file extension.
+  static bool isValidImageExtension(String ext) {
+    return validImageExtensions.contains(ext.toLowerCase());
+  }
+
+  /// Checks whether [ext] is a valid video or image media file extension.
+  static bool isValidMediaExtension(String ext) {
+    final e = ext.toLowerCase();
+    return validVideoExtensions.contains(e) || validImageExtensions.contains(e);
   }
 
   /// Formats byte sizes into human-readable strings (e.g., "12.5 MB").
@@ -195,5 +250,9 @@ class VideoFile extends Equatable {
         thumbnailPath,
         eta,
         processingSpeed,
+        mediaType,
+        actionIntent,
+        imageWidth,
+        imageHeight,
       ];
 }

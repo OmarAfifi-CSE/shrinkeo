@@ -68,6 +68,25 @@ class VideoFileCard extends StatelessWidget {
                           ),
                         ),
                       )
+                    else if (video.mediaType == MediaType.image &&
+                        File(video.filePath).existsSync())
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: theme.brightness == Brightness.dark
+                                ? Colors.white.withValues(alpha: 0.1)
+                                : Colors.black.withValues(alpha: 0.08),
+                            width: 0.5,
+                          ),
+                          image: DecorationImage(
+                            image: FileImage(File(video.filePath)),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
                     else
                       _FormatBadge(extension: video.extension),
                     const SizedBox(width: 12),
@@ -389,6 +408,11 @@ class _FormatBadge extends StatelessWidget {
       '.mov' => AppColors.typeMov,
       '.avi' => AppColors.typeAvi,
       '.wmv' => AppColors.typeWmv,
+      '.png' => Colors.teal,
+      '.jpg' || '.jpeg' => Colors.deepOrange,
+      '.webp' => Colors.lightBlue,
+      '.avif' => Colors.purple,
+      '.bmp' || '.tiff' || '.heic' => Colors.amber,
       _ => AppColors.queuedGrey,
     };
   }

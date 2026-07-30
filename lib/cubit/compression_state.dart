@@ -426,6 +426,50 @@ enum ExportType {
   }
 }
 
+/// Options for Image Output Format.
+enum ImageOutputFormat {
+  original('original'),
+  png('png'),
+  jpg('jpg'),
+  webp('webp'),
+  avif('avif');
+
+  final String value;
+  const ImageOutputFormat(this.value);
+
+  String get label {
+    switch (this) {
+      case ImageOutputFormat.original: return 'Original Format';
+      case ImageOutputFormat.png: return 'PNG Image (.png)';
+      case ImageOutputFormat.jpg: return 'JPEG Image (.jpg)';
+      case ImageOutputFormat.webp: return 'WebP Image (.webp)';
+      case ImageOutputFormat.avif: return 'AVIF Image (.avif)';
+    }
+  }
+}
+
+/// Options for Image Max Dimension Resizing.
+enum ImageResizeMode {
+  original('original'),
+  p4k('3840'),
+  p1080('1920'),
+  p720('1280'),
+  p480('854');
+
+  final String value;
+  const ImageResizeMode(this.value);
+
+  String get label {
+    switch (this) {
+      case ImageResizeMode.original: return 'Original Dimensions';
+      case ImageResizeMode.p4k: return '4K Max (3840px)';
+      case ImageResizeMode.p1080: return 'Full HD Max (1920px)';
+      case ImageResizeMode.p720: return 'HD Max (1280px)';
+      case ImageResizeMode.p480: return 'SD Max (854px)';
+    }
+  }
+}
+
 /// Immutable state for the [CompressionCubit].
 class CompressionState extends Equatable {
   /// List of all video files in the queue.
@@ -564,6 +608,29 @@ class CompressionState extends Equatable {
   /// Active application language code (e.g. 'en', 'ar', 'es', 'fr', etc.).
   final String languageCode;
 
+  // ---- Image Compression & Conversion Settings ----
+
+  /// Target image quality (1-100). Default: 80.
+  final int imageQuality;
+
+  /// Target output format for images.
+  final ImageOutputFormat imageOutputFormat;
+
+  /// Target dimension resize mode for images.
+  final ImageResizeMode imageResizeMode;
+
+  /// Whether EXIF/GPS camera privacy metadata is stripped from images.
+  final bool stripImageExif;
+
+  /// Target image size in KB.
+  final double imageTargetSizeKB;
+
+  /// Whether target size mode is enabled for images.
+  final bool isImageTargetSizeMode;
+
+  /// Target action intent (Compress Only, Edit/Convert Only, or Compress & Edit).
+  final MediaActionIntent mediaActionIntent;
+
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -573,6 +640,7 @@ class CompressionState extends Equatable {
     this.fallbackWarningMessage,
     this.isDragHovering = false,
     this.isScanningFiles = false,
+    this.mediaActionIntent = MediaActionIntent.compressAndConvert,
     this.crfQuality = 22,
     this.isTargetSizeMode = false,
     this.targetSizeMB = 25.0,
@@ -608,6 +676,12 @@ class CompressionState extends Equatable {
     this.customAspectRatio = '16:10',
     this.customRotationAngle = 45.0,
     this.languageCode = 'en',
+    this.imageQuality = 80,
+    this.imageOutputFormat = ImageOutputFormat.original,
+    this.imageResizeMode = ImageResizeMode.original,
+    this.stripImageExif = true,
+    this.imageTargetSizeKB = 200.0,
+    this.isImageTargetSizeMode = false,
   });
 
   /// Creates a copy with the given fields overridden.
@@ -661,6 +735,14 @@ class CompressionState extends Equatable {
     String? customAspectRatio,
     double? customRotationAngle,
     String? languageCode,
+    int? imageQuality,
+    ImageOutputFormat? imageOutputFormat,
+    ImageResizeMode? imageResizeMode,
+    bool? enablePngQuantization,
+    bool? stripImageExif,
+    double? imageTargetSizeKB,
+    bool? isImageTargetSizeMode,
+    MediaActionIntent? mediaActionIntent,
   }) {
     return CompressionState(
       videos: videos ?? this.videos,
@@ -673,6 +755,7 @@ class CompressionState extends Equatable {
       fallbackWarningMessage: clearFallbackWarningMessage ? null : (fallbackWarningMessage ?? this.fallbackWarningMessage),
       isDragHovering: isDragHovering ?? this.isDragHovering,
       isScanningFiles: isScanningFiles ?? this.isScanningFiles,
+      mediaActionIntent: mediaActionIntent ?? this.mediaActionIntent,
       crfQuality: crfQuality ?? this.crfQuality,
       isTargetSizeMode: isTargetSizeMode ?? this.isTargetSizeMode,
       targetSizeMB: targetSizeMB ?? this.targetSizeMB,
@@ -712,6 +795,12 @@ class CompressionState extends Equatable {
       customAspectRatio: customAspectRatio ?? this.customAspectRatio,
       customRotationAngle: customRotationAngle ?? this.customRotationAngle,
       languageCode: languageCode ?? this.languageCode,
+      imageQuality: imageQuality ?? this.imageQuality,
+      imageOutputFormat: imageOutputFormat ?? this.imageOutputFormat,
+      imageResizeMode: imageResizeMode ?? this.imageResizeMode,
+      stripImageExif: stripImageExif ?? this.stripImageExif,
+      imageTargetSizeKB: imageTargetSizeKB ?? this.imageTargetSizeKB,
+      isImageTargetSizeMode: isImageTargetSizeMode ?? this.isImageTargetSizeMode,
     );
   }
 
@@ -792,5 +881,12 @@ class CompressionState extends Equatable {
     customAspectRatio,
     customRotationAngle,
     languageCode,
+    imageQuality,
+    imageOutputFormat,
+    imageResizeMode,
+    stripImageExif,
+    imageTargetSizeKB,
+    isImageTargetSizeMode,
+    mediaActionIntent,
   ];
 }
