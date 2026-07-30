@@ -75,6 +75,24 @@ class AppLocalizationsHu extends AppLocalizations {
   String get crfQualityTitle => 'CRF Minőségi Tényező';
 
   @override
+  String get crfLossless => 'Veszteségmentes';
+
+  @override
+  String get crfHighQuality => 'Kiváló minőség';
+
+  @override
+  String get crfBalanced => 'Kiegyensúlyozott';
+
+  @override
+  String get crfHighCompression => 'Magas tömörítés';
+
+  @override
+  String get crfLowQuality => 'Alacsony minőség';
+
+  @override
+  String get crfUltraCompressed => 'Ultra tömörített';
+
+  @override
   String get targetSizeLabel => 'Cél Fájlméret (MB)';
 
   @override
@@ -882,4 +900,64 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Image Suite';
+
+  @override
+  String get compressionModeTitle => 'Tömörítési mód';
+
+  @override
+  String get smartAutoLabel => 'Smart Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Automatikusan csökkenti a fájlméretet ~60-80%-kal, 100%-os tiszta vizuálisan. Tökéletes a mindennapi fotóoptimalizáláshoz.';
+
+  @override
+  String get maxSavingsLabel => 'Maximális megtakarítás';
+
+  @override
+  String get maxSavingsDesc =>
+      'Agresszív tömörítés akár 85-90%-os fájlméret megtakarításával. A legjobb gyors üzenetküldéshez, webes feltöltéshez és e-mail mellékletekhez.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Fidelity';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Minimális tömörítéssel megőrzi a nyers vizuális hűséget. Ideális fotóarchívumokhoz és nagy felbontású nyomtatási munkákhoz.';
+
+  @override
+  String get targetImageFormatTitle => 'Cél képformátum';
+
+  @override
+  String get dimensionResizingTitle => 'Méret átméretezés';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / kamera adatvédelem';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Strip GPS és kamera Info';
+
+  @override
+  String get intentCompressOnly => 'Csak tömörítés';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Pusztán a fájlméret csökkentésére összpontosítson (% minőség vagy cél KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Csak szerkesztés / konvertálás';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Átméretezheti, elforgathatja, vághatja le vagy konvertálhatja a formátumot a vizuális minőség romlása nélkül';
+
+  @override
+  String get intentCompressAndEdit => 'Tömörítés és szerkesztés';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Teljes ellenőrzés: együtt szerkesztheti, átméretezheti, elforgathatja ÉS tömöríti a fájlméretet';
 }

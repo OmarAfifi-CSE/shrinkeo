@@ -75,6 +75,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get crfQualityTitle => 'Качество CRF';
 
   @override
+  String get crfLossless => 'без потерь';
+
+  @override
+  String get crfHighQuality => 'Высокое качество';
+
+  @override
+  String get crfBalanced => 'Сбалансированный';
+
+  @override
+  String get crfHighCompression => 'Высокая степень сжатия';
+
+  @override
+  String get crfLowQuality => 'Низкое качество';
+
+  @override
+  String get crfUltraCompressed => 'Ультра сжатый';
+
+  @override
   String get targetSizeLabel => 'Целевой размер файла (МБ)';
 
   @override
@@ -872,4 +890,64 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Инструменты Изображений';
+
+  @override
+  String get compressionModeTitle => 'Режим Сжатия';
+
+  @override
+  String get smartAutoLabel => 'Умный Авто';
+
+  @override
+  String get smartAutoDesc =>
+      'Автоматически уменьшает размер на 60–80% при 100% четкости. Идеально для ежедневных фото.';
+
+  @override
+  String get maxSavingsLabel => 'Макс. Экономия';
+
+  @override
+  String get maxSavingsDesc =>
+      'Агрессивное сжатие со сбережением до 85–90% размера. Для мессенджеров и почты.';
+
+  @override
+  String get ultraFidelityLabel => 'Ультра Качество';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Сохраняет исходное качество при минимальном сжатии. Для архивов и печати.';
+
+  @override
+  String get targetImageFormatTitle => 'Целевой Формат Изображения';
+
+  @override
+  String get dimensionResizingTitle => 'Изменение Разрешения';
+
+  @override
+  String get exifCameraPrivacyTitle => 'Конфиденциальность EXIF / Камеры';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Удалить GPS и Инфо о Камере';
+
+  @override
+  String get intentCompressOnly => 'Только сжатие';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Сосредоточьтесь исключительно на уменьшении размера файла (% качества или целевой КБ/МБ).';
+
+  @override
+  String get intentEditConvertOnly => 'Редактировать/конвертировать только';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Изменяйте размер, вращайте, обрезайте или конвертируйте формат без снижения визуального качества.';
+
+  @override
+  String get intentCompressAndEdit => 'Сжимать и редактировать';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Полный контроль: редактируйте, изменяйте размер, вращайте И сжимайте размер файла одновременно.';
 }

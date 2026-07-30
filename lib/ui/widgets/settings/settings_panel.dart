@@ -198,9 +198,9 @@ class _SettingsContentState extends State<_SettingsContent>
               children: [
                 Expanded(
                   child: _ActionIntentChip(
-                    label: 'Compress Only',
+                    label: AppStrings.intentCompressOnly,
                     icon: Icons.bolt_rounded,
-                    tooltip: 'Focus purely on reducing file size (Quality % or Target KB/MB)',
+                    tooltip: AppStrings.intentCompressOnlyTooltip,
                     isSelected: widget.state.mediaActionIntent == MediaActionIntent.compressOnly,
                     onTap: isLocked
                         ? null
@@ -210,9 +210,9 @@ class _SettingsContentState extends State<_SettingsContent>
                 const SizedBox(width: 8),
                 Expanded(
                   child: _ActionIntentChip(
-                    label: 'Edit / Convert Only',
+                    label: AppStrings.intentEditConvertOnly,
                     icon: Icons.auto_fix_high_rounded,
-                    tooltip: 'Resize, rotate, trim, or convert format without reducing visual quality',
+                    tooltip: AppStrings.intentEditConvertOnlyTooltip,
                     isSelected: widget.state.mediaActionIntent == MediaActionIntent.resizeOnly ||
                                 widget.state.mediaActionIntent == MediaActionIntent.convertOnly,
                     onTap: isLocked
@@ -223,9 +223,9 @@ class _SettingsContentState extends State<_SettingsContent>
                 const SizedBox(width: 8),
                 Expanded(
                   child: _ActionIntentChip(
-                    label: 'Compress & Edit',
+                    label: AppStrings.intentCompressAndEdit,
                     icon: Icons.auto_awesome_rounded,
-                    tooltip: 'Full control: Edit, resize, rotate AND compress file size together',
+                    tooltip: AppStrings.intentCompressAndEditTooltip,
                     isSelected: widget.state.mediaActionIntent == MediaActionIntent.compressAndConvert,
                     onTap: isLocked
                         ? null
@@ -281,53 +281,68 @@ class _SettingsContentState extends State<_SettingsContent>
                 ),
                 tabs: [
                   Tab(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.tune_rounded, size: 15),
-                        const SizedBox(width: 6),
-                        Text(AppStrings.tabCompressionQuality),
-                      ],
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.tune_rounded, size: 15),
+                          const SizedBox(width: 6),
+                          Text(AppStrings.tabCompressionQuality),
+                        ],
+                      ),
                     ),
                   ),
                   Tab(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.transform_rounded, size: 15),
-                        const SizedBox(width: 6),
-                        Text(AppStrings.tabVideoEditingTools),
-                      ],
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.transform_rounded, size: 15),
+                          const SizedBox(width: 6),
+                          Text(AppStrings.tabVideoEditingTools),
+                        ],
+                      ),
                     ),
                   ),
                   Tab(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.graphic_eq_rounded, size: 15),
-                        const SizedBox(width: 6),
-                        Text(AppStrings.tabAudioSettings),
-                      ],
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.graphic_eq_rounded, size: 15),
+                          const SizedBox(width: 6),
+                          Text(AppStrings.tabAudioSettings),
+                        ],
+                      ),
                     ),
                   ),
                   Tab(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.settings_suggest_rounded, size: 15),
-                        const SizedBox(width: 6),
-                        Text(AppStrings.tabEngineOutput),
-                      ],
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.settings_suggest_rounded, size: 15),
+                          const SizedBox(width: 6),
+                          Text(AppStrings.tabEngineOutput),
+                        ],
+                      ),
                     ),
                   ),
-                  const Tab(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.image_rounded, size: 15),
-                        SizedBox(width: 6),
-                        Text('Image Suite'),
-                      ],
+                  Tab(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.image_rounded, size: 15),
+                          const SizedBox(width: 6),
+                          Text(AppStrings.tabImageSuite),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -554,16 +569,21 @@ class _ActionIntentChip extends StatelessWidget {
               ),
               const SizedBox(width: 6),
               Flexible(
-                child: Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                    color: isSelected
-                        ? activeColor
-                        : theme.textTheme.bodyMedium?.color,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                      color: isSelected
+                          ? activeColor
+                          : theme.textTheme.bodyMedium?.color
+                              ?.withValues(alpha: 0.8),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.visible,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

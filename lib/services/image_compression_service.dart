@@ -115,87 +115,73 @@ class ImageCompressionService {
 
     // 2. JPEG images ARE COMPRESSED EXCLUSIVELY BY Mozilla MozJPEG (cjpeg.exe)
     if (outFormat == '.jpg' || outFormat == '.jpeg') {
-      final cjpegPath = _resolveToolPath('cjpeg.exe') ?? 'cjpeg.exe';
-      String inputForCjpeg = inputPath;
-      String? tempResizedPath;
-
-      if (maxWidth != null || maxHeight != null) {
-        tempResizedPath = '$outputPath.resized.jpg';
-        final w = maxWidth ?? -1;
-        final h = maxHeight ?? -1;
-        final resizeArgs = [
+      final cjpegPath = _resolveToolPath('cjpeg.exe');
+      if (cjpegPath != null) {
+        final tempBmpPath = '$outputPath.tmp.bmp';
+        final bmpArgs = [
           '-y',
           '-i',
           inputPath,
-          '-vf',
-          'scale=$w:$h:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2',
+          if (maxWidth != null || maxHeight != null) ...[
+            '-vf',
+            'scale=${maxWidth ?? -1}:${maxHeight ?? -1}:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2'
+          ],
           if (stripExif) ...['-map_metadata', '-1'],
-          tempResizedPath,
+          tempBmpPath,
         ];
-        await Process.run(ffmpegPath, resizeArgs);
-        inputForCjpeg = tempResizedPath;
+        await Process.run(ffmpegPath, bmpArgs);
+
+        if (File(tempBmpPath).existsSync()) {
+          final mozArgs = [
+            '-quality',
+            '$quality',
+            '-optimize',
+            '-progressive',
+            '-outfile',
+            outputPath,
+            tempBmpPath,
+          ];
+          final res = await Process.run(cjpegPath, mozArgs);
+          try { File(tempBmpPath).deleteSync(); } catch (_) {}
+
+          if (res.exitCode == 0 && File(outputPath).existsSync()) {
+            _applyNoLargerFileSafety(
+              inputPath: inputPath,
+              outputPath: outputPath,
+              targetFormat: targetFormat,
+              ext: ext,
+              outFormat: outFormat,
+              maxWidth: maxWidth,
+              maxHeight: maxHeight,
+            );
+            return res;
+          }
+        }
       }
-
-      final mozArgs = [
-        '-quality',
-        '$quality',
-        '-optimize',
-        '-progressive',
-        '-outfile',
-        outputPath,
-        inputForCjpeg,
-      ];
-      final res = await Process.run(cjpegPath, mozArgs);
-
-      if (tempResizedPath != null && File(tempResizedPath).existsSync()) {
-        try { File(tempResizedPath).deleteSync(); } catch (_) {}
-      }
-
-      return res;
     }
 
     // 3. WebP images ARE COMPRESSED EXCLUSIVELY BY Google WebP (cwebp.exe)
     if (outFormat == '.webp') {
-      final cwebpPath = _resolveToolPath('cwebp.exe') ?? 'cwebp.exe';
-      String inputForCwebp = inputPath;
-      String? tempResizedPath;
-
-      if (maxWidth != null || maxHeight != null) {
-        tempResizedPath = '$outputPath.resized.webp';
-        final w = maxWidth ?? -1;
-        final h = maxHeight ?? -1;
-        final resizeArgs = [
-          '-y',
-          '-i',
+      final cwebpPath = _resolveToolPath('cwebp.exe');
+      if (cwebpPath != null && maxWidth == null && maxHeight == null) {
+        final webpArgs = [
+          '-q',
+          '$quality',
+          '-m',
+          '6',
+          '-o',
+          outputPath,
           inputPath,
-          '-vf',
-          'scale=$w:$h:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2',
-          if (stripExif) ...['-map_metadata', '-1'],
-          tempResizedPath,
         ];
-        await Process.run(ffmpegPath, resizeArgs);
-        inputForCwebp = tempResizedPath;
+        final res = await Process.run(cwebpPath, webpArgs);
+        if (res.exitCode == 0 && File(outputPath).existsSync()) {
+          _applyNoLargerFileSafety(inputPath: inputPath, outputPath: outputPath, targetFormat: targetFormat, ext: ext, outFormat: outFormat, maxWidth: maxWidth, maxHeight: maxHeight);
+          return res;
+        }
       }
-
-      final webpArgs = [
-        '-q',
-        '$quality',
-        '-m',
-        '6',
-        '-o',
-        outputPath,
-        inputForCwebp,
-      ];
-      final res = await Process.run(cwebpPath, webpArgs);
-
-      if (tempResizedPath != null && File(tempResizedPath).existsSync()) {
-        try { File(tempResizedPath).deleteSync(); } catch (_) {}
-      }
-
-      return res;
     }
 
-    // 4. FFmpeg compression & encoding ONLY for AVIF
+    // 4. FFmpeg compression & encoding for WebP fallback, AVIF, etc.
     final List<String> args = ['-y', '-i', inputPath];
 
     if (maxWidth != null || maxHeight != null) {
@@ -212,6 +198,10 @@ class ImageCompressionService {
     }
 
     switch (outFormat) {
+      case '.webp':
+        args.addAll(['-c:v', 'libwebp', '-quality', '$quality']);
+        break;
+
       case '.avif':
         final crf = ((100 - quality) / 100 * 35 + 15).round().clamp(15, 52);
         args.addAll(['-c:v', 'libavif', '-crf', '$crf']);
@@ -224,7 +214,37 @@ class ImageCompressionService {
 
     args.add(outputPath);
 
-    return Process.run(ffmpegPath, args);
+    final res = await Process.run(ffmpegPath, args);
+
+    _applyNoLargerFileSafety(inputPath: inputPath, outputPath: outputPath, targetFormat: targetFormat, ext: ext, outFormat: outFormat, maxWidth: maxWidth, maxHeight: maxHeight);
+
+    return res;
+  }
+
+  /// Safety Guarantee: If target format is original (or same format), no resizing was requested,
+  /// and the compressed file ended up LARGER than original, preserve the original file!
+  void _applyNoLargerFileSafety({
+    required String inputPath,
+    required String outputPath,
+    required String targetFormat,
+    required String ext,
+    required String outFormat,
+    int? maxWidth,
+    int? maxHeight,
+  }) {
+    if (maxWidth != null || maxHeight != null) return;
+    if (targetFormat != 'original' && ext != outFormat) return;
+
+    final outFile = File(outputPath);
+    final inFile = File(inputPath);
+
+    if (outFile.existsSync() && inFile.existsSync()) {
+      if (outFile.lengthSync() > inFile.lengthSync()) {
+        try {
+          inFile.copySync(outputPath);
+        } catch (_) {}
+      }
+    }
   }
 
   /// Resolves the absolute path to a standalone CLI tool (pngquant.exe, cjpeg.exe, cwebp.exe).

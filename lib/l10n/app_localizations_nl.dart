@@ -75,6 +75,24 @@ class AppLocalizationsNl extends AppLocalizations {
   String get crfQualityTitle => 'CRF Kwaliteitsfactor';
 
   @override
+  String get crfLossless => 'Zonder verlies';
+
+  @override
+  String get crfHighQuality => 'Hoge kwaliteit';
+
+  @override
+  String get crfBalanced => 'Evenwichtig';
+
+  @override
+  String get crfHighCompression => 'Hoge compressie';
+
+  @override
+  String get crfLowQuality => 'Lage kwaliteit';
+
+  @override
+  String get crfUltraCompressed => 'Ultragecomprimeerd';
+
+  @override
   String get targetSizeLabel => 'Doelbestandsgrootte (MB)';
 
   @override
@@ -875,4 +893,64 @@ class AppLocalizationsNl extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Afbeeldingen-Suite';
+
+  @override
+  String get compressionModeTitle => 'Compressiemodus';
+
+  @override
+  String get smartAutoLabel => 'Slimme Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Vermindert de bestandsgrootte automatisch met ~60-80% met behoud van kwaliteit.';
+
+  @override
+  String get maxSavingsLabel => 'Max. Besparing';
+
+  @override
+  String get maxSavingsDesc =>
+      'Sterke compressie bespaart tot 85-90%. Ideaal voor snelle berichten en e-mail.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Kwaliteit';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Behoudt originele kwaliteit met minimale compressie. Ideaal voor archieven en afdrukken.';
+
+  @override
+  String get targetImageFormatTitle => 'Doel-Afbeeldingsformaat';
+
+  @override
+  String get dimensionResizingTitle => 'Formaat Wijzigen';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF- / Camera-Privacy';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'GPS- & Camera-info Verwijderen';
+
+  @override
+  String get intentCompressOnly => 'Alleen comprimeren';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Focus puur op het verkleinen van de bestandsgrootte (Kwaliteit% of Doel KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Alleen bewerken/converteren';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Formaat wijzigen, roteren, bijsnijden of converteren zonder de visuele kwaliteit te verminderen';
+
+  @override
+  String get intentCompressAndEdit => 'Comprimeren en bewerken';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Volledige controle: bestandsgrootte bewerken, vergroten/verkleinen, roteren EN comprimeren';
 }

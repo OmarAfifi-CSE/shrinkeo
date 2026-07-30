@@ -75,6 +75,24 @@ class AppLocalizationsSr extends AppLocalizations {
   String get crfQualityTitle => 'CRF Фактор Квалитета';
 
   @override
+  String get crfLossless => 'Без губитака';
+
+  @override
+  String get crfHighQuality => 'Висок квалитет';
+
+  @override
+  String get crfBalanced => 'Баланцед';
+
+  @override
+  String get crfHighCompression => 'Висока компресија';
+
+  @override
+  String get crfLowQuality => 'Лов Куалити';
+
+  @override
+  String get crfUltraCompressed => 'Ултра Цомпрессед';
+
+  @override
   String get targetSizeLabel => 'Циљна Величина Датотеке (MB)';
 
   @override
@@ -877,4 +895,64 @@ class AppLocalizationsSr extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Имаге Суите';
+
+  @override
+  String get compressionModeTitle => 'Режим компресије';
+
+  @override
+  String get smartAutoLabel => 'Смарт Ауто';
+
+  @override
+  String get smartAutoDesc =>
+      'Аутоматски смањује величину датотеке за ~60-80% уз 100% нетакнуту визуелну јасноћу. Савршено за свакодневну оптимизацију фотографија.';
+
+  @override
+  String get maxSavingsLabel => 'Мак Савингс';
+
+  @override
+  String get maxSavingsDesc =>
+      'Агресивна компресија штеди до 85-90% величине датотеке. Најбоље за брзу размену порука, отпремање на веб и прилоге е-поште.';
+
+  @override
+  String get ultraFidelityLabel => 'Ултра Фиделити';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Чува сирову визуелну верност уз минималну компресију. Идеално за фотографске архиве и штампање високе резолуције.';
+
+  @override
+  String get targetImageFormatTitle => 'Циљни формат слике';
+
+  @override
+  String get dimensionResizingTitle => 'Промена величине димензија';
+
+  @override
+  String get exifCameraPrivacyTitle => 'ЕКСИФ / Приватност камере';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Скините информације о ГПС-у и камери';
+
+  @override
+  String get intentCompressOnly => 'Цомпресс Онли';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Фокусирајте се искључиво на смањење величине датотеке (% квалитета или циљни КБ/МБ)';
+
+  @override
+  String get intentEditConvertOnly => 'Само уређивање / претварање';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Промените величину, ротирајте, исеците или конвертујте формат без смањења визуелног квалитета';
+
+  @override
+  String get intentCompressAndEdit => 'Цомпресс & Едит';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Потпуна контрола: Уредите, промените величину, ротирајте И компресујте величину датотеке заједно';
 }

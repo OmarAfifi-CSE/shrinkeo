@@ -75,6 +75,24 @@ class AppLocalizationsTa extends AppLocalizations {
   String get crfQualityTitle => 'CRF தரக் காரணி';
 
   @override
+  String get crfLossless => 'இழப்பற்றது';
+
+  @override
+  String get crfHighQuality => 'உயர் தரம்';
+
+  @override
+  String get crfBalanced => 'சமச்சீர்';
+
+  @override
+  String get crfHighCompression => 'உயர் சுருக்கம்';
+
+  @override
+  String get crfLowQuality => 'குறைந்த தரம்';
+
+  @override
+  String get crfUltraCompressed => 'அல்ட்ரா சுருக்கப்பட்டது';
+
+  @override
   String get targetSizeLabel => 'இலக்கு கோப்பு அளவு (MB)';
 
   @override
@@ -883,4 +901,64 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'பட தொகுப்பு';
+
+  @override
+  String get compressionModeTitle => 'சுருக்க முறை';
+
+  @override
+  String get smartAutoLabel => 'ஸ்மார்ட் ஆட்டோ';
+
+  @override
+  String get smartAutoDesc =>
+      '100% அழகிய காட்சித் தெளிவுடன் கோப்பு அளவை ~60-80% தானாகக் குறைக்கிறது. தினசரி புகைப்பட தேர்வுமுறைக்கு ஏற்றது.';
+
+  @override
+  String get maxSavingsLabel => 'அதிகபட்ச சேமிப்பு';
+
+  @override
+  String get maxSavingsDesc =>
+      'ஆக்கிரமிப்பு சுருக்கம் 85-90% கோப்பு அளவு வரை சேமிக்கிறது. விரைவான செய்தியிடல், இணையப் பதிவேற்றங்கள் மற்றும் மின்னஞ்சல் இணைப்புகளுக்கு சிறந்தது.';
+
+  @override
+  String get ultraFidelityLabel => 'அல்ட்ரா ஃபிடிலிட்டி';
+
+  @override
+  String get ultraFidelityDesc =>
+      'குறைந்த சுருக்கத்துடன் மூல காட்சி நம்பகத்தன்மையை பாதுகாக்கிறது. புகைப்படக் காப்பகங்கள் மற்றும் உயர்-ரெஸ் அச்சுப் பணிகளுக்கு ஏற்றது.';
+
+  @override
+  String get targetImageFormatTitle => 'இலக்கு பட வடிவம்';
+
+  @override
+  String get dimensionResizingTitle => 'பரிமாண மறுஅளவிடுதல்';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / கேமரா தனியுரிமை';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'ஸ்டிரிப் ஜிபிஎஸ் & கேமரா தகவல்';
+
+  @override
+  String get intentCompressOnly => 'சுருக்க மட்டும்';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'கோப்பு அளவைக் குறைப்பதில் கவனம் செலுத்துங்கள் (தரம்% அல்லது இலக்கு KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'திருத்து / மாற்ற மட்டும்';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'காட்சி தரத்தை குறைக்காமல் வடிவமைப்பை அளவை மாற்றவும், சுழற்றவும், ஒழுங்கமைக்கவும் அல்லது மாற்றவும்';
+
+  @override
+  String get intentCompressAndEdit => 'சுருக்கவும் & திருத்தவும்';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'முழு கட்டுப்பாடு: திருத்து, அளவை மாற்றவும், சுழற்றவும் மற்றும் கோப்பு அளவை சுருக்கவும்';
 }

@@ -75,6 +75,24 @@ class AppLocalizationsAr extends AppLocalizations {
   String get crfQualityTitle => 'جودة ‎CRF (معامل المعدل الثابت)';
 
   @override
+  String get crfLossless => 'ضياع';
+
+  @override
+  String get crfHighQuality => 'جودة عالية';
+
+  @override
+  String get crfBalanced => 'متوازن';
+
+  @override
+  String get crfHighCompression => 'ضغط عالي';
+
+  @override
+  String get crfLowQuality => 'جودة منخفضة';
+
+  @override
+  String get crfUltraCompressed => 'مضغوط للغاية';
+
+  @override
   String get targetSizeLabel => 'الحجم المستهدف للملف (ميجابايت)';
 
   @override
@@ -903,4 +921,64 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get trimTimeTooltip => 'ادخل الوقت مثلاً 5 (5 ثواني) أو 1:30';
+
+  @override
+  String get tabImageSuite => 'أدوات الصور';
+
+  @override
+  String get compressionModeTitle => 'نمط ضغط الصور';
+
+  @override
+  String get smartAutoLabel => 'ذكي تلقائي';
+
+  @override
+  String get smartAutoDesc =>
+      'يقلل حجم الملف تلقائياً بنسبة 60-80% مع وضوح بصري تام ومبهر. مثالي للاستخدام اليومي.';
+
+  @override
+  String get maxSavingsLabel => 'أقصى توفير';
+
+  @override
+  String get maxSavingsDesc =>
+      'ضغط عالي يوفر حتى 85-90% من الحجم. ممتاز للمراسلات والمرفقات السريعة.';
+
+  @override
+  String get ultraFidelityLabel => 'أعلى جودة فائقة';
+
+  @override
+  String get ultraFidelityDesc =>
+      'يحافظ على دقة التفاصيل الأصلية كاملة مع ضغط خفيف جداً. ممتاز للأرشيف والطباعة.';
+
+  @override
+  String get targetImageFormatTitle => 'صيغة الصورة المستهدفة';
+
+  @override
+  String get dimensionResizingTitle => 'تعديل أبعاد الصورة';
+
+  @override
+  String get exifCameraPrivacyTitle => 'الخصوصية وبيانات الكاميرا (EXIF)';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'حذف بيانات الموقع والكاميرا';
+
+  @override
+  String get intentCompressOnly => 'ضغط فقط';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'التركيز فقط على تقليل حجم الملف (الجودة % أو الهدف كيلوبايت/ميجابايت)';
+
+  @override
+  String get intentEditConvertOnly => 'تحرير / تحويل فقط';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'قم بتغيير حجم التنسيق أو تدويره أو قصه أو تحويله دون تقليل جودة الصورة';
+
+  @override
+  String get intentCompressAndEdit => 'ضغط وتحرير';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'التحكم الكامل: تحرير حجم الملف وتغيير حجمه وتدويره وضغطه معًا';
 }

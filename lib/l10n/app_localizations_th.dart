@@ -75,6 +75,24 @@ class AppLocalizationsTh extends AppLocalizations {
   String get crfQualityTitle => 'ค่าปัจจัยคุณภาพ CRF';
 
   @override
+  String get crfLossless => 'ไม่มีการสูญเสีย';
+
+  @override
+  String get crfHighQuality => 'คุณภาพสูง';
+
+  @override
+  String get crfBalanced => 'สมดุล';
+
+  @override
+  String get crfHighCompression => 'แรงอัดสูง';
+
+  @override
+  String get crfLowQuality => 'คุณภาพต่ำ';
+
+  @override
+  String get crfUltraCompressed => 'อัลตร้าบีบอัด';
+
+  @override
   String get targetSizeLabel => 'ขนาดไฟล์ที่ต้องการ (MB)';
 
   @override
@@ -873,4 +891,64 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'ชุดรูปภาพ';
+
+  @override
+  String get compressionModeTitle => 'โหมดการบีบอัด';
+
+  @override
+  String get smartAutoLabel => 'สมาร์ทออโต้';
+
+  @override
+  String get smartAutoDesc =>
+      'ลดขนาดไฟล์โดยอัตโนมัติประมาณ 60-80% พร้อมความคมชัดของภาพ 100% เหมาะสำหรับการเพิ่มประสิทธิภาพภาพถ่ายในชีวิตประจำวัน';
+
+  @override
+  String get maxSavingsLabel => 'ออมทรัพย์สูงสุด';
+
+  @override
+  String get maxSavingsDesc =>
+      'การบีบอัดข้อมูลเชิงรุกช่วยประหยัดขนาดไฟล์ได้ถึง 85-90% ดีที่สุดสำหรับการส่งข้อความที่รวดเร็ว การอัปโหลดเว็บ และไฟล์แนบอีเมล';
+
+  @override
+  String get ultraFidelityLabel => 'อัลตร้าความเที่ยงตรง';
+
+  @override
+  String get ultraFidelityDesc =>
+      'รักษาความเที่ยงตรงของภาพดิบด้วยการบีบอัดน้อยที่สุด เหมาะสำหรับการเก็บถาวรภาพถ่ายและงานพิมพ์ที่มีความละเอียดสูง';
+
+  @override
+  String get targetImageFormatTitle => 'รูปแบบภาพเป้าหมาย';
+
+  @override
+  String get dimensionResizingTitle => 'การปรับขนาดมิติ';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / ความเป็นส่วนตัวของกล้อง';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'ตัดข้อมูล GPS และกล้อง';
+
+  @override
+  String get intentCompressOnly => 'บีบอัดเท่านั้น';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'มุ่งเน้นที่การลดขนาดไฟล์เพียงอย่างเดียว (% คุณภาพหรือเป้าหมาย KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'แก้ไข/แปลงเท่านั้น';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'ปรับขนาด หมุน ตัดแต่ง หรือแปลงรูปแบบโดยไม่ลดคุณภาพของภาพ';
+
+  @override
+  String get intentCompressAndEdit => 'บีบอัดและแก้ไข';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'การควบคุมเต็มรูปแบบ: แก้ไข ปรับขนาด หมุน และบีบอัดขนาดไฟล์เข้าด้วยกัน';
 }

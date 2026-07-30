@@ -75,6 +75,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get crfQualityTitle => 'CRF 质量因子 (Constant Rate Factor)';
 
   @override
+  String get crfLossless => '无损';
+
+  @override
+  String get crfHighQuality => '高质量';
+
+  @override
+  String get crfBalanced => '均衡';
+
+  @override
+  String get crfHighCompression => '高压缩';
+
+  @override
+  String get crfLowQuality => '低质量';
+
+  @override
+  String get crfUltraCompressed => '超压缩';
+
+  @override
   String get targetSizeLabel => '目标文件大小 (MB)';
 
   @override
@@ -864,4 +882,58 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => '图像套件';
+
+  @override
+  String get compressionModeTitle => '压缩模式';
+
+  @override
+  String get smartAutoLabel => '智能自动';
+
+  @override
+  String get smartAutoDesc => '自动减少约60-80%的文件大小，保持100%清晰度。非常适合日常照片优化。';
+
+  @override
+  String get maxSavingsLabel => '最大节省';
+
+  @override
+  String get maxSavingsDesc => '强力压缩可节省高达85-90%的文件大小。非常适合快速发送和邮件附件。';
+
+  @override
+  String get ultraFidelityLabel => '超高保真';
+
+  @override
+  String get ultraFidelityDesc => '以极小压缩保留原始视觉效果。摄影归档和高清打印的理想选择。';
+
+  @override
+  String get targetImageFormatTitle => '目标图像格式';
+
+  @override
+  String get dimensionResizingTitle => '尺寸调整';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / 相机隐私';
+
+  @override
+  String get stripGpsCameraInfoLabel => '清除GPS和相机信息';
+
+  @override
+  String get intentCompressOnly => '仅压缩';
+
+  @override
+  String get intentCompressOnlyTooltip => '专注于减小文件大小（质量百分比或目标 KB/MB）';
+
+  @override
+  String get intentEditConvertOnly => '仅编辑/转换';
+
+  @override
+  String get intentEditConvertOnlyTooltip => '调整大小、旋转、修剪或转换格式，而不会降低视觉质量';
+
+  @override
+  String get intentCompressAndEdit => '压缩和编辑';
+
+  @override
+  String get intentCompressAndEditTooltip => '完全控制：编辑、调整大小、旋转和压缩文件大小';
 }

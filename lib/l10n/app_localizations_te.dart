@@ -75,6 +75,24 @@ class AppLocalizationsTe extends AppLocalizations {
   String get crfQualityTitle => 'CRF నాణ్యత కారకం';
 
   @override
+  String get crfLossless => 'నష్టం లేని';
+
+  @override
+  String get crfHighQuality => 'అధిక నాణ్యత';
+
+  @override
+  String get crfBalanced => 'సమతుల్యం';
+
+  @override
+  String get crfHighCompression => 'అధిక కుదింపు';
+
+  @override
+  String get crfLowQuality => 'తక్కువ నాణ్యత';
+
+  @override
+  String get crfUltraCompressed => 'అల్ట్రా కంప్రెస్డ్';
+
+  @override
   String get targetSizeLabel => 'లక్ష్య ఫైల్ పరిమాణం (MB)';
 
   @override
@@ -878,4 +896,64 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'చిత్రం సూట్';
+
+  @override
+  String get compressionModeTitle => 'కుదింపు మోడ్';
+
+  @override
+  String get smartAutoLabel => 'స్మార్ట్ ఆటో';
+
+  @override
+  String get smartAutoDesc =>
+      '100% సహజమైన దృశ్య స్పష్టతతో స్వయంచాలకంగా ఫైల్ పరిమాణాన్ని ~60-80% తగ్గిస్తుంది. రోజువారీ ఫోటో ఆప్టిమైజేషన్ కోసం పర్ఫెక్ట్.';
+
+  @override
+  String get maxSavingsLabel => 'గరిష్ట పొదుపులు';
+
+  @override
+  String get maxSavingsDesc =>
+      'దూకుడు కుదింపు 85-90% ఫైల్ పరిమాణం వరకు ఆదా అవుతుంది. వేగవంతమైన సందేశం, వెబ్ అప్‌లోడ్‌లు మరియు ఇమెయిల్ జోడింపులకు ఉత్తమమైనది.';
+
+  @override
+  String get ultraFidelityLabel => 'అల్ట్రా ఫిడిలిటీ';
+
+  @override
+  String get ultraFidelityDesc =>
+      'కనిష్ట కుదింపుతో ముడి దృశ్య విశ్వసనీయతను సంరక్షిస్తుంది. ఫోటోగ్రఫీ ఆర్కైవ్‌లు మరియు హై-రెస్ ప్రింట్ వర్క్ కోసం అనువైనది.';
+
+  @override
+  String get targetImageFormatTitle => 'టార్గెట్ ఇమేజ్ ఫార్మాట్';
+
+  @override
+  String get dimensionResizingTitle => 'డైమెన్షన్ రీసైజింగ్';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / కెమెరా గోప్యత';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'స్ట్రిప్ GPS & కెమెరా సమాచారం';
+
+  @override
+  String get intentCompressOnly => 'కుదించు మాత్రమే';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'ఫైల్ పరిమాణాన్ని తగ్గించడంపై పూర్తిగా దృష్టి పెట్టండి (నాణ్యత % లేదా టార్గెట్ KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'సవరించు / మార్చు మాత్రమే';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'దృశ్య నాణ్యతను తగ్గించకుండా ఆకృతిని రీసైజ్ చేయండి, తిప్పండి, కత్తిరించండి లేదా మార్చండి';
+
+  @override
+  String get intentCompressAndEdit => 'కుదించు & సవరించు';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'పూర్తి నియంత్రణ: ఫైల్ పరిమాణాన్ని సవరించండి, పరిమాణం మార్చండి, తిప్పండి మరియు కుదించండి';
 }

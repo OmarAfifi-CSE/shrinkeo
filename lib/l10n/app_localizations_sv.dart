@@ -75,6 +75,24 @@ class AppLocalizationsSv extends AppLocalizations {
   String get crfQualityTitle => 'CRF Kvalitetsfaktor';
 
   @override
+  String get crfLossless => 'Förlustfri';
+
+  @override
+  String get crfHighQuality => 'Hög kvalitet';
+
+  @override
+  String get crfBalanced => 'Balanserad';
+
+  @override
+  String get crfHighCompression => 'Hög kompression';
+
+  @override
+  String get crfLowQuality => 'Låg kvalitet';
+
+  @override
+  String get crfUltraCompressed => 'Ultrakomprimerad';
+
+  @override
   String get targetSizeLabel => 'Målfilstorlek (MB)';
 
   @override
@@ -872,4 +890,64 @@ class AppLocalizationsSv extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Bildverktyg';
+
+  @override
+  String get compressionModeTitle => 'Komprimeringsläge';
+
+  @override
+  String get smartAutoLabel => 'Smart Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Minskar automatisk filstorleken med ~60-80% med perfekt skärpa. Perfekt för vardagsfoton.';
+
+  @override
+  String get maxSavingsLabel => 'Max Sparande';
+
+  @override
+  String get maxSavingsDesc =>
+      'Stark komprimering sparar upp till 85-90% av storleken. Perfekt för snabbmeddelanden och e-post.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Kvalitet';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Bevarar originalkvaliteten med minimal komprimering. Idealisk för arkivering och utskrift.';
+
+  @override
+  String get targetImageFormatTitle => 'Mål-Bildformat';
+
+  @override
+  String get dimensionResizingTitle => 'Storleksändring';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF- / Kameraintegritet';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Ta bort GPS- & Kamerainfo';
+
+  @override
+  String get intentCompressOnly => 'Komprimera endast';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Fokusera enbart på att minska filstorleken (Kvalitet % eller Mål KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Endast redigera/konvertera';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Ändra storlek, rotera, trimma eller konvertera format utan att minska den visuella kvaliteten';
+
+  @override
+  String get intentCompressAndEdit => 'Komprimera och redigera';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Full kontroll: Redigera, ändra storlek, rotera OCH komprimera filstorleken tillsammans';
 }

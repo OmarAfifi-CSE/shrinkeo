@@ -75,6 +75,24 @@ class AppLocalizationsUk extends AppLocalizations {
   String get crfQualityTitle => 'Коефіцієнт Якості CRF';
 
   @override
+  String get crfLossless => 'Без втрат';
+
+  @override
+  String get crfHighQuality => 'Висока якість';
+
+  @override
+  String get crfBalanced => 'Збалансований';
+
+  @override
+  String get crfHighCompression => 'Високий рівень стиснення';
+
+  @override
+  String get crfLowQuality => 'Низька якість';
+
+  @override
+  String get crfUltraCompressed => 'Ultra Compressed';
+
+  @override
   String get targetSizeLabel => 'Цільовий Розмір Файлу (МБ)';
 
   @override
@@ -874,4 +892,64 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Image Suite';
+
+  @override
+  String get compressionModeTitle => 'Режим стиснення';
+
+  @override
+  String get smartAutoLabel => 'Smart Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Автоматично зменшує розмір файлу на ~60-80% із 100% первозданною чіткістю зображення. Ідеально підходить для щоденної оптимізації фотографій.';
+
+  @override
+  String get maxSavingsLabel => 'Максимальна економія';
+
+  @override
+  String get maxSavingsDesc =>
+      'Агресивне стиснення зберігає до 85-90% розміру файлу. Найкраще підходить для швидкого обміну повідомленнями, завантаження в Інтернет і вкладення електронних листів.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Fidelity';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Зберігає необроблену візуальну точність із мінімальним стисненням. Ідеально підходить для фотоархівів і друку високої роздільної здатності.';
+
+  @override
+  String get targetImageFormatTitle => 'Цільовий формат зображення';
+
+  @override
+  String get dimensionResizingTitle => 'Зміна розміру';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / Конфіденційність камери';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Видалення інформації про GPS і камеру';
+
+  @override
+  String get intentCompressOnly => 'Лише стиснення';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Зосередьтеся лише на зменшенні розміру файлу (% якості або цільове значення КБ/МБ)';
+
+  @override
+  String get intentEditConvertOnly => 'Лише редагування/перетворення';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Змінюйте розмір, обертайте, обрізайте або конвертуйте формат без зниження візуальної якості';
+
+  @override
+  String get intentCompressAndEdit => 'Стискати та редагувати';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Повний контроль: редагуйте, змінюйте розмір, повертайте ТА стискайте розмір файлу разом';
 }

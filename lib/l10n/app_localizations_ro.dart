@@ -75,6 +75,24 @@ class AppLocalizationsRo extends AppLocalizations {
   String get crfQualityTitle => 'Factor de Calitate CRF';
 
   @override
+  String get crfLossless => 'Fără pierderi';
+
+  @override
+  String get crfHighQuality => 'Calitate superioară';
+
+  @override
+  String get crfBalanced => 'Echilibrat';
+
+  @override
+  String get crfHighCompression => 'Compresie ridicată';
+
+  @override
+  String get crfLowQuality => 'Calitate scăzută';
+
+  @override
+  String get crfUltraCompressed => 'Ultra Comprimat';
+
+  @override
   String get targetSizeLabel => 'Dimensiune Fișier Țintă (MB)';
 
   @override
@@ -882,4 +900,64 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Image Suite';
+
+  @override
+  String get compressionModeTitle => 'Modul de compresie';
+
+  @override
+  String get smartAutoLabel => 'Smart Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Reduce automat dimensiunea fișierului cu ~60-80%, cu o claritate vizuală impecabilă de 100%. Perfect pentru optimizarea zilnică a fotografiilor.';
+
+  @override
+  String get maxSavingsLabel => 'Economii maxime';
+
+  @override
+  String get maxSavingsDesc =>
+      'Compresie agresivă care economisește până la 85-90% dimensiunea fișierului. Cel mai bun pentru mesaje rapide, încărcări web și atașamente de e-mail.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Fidelitate';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Păstrează fidelitatea vizuală brută cu o compresie minimă. Ideal pentru arhive fotografice și lucrări de imprimare de înaltă rezoluție.';
+
+  @override
+  String get targetImageFormatTitle => 'Format de imagine țintă';
+
+  @override
+  String get dimensionResizingTitle => 'Redimensionarea dimensiunii';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / Confidențialitate a camerei';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Strip GPS și informații despre cameră';
+
+  @override
+  String get intentCompressOnly => 'Doar compresă';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Concentrați-vă exclusiv pe reducerea dimensiunii fișierului (% calitate sau KB/MB țintă)';
+
+  @override
+  String get intentEditConvertOnly => 'Numai editați / convertiți';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Redimensionați, rotiți, tăiați sau convertiți formatul fără a reduce calitatea vizuală';
+
+  @override
+  String get intentCompressAndEdit => 'Comprimați și editați';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Control total: editați, redimensionați, rotiți ȘI comprimați dimensiunea fișierului împreună';
 }

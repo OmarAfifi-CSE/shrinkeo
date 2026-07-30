@@ -75,6 +75,24 @@ class AppLocalizationsMs extends AppLocalizations {
   String get crfQualityTitle => 'Faktor Kualiti CRF';
 
   @override
+  String get crfLossless => 'Tak rugi';
+
+  @override
+  String get crfHighQuality => 'Kualiti Tinggi';
+
+  @override
+  String get crfBalanced => 'Seimbang';
+
+  @override
+  String get crfHighCompression => 'Mampatan Tinggi';
+
+  @override
+  String get crfLowQuality => 'Kualiti Rendah';
+
+  @override
+  String get crfUltraCompressed => 'Ultra Mampat';
+
+  @override
   String get targetSizeLabel => 'Saiz Fail Sasaran (MB)';
 
   @override
@@ -876,4 +894,64 @@ class AppLocalizationsMs extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Suite Imej';
+
+  @override
+  String get compressionModeTitle => 'Mod Mampatan';
+
+  @override
+  String get smartAutoLabel => 'Auto Pintar';
+
+  @override
+  String get smartAutoDesc =>
+      'Mengecilkan saiz fail secara automatik sebanyak ~60-80% dengan 100% kejelasan visual yang murni. Sesuai untuk pengoptimuman foto setiap hari.';
+
+  @override
+  String get maxSavingsLabel => 'Penjimatan Maks';
+
+  @override
+  String get maxSavingsDesc =>
+      'Pemampatan agresif menjimatkan sehingga 85-90% saiz fail. Terbaik untuk pemesejan pantas, muat naik web dan lampiran e-mel.';
+
+  @override
+  String get ultraFidelityLabel => 'Kesetiaan Ultra';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Mengekalkan kesetiaan visual mentah dengan pemampatan minimum. Sesuai untuk arkib fotografi dan kerja cetakan resolusi tinggi.';
+
+  @override
+  String get targetImageFormatTitle => 'Format Imej Sasaran';
+
+  @override
+  String get dimensionResizingTitle => 'Saiz Semula Dimensi';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / Privasi Kamera';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Jalur GPS & Maklumat Kamera';
+
+  @override
+  String get intentCompressOnly => 'Mampat Sahaja';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Fokus semata-mata pada mengurangkan saiz fail (% Kualiti atau Sasaran KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Edit / Tukar Sahaja';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Ubah saiz, putar, pangkas atau tukar format tanpa mengurangkan kualiti visual';
+
+  @override
+  String get intentCompressAndEdit => 'Mampat & Edit';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Kawalan penuh: Edit, ubah saiz, putar DAN mampatkan saiz fail bersama-sama';
 }

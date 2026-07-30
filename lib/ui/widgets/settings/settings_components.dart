@@ -2154,7 +2154,7 @@ class _ImageTab extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Compression Mode',
+                  AppStrings.compressionModeTitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
@@ -2165,21 +2165,21 @@ class _ImageTab extends StatelessWidget {
                   runSpacing: 6,
                   children: [
                     _OptionChip(
-                      label: 'Smart Auto',
+                      label: AppStrings.smartAutoLabel,
                       icon: Icons.auto_awesome_rounded,
                       isSelected: state.imageQuality == 75 || (state.imageQuality > 50 && state.imageQuality < 90),
                       isLocked: isLocked,
                       onTap: () => cubit.updateImageQuality(75),
                     ),
                     _OptionChip(
-                      label: 'Max Savings',
+                      label: AppStrings.maxSavingsLabel,
                       icon: Icons.bolt_rounded,
                       isSelected: state.imageQuality == 30 || state.imageQuality <= 40,
                       isLocked: isLocked,
                       onTap: () => cubit.updateImageQuality(30),
                     ),
                     _OptionChip(
-                      label: 'Ultra Fidelity',
+                      label: AppStrings.ultraFidelityLabel,
                       icon: Icons.high_quality_rounded,
                       isSelected: state.imageQuality == 95 || state.imageQuality >= 90,
                       isLocked: isLocked,
@@ -2189,26 +2189,26 @@ class _ImageTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 if (state.imageQuality <= 40)
-                  const _InfoBox(
-                    label: 'Maximum Size Reduction',
-                    description: 'Aggressive compression saving up to 85-90% file size. Best for fast messaging, web uploads, and email attachments.',
+                  _InfoBox(
+                    label: AppStrings.maxSavingsLabel,
+                    description: AppStrings.maxSavingsDesc,
                     icon: Icons.bolt_rounded,
                   )
                 else if (state.imageQuality >= 90)
-                  const _InfoBox(
-                    label: 'Ultra Master Detail',
-                    description: 'Preserves raw visual fidelity with minimal compression. Ideal for photography archives and high-res print work.',
+                  _InfoBox(
+                    label: AppStrings.ultraFidelityLabel,
+                    description: AppStrings.ultraFidelityDesc,
                     icon: Icons.high_quality_rounded,
                   )
                 else
-                  const _InfoBox(
-                    label: 'Smart Auto (Recommended)',
-                    description: 'Automatically reduces file size by ~60-80% with 100% pristine visual clarity. Perfect for everyday photo optimization.',
+                  _InfoBox(
+                    label: AppStrings.smartAutoLabel,
+                    description: AppStrings.smartAutoDesc,
                     icon: Icons.auto_awesome_rounded,
                   ),
                 const SizedBox(height: 12),
                 Text(
-                  'Target Image Format',
+                  AppStrings.targetImageFormatTitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
@@ -2238,7 +2238,7 @@ class _ImageTab extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Dimension Resizing',
+                  AppStrings.dimensionResizingTitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
@@ -2259,7 +2259,7 @@ class _ImageTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'EXIF / Camera Privacy',
+                  AppStrings.exifCameraPrivacyTitle,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
@@ -2270,18 +2270,18 @@ class _ImageTab extends StatelessWidget {
                   runSpacing: 4,
                   children: [
                     _OptionChip(
-                      label: 'Strip GPS & Camera Info',
-                      icon: Icons.security_rounded,
-                      isSelected: state.stripImageExif,
-                      isLocked: isLocked,
-                      onTap: () => cubit.toggleStripImageExif(true),
-                    ),
-                    _OptionChip(
-                      label: 'Keep Metadata',
+                      label: AppStrings.keepMetadataLabel,
                       icon: Icons.info_outline_rounded,
                       isSelected: !state.stripImageExif,
                       isLocked: isLocked,
                       onTap: () => cubit.toggleStripImageExif(false),
+                    ),
+                    _OptionChip(
+                      label: AppStrings.stripGpsCameraInfoLabel,
+                      icon: Icons.security_rounded,
+                      isSelected: state.stripImageExif,
+                      isLocked: isLocked,
+                      onTap: () => cubit.toggleStripImageExif(true),
                     ),
                   ],
                 ),

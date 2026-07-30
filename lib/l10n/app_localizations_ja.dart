@@ -75,6 +75,24 @@ class AppLocalizationsJa extends AppLocalizations {
   String get crfQualityTitle => 'CRF画質ファクター';
 
   @override
+  String get crfLossless => 'ロスレス';
+
+  @override
+  String get crfHighQuality => '高品質';
+
+  @override
+  String get crfBalanced => 'バランスの取れた';
+
+  @override
+  String get crfHighCompression => '高圧縮';
+
+  @override
+  String get crfLowQuality => '低品質';
+
+  @override
+  String get crfUltraCompressed => '超圧縮';
+
+  @override
   String get targetSizeLabel => '目標ファイルサイズ (MB)';
 
   @override
@@ -864,4 +882,61 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => '画像スイート';
+
+  @override
+  String get compressionModeTitle => '解像度・圧縮モード';
+
+  @override
+  String get smartAutoLabel => 'スマート自動';
+
+  @override
+  String get smartAutoDesc => '画質を維持しながら自動的にサイズを約60〜80%削減します。日常の画像最適化に最適です。';
+
+  @override
+  String get maxSavingsLabel => '最大削減';
+
+  @override
+  String get maxSavingsDesc => '最大85〜90%のサイズ削減を行う強力圧縮。Web投稿やメール添付に最適。';
+
+  @override
+  String get ultraFidelityLabel => '最高画質';
+
+  @override
+  String get ultraFidelityDesc => '最小限の圧縮で元の美しさを維持します。保存用や印刷用に最適。';
+
+  @override
+  String get targetImageFormatTitle => '出力画像フォーマット';
+
+  @override
+  String get dimensionResizingTitle => '画像サイズ変更';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / カメラプライバシー';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'GPS・カメラ情報を削除';
+
+  @override
+  String get intentCompressOnly => '圧縮のみ';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'ファイル サイズ (品質 % またはターゲット KB/MB) を削減することだけに重点を置きます。';
+
+  @override
+  String get intentEditConvertOnly => '編集/変換のみ';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      '視覚的な品質を低下させることなく、サイズ変更、回転、トリミング、または形式の変換を行うことができます';
+
+  @override
+  String get intentCompressAndEdit => '圧縮と編集';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'フルコントロール: 編集、サイズ変更、回転し、ファイルサイズをまとめて圧縮します';
 }

@@ -75,6 +75,24 @@ class AppLocalizationsTr extends AppLocalizations {
   String get crfQualityTitle => 'CRF Kalitesi';
 
   @override
+  String get crfLossless => 'Kayıpsız';
+
+  @override
+  String get crfHighQuality => 'Yüksek Kalite';
+
+  @override
+  String get crfBalanced => 'Dengeli';
+
+  @override
+  String get crfHighCompression => 'Yüksek Sıkıştırma';
+
+  @override
+  String get crfLowQuality => 'Düşük Kalite';
+
+  @override
+  String get crfUltraCompressed => 'Ultra Sıkıştırılmış';
+
+  @override
   String get targetSizeLabel => 'Hedef Dosya Boyutu (MB)';
 
   @override
@@ -873,4 +891,64 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Resim Araçları';
+
+  @override
+  String get compressionModeTitle => 'Sıkıştırma Modu';
+
+  @override
+  String get smartAutoLabel => 'Akıllı Otomatik';
+
+  @override
+  String get smartAutoDesc =>
+      'Mükemmel netlikle dosya boyutunu otomatik olarak %60-80 azaltır. Günlük fotoğraflar için idealdir.';
+
+  @override
+  String get maxSavingsLabel => 'Maksimum Tasarruf';
+
+  @override
+  String get maxSavingsDesc =>
+      '%85-90\'a varan dosya boyutu tasarrufu sağlayan güçlü sıkıştırma. Mesajlar ve e-postalar için harika.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Kalite';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Minimum sıkıştırma ile orijinal kaliteyi korur. Arşivleme ve baskı için idealdir.';
+
+  @override
+  String get targetImageFormatTitle => 'Hedef Resim Formatı';
+
+  @override
+  String get dimensionResizingTitle => 'Yeniden Boyutlandırma';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / Kamera Gizliliği';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'GPS ve Kamera Bilgilerini Sil';
+
+  @override
+  String get intentCompressOnly => 'Yalnızca Sıkıştır';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Tamamen dosya boyutunu küçültmeye odaklanın (Kalite %\'si veya Hedef KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Yalnızca Düzenle / Dönüştür';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Görsel kaliteyi düşürmeden formatı yeniden boyutlandırın, döndürün, kırpın veya dönüştürün';
+
+  @override
+  String get intentCompressAndEdit => 'Sıkıştır ve Düzenle';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Tam kontrol: Dosya boyutunu birlikte düzenleyin, yeniden boyutlandırın, döndürün VE sıkıştırın';
 }

@@ -75,6 +75,24 @@ class AppLocalizationsSk extends AppLocalizations {
   String get crfQualityTitle => 'Faktor Kvality CRF';
 
   @override
+  String get crfLossless => 'Bezstratový';
+
+  @override
+  String get crfHighQuality => 'Vysoká kvalita';
+
+  @override
+  String get crfBalanced => 'Vyvážený';
+
+  @override
+  String get crfHighCompression => 'Vysoká kompresia';
+
+  @override
+  String get crfLowQuality => 'Nízka kvalita';
+
+  @override
+  String get crfUltraCompressed => 'Ultra stlačený';
+
+  @override
   String get targetSizeLabel => 'Cieľová Veľkosť Súboru (MB)';
 
   @override
@@ -878,4 +896,66 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Image Suite';
+
+  @override
+  String get compressionModeTitle => 'Režim kompresie';
+
+  @override
+  String get smartAutoLabel => 'Smart Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Automaticky zmenšuje veľkosť súboru o ~ 60-80 % so 100 % nedotknutou vizuálnou čistotou. Ideálne pre každodennú optimalizáciu fotografií.';
+
+  @override
+  String get maxSavingsLabel => 'Maximálne úspory';
+
+  @override
+  String get maxSavingsDesc =>
+      'Agresívna kompresia šetrí až 85-90% veľkosti súboru. Najlepšie na rýchle odosielanie správ, nahrávanie na web a e-mailové prílohy.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra vernosť';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Zachováva surovú vizuálnu vernosť s minimálnou kompresiou. Ideálne pre fotografické archívy a tlač vo vysokom rozlíšení.';
+
+  @override
+  String get targetImageFormatTitle => 'Cieľový formát obrázka';
+
+  @override
+  String get dimensionResizingTitle => 'Zmena veľkosti';
+
+  @override
+  String get exifCameraPrivacyTitle =>
+      'EXIF / Ochrana osobných údajov fotoaparátu';
+
+  @override
+  String get stripGpsCameraInfoLabel =>
+      'Odstráňte informácie o GPS a fotoaparáte';
+
+  @override
+  String get intentCompressOnly => 'Iba komprimovať';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Zamerajte sa čisto na zmenšenie veľkosti súboru (% kvality alebo cieľové KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Iba upraviť/previesť';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Zmeňte veľkosť, otáčajte, orezávajte alebo konvertujte formát bez zníženia vizuálnej kvality';
+
+  @override
+  String get intentCompressAndEdit => 'Komprimovať a upravovať';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Úplná kontrola: Spoločne upravujte, zmeňte veľkosť, otáčajte A komprimujte veľkosť súboru';
 }

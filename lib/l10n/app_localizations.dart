@@ -314,6 +314,42 @@ abstract class AppLocalizations {
   /// **'CRF Quality (Constant Rate Factor)'**
   String get crfQualityTitle;
 
+  /// No description provided for @crfLossless.
+  ///
+  /// In en, this message translates to:
+  /// **'Lossless'**
+  String get crfLossless;
+
+  /// No description provided for @crfHighQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'High Quality'**
+  String get crfHighQuality;
+
+  /// No description provided for @crfBalanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Balanced'**
+  String get crfBalanced;
+
+  /// No description provided for @crfHighCompression.
+  ///
+  /// In en, this message translates to:
+  /// **'High Compression'**
+  String get crfHighCompression;
+
+  /// No description provided for @crfLowQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Low Quality'**
+  String get crfLowQuality;
+
+  /// No description provided for @crfUltraCompressed.
+  ///
+  /// In en, this message translates to:
+  /// **'Ultra Compressed'**
+  String get crfUltraCompressed;
+
   /// No description provided for @targetSizeLabel.
   ///
   /// In en, this message translates to:
@@ -1861,6 +1897,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30'**
   String get trimTimeTooltip;
+
+  /// No description provided for @tabImageSuite.
+  ///
+  /// In en, this message translates to:
+  /// **'Image Suite'**
+  String get tabImageSuite;
+
+  /// No description provided for @compressionModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Compression Mode'**
+  String get compressionModeTitle;
+
+  /// No description provided for @smartAutoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Auto'**
+  String get smartAutoLabel;
+
+  /// No description provided for @smartAutoDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically reduces file size by ~60-80% with 100% pristine visual clarity. Perfect for everyday photo optimization.'**
+  String get smartAutoDesc;
+
+  /// No description provided for @maxSavingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Max Savings'**
+  String get maxSavingsLabel;
+
+  /// No description provided for @maxSavingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Aggressive compression saving up to 85-90% file size. Best for fast messaging, web uploads, and email attachments.'**
+  String get maxSavingsDesc;
+
+  /// No description provided for @ultraFidelityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ultra Fidelity'**
+  String get ultraFidelityLabel;
+
+  /// No description provided for @ultraFidelityDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Preserves raw visual fidelity with minimal compression. Ideal for photography archives and high-res print work.'**
+  String get ultraFidelityDesc;
+
+  /// No description provided for @targetImageFormatTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Target Image Format'**
+  String get targetImageFormatTitle;
+
+  /// No description provided for @dimensionResizingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dimension Resizing'**
+  String get dimensionResizingTitle;
+
+  /// No description provided for @exifCameraPrivacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EXIF / Camera Privacy'**
+  String get exifCameraPrivacyTitle;
+
+  /// No description provided for @stripGpsCameraInfoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Strip GPS & Camera Info'**
+  String get stripGpsCameraInfoLabel;
+
+  /// No description provided for @intentCompressOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Compress Only'**
+  String get intentCompressOnly;
+
+  /// No description provided for @intentCompressOnlyTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Focus purely on reducing file size (Quality % or Target KB/MB)'**
+  String get intentCompressOnlyTooltip;
+
+  /// No description provided for @intentEditConvertOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit / Convert Only'**
+  String get intentEditConvertOnly;
+
+  /// No description provided for @intentEditConvertOnlyTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Resize, rotate, trim, or convert format without reducing visual quality'**
+  String get intentEditConvertOnlyTooltip;
+
+  /// No description provided for @intentCompressAndEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Compress & Edit'**
+  String get intentCompressAndEdit;
+
+  /// No description provided for @intentCompressAndEditTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Full control: Edit, resize, rotate AND compress file size together'**
+  String get intentCompressAndEditTooltip;
 }
 
 class _AppLocalizationsDelegate

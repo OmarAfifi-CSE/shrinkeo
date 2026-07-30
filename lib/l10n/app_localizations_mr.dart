@@ -75,6 +75,24 @@ class AppLocalizationsMr extends AppLocalizations {
   String get crfQualityTitle => 'CRF गुणवत्ता घटक';
 
   @override
+  String get crfLossless => 'दोषरहित';
+
+  @override
+  String get crfHighQuality => 'उच्च गुणवत्ता';
+
+  @override
+  String get crfBalanced => 'समतोल';
+
+  @override
+  String get crfHighCompression => 'उच्च कम्प्रेशन';
+
+  @override
+  String get crfLowQuality => 'कमी गुणवत्ता';
+
+  @override
+  String get crfUltraCompressed => 'अल्ट्रा कॉम्प्रेस्ड';
+
+  @override
   String get targetSizeLabel => 'लक्ष्य फाईल आकार (MB)';
 
   @override
@@ -871,4 +889,64 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'प्रतिमा सूट';
+
+  @override
+  String get compressionModeTitle => 'कॉम्प्रेशन मोड';
+
+  @override
+  String get smartAutoLabel => 'स्मार्ट ऑटो';
+
+  @override
+  String get smartAutoDesc =>
+      '100% मूळ दृश्य स्पष्टतेसह फाइल आकार ~60-80% ने स्वयंचलितपणे कमी करते. दररोज फोटो ऑप्टिमायझेशनसाठी योग्य.';
+
+  @override
+  String get maxSavingsLabel => 'कमाल बचत';
+
+  @override
+  String get maxSavingsDesc =>
+      'आक्रमक कॉम्प्रेशन 85-90% फाइल आकारापर्यंत बचत करते. जलद संदेशन, वेब अपलोड आणि ईमेल संलग्नकांसाठी सर्वोत्तम.';
+
+  @override
+  String get ultraFidelityLabel => 'अल्ट्रा फिडेलिटी';
+
+  @override
+  String get ultraFidelityDesc =>
+      'कमीतकमी कॉम्प्रेशनसह कच्च्या व्हिज्युअल निष्ठा राखते. फोटोग्राफी संग्रहण आणि उच्च-रिझोल्यूशन प्रिंट कार्यासाठी आदर्श.';
+
+  @override
+  String get targetImageFormatTitle => 'लक्ष्य प्रतिमा स्वरूप';
+
+  @override
+  String get dimensionResizingTitle => 'परिमाण आकार बदलणे';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / कॅमेरा गोपनीयता';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'स्ट्रिप जीपीएस आणि कॅमेरा माहिती';
+
+  @override
+  String get intentCompressOnly => 'फक्त कॉम्प्रेस करा';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'फाइल आकार कमी करण्यावर पूर्णपणे लक्ष केंद्रित करा (गुणवत्ता % किंवा लक्ष्य KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'फक्त संपादित / रूपांतरित करा';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'व्हिज्युअल गुणवत्ता कमी न करता आकार बदला, फिरवा, ट्रिम करा किंवा रूपांतरित करा';
+
+  @override
+  String get intentCompressAndEdit => 'कॉम्प्रेस आणि संपादित करा';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'पूर्ण नियंत्रण: फाइल आकार एकत्र संपादित करा, आकार बदला, फिरवा आणि संकुचित करा';
 }

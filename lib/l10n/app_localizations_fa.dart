@@ -75,6 +75,24 @@ class AppLocalizationsFa extends AppLocalizations {
   String get crfQualityTitle => 'ضریب کیفیت CRF';
 
   @override
+  String get crfLossless => 'بدون ضرر';
+
+  @override
+  String get crfHighQuality => 'کیفیت بالا';
+
+  @override
+  String get crfBalanced => 'متعادل';
+
+  @override
+  String get crfHighCompression => 'فشرده سازی بالا';
+
+  @override
+  String get crfLowQuality => 'کیفیت پایین';
+
+  @override
+  String get crfUltraCompressed => 'فوق فشرده';
+
+  @override
   String get targetSizeLabel => 'حجم فایل هدف (مگابایت)';
 
   @override
@@ -867,4 +885,64 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'ابزار تصاویر';
+
+  @override
+  String get compressionModeTitle => 'حالت فشرده‌سازی';
+
+  @override
+  String get smartAutoLabel => 'هوشمند خودکار';
+
+  @override
+  String get smartAutoDesc =>
+      'کاهش خودکار حجم فایل تا ۶۰-۸۰٪ با شفافیت تصویر کامل. عالی برای عکس‌های روزمره.';
+
+  @override
+  String get maxSavingsLabel => 'حداکثر صرفه‌جویی';
+
+  @override
+  String get maxSavingsDesc =>
+      'فشرده‌سازی شدید با صرفه‌جویی تا ۸۵-۹۰٪. عالی برای پیام‌رسان‌ها و ایمیل.';
+
+  @override
+  String get ultraFidelityLabel => 'کیفیت فوق‌العاده';
+
+  @override
+  String get ultraFidelityDesc =>
+      'حفظ کیفیت اصلی با حداقل فشرده‌سازی. عالی برای آرشیو و چاپ.';
+
+  @override
+  String get targetImageFormatTitle => 'فرمت تصویر مقصد';
+
+  @override
+  String get dimensionResizingTitle => 'تغییر ابعاد تصویر';
+
+  @override
+  String get exifCameraPrivacyTitle => 'حریم خصوصی دوربین (EXIF)';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'حذف اطلاعات موقعیت و دوربین';
+
+  @override
+  String get intentCompressOnly => 'فقط فشرده سازی';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'تمرکز صرفاً بر روی کاهش اندازه فایل (% کیفیت یا KB/MB هدف)';
+
+  @override
+  String get intentEditConvertOnly => 'فقط ویرایش / تبدیل';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'تغییر اندازه، چرخش، برش، یا تبدیل فرمت بدون کاهش کیفیت بصری';
+
+  @override
+  String get intentCompressAndEdit => 'فشرده سازی و ویرایش';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'کنترل کامل: ویرایش، تغییر اندازه، چرخش و فشرده سازی اندازه فایل با هم';
 }

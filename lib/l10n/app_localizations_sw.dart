@@ -75,6 +75,24 @@ class AppLocalizationsSw extends AppLocalizations {
   String get crfQualityTitle => 'Kigezo cha Ubora wa CRF';
 
   @override
+  String get crfLossless => 'Bila hasara';
+
+  @override
+  String get crfHighQuality => 'Ubora wa Juu';
+
+  @override
+  String get crfBalanced => 'Imesawazishwa';
+
+  @override
+  String get crfHighCompression => 'Ukandamizaji wa Juu';
+
+  @override
+  String get crfLowQuality => 'Ubora wa Chini';
+
+  @override
+  String get crfUltraCompressed => 'Imebanwa sana';
+
+  @override
   String get targetSizeLabel => 'Ukubwa wa Faili Lengo (MB)';
 
   @override
@@ -873,4 +891,64 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Suite ya Picha';
+
+  @override
+  String get compressionModeTitle => 'Hali ya Mfinyazo';
+
+  @override
+  String get smartAutoLabel => 'Smart Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Hupunguza ukubwa wa faili kiotomatiki kwa ~ 60-80% kwa uwazi wa 100% wa picha. Ni kamili kwa uboreshaji wa picha za kila siku.';
+
+  @override
+  String get maxSavingsLabel => 'Kiwango cha Juu cha Akiba';
+
+  @override
+  String get maxSavingsDesc =>
+      'Mfinyazo mkali huokoa hadi saizi ya faili 85-90%. Bora kwa utumaji ujumbe haraka, upakiaji wa wavuti, na viambatisho vya barua pepe.';
+
+  @override
+  String get ultraFidelityLabel => 'Uaminifu Zaidi';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Huhifadhi uaminifu mbichi wa kuona na mgandamizo mdogo. Inafaa kwa kumbukumbu za upigaji picha na kazi ya uchapishaji wa hali ya juu.';
+
+  @override
+  String get targetImageFormatTitle => 'Umbizo la Picha Lengwa';
+
+  @override
+  String get dimensionResizingTitle => 'Kubadilisha Vipimo';
+
+  @override
+  String get exifCameraPrivacyTitle => 'Faragha ya EXIF ​​/ Kamera';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Maelezo ya Kamera na GPS';
+
+  @override
+  String get intentCompressOnly => 'Compress Tu';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Lenga katika kupunguza ukubwa wa faili (Ubora % au KB/MB Lengwa)';
+
+  @override
+  String get intentEditConvertOnly => 'Hariri / Badilisha Pekee';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Badilisha ukubwa, zungusha, punguza au ubadilishe umbizo bila kupunguza ubora wa mwonekano';
+
+  @override
+  String get intentCompressAndEdit => 'Compress & Edit';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Udhibiti kamili: Hariri, badilisha ukubwa, zungusha NA bana saizi ya faili pamoja';
 }

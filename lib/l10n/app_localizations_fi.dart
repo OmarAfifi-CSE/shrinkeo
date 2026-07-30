@@ -75,6 +75,24 @@ class AppLocalizationsFi extends AppLocalizations {
   String get crfQualityTitle => 'CRF Laatutekijä';
 
   @override
+  String get crfLossless => 'Häviötön';
+
+  @override
+  String get crfHighQuality => 'Korkea laatu';
+
+  @override
+  String get crfBalanced => 'Tasapainoinen';
+
+  @override
+  String get crfHighCompression => 'Korkea pakkaus';
+
+  @override
+  String get crfLowQuality => 'Huono laatu';
+
+  @override
+  String get crfUltraCompressed => 'Ultrapakattu';
+
+  @override
   String get targetSizeLabel => 'Tiedoston Tavoitekoko (MB)';
 
   @override
@@ -877,4 +895,64 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Image Suite';
+
+  @override
+  String get compressionModeTitle => 'Pakkaustila';
+
+  @override
+  String get smartAutoLabel => 'Smart Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Pienentää automaattisesti tiedostokokoa ~60-80 % 100 % koskemattomalla visuaalisella selkeydellä. Täydellinen jokapäiväiseen valokuvien optimointiin.';
+
+  @override
+  String get maxSavingsLabel => 'Max Säästöt';
+
+  @override
+  String get maxSavingsDesc =>
+      'Aggressiivinen pakkaus säästää jopa 85-90 % tiedostokokoa. Paras nopeaan viestiin, verkkolataukseen ja sähköpostin liitteisiin.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Fidelity';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Säilyttää raa\'an visuaalisen tarkkuuden minimaalisella pakkauksella. Ihanteellinen valokuva-arkistoon ja korkearesoluutioisiin tulostustöihin.';
+
+  @override
+  String get targetImageFormatTitle => 'Kohdekuvamuoto';
+
+  @override
+  String get dimensionResizingTitle => 'Mittojen koon muuttaminen';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / kameran tietosuoja';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Poista GPS- ja kameratiedot';
+
+  @override
+  String get intentCompressOnly => 'Pakkaa vain';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Keskity pelkästään tiedostokoon pienentämiseen (laatuprosentti tai tavoiteKB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Vain muokkaus / muuntaminen';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Muuta kokoa, kierrä, leikkaa tai muunna muotoa heikentämättä visuaalista laatua';
+
+  @override
+  String get intentCompressAndEdit => 'Pakkaa ja muokkaa';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Täysi hallinta: Muokkaa, muuta kokoa, kierrä JA pakkaa tiedostokokoa yhdessä';
 }

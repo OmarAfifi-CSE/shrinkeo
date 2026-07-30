@@ -75,6 +75,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get crfQualityTitle => 'CRF-Qualität';
 
   @override
+  String get crfLossless => 'Verlustfrei';
+
+  @override
+  String get crfHighQuality => 'Hohe Qualität';
+
+  @override
+  String get crfBalanced => 'Ausgewogen';
+
+  @override
+  String get crfHighCompression => 'Hohe Komprimierung';
+
+  @override
+  String get crfLowQuality => 'Niedrige Qualität';
+
+  @override
+  String get crfUltraCompressed => 'Ultrakomprimiert';
+
+  @override
   String get targetSizeLabel => 'Zieldateigröße (MB)';
 
   @override
@@ -880,4 +898,64 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Bilder-Suite';
+
+  @override
+  String get compressionModeTitle => 'Kompressionsmodus';
+
+  @override
+  String get smartAutoLabel => 'Intelligentes Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Reduziert die Dateigröße automatisch um ~60–80 % bei perfekter Bildqualität. Ideal für tägliche Fotos.';
+
+  @override
+  String get maxSavingsLabel => 'Max. Ersparnis';
+
+  @override
+  String get maxSavingsDesc =>
+      'Starke Kompression spart bis zu 85–90 % Dateigröße. Perfekt für schnellen Versand und E-Mails.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra-Treue';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Bewahrt originale Bildqualität mit minimaler Kompression. Optimal für Archivierung und Druck.';
+
+  @override
+  String get targetImageFormatTitle => 'Ziel-Bildformat';
+
+  @override
+  String get dimensionResizingTitle => 'Größenänderung';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF- / Kamera-Datenschutz';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'GPS- & Kamera-Infos entfernen';
+
+  @override
+  String get intentCompressOnly => 'Nur komprimieren';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Konzentrieren Sie sich ausschließlich auf die Reduzierung der Dateigröße (Qualität % oder Ziel-KB/MB).';
+
+  @override
+  String get intentEditConvertOnly => 'Nur Bearbeiten/Konvertieren';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Ändern Sie die Größe, drehen Sie, trimmen Sie oder konvertieren Sie das Format, ohne die visuelle Qualität zu beeinträchtigen';
+
+  @override
+  String get intentCompressAndEdit => 'Komprimieren und bearbeiten';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Volle Kontrolle: Bearbeiten, Größe ändern, drehen UND komprimieren Sie die Dateigröße gleichzeitig';
 }

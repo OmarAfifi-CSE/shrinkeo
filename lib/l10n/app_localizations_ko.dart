@@ -75,6 +75,24 @@ class AppLocalizationsKo extends AppLocalizations {
   String get crfQualityTitle => 'CRF 화질 팩터';
 
   @override
+  String get crfLossless => '무손실';
+
+  @override
+  String get crfHighQuality => '고품질';
+
+  @override
+  String get crfBalanced => '균형 잡힌';
+
+  @override
+  String get crfHighCompression => '고압축';
+
+  @override
+  String get crfLowQuality => '낮은 품질';
+
+  @override
+  String get crfUltraCompressed => '초압축';
+
+  @override
   String get targetSizeLabel => '목표 파일 크기 (MB)';
 
   @override
@@ -864,4 +882,62 @@ class AppLocalizationsKo extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => '이미지 스위트';
+
+  @override
+  String get compressionModeTitle => '압축 모드';
+
+  @override
+  String get smartAutoLabel => '스마트 자동';
+
+  @override
+  String get smartAutoDesc =>
+      '화질 손상 없이 파일 크기를 약 60~80% 자동으로 줄입니다. 일상 사진에 최적입니다.';
+
+  @override
+  String get maxSavingsLabel => '최대 절약';
+
+  @override
+  String get maxSavingsDesc => '최대 85~90% 용량을 절감하는 강력한 압축. 빠른 전송 및 메일 첨부용.';
+
+  @override
+  String get ultraFidelityLabel => '최고 화질';
+
+  @override
+  String get ultraFidelityDesc => '최소한의 압축으로 원본 화질을 유지합니다. 보관 및 인쇄용에 적합합니다.';
+
+  @override
+  String get targetImageFormatTitle => '타겟 이미지 형식';
+
+  @override
+  String get dimensionResizingTitle => '크기 조절';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / 카메라 개인정보';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'GPS 및 카메라 정보 삭제';
+
+  @override
+  String get intentCompressOnly => '압축만';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      '파일 크기(품질 % 또는 대상 KB/MB)를 줄이는 데만 집중합니다.';
+
+  @override
+  String get intentEditConvertOnly => '편집/변환만 가능';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      '시각적 품질을 저하시키지 않고 형식 크기 조정, 회전, 다듬기 또는 변환';
+
+  @override
+  String get intentCompressAndEdit => '압축 및 편집';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      '모든 권한: 파일 크기를 함께 편집, 크기 조정, 회전 및 압축';
 }

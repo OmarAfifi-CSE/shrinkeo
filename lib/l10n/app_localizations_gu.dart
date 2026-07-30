@@ -75,6 +75,24 @@ class AppLocalizationsGu extends AppLocalizations {
   String get crfQualityTitle => 'CRF ગુણવત્તા પરિબળ';
 
   @override
+  String get crfLossless => 'લોસલેસ';
+
+  @override
+  String get crfHighQuality => 'ઉચ્ચ ગુણવત્તા';
+
+  @override
+  String get crfBalanced => 'સંતુલિત';
+
+  @override
+  String get crfHighCompression => 'ઉચ્ચ કમ્પ્રેશન';
+
+  @override
+  String get crfLowQuality => 'ઓછી ગુણવત્તા';
+
+  @override
+  String get crfUltraCompressed => 'અલ્ટ્રા કોમ્પ્રેસ્ડ';
+
+  @override
   String get targetSizeLabel => 'ટાર્ગેટ ફાઇલ સાઈઝ (MB)';
 
   @override
@@ -868,4 +886,64 @@ class AppLocalizationsGu extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'છબી સ્યુટ';
+
+  @override
+  String get compressionModeTitle => 'કમ્પ્રેશન મોડ';
+
+  @override
+  String get smartAutoLabel => 'સ્માર્ટ ઓટો';
+
+  @override
+  String get smartAutoDesc =>
+      '100% મૂળ દ્રશ્ય સ્પષ્ટતા સાથે ફાઇલનું કદ આપમેળે ~60-80% ઘટાડે છે. રોજિંદા ફોટો ઑપ્ટિમાઇઝેશન માટે પરફેક્ટ.';
+
+  @override
+  String get maxSavingsLabel => 'મહત્તમ બચત';
+
+  @override
+  String get maxSavingsDesc =>
+      'આક્રમક સંકોચન 85-90% ફાઇલ કદ સુધી સાચવે છે. ઝડપી મેસેજિંગ, વેબ અપલોડ્સ અને ઇમેઇલ જોડાણો માટે શ્રેષ્ઠ.';
+
+  @override
+  String get ultraFidelityLabel => 'અલ્ટ્રા ફિડેલિટી';
+
+  @override
+  String get ultraFidelityDesc =>
+      'ન્યૂનતમ સંકોચન સાથે કાચી દ્રશ્ય વફાદારી જાળવી રાખે છે. ફોટોગ્રાફી આર્કાઇવ્સ અને ઉચ્ચ-રિઝોલ્યુશન પ્રિન્ટ વર્ક માટે આદર્શ.';
+
+  @override
+  String get targetImageFormatTitle => 'લક્ષ્ય છબી ફોર્મેટ';
+
+  @override
+  String get dimensionResizingTitle => 'પરિમાણ માપ બદલવાની';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / કેમેરા ગોપનીયતા';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'સ્ટ્રીપ જીપીએસ અને કેમેરા માહિતી';
+
+  @override
+  String get intentCompressOnly => 'માત્ર સંકુચિત કરો';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'ફાઇલનું કદ ઘટાડવા પર સંપૂર્ણ ધ્યાન કેન્દ્રિત કરો (ગુણવત્તા % અથવા લક્ષ્ય KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'ફક્ત સંપાદિત કરો / કન્વર્ટ કરો';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'વિઝ્યુઅલ ક્વોલિટી ઘટાડ્યા વિના ફોર્મેટનું કદ બદલો, ફેરવો, ટ્રિમ કરો અથવા કન્વર્ટ કરો';
+
+  @override
+  String get intentCompressAndEdit => 'સંકુચિત કરો અને સંપાદિત કરો';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'સંપૂર્ણ નિયંત્રણ: સંપાદિત કરો, માપ બદલો, ફેરવો અને ફાઇલ કદને એકસાથે સંકુચિત કરો';
 }

@@ -75,6 +75,24 @@ class AppLocalizationsId extends AppLocalizations {
   String get crfQualityTitle => 'Faktor Kualitas CRF';
 
   @override
+  String get crfLossless => 'Tanpa kerugian';
+
+  @override
+  String get crfHighQuality => 'Kualitas Tinggi';
+
+  @override
+  String get crfBalanced => 'Seimbang';
+
+  @override
+  String get crfHighCompression => 'Kompresi Tinggi';
+
+  @override
+  String get crfLowQuality => 'Kualitas Rendah';
+
+  @override
+  String get crfUltraCompressed => 'Sangat Terkompresi';
+
+  @override
   String get targetSizeLabel => 'Ukuran Berkas Target (MB)';
 
   @override
@@ -874,4 +892,64 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Rangkaian Gambar';
+
+  @override
+  String get compressionModeTitle => 'Mode Kompresi';
+
+  @override
+  String get smartAutoLabel => 'Otomatis Cerdas';
+
+  @override
+  String get smartAutoDesc =>
+      'Secara otomatis mengurangi ukuran file hingga ~60-80% dengan kejernihan visual 100%. Sempurna untuk pengoptimalan foto sehari-hari.';
+
+  @override
+  String get maxSavingsLabel => 'Penghematan Maks';
+
+  @override
+  String get maxSavingsDesc =>
+      'Kompresi agresif menghemat ukuran file hingga 85-90%. Terbaik untuk perpesanan cepat, unggahan web, dan lampiran email.';
+
+  @override
+  String get ultraFidelityLabel => 'Kesetiaan Ultra';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Mempertahankan fidelitas visual mentah dengan kompresi minimal. Ideal untuk arsip fotografi dan pekerjaan cetak resolusi tinggi.';
+
+  @override
+  String get targetImageFormatTitle => 'Format Gambar Sasaran';
+
+  @override
+  String get dimensionResizingTitle => 'Mengubah Ukuran Dimensi';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / Privasi Kamera';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Hapus Info GPS & Kamera';
+
+  @override
+  String get intentCompressOnly => 'Kompres Saja';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Fokus murni pada pengurangan ukuran file (% Kualitas atau Target KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Edit / Konversi Saja';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Ubah ukuran, putar, potong, atau ubah format tanpa mengurangi kualitas visual';
+
+  @override
+  String get intentCompressAndEdit => 'Kompres & Edit';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Kontrol penuh: Edit, ubah ukuran, putar DAN kompres ukuran file secara bersamaan';
 }

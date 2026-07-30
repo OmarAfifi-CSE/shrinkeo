@@ -828,12 +828,12 @@ class CompressionState extends Equatable {
 
   /// Human-readable label for the current CRF quality tier.
   String get crfLabel {
-    if (crfQuality == 0) return 'Lossless';
-    if (crfQuality <= 18) return 'High Quality';
-    if (crfQuality <= 24) return 'Balanced';
-    if (crfQuality <= 30) return 'High Compression';
-    if (crfQuality <= 40) return 'Low Quality';
-    return 'Ultra Compressed';
+    if (crfQuality == 0) return AppStrings.crfLossless;
+    if (crfQuality <= 18) return AppStrings.crfHighQuality;
+    if (crfQuality <= 24) return AppStrings.crfBalanced;
+    if (crfQuality <= 30) return AppStrings.crfHighCompression;
+    if (crfQuality <= 40) return AppStrings.crfLowQuality;
+    return AppStrings.crfUltraCompressed;
   }
 
   @override

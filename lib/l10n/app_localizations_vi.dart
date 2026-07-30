@@ -75,6 +75,24 @@ class AppLocalizationsVi extends AppLocalizations {
   String get crfQualityTitle => 'Hệ số Chất lượng CRF';
 
   @override
+  String get crfLossless => 'không mất dữ liệu';
+
+  @override
+  String get crfHighQuality => 'Chất lượng cao';
+
+  @override
+  String get crfBalanced => 'Cân bằng';
+
+  @override
+  String get crfHighCompression => 'Nén cao';
+
+  @override
+  String get crfLowQuality => 'Chất lượng thấp';
+
+  @override
+  String get crfUltraCompressed => 'Siêu nén';
+
+  @override
   String get targetSizeLabel => 'Kích thước Tệp Mục tiêu (MB)';
 
   @override
@@ -871,4 +889,64 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Bộ ảnh';
+
+  @override
+  String get compressionModeTitle => 'Chế độ nén';
+
+  @override
+  String get smartAutoLabel => 'Tự động thông minh';
+
+  @override
+  String get smartAutoDesc =>
+      'Tự động giảm kích thước tệp xuống ~60-80% với hình ảnh rõ ràng nguyên sơ 100%. Hoàn hảo cho việc tối ưu hóa ảnh hàng ngày.';
+
+  @override
+  String get maxSavingsLabel => 'Tiết kiệm tối đa';
+
+  @override
+  String get maxSavingsDesc =>
+      'Nén mạnh mẽ tiết kiệm tới 85-90% kích thước tệp. Tốt nhất để nhắn tin nhanh, tải lên web và đính kèm email.';
+
+  @override
+  String get ultraFidelityLabel => 'Siêu trung thực';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Duy trì độ trung thực hình ảnh thô với độ nén tối thiểu. Lý tưởng cho việc lưu trữ ảnh và tác phẩm in có độ phân giải cao.';
+
+  @override
+  String get targetImageFormatTitle => 'Định dạng hình ảnh mục tiêu';
+
+  @override
+  String get dimensionResizingTitle => 'Thay đổi kích thước kích thước';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF ​​/ Quyền riêng tư của máy ảnh';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Tách thông tin GPS và camera';
+
+  @override
+  String get intentCompressOnly => 'Chỉ nén';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Tập trung hoàn toàn vào việc giảm kích thước tệp (% Chất lượng hoặc KB/MB mục tiêu)';
+
+  @override
+  String get intentEditConvertOnly => 'Chỉ chỉnh sửa/chuyển đổi';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Thay đổi kích thước, xoay, cắt hoặc chuyển đổi định dạng mà không làm giảm chất lượng hình ảnh';
+
+  @override
+  String get intentCompressAndEdit => 'Nén & Chỉnh sửa';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Kiểm soát hoàn toàn: Chỉnh sửa, thay đổi kích thước, xoay VÀ nén kích thước tệp cùng nhau';
 }

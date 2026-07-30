@@ -75,6 +75,24 @@ class AppLocalizationsFil extends AppLocalizations {
   String get crfQualityTitle => 'CRF Factor ng Kalidad';
 
   @override
+  String get crfLossless => 'Lossless';
+
+  @override
+  String get crfHighQuality => 'Mataas na Kalidad';
+
+  @override
+  String get crfBalanced => 'Balanseng';
+
+  @override
+  String get crfHighCompression => 'Mataas na Compression';
+
+  @override
+  String get crfLowQuality => 'Mababang Kalidad';
+
+  @override
+  String get crfUltraCompressed => 'Ultra Compressed';
+
+  @override
   String get targetSizeLabel => 'Target na Laki ng File (MB)';
 
   @override
@@ -882,4 +900,65 @@ class AppLocalizationsFil extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Image Suite';
+
+  @override
+  String get compressionModeTitle => 'Compression Mode';
+
+  @override
+  String get smartAutoLabel => 'Smart Auto';
+
+  @override
+  String get smartAutoDesc =>
+      'Awtomatikong binabawasan ang laki ng file ng ~60-80% na may 100% malinis na visual na kalinawan. Perpekto para sa pang-araw-araw na pag-optimize ng larawan.';
+
+  @override
+  String get maxSavingsLabel => 'Pinakamataas na Savings';
+
+  @override
+  String get maxSavingsDesc =>
+      'Ang agresibong compression ay nagse-save ng hanggang 85-90% na laki ng file. Pinakamahusay para sa mabilis na pagmemensahe, pag-upload sa web, at mga attachment sa email.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Fidelity';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Pinapanatili ang hilaw na visual fidelity na may kaunting compression. Tamang-tama para sa mga archive ng photography at high-res na pag-print.';
+
+  @override
+  String get targetImageFormatTitle => 'Target na Format ng Larawan';
+
+  @override
+  String get dimensionResizingTitle => 'Pagbabago ng Dimensyon';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / Privacy ng Camera';
+
+  @override
+  String get stripGpsCameraInfoLabel =>
+      'I-strip ang GPS at Impormasyon ng Camera';
+
+  @override
+  String get intentCompressOnly => 'Compress Lang';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Purong tumutok sa pagpapaliit ng laki ng file (% ng Kalidad o Target na KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'I-edit / I-convert Lang';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Baguhin ang laki, i-rotate, gupitin, o i-convert ang format nang hindi binabawasan ang visual na kalidad';
+
+  @override
+  String get intentCompressAndEdit => 'I-compress at I-edit';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Buong kontrol: I-edit, palitan ang laki, i-rotate AT i-compress ang laki ng file nang magkasama';
 }

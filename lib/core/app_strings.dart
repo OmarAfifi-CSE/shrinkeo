@@ -54,6 +54,12 @@ class AppStrings {
   static String get modeCrfLabel => _l10n?.modeCrfLabel ?? 'Quality (CRF)';
   static String get modeTargetSizeLabel => _l10n?.modeTargetSizeLabel ?? 'Target Size (MB)';
   static String get crfQualityTitle => _l10n?.crfQualityTitle ?? 'CRF Quality (Constant Rate Factor)';
+  static String get crfLossless => _l10n?.crfLossless ?? 'Lossless';
+  static String get crfHighQuality => _l10n?.crfHighQuality ?? 'High Quality';
+  static String get crfBalanced => _l10n?.crfBalanced ?? 'Balanced';
+  static String get crfHighCompression => _l10n?.crfHighCompression ?? 'High Compression';
+  static String get crfLowQuality => _l10n?.crfLowQuality ?? 'Low Quality';
+  static String get crfUltraCompressed => _l10n?.crfUltraCompressed ?? 'Ultra Compressed';
   static String get targetSizeLabel => _l10n?.targetSizeLabel ?? 'Target File Size (MB)';
   static String get targetSizeDesc => _l10n?.targetSizeDesc ?? 'Calculates bitrate to fit within size limit (Min: 1 MB). Extremely low limits on long videos will lower visual resolution.';
 
@@ -146,7 +152,6 @@ class AppStrings {
 
   // Privacy & GPS Scrubbing
   static String get privacyScrubbingTitle => _l10n?.privacyScrubbingTitle ?? 'Privacy & GPS Scrubbing';
-  static String get keepMetadataLabel => _l10n?.keepMetadataLabel ?? 'Keep Metadata';
   static String get stripGpsExifLabel => _l10n?.stripGpsExifLabel ?? 'Strip GPS/EXIF';
   static String get stripGpsExifInfoTitle => _l10n?.stripGpsExifInfoTitle ?? 'Strip GPS & Metadata';
   static String get stripGpsExifInfoDesc => _l10n?.stripGpsExifInfoDesc ?? 'Removes camera info, GPS location, & timestamps.';
@@ -395,4 +400,27 @@ class AppStrings {
   static String targetSizeLimitLabel(String size) => _l10n?.targetSizeLimitLabel(size) ?? '$size MB Limit';
   static String get customMbSizeTooltip => _l10n?.customMbSizeTooltip ?? 'Type custom MB size';
   static String get trimTimeTooltip => _l10n?.trimTimeTooltip ?? 'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  // ===========================================================================
+  // 12. IMAGE SUITE SETTINGS
+  // ===========================================================================
+  static String get tabImageSuite => _l10n?.tabImageSuite ?? 'Image Suite';
+  static String get compressionModeTitle => _l10n?.compressionModeTitle ?? 'Compression Mode';
+  static String get smartAutoLabel => _l10n?.smartAutoLabel ?? 'Smart Auto';
+  static String get smartAutoDesc => _l10n?.smartAutoDesc ?? 'Automatically reduces file size by ~60-80% with 100% pristine visual clarity. Perfect for everyday photo optimization.';
+  static String get maxSavingsLabel => _l10n?.maxSavingsLabel ?? 'Max Savings';
+  static String get maxSavingsDesc => _l10n?.maxSavingsDesc ?? 'Aggressive compression saving up to 85-90% file size. Best for fast messaging, web uploads, and email attachments.';
+  static String get ultraFidelityLabel => _l10n?.ultraFidelityLabel ?? 'Ultra Fidelity';
+  static String get ultraFidelityDesc => _l10n?.ultraFidelityDesc ?? 'Preserves raw visual fidelity with minimal compression. Ideal for photography archives and high-res print work.';
+  static String get targetImageFormatTitle => _l10n?.targetImageFormatTitle ?? 'Target Image Format';
+  static String get dimensionResizingTitle => _l10n?.dimensionResizingTitle ?? 'Dimension Resizing';
+  static String get exifCameraPrivacyTitle => _l10n?.exifCameraPrivacyTitle ?? 'EXIF / Camera Privacy';
+  static String get keepMetadataLabel => _l10n?.keepMetadataLabel ?? 'Keep Metadata';
+  static String get stripGpsCameraInfoLabel => _l10n?.stripGpsCameraInfoLabel ?? 'Strip GPS & Camera Info';
+  static String get intentCompressOnly => _l10n?.intentCompressOnly ?? 'Compress Only';
+  static String get intentCompressOnlyTooltip => _l10n?.intentCompressOnlyTooltip ?? 'Focus purely on reducing file size (Quality % or Target KB/MB)';
+  static String get intentEditConvertOnly => _l10n?.intentEditConvertOnly ?? 'Edit / Convert Only';
+  static String get intentEditConvertOnlyTooltip => _l10n?.intentEditConvertOnlyTooltip ?? 'Resize, rotate, trim, or convert format without reducing visual quality';
+  static String get intentCompressAndEdit => _l10n?.intentCompressAndEdit ?? 'Compress & Edit';
+  static String get intentCompressAndEditTooltip => _l10n?.intentCompressAndEditTooltip ?? 'Full control: Edit, resize, rotate AND compress file size together';
 }

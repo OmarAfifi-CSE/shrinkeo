@@ -75,6 +75,24 @@ class AppLocalizationsEl extends AppLocalizations {
   String get crfQualityTitle => 'Συντελεστής Ποιότητας CRF';
 
   @override
+  String get crfLossless => 'Χωρίς απώλειες';
+
+  @override
+  String get crfHighQuality => 'Υψηλής Ποιότητας';
+
+  @override
+  String get crfBalanced => 'Ισορροπημένο';
+
+  @override
+  String get crfHighCompression => 'Υψηλή συμπίεση';
+
+  @override
+  String get crfLowQuality => 'Χαμηλή Ποιότητα';
+
+  @override
+  String get crfUltraCompressed => 'Υπερσυμπιεσμένο';
+
+  @override
   String get targetSizeLabel => 'Επιθυμητό Μέγεθος Αρχείου (MB)';
 
   @override
@@ -877,4 +895,64 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Σουίτα εικόνων';
+
+  @override
+  String get compressionModeTitle => 'Λειτουργία συμπίεσης';
+
+  @override
+  String get smartAutoLabel => 'Έξυπνο αυτόματο';
+
+  @override
+  String get smartAutoDesc =>
+      'Μειώνει αυτόματα το μέγεθος του αρχείου κατά ~60-80% με 100% καθαρή οπτική ευκρίνεια. Ιδανικό για καθημερινή βελτιστοποίηση φωτογραφιών.';
+
+  @override
+  String get maxSavingsLabel => 'Μέγιστη εξοικονόμηση';
+
+  @override
+  String get maxSavingsDesc =>
+      'Επιθετική συμπίεση που εξοικονομεί έως και 85-90% μέγεθος αρχείου. Το καλύτερο για γρήγορη ανταλλαγή μηνυμάτων, μεταφορτώσεις ιστού και συνημμένα email.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Fidelity';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Διατηρεί την ακατέργαστη οπτική πιστότητα με ελάχιστη συμπίεση. Ιδανικό για αρχεία φωτογραφιών και εκτυπώσεις υψηλής ανάλυσης.';
+
+  @override
+  String get targetImageFormatTitle => 'Μορφή εικόνας στόχου';
+
+  @override
+  String get dimensionResizingTitle => 'Αλλαγή μεγέθους';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / Απόρρητο κάμερας';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Απογύμνωση GPS & Πληροφορίες κάμερας';
+
+  @override
+  String get intentCompressOnly => 'Μόνο συμπίεση';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Εστίαση καθαρά στη μείωση του μεγέθους του αρχείου (ποσοστό ποιότητας ή στόχος KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'Επεξεργασία / Μετατροπή Μόνο';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Αλλαγή μεγέθους, περιστροφή, περικοπή ή μετατροπή μορφής χωρίς μείωση της οπτικής ποιότητας';
+
+  @override
+  String get intentCompressAndEdit => 'Συμπίεση & Επεξεργασία';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Πλήρης έλεγχος: Επεξεργασία, αλλαγή μεγέθους, περιστροφή ΚΑΙ συμπίεση μεγέθους αρχείου μαζί';
 }

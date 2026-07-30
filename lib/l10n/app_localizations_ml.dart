@@ -75,6 +75,24 @@ class AppLocalizationsMl extends AppLocalizations {
   String get crfQualityTitle => 'CRF ഗുണമേന്മ ഘടകം';
 
   @override
+  String get crfLossless => 'നഷ്ടമില്ലാത്തത്';
+
+  @override
+  String get crfHighQuality => 'ഉയർന്ന നിലവാരമുള്ളത്';
+
+  @override
+  String get crfBalanced => 'സമതുലിതമായ';
+
+  @override
+  String get crfHighCompression => 'ഉയർന്ന കംപ്രഷൻ';
+
+  @override
+  String get crfLowQuality => 'കുറഞ്ഞ നിലവാരം';
+
+  @override
+  String get crfUltraCompressed => 'അൾട്രാ കംപ്രസ്ഡ്';
+
+  @override
   String get targetSizeLabel => 'ലക്ഷ്യ ഫയൽ വലുപ്പം (MB)';
 
   @override
@@ -881,4 +899,64 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'ഇമേജ് സ്യൂട്ട്';
+
+  @override
+  String get compressionModeTitle => 'കംപ്രഷൻ മോഡ്';
+
+  @override
+  String get smartAutoLabel => 'സ്മാർട്ട് ഓട്ടോ';
+
+  @override
+  String get smartAutoDesc =>
+      '100% പ്രാകൃതമായ ദൃശ്യ വ്യക്തതയോടെ ഫയൽ വലുപ്പം ~60-80% വരെ സ്വയമേവ കുറയ്ക്കുന്നു. ദൈനംദിന ഫോട്ടോ ഒപ്റ്റിമൈസേഷന് അനുയോജ്യമാണ്.';
+
+  @override
+  String get maxSavingsLabel => 'പരമാവധി സേവിംഗ്സ്';
+
+  @override
+  String get maxSavingsDesc =>
+      'അഗ്രസീവ് കംപ്രഷൻ ഫയൽ വലുപ്പം 85-90% വരെ സംരക്ഷിക്കുന്നു. വേഗത്തിലുള്ള സന്ദേശമയയ്‌ക്കൽ, വെബ് അപ്‌ലോഡുകൾ, ഇമെയിൽ അറ്റാച്ച്‌മെൻ്റുകൾ എന്നിവയ്‌ക്ക് മികച്ചത്.';
+
+  @override
+  String get ultraFidelityLabel => 'അൾട്രാ ഫിഡിലിറ്റി';
+
+  @override
+  String get ultraFidelityDesc =>
+      'കുറഞ്ഞ കംപ്രഷൻ ഉപയോഗിച്ച് അസംസ്കൃത വിഷ്വൽ വിശ്വസ്തത സംരക്ഷിക്കുന്നു. ഫോട്ടോഗ്രാഫി ആർക്കൈവുകൾക്കും ഉയർന്ന റെസ് പ്രിൻ്റ് ജോലികൾക്കും അനുയോജ്യമാണ്.';
+
+  @override
+  String get targetImageFormatTitle => 'ടാർഗെറ്റ് ഇമേജ് ഫോർമാറ്റ്';
+
+  @override
+  String get dimensionResizingTitle => 'അളവ് വലുപ്പം മാറ്റുന്നു';
+
+  @override
+  String get exifCameraPrivacyTitle => 'എക്സിഫ് / ക്യാമറ സ്വകാര്യത';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'സ്ട്രിപ്പ് GPS & ക്യാമറ വിവരങ്ങൾ';
+
+  @override
+  String get intentCompressOnly => 'കംപ്രസ് മാത്രം';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'ഫയൽ വലുപ്പം കുറയ്ക്കുന്നതിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കുക (ഗുണനിലവാരം% അല്ലെങ്കിൽ ടാർഗെറ്റ് KB/MB)';
+
+  @override
+  String get intentEditConvertOnly => 'എഡിറ്റ് / പരിവർത്തനം മാത്രം';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'ദൃശ്യ നിലവാരം കുറയ്ക്കാതെ ഫോർമാറ്റിൻ്റെ വലുപ്പം മാറ്റുക, തിരിക്കുക, ട്രിം ചെയ്യുക അല്ലെങ്കിൽ പരിവർത്തനം ചെയ്യുക';
+
+  @override
+  String get intentCompressAndEdit => 'കംപ്രസ് & എഡിറ്റ്';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'പൂർണ്ണ നിയന്ത്രണം: എഡിറ്റ് ചെയ്യുക, വലുപ്പം മാറ്റുക, തിരിക്കുക, ഫയൽ വലുപ്പം ഒരുമിച്ച് കംപ്രസ് ചെയ്യുക';
 }

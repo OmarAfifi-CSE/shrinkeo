@@ -75,6 +75,24 @@ class AppLocalizationsCa extends AppLocalizations {
   String get crfQualityTitle => 'Factor de Qualitat CRF';
 
   @override
+  String get crfLossless => 'Sense pèrdues';
+
+  @override
+  String get crfHighQuality => 'Alta qualitat';
+
+  @override
+  String get crfBalanced => 'Equilibrat';
+
+  @override
+  String get crfHighCompression => 'Alta compressió';
+
+  @override
+  String get crfLowQuality => 'Baixa qualitat';
+
+  @override
+  String get crfUltraCompressed => 'Ultra comprimit';
+
+  @override
   String get targetSizeLabel => 'Mida de Fitxer Objectiu (MB)';
 
   @override
@@ -881,4 +899,64 @@ class AppLocalizationsCa extends AppLocalizations {
   @override
   String get trimTimeTooltip =>
       'Enter time e.g. 5 (5s), 1:30 (1m30s), or 00:01:30';
+
+  @override
+  String get tabImageSuite => 'Suite d\'imatges';
+
+  @override
+  String get compressionModeTitle => 'Mode de compressió';
+
+  @override
+  String get smartAutoLabel => 'Automòbil intel·ligent';
+
+  @override
+  String get smartAutoDesc =>
+      'Redueix automàticament la mida del fitxer entre un 60 i un 80% amb una claredat visual impecable al 100%. Perfecte per a l\'optimització de fotos diària.';
+
+  @override
+  String get maxSavingsLabel => 'Estalvi màxim';
+
+  @override
+  String get maxSavingsDesc =>
+      'Compressió agressiva que estalvia fins a un 85-90% de la mida del fitxer. El millor per a missatges ràpids, càrregues web i fitxers adjunts de correu electrònic.';
+
+  @override
+  String get ultraFidelityLabel => 'Ultra Fidelitat';
+
+  @override
+  String get ultraFidelityDesc =>
+      'Conserva la fidelitat visual en brut amb una compressió mínima. Ideal per a arxius fotogràfics i treballs d\'impressió d\'alta resolució.';
+
+  @override
+  String get targetImageFormatTitle => 'Format d\'imatge objectiu';
+
+  @override
+  String get dimensionResizingTitle => 'Redimensionament de la dimensió';
+
+  @override
+  String get exifCameraPrivacyTitle => 'EXIF / Privadesa de la càmera';
+
+  @override
+  String get stripGpsCameraInfoLabel => 'Elimina GPS i informació de la càmera';
+
+  @override
+  String get intentCompressOnly => 'Només comprimir';
+
+  @override
+  String get intentCompressOnlyTooltip =>
+      'Centra\'t exclusivament en reduir la mida del fitxer (% de qualitat o KB/MB objectiu)';
+
+  @override
+  String get intentEditConvertOnly => 'Només editar/convertir';
+
+  @override
+  String get intentEditConvertOnlyTooltip =>
+      'Canvia la mida, gira, retalla o converteix el format sense reduir la qualitat visual';
+
+  @override
+  String get intentCompressAndEdit => 'Comprimir i editar';
+
+  @override
+  String get intentCompressAndEditTooltip =>
+      'Control total: editeu, canvieu la mida, gireu I comprimiu la mida del fitxer junts';
 }
