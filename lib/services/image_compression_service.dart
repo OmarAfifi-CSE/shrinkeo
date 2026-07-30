@@ -76,7 +76,10 @@ class ImageCompressionService {
           inputPath,
           '-vf',
           'scale=$w:$h:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2',
-          if (stripExif) ...['-map_metadata', '-1'],
+          '-colorspace',
+          'bt709',
+          '-color_trc',
+          'srgb',
           tempResizedPath,
         ];
         await Process.run(ffmpegPath, resizeArgs);
@@ -126,9 +129,12 @@ class ImageCompressionService {
             '-vf',
             'scale=${maxWidth ?? -1}:${maxHeight ?? -1}:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2'
           ],
+          '-colorspace',
+          'bt709',
+          '-color_trc',
+          'srgb',
           '-pix_fmt',
           'rgb24', // Force 24-bit full RGB color without YUV matrix shifts or limited range truncation
-          if (stripExif) ...['-map_metadata', '-1'],
           tempBmpPath,
         ];
         await Process.run(ffmpegPath, bmpArgs);
@@ -139,6 +145,8 @@ class ImageCompressionService {
             '$quality',
             '-sample',
             '1x1', // 4:4:4 Chroma Subsampling: Preserves 100% vivid color saturation & sharp edges (TinyJPG style!)
+            '-quanttable',
+            '2', // MozJPEG Flat/ImageMagick quantization table: maintains rich color depth & prevents fading
             '-optimize',
             '-progressive',
             '-outfile',
@@ -174,6 +182,8 @@ class ImageCompressionService {
           '-m',
           '6',
           '-sharp_yuv', // Preserves sharp color edges and prevents color fading/washing out!
+          '-metadata',
+          'icc', // Keep ICC color profile for 100% accurate gamut rendering
           '-o',
           outputPath,
           inputPath,
@@ -198,9 +208,7 @@ class ImageCompressionService {
       ]);
     }
 
-    if (stripExif) {
-      args.addAll(['-map_metadata', '-1']);
-    }
+    args.addAll(['-colorspace', 'bt709', '-color_trc', 'srgb']);
 
     switch (outFormat) {
       case '.webp':
