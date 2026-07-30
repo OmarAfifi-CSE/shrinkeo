@@ -189,7 +189,7 @@ class FfmpegService {
       } else if (hardwareEncoder == HardwareEncoder.intel) {
         vcodec = 'av1_qsv';
       } else {
-        vcodec = 'libaom-av1';
+        vcodec = 'libsvtav1';
       }
     } else if (codec == VideoCodec.h265) {
       if (hardwareEncoder == HardwareEncoder.nvidia) {
