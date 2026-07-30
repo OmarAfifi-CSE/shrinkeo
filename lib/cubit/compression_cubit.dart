@@ -883,9 +883,9 @@ class CompressionCubit extends Cubit<CompressionState> {
 
   void _showCompletionNotification(int success, int failed) {
     final notification = LocalNotification(
-      title: 'Shrinkeo Compression Complete',
+      title: AppStrings.notifyCompressionCompleteTitle,
       body:
-          'Successfully compressed $success videos.${failed > 0 ? ' ($failed failed)' : ''}',
+          '${AppStrings.notifyCompressionCompleteSuccess(success)}${failed > 0 ? AppStrings.notifyCompressionCompleteFailed(failed) : ''}',
     );
     notification.onClick = () async {
       await windowManager.show();
@@ -1148,9 +1148,8 @@ class CompressionCubit extends Cubit<CompressionState> {
                 if (elapsed.inSeconds > 15) {
                   video = video.copyWith(hasWarnedLargerSize: true);
                   final notification = LocalNotification(
-                    title: 'Output Larger Than Original',
-                    body:
-                        '${video.fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.',
+                    title: AppStrings.notifyOutputLargerTitle,
+                    body: AppStrings.notifyOutputLargerDesc(video.fileName),
                   );
                   notification.show();
                 }

@@ -961,4 +961,132 @@ class AppLocalizationsFil extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Buong kontrol: I-edit, palitan ang laki, i-rotate AT i-compress ang laki ng file nang magkasama';
+
+  @override
+  String get imgFmtOriginalLabel => 'Orihinal na Format';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Panatilihin ang orihinal na format (Pinakamabilis, walang conversion).';
+
+  @override
+  String get imgFmtPngLabel => 'PNG Larawan (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Lossless PNG na format na may suporta sa transparency.';
+
+  @override
+  String get imgFmtJpgLabel => 'JPEG na Larawan (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Standard compressed JPEG format para sa unibersal na compatibility.';
+
+  @override
+  String get imgFmtWebpLabel => 'Larawan ng WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Modernong WebP format na nag-aalok ng superior compression at maliit na sukat.';
+
+  @override
+  String get imgFmtAvifLabel => 'AVIF Image (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Next-gen na AVIF na format na may napakataas na kahusayan sa compression.';
+
+  @override
+  String get imgResOriginalLabel => 'Mga Orihinal na Dimensyon';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Panatilihin ang orihinal na sukat ng lapad at taas ng larawan.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Pababain ang max na dimensyon ng larawan sa 3840px (4K max).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Max (1920px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'I-scale pababa ang max na dimensyon ng larawan sa 1920px (Full HD max).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Pababain ang max na dimensyon ng larawan sa 1280px (HD max).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Pababain ang max na dimensyon ng larawan sa 854px (SD max).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Pinapanatili ang orihinal na larawang EXIF ​​at metadata ng camera.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

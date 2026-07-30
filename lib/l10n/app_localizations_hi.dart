@@ -949,4 +949,131 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'पूर्ण नियंत्रण: फ़ाइल आकार को एक साथ संपादित करें, आकार बदलें, घुमाएँ और संपीड़ित करें';
+
+  @override
+  String get imgFmtOriginalLabel => 'मूल स्वरूप';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'मूल प्रारूप रखें (सबसे तेज़, कोई रूपांतरण नहीं)।';
+
+  @override
+  String get imgFmtPngLabel => 'पीएनजी छवि (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'पारदर्शिता समर्थन के साथ दोषरहित पीएनजी प्रारूप।';
+
+  @override
+  String get imgFmtJpgLabel => 'जेपीईजी छवि (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'सार्वभौमिक अनुकूलता के लिए मानक संपीड़ित JPEG प्रारूप।';
+
+  @override
+  String get imgFmtWebpLabel => 'वेबपी छवि (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'आधुनिक वेबपी प्रारूप बेहतर संपीड़न और छोटे आकार की पेशकश करता है।';
+
+  @override
+  String get imgFmtAvifLabel => 'एवीआईएफ छवि (.एवीआईएफ)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'अल्ट्रा-उच्च संपीड़न दक्षता के साथ अगली पीढ़ी का AVIF प्रारूप।';
+
+  @override
+  String get imgResOriginalLabel => 'मूल आयाम';
+
+  @override
+  String get imgResOriginalDesc => 'मूल छवि की चौड़ाई और ऊंचाई के आयाम रखें।';
+
+  @override
+  String get imgRes4kLabel => '4K अधिकतम (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'छवि का अधिकतम आयाम घटाकर 3840px (अधिकतम 4K) करें।';
+
+  @override
+  String get imgRes1080pLabel => 'फुल एचडी मैक्स (1920px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'छवि के अधिकतम आयाम को घटाकर 1920px (पूर्ण HD अधिकतम) करें।';
+
+  @override
+  String get imgRes720pLabel => 'एचडी मैक्स (1280पिक्सेल)';
+
+  @override
+  String get imgRes720pDesc =>
+      'छवि के अधिकतम आयाम को घटाकर 1280px (HD अधिकतम) करें।';
+
+  @override
+  String get imgRes480pLabel => 'एसडी मैक्स (854पीएक्स)';
+
+  @override
+  String get imgRes480pDesc =>
+      'छवि के अधिकतम आयाम को घटाकर 854px (एसडी अधिकतम) करें।';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'मूल छवि EXIF ​​और कैमरा मेटाडेटा को सुरक्षित रखता है।';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

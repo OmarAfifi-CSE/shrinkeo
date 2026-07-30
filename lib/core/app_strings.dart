@@ -423,4 +423,46 @@ class AppStrings {
   static String get intentEditConvertOnlyTooltip => _l10n?.intentEditConvertOnlyTooltip ?? 'Resize, rotate, trim, or convert format without reducing visual quality';
   static String get intentCompressAndEdit => _l10n?.intentCompressAndEdit ?? 'Compress & Edit';
   static String get intentCompressAndEditTooltip => _l10n?.intentCompressAndEditTooltip ?? 'Full control: Edit, resize, rotate AND compress file size together';
+
+  // Image Format Labels & Descriptions
+  static String get imgFmtOriginalLabel => _l10n?.imgFmtOriginalLabel ?? 'Original Format';
+  static String get imgFmtOriginalDesc => _l10n?.imgFmtOriginalDesc ?? 'Keep original format (Fastest, no conversion).';
+  static String get imgFmtPngLabel => _l10n?.imgFmtPngLabel ?? 'PNG Image (.png)';
+  static String get imgFmtPngDesc => _l10n?.imgFmtPngDesc ?? 'Lossless PNG format with transparency support.';
+  static String get imgFmtJpgLabel => _l10n?.imgFmtJpgLabel ?? 'JPEG Image (.jpg)';
+  static String get imgFmtJpgDesc => _l10n?.imgFmtJpgDesc ?? 'Standard compressed JPEG format for universal compatibility.';
+  static String get imgFmtWebpLabel => _l10n?.imgFmtWebpLabel ?? 'WebP Image (.webp)';
+  static String get imgFmtWebpDesc => _l10n?.imgFmtWebpDesc ?? 'Modern WebP format offering superior compression and small size.';
+  static String get imgFmtAvifLabel => _l10n?.imgFmtAvifLabel ?? 'AVIF Image (.avif)';
+  static String get imgFmtAvifDesc => _l10n?.imgFmtAvifDesc ?? 'Next-gen AVIF format with ultra-high compression efficiency.';
+
+  // Image Resize Labels & Descriptions
+  static String get imgResOriginalLabel => _l10n?.imgResOriginalLabel ?? 'Original Dimensions';
+  static String get imgResOriginalDesc => _l10n?.imgResOriginalDesc ?? 'Keep original image width and height dimensions.';
+  static String get imgRes4kLabel => _l10n?.imgRes4kLabel ?? '4K Max (3840px)';
+  static String get imgRes4kDesc => _l10n?.imgRes4kDesc ?? 'Scale down image max dimension to 3840px (4K max).';
+  static String get imgRes1080pLabel => _l10n?.imgRes1080pLabel ?? 'Full HD Max (1920px)';
+  static String get imgRes1080pDesc => _l10n?.imgRes1080pDesc ?? 'Scale down image max dimension to 1920px (Full HD max).';
+  static String get imgRes720pLabel => _l10n?.imgRes720pLabel ?? 'HD Max (1280px)';
+  static String get imgRes720pDesc => _l10n?.imgRes720pDesc ?? 'Scale down image max dimension to 1280px (HD max).';
+  static String get imgRes480pLabel => _l10n?.imgRes480pLabel ?? 'SD Max (854px)';
+  static String get imgRes480pDesc => _l10n?.imgRes480pDesc ?? 'Scale down image max dimension to 854px (SD max).';
+  static String get keepMetadataImageInfoDesc => _l10n?.keepMetadataImageInfoDesc ?? 'Preserves original image EXIF & camera metadata.';
+
+  // Additional UI Localizations
+  static String get cleanNoiseLabel => _l10n?.cleanNoiseLabel ?? 'Clean Noise';
+  static String get outputLargerTooltip => _l10n?.outputLargerTooltip ?? 'Output will be larger than original!\nStop and try Reset to Defaults.';
+  static String get estimatedSizePrefix => _l10n?.estimatedSizePrefix ?? 'Est:';
+  static String get cancelBtnTooltip => _l10n?.cancelBtnTooltip ?? 'Cancel';
+  static String get removeBtnTooltip => _l10n?.removeBtnTooltip ?? 'Remove';
+  static String get selectLanguageTitle => _l10n?.selectLanguageTitle ?? 'Select Language';
+  static String languagesCountLabel(int count) => _l10n?.languagesCountLabel(count.toString()) ?? '$count Languages';
+  static String get searchLanguageHint => _l10n?.searchLanguageHint ?? 'Search language by name or code...';
+  static String get noLanguagesMatchSearch => _l10n?.noLanguagesMatchSearch ?? 'No languages match your search.';
+  static String get languageTooltip => _l10n?.languageTooltip ?? 'Language';
+  static String get notifyCompressionCompleteTitle => _l10n?.notifyCompressionCompleteTitle ?? 'Shrinkeo Compression Complete';
+  static String notifyCompressionCompleteSuccess(int success) => _l10n?.notifyCompressionCompleteSuccess(success.toString()) ?? 'Successfully compressed $success videos.';
+  static String notifyCompressionCompleteFailed(int failed) => _l10n?.notifyCompressionCompleteFailed(failed.toString()) ?? ' ($failed failed)';
+  static String get notifyOutputLargerTitle => _l10n?.notifyOutputLargerTitle ?? 'Output Larger Than Original';
+  static String notifyOutputLargerDesc(String fileName) => _l10n?.notifyOutputLargerDesc(fileName) ?? '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
 }

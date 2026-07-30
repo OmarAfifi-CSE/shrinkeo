@@ -949,4 +949,131 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'पूर्ण नियंत्रण: फाइल आकार एकत्र संपादित करा, आकार बदला, फिरवा आणि संकुचित करा';
+
+  @override
+  String get imgFmtOriginalLabel => 'मूळ स्वरूप';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'मूळ स्वरूप ठेवा (जलद, कोणतेही रूपांतरण नाही).';
+
+  @override
+  String get imgFmtPngLabel => 'PNG इमेज (.png)';
+
+  @override
+  String get imgFmtPngDesc => 'पारदर्शकता समर्थनासह दोषरहित PNG स्वरूप.';
+
+  @override
+  String get imgFmtJpgLabel => 'JPEG प्रतिमा (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'सार्वत्रिक सुसंगततेसाठी मानक संकुचित JPEG स्वरूप.';
+
+  @override
+  String get imgFmtWebpLabel => 'WebP प्रतिमा (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'मॉडर्न वेबपी फॉरमॅट उत्कृष्ट कॉम्प्रेशन आणि लहान आकाराची ऑफर देते.';
+
+  @override
+  String get imgFmtAvifLabel => 'AVIF प्रतिमा (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'अल्ट्रा-हाय कॉम्प्रेशन कार्यक्षमतेसह नेक्स्ट-जनरल AVIF फॉरमॅट.';
+
+  @override
+  String get imgResOriginalLabel => 'मूळ परिमाणे';
+
+  @override
+  String get imgResOriginalDesc =>
+      'मूळ प्रतिमेची रुंदी आणि उंचीची परिमाणे ठेवा.';
+
+  @override
+  String get imgRes4kLabel => '4K कमाल (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'प्रतिमेचे कमाल परिमाण ३८४०px (४K कमाल) पर्यंत कमी करा.';
+
+  @override
+  String get imgRes1080pLabel => 'पूर्ण HD कमाल (1920px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'प्रतिमेचे कमाल परिमाण 1920px (पूर्ण HD कमाल) पर्यंत कमी करा.';
+
+  @override
+  String get imgRes720pLabel => 'HD कमाल (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'प्रतिमेचे कमाल परिमाण १२८०px (HD max) पर्यंत कमी करा.';
+
+  @override
+  String get imgRes480pLabel => 'SD कमाल (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'प्रतिमेचे कमाल परिमाण ८५४px (SD max) पर्यंत कमी करा.';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'मूळ प्रतिमा EXIF ​​आणि कॅमेरा मेटाडेटा जतन करते.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

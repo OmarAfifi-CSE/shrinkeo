@@ -981,4 +981,129 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'التحكم الكامل: تحرير حجم الملف وتغيير حجمه وتدويره وضغطه معًا';
+
+  @override
+  String get imgFmtOriginalLabel => 'التنسيق الأصلي';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'احتفظ بالتنسيق الأصلي (الأسرع، بدون تحويل).';
+
+  @override
+  String get imgFmtPngLabel => 'صورة PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc => 'تنسيق PNG بدون فقدان مع دعم الشفافية.';
+
+  @override
+  String get imgFmtJpgLabel => 'صورة JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc => 'تنسيق JPEG مضغوط قياسي للتوافق العالمي.';
+
+  @override
+  String get imgFmtWebpLabel => 'صورة WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'يوفر تنسيق WebP الحديث ضغطًا فائقًا وحجمًا صغيرًا.';
+
+  @override
+  String get imgFmtAvifLabel => 'صورة AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'تنسيق AVIF من الجيل التالي بكفاءة ضغط عالية جدًا.';
+
+  @override
+  String get imgResOriginalLabel => 'الأبعاد الأصلية';
+
+  @override
+  String get imgResOriginalDesc => 'احتفظ بأبعاد عرض الصورة الأصلية وارتفاعها.';
+
+  @override
+  String get imgRes4kLabel => '4K ماكس (3840 بكسل)';
+
+  @override
+  String get imgRes4kDesc =>
+      'قم بتقليل البعد الأقصى للصورة إلى 3840 بكسل (4K كحد أقصى).';
+
+  @override
+  String get imgRes1080pLabel => 'دقة عالية كاملة بحد أقصى (1920 بكسل)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'قم بتقليل البعد الأقصى للصورة إلى 1920 بكسل (Full HD كحد أقصى).';
+
+  @override
+  String get imgRes720pLabel => 'HD ماكس (1280 بكسل)';
+
+  @override
+  String get imgRes720pDesc =>
+      'قم بتقليص البعد الأقصى للصورة إلى 1280 بكسل (HD كحد أقصى).';
+
+  @override
+  String get imgRes480pLabel => 'SD ماكس (854 بكسل)';
+
+  @override
+  String get imgRes480pDesc =>
+      'قم بتقليص البعد الأقصى للصورة إلى 854 بكسل (SD كحد أقصى).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'يحافظ على الصورة الأصلية EXIF ​​والبيانات الوصفية للكاميرا.';
+
+  @override
+  String get cleanNoiseLabel => 'الضوضاء النظيفة';
+
+  @override
+  String get outputLargerTooltip =>
+      'سيكون الإخراج أكبر من الأصلي!\nتوقف وحاول إعادة التعيين إلى الإعدادات الافتراضية.';
+
+  @override
+  String get estimatedSizePrefix => 'EST:';
+
+  @override
+  String get cancelBtnTooltip => 'يلغي';
+
+  @override
+  String get removeBtnTooltip => 'يزيل';
+
+  @override
+  String get selectLanguageTitle => 'اختر اللغة';
+
+  @override
+  String get searchLanguageHint => 'لغة البحث عن طريق الاسم أو الرمز...';
+
+  @override
+  String get noLanguagesMatchSearch => 'لا توجد لغات تطابق بحثك.';
+
+  @override
+  String get languageTooltip => 'لغة';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'اكتمال ضغط Shrinkeo';
+
+  @override
+  String get notifyOutputLargerTitle => 'إخراج أكبر من الأصلي';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count لغة';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'تم ضغط $success مقاطع فيديو بنجاح.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return '($failed فشل)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return 'من المتوقع أن يكون $fileName أكبر من حجم الملف الأصلي. فكر في إلغاء الإعدادات وإعادة ضبطها على الوضع الافتراضي.';
+  }
 }

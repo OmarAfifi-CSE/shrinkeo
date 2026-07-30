@@ -130,8 +130,7 @@ class VideoFileCard extends StatelessWidget {
                                         : AppColors.errorRed;
 
                                     return Tooltip(
-                                      message:
-                                          'Output will be larger than original!\nStop and try Reset to Defaults.',
+                                      message: AppStrings.outputLargerTooltip,
                                       padding: const EdgeInsets.all(12),
                                       margin: const EdgeInsets.symmetric(
                                         horizontal: 20,
@@ -150,7 +149,7 @@ class VideoFileCard extends StatelessWidget {
                                       child: Row(
                                         children: [
                                           Text(
-                                            ' ➔ Est: ${VideoFile.formatFileSize(projected)}',
+                                            ' ➔ ${AppStrings.estimatedSizePrefix} ${VideoFile.formatFileSize(projected)}',
                                             style: theme.textTheme.bodySmall
                                                 ?.copyWith(
                                                   color: alertColor,
@@ -515,7 +514,7 @@ class _ActionButton extends StatelessWidget {
     final redColor = isDark ? Colors.redAccent.shade200 : AppColors.errorRed;
 
     return Tooltip(
-      message: isProcessing ? 'Cancel' : 'Remove',
+      message: isProcessing ? AppStrings.cancelBtnTooltip : AppStrings.removeBtnTooltip,
       child: InkWell(
         onTap: onRemove,
         borderRadius: BorderRadius.circular(8),

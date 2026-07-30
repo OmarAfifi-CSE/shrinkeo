@@ -960,4 +960,132 @@ class AppLocalizationsHu extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Teljes ellenőrzés: együtt szerkesztheti, átméretezheti, elforgathatja ÉS tömöríti a fájlméretet';
+
+  @override
+  String get imgFmtOriginalLabel => 'Eredeti formátum';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Tartsa meg az eredeti formátumot (leggyorsabb, nincs konverzió).';
+
+  @override
+  String get imgFmtPngLabel => 'PNG-kép (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Veszteségmentes PNG formátum átlátszóság támogatással.';
+
+  @override
+  String get imgFmtJpgLabel => 'JPEG kép (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Szabványos tömörített JPEG formátum az univerzális kompatibilitás érdekében.';
+
+  @override
+  String get imgFmtWebpLabel => 'WebP kép (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Modern WebP formátum kiváló tömörítést és kis méretet kínál.';
+
+  @override
+  String get imgFmtAvifLabel => 'AVIF kép (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Következő generációs AVIF formátum rendkívül magas tömörítési hatékonysággal.';
+
+  @override
+  String get imgResOriginalLabel => 'Eredeti Méretek';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Tartsa meg az eredeti kép szélességét és magasságát.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840 képpont)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Csökkentse a kép maximális méretét 3840 képpontra (max. 4K).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Max (1920 képpont)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Csökkentse a kép maximális méretét 1920 képpontra (Full HD max).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280 képpont)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Csökkentse a kép maximális méretét 1280 képpontra (max. HD).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854 képpont)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Csökkentse a kép maximális méretét 854 képpontra (max. SD).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Megőrzi az eredeti kép EXIF ​​és a kamera metaadatait.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

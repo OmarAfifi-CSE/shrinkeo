@@ -951,4 +951,129 @@ class AppLocalizationsTh extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'การควบคุมเต็มรูปแบบ: แก้ไข ปรับขนาด หมุน และบีบอัดขนาดไฟล์เข้าด้วยกัน';
+
+  @override
+  String get imgFmtOriginalLabel => 'รูปแบบดั้งเดิม';
+
+  @override
+  String get imgFmtOriginalDesc => 'คงรูปแบบเดิมไว้ (เร็วที่สุด ไม่มีการแปลง)';
+
+  @override
+  String get imgFmtPngLabel => 'รูปภาพ PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'รูปแบบ PNG แบบไม่สูญเสียข้อมูลพร้อมการสนับสนุนที่โปร่งใส';
+
+  @override
+  String get imgFmtJpgLabel => 'รูปภาพ JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'รูปแบบ JPEG บีบอัดมาตรฐานเพื่อความเข้ากันได้สากล';
+
+  @override
+  String get imgFmtWebpLabel => 'รูปภาพ WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'รูปแบบ WebP สมัยใหม่ที่ให้การบีบอัดที่เหนือกว่าและขนาดที่เล็ก';
+
+  @override
+  String get imgFmtAvifLabel => 'รูปภาพ AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'รูปแบบ AVIF ยุคถัดไปที่มีประสิทธิภาพการบีบอัดสูงเป็นพิเศษ';
+
+  @override
+  String get imgResOriginalLabel => 'ขนาดดั้งเดิม';
+
+  @override
+  String get imgResOriginalDesc =>
+      'คงขนาดความกว้างและความสูงของรูปภาพต้นฉบับไว้';
+
+  @override
+  String get imgRes4kLabel => 'สูงสุด 4K (3840px)';
+
+  @override
+  String get imgRes4kDesc => 'ลดขนาดขนาดสูงสุดของรูปภาพเป็น 3840px (สูงสุด 4K)';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD สูงสุด (1920px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'ลดขนาดขนาดสูงสุดของรูปภาพเป็น 1920px (สูงสุด Full HD)';
+
+  @override
+  String get imgRes720pLabel => 'HD สูงสุด (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'ลดขนาดขนาดสูงสุดของรูปภาพเป็น 1280px (สูงสุด HD)';
+
+  @override
+  String get imgRes480pLabel => 'SD สูงสุด (854px)';
+
+  @override
+  String get imgRes480pDesc => 'ลดขนาดรูปภาพสูงสุดเป็น 854px (สูงสุด SD)';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'รักษาภาพต้นฉบับ EXIF ​​​​และข้อมูลเมตาของกล้อง';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

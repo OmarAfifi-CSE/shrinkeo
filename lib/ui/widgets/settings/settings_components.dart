@@ -724,7 +724,7 @@ class _CodecSection extends StatelessWidget {
               ),
             ),
             _DenoiseBadgeChip(
-              label: 'Clean Noise',
+              label: AppStrings.cleanNoiseLabel,
               icon: Icons.auto_fix_high_rounded,
               isEnabled: state.enableVideoDenoise,
               isLocked: isLocked,
@@ -1472,25 +1472,18 @@ class _ToolsTabContent extends StatelessWidget {
                     spacing: 4,
                     runSpacing: 4,
                     children: VideoSpeedMode.values.map((mode) {
-                      String label;
                       IconData? chipIcon;
-                      if (mode == VideoSpeedMode.original) {
-                        label = '1.0x';
-                      } else if (mode == VideoSpeedMode.slow05) {
-                        label = '0.5x Slow';
+                      if (mode == VideoSpeedMode.slow05) {
                         chipIcon = Icons.slow_motion_video_rounded;
                       } else if (mode == VideoSpeedMode.fast15) {
-                        label = '1.5x';
                         chipIcon = Icons.fast_forward_rounded;
                       } else if (mode == VideoSpeedMode.fast20) {
-                        label = '2.0x Fast';
                         chipIcon = Icons.speed_rounded;
-                      } else {
-                        label = '4.0x Lapse';
+                      } else if (mode == VideoSpeedMode.timelapse40) {
                         chipIcon = Icons.shutter_speed_rounded;
                       }
                       return _OptionChip(
-                        label: label,
+                        label: mode.label,
                         icon: chipIcon,
                         isSelected: state.videoSpeedMode == mode,
                         isLocked: isLocked,
@@ -2303,7 +2296,7 @@ class _ImageTab extends StatelessWidget {
                       ? AppStrings.keepMetadataLabel
                       : AppStrings.stripGpsCameraInfoLabel,
                   description: !state.stripImageExif
-                      ? AppStrings.keepMetadataInfoDesc
+                      ? AppStrings.keepMetadataImageInfoDesc
                       : AppStrings.stripGpsExifInfoDesc,
                   icon: !state.stripImageExif
                       ? Icons.info_outline_rounded

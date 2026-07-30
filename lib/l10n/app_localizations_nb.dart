@@ -950,4 +950,131 @@ class AppLocalizationsNb extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Full kontroll: Rediger, endre størrelse, roter OG komprimer filstørrelse sammen';
+
+  @override
+  String get imgFmtOriginalLabel => 'Originalformat';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Behold originalformatet (Raskest, ingen konvertering).';
+
+  @override
+  String get imgFmtPngLabel => 'PNG-bilde (.png)';
+
+  @override
+  String get imgFmtPngDesc => 'Tapsfritt PNG-format med støtte for åpenhet.';
+
+  @override
+  String get imgFmtJpgLabel => 'JPEG-bilde (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Standard komprimert JPEG-format for universell kompatibilitet.';
+
+  @override
+  String get imgFmtWebpLabel => 'WebP-bilde (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Moderne WebP-format som tilbyr overlegen komprimering og liten størrelse.';
+
+  @override
+  String get imgFmtAvifLabel => 'AVIF-bilde (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Neste generasjons AVIF-format med ultrahøy komprimeringseffektivitet.';
+
+  @override
+  String get imgResOriginalLabel => 'Originale dimensjoner';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Behold originalbildets bredde og høydedimensjoner.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840 piksler)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Nedskaler bildets maksimale dimensjon til 3840 piksler (maks. 4K).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Max (1920 piksler)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Skaler ned maks. bildedimensjon til 1920 piksler (maks. Full HD).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280 piksler)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Nedskaler bildets maksimale dimensjon til 1280 piksler (HD maks).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Nedskaler bildets maksimale dimensjon til 854 piksler (SD max).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Bevarer originalbildet EXIF ​​og kamerametadata.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

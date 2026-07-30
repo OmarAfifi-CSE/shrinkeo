@@ -956,4 +956,131 @@ class AppLocalizationsTe extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'పూర్తి నియంత్రణ: ఫైల్ పరిమాణాన్ని సవరించండి, పరిమాణం మార్చండి, తిప్పండి మరియు కుదించండి';
+
+  @override
+  String get imgFmtOriginalLabel => 'అసలు ఫార్మాట్';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'అసలు ఆకృతిని ఉంచండి (వేగవంతమైనది, మార్పిడి లేదు).';
+
+  @override
+  String get imgFmtPngLabel => 'PNG చిత్రం (.png)';
+
+  @override
+  String get imgFmtPngDesc => 'పారదర్శకత మద్దతుతో లాస్‌లెస్ PNG ఫార్మాట్.';
+
+  @override
+  String get imgFmtJpgLabel => 'JPEG చిత్రం (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'సార్వత్రిక అనుకూలత కోసం ప్రామాణిక కంప్రెస్డ్ JPEG ఫార్మాట్.';
+
+  @override
+  String get imgFmtWebpLabel => 'WebP చిత్రం (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'ఆధునిక WebP ఫార్మాట్ ఉన్నతమైన కుదింపు మరియు చిన్న పరిమాణాన్ని అందిస్తోంది.';
+
+  @override
+  String get imgFmtAvifLabel => 'AVIF చిత్రం (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'అల్ట్రా-హై కంప్రెషన్ సామర్థ్యంతో తదుపరి-తరం AVIF ఫార్మాట్.';
+
+  @override
+  String get imgResOriginalLabel => 'అసలు కొలతలు';
+
+  @override
+  String get imgResOriginalDesc =>
+      'అసలు చిత్రం వెడల్పు మరియు ఎత్తు కొలతలు ఉంచండి.';
+
+  @override
+  String get imgRes4kLabel => '4K గరిష్టం (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'చిత్రం గరిష్ట పరిమాణాన్ని 3840px (4K గరిష్టం)కి స్కేల్ చేయండి.';
+
+  @override
+  String get imgRes1080pLabel => 'పూర్తి HD గరిష్టం (1920px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'ఇమేజ్ గరిష్ట పరిమాణాన్ని 1920pxకి తగ్గించండి (పూర్తి HD గరిష్టం).';
+
+  @override
+  String get imgRes720pLabel => 'HD గరిష్టం (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'చిత్రం గరిష్ట పరిమాణాన్ని 1280px (HD గరిష్టం)కి తగ్గించండి.';
+
+  @override
+  String get imgRes480pLabel => 'SD గరిష్టం (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'చిత్రం గరిష్ట పరిమాణాన్ని 854px (SD గరిష్టం)కి తగ్గించండి.';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'అసలు చిత్రం EXIF ​​& కెమెరా మెటాడేటాను భద్రపరుస్తుంది.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

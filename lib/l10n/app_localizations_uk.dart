@@ -952,4 +952,131 @@ class AppLocalizationsUk extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Повний контроль: редагуйте, змінюйте розмір, повертайте ТА стискайте розмір файлу разом';
+
+  @override
+  String get imgFmtOriginalLabel => 'Оригінальний формат';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Зберігати оригінальний формат (найшвидший, без конвертації).';
+
+  @override
+  String get imgFmtPngLabel => 'Зображення PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc => 'Формат PNG без втрат із підтримкою прозорості.';
+
+  @override
+  String get imgFmtJpgLabel => 'Зображення JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Стандартний стислий формат JPEG для універсальної сумісності.';
+
+  @override
+  String get imgFmtWebpLabel => 'Зображення WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Сучасний формат WebP із чудовим стисненням і малим розміром.';
+
+  @override
+  String get imgFmtAvifLabel => 'Зображення AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Формат AVIF наступного покоління з надвисокою ефективністю стиснення.';
+
+  @override
+  String get imgResOriginalLabel => 'Оригінальні розміри';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Зберігайте оригінальні розміри ширини та висоти зображення.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840 пікселів)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Зменште максимальний розмір зображення до 3840 пікселів (макс. 4 КБ).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Max (1920 пікселів)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Зменште максимальний розмір зображення до 1920 пікселів (макс. Full HD).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280 пікселів)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Зменште максимальний розмір зображення до 1280 пікселів (макс. HD).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854 пікселів)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Зменште максимальний розмір зображення до 854 пікселів (макс. SD).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Зберігає EXIF ​​оригінального зображення та метадані камери.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

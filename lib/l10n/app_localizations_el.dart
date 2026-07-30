@@ -955,4 +955,133 @@ class AppLocalizationsEl extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Πλήρης έλεγχος: Επεξεργασία, αλλαγή μεγέθους, περιστροφή ΚΑΙ συμπίεση μεγέθους αρχείου μαζί';
+
+  @override
+  String get imgFmtOriginalLabel => 'Αρχική Μορφή';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Διατηρήστε την αρχική μορφή (Ταχύτερη, χωρίς μετατροπή).';
+
+  @override
+  String get imgFmtPngLabel => 'Εικόνα PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Μορφή PNG χωρίς απώλειες με υποστήριξη διαφάνειας.';
+
+  @override
+  String get imgFmtJpgLabel => 'Εικόνα JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Τυπική συμπιεσμένη μορφή JPEG για καθολική συμβατότητα.';
+
+  @override
+  String get imgFmtWebpLabel => 'Εικόνα WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Σύγχρονη μορφή WebP που προσφέρει εξαιρετική συμπίεση και μικρό μέγεθος.';
+
+  @override
+  String get imgFmtAvifLabel => 'Εικόνα AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Μορφή AVIF επόμενης γενιάς με εξαιρετικά υψηλή απόδοση συμπίεσης.';
+
+  @override
+  String get imgResOriginalLabel => 'Αρχικές Διαστάσεις';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Διατηρήστε τις αρχικές διαστάσεις πλάτους και ύψους της εικόνας.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Μειώστε τη μέγιστη διάσταση εικόνας σε 3840 pixel (μέγ. 4K).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Max (1920 pixel)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Μειώστε τη μέγιστη διάσταση εικόνας στα 1920 pixel (μέγ. Full HD).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Μειώστε τη μέγιστη διάσταση εικόνας σε 1280 px (HD max).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Μειώστε τη μέγιστη διάσταση εικόνας σε 854 px (μέγ. SD).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Διατηρεί την αρχική εικόνα EXIF ​​& μεταδεδομένα κάμερας.';
+
+  @override
+  String get cleanNoiseLabel => 'Καθαρός θόρυβος';
+
+  @override
+  String get outputLargerTooltip =>
+      'Η έξοδος θα είναι μεγαλύτερη από την αρχική!\nΣταματήστε και δοκιμάστε την Επαναφορά στις προεπιλογές.';
+
+  @override
+  String get estimatedSizePrefix => 'Εκτίμηση:';
+
+  @override
+  String get cancelBtnTooltip => 'Ματαίωση';
+
+  @override
+  String get removeBtnTooltip => 'Αφαιρώ';
+
+  @override
+  String get selectLanguageTitle => 'Επιλέξτε Γλώσσα';
+
+  @override
+  String get searchLanguageHint => 'Αναζήτηση γλώσσας με όνομα ή κωδικό...';
+
+  @override
+  String get noLanguagesMatchSearch =>
+      'Καμία γλώσσα δεν αντιστοιχεί στην αναζήτησή σας.';
+
+  @override
+  String get languageTooltip => 'Γλώσσα';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Συμπίεση Shrinkeo Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Έξοδος μεγαλύτερη από την αρχική';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count γλώσσες';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Συμπιέστηκαν με επιτυχία $success βίντεο.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return '($failed απέτυχε)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return 'Το $fileName αναμένεται να είναι μεγαλύτερο από το αρχικό μέγεθος αρχείου. Εξετάστε το ενδεχόμενο να ακυρώσετε και να επαναφέρετε τις ρυθμίσεις στις προεπιλογές.';
+  }
 }

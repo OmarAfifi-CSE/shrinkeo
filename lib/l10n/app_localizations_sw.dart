@@ -951,4 +951,132 @@ class AppLocalizationsSw extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Udhibiti kamili: Hariri, badilisha ukubwa, zungusha NA bana saizi ya faili pamoja';
+
+  @override
+  String get imgFmtOriginalLabel => 'Umbizo Asilia';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Weka umbizo asili (Haraka zaidi, hakuna ubadilishaji).';
+
+  @override
+  String get imgFmtPngLabel => 'Picha ya PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Fomati ya PNG isiyo na hasara yenye usaidizi wa uwazi.';
+
+  @override
+  String get imgFmtJpgLabel => 'Picha ya JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Umbizo la kawaida la JPEG lililobanwa kwa uoanifu wa ulimwengu wote.';
+
+  @override
+  String get imgFmtWebpLabel => 'Picha ya WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Umbizo la kisasa la WebP linalotoa mbano bora na saizi ndogo.';
+
+  @override
+  String get imgFmtAvifLabel => 'Picha ya AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Umbizo la kizazi kijacho cha AVIF chenye ufanisi wa hali ya juu wa kubana.';
+
+  @override
+  String get imgResOriginalLabel => 'Vipimo vya Asili';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Weka upana wa picha asili na vipimo vya urefu.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Punguza ukubwa wa juu wa picha hadi 3840px (4K max).';
+
+  @override
+  String get imgRes1080pLabel => 'Upeo wa HD Kamili (1920px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Punguza ukubwa wa juu wa picha hadi 1920px (Upeo wa HD Kamili).';
+
+  @override
+  String get imgRes720pLabel => 'Upeo wa HD (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Punguza ukubwa wa juu wa picha hadi 1280px (HD max).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Punguza ukubwa wa juu wa picha hadi 854px (SD max).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Huhifadhi picha halisi ya EXIF ​​na metadata ya kamera.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

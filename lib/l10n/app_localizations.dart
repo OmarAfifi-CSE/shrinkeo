@@ -2005,6 +2005,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Full control: Edit, resize, rotate AND compress file size together'**
   String get intentCompressAndEditTooltip;
+
+  /// No description provided for @imgFmtOriginalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Format'**
+  String get imgFmtOriginalLabel;
+
+  /// No description provided for @imgFmtOriginalDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep original format (Fastest, no conversion).'**
+  String get imgFmtOriginalDesc;
+
+  /// No description provided for @imgFmtPngLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PNG Image (.png)'**
+  String get imgFmtPngLabel;
+
+  /// No description provided for @imgFmtPngDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Lossless PNG format with transparency support.'**
+  String get imgFmtPngDesc;
+
+  /// No description provided for @imgFmtJpgLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'JPEG Image (.jpg)'**
+  String get imgFmtJpgLabel;
+
+  /// No description provided for @imgFmtJpgDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard compressed JPEG format for universal compatibility.'**
+  String get imgFmtJpgDesc;
+
+  /// No description provided for @imgFmtWebpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'WebP Image (.webp)'**
+  String get imgFmtWebpLabel;
+
+  /// No description provided for @imgFmtWebpDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Modern WebP format offering superior compression and small size.'**
+  String get imgFmtWebpDesc;
+
+  /// No description provided for @imgFmtAvifLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'AVIF Image (.avif)'**
+  String get imgFmtAvifLabel;
+
+  /// No description provided for @imgFmtAvifDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Next-gen AVIF format with ultra-high compression efficiency.'**
+  String get imgFmtAvifDesc;
+
+  /// No description provided for @imgResOriginalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Dimensions'**
+  String get imgResOriginalLabel;
+
+  /// No description provided for @imgResOriginalDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep original image width and height dimensions.'**
+  String get imgResOriginalDesc;
+
+  /// No description provided for @imgRes4kLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'4K Max (3840px)'**
+  String get imgRes4kLabel;
+
+  /// No description provided for @imgRes4kDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Scale down image max dimension to 3840px (4K max).'**
+  String get imgRes4kDesc;
+
+  /// No description provided for @imgRes1080pLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Full HD Max (1920px)'**
+  String get imgRes1080pLabel;
+
+  /// No description provided for @imgRes1080pDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Scale down image max dimension to 1920px (Full HD max).'**
+  String get imgRes1080pDesc;
+
+  /// No description provided for @imgRes720pLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'HD Max (1280px)'**
+  String get imgRes720pLabel;
+
+  /// No description provided for @imgRes720pDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Scale down image max dimension to 1280px (HD max).'**
+  String get imgRes720pDesc;
+
+  /// No description provided for @imgRes480pLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SD Max (854px)'**
+  String get imgRes480pLabel;
+
+  /// No description provided for @imgRes480pDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Scale down image max dimension to 854px (SD max).'**
+  String get imgRes480pDesc;
+
+  /// No description provided for @keepMetadataImageInfoDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Preserves original image EXIF & camera metadata.'**
+  String get keepMetadataImageInfoDesc;
+
+  /// No description provided for @cleanNoiseLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clean Noise'**
+  String get cleanNoiseLabel;
+
+  /// No description provided for @outputLargerTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Output will be larger than original!\nStop and try Reset to Defaults.'**
+  String get outputLargerTooltip;
+
+  /// No description provided for @estimatedSizePrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Est:'**
+  String get estimatedSizePrefix;
+
+  /// No description provided for @cancelBtnTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancelBtnTooltip;
+
+  /// No description provided for @removeBtnTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeBtnTooltip;
+
+  /// No description provided for @selectLanguageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Language'**
+  String get selectLanguageTitle;
+
+  /// No description provided for @searchLanguageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search language by name or code...'**
+  String get searchLanguageHint;
+
+  /// No description provided for @noLanguagesMatchSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No languages match your search.'**
+  String get noLanguagesMatchSearch;
+
+  /// No description provided for @languageTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageTooltip;
+
+  /// No description provided for @notifyCompressionCompleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shrinkeo Compression Complete'**
+  String get notifyCompressionCompleteTitle;
+
+  /// No description provided for @notifyOutputLargerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Output Larger Than Original'**
+  String get notifyOutputLargerTitle;
+
+  /// No description provided for @languagesCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Languages'**
+  String languagesCountLabel(String count);
+
+  /// No description provided for @notifyCompressionCompleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully compressed {success} videos.'**
+  String notifyCompressionCompleteSuccess(String success);
+
+  /// No description provided for @notifyCompressionCompleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **' ({failed} failed)'**
+  String notifyCompressionCompleteFailed(String failed);
+
+  /// No description provided for @notifyOutputLargerDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.'**
+  String notifyOutputLargerDesc(String fileName);
 }
 
 class _AppLocalizationsDelegate

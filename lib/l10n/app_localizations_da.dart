@@ -952,4 +952,132 @@ class AppLocalizationsDa extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Fuld kontrol: Rediger, tilpas størrelse, roter OG komprimer filstørrelse sammen';
+
+  @override
+  String get imgFmtOriginalLabel => 'Originalt format';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Behold originalt format (hurtigste, ingen konvertering).';
+
+  @override
+  String get imgFmtPngLabel => 'PNG-billede (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Tabsfrit PNG-format med understøttelse af gennemsigtighed.';
+
+  @override
+  String get imgFmtJpgLabel => 'JPEG-billede (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Standard komprimeret JPEG-format for universel kompatibilitet.';
+
+  @override
+  String get imgFmtWebpLabel => 'WebP-billede (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Moderne WebP-format, der tilbyder overlegen komprimering og lille størrelse.';
+
+  @override
+  String get imgFmtAvifLabel => 'AVIF-billede (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Næste generations AVIF-format med ultrahøj komprimeringseffektivitet.';
+
+  @override
+  String get imgResOriginalLabel => 'Originale dimensioner';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Behold originale billedbredde og højdedimensioner.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Nedskaler billedets maksimale dimension til 3840px (maks. 4K).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Max (1920px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Nedskaler billedets maksimale dimension til 1920 px (maks. fuld HD).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Nedskaler billedets maksimale dimension til 1280px (HD max).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Nedskaler billedets maksimale dimension til 854px (SD max).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Bevarer det originale billede EXIF ​​og kamerametadata.';
+
+  @override
+  String get cleanNoiseLabel => 'Ren støj';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output vil være større end originalt!\nStop og prøv Nulstil til standarder.';
+
+  @override
+  String get estimatedSizePrefix => 'Anslået:';
+
+  @override
+  String get cancelBtnTooltip => 'Ophæve';
+
+  @override
+  String get removeBtnTooltip => 'Fjerne';
+
+  @override
+  String get selectLanguageTitle => 'Vælg sprog';
+
+  @override
+  String get searchLanguageHint => 'Søg sprog efter navn eller kode...';
+
+  @override
+  String get noLanguagesMatchSearch => 'Ingen sprog matcher din søgning.';
+
+  @override
+  String get languageTooltip => 'Sprog';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo kompression komplet';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output større end originalen';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count sprog';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return '$success videoer er komprimeret.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return '($failed mislykkedes)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName forventes at være større end den originale filstørrelse. Overvej at annullere og nulstille indstillingerne til standard.';
+  }
 }

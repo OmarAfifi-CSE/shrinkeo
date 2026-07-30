@@ -223,7 +223,7 @@ class CustomTitleBar extends StatelessWidget {
                           : theme.iconTheme.color,
                       onTap: () =>
                           context.read<CompressionCubit>().toggleLanguageSection(),
-                      tooltip: 'Language / اللغة',
+                      tooltip: AppStrings.languageTooltip,
                     );
                   },
                 ),

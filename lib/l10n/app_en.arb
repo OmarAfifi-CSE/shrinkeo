@@ -317,5 +317,69 @@
   "intentEditConvertOnly": "Edit / Convert Only",
   "intentEditConvertOnlyTooltip": "Resize, rotate, trim, or convert format without reducing visual quality",
   "intentCompressAndEdit": "Compress & Edit",
-  "intentCompressAndEditTooltip": "Full control: Edit, resize, rotate AND compress file size together"
+  "intentCompressAndEditTooltip": "Full control: Edit, resize, rotate AND compress file size together",
+  "imgFmtOriginalLabel": "Original Format",
+  "imgFmtOriginalDesc": "Keep original format (Fastest, no conversion).",
+  "imgFmtPngLabel": "PNG Image (.png)",
+  "imgFmtPngDesc": "Lossless PNG format with transparency support.",
+  "imgFmtJpgLabel": "JPEG Image (.jpg)",
+  "imgFmtJpgDesc": "Standard compressed JPEG format for universal compatibility.",
+  "imgFmtWebpLabel": "WebP Image (.webp)",
+  "imgFmtWebpDesc": "Modern WebP format offering superior compression and small size.",
+  "imgFmtAvifLabel": "AVIF Image (.avif)",
+  "imgFmtAvifDesc": "Next-gen AVIF format with ultra-high compression efficiency.",
+  "imgResOriginalLabel": "Original Dimensions",
+  "imgResOriginalDesc": "Keep original image width and height dimensions.",
+  "imgRes4kLabel": "4K Max (3840px)",
+  "imgRes4kDesc": "Scale down image max dimension to 3840px (4K max).",
+  "imgRes1080pLabel": "Full HD Max (1920px)",
+  "imgRes1080pDesc": "Scale down image max dimension to 1920px (Full HD max).",
+  "imgRes720pLabel": "HD Max (1280px)",
+  "imgRes720pDesc": "Scale down image max dimension to 1280px (HD max).",
+  "imgRes480pLabel": "SD Max (854px)",
+  "imgRes480pDesc": "Scale down image max dimension to 854px (SD max).",
+  "keepMetadataImageInfoDesc": "Preserves original image EXIF & camera metadata.",
+  "cleanNoiseLabel": "Clean Noise",
+  "outputLargerTooltip": "Output will be larger than original!\nStop and try Reset to Defaults.",
+  "estimatedSizePrefix": "Est:",
+  "cancelBtnTooltip": "Cancel",
+  "removeBtnTooltip": "Remove",
+  "selectLanguageTitle": "Select Language",
+  "searchLanguageHint": "Search language by name or code...",
+  "noLanguagesMatchSearch": "No languages match your search.",
+  "languageTooltip": "Language",
+  "notifyCompressionCompleteTitle": "Shrinkeo Compression Complete",
+  "notifyOutputLargerTitle": "Output Larger Than Original",
+  "languagesCountLabel": "{count} Languages",
+  "@languagesCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyCompressionCompleteSuccess": "Successfully compressed {success} videos.",
+  "@notifyCompressionCompleteSuccess": {
+    "placeholders": {
+      "success": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyCompressionCompleteFailed": " ({failed} failed)",
+  "@notifyCompressionCompleteFailed": {
+    "placeholders": {
+      "failed": {
+        "type": "String"
+      }
+    }
+  },
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "@notifyOutputLargerDesc": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      }
+    }
+  }
 }

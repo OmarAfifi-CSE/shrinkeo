@@ -959,4 +959,133 @@ class AppLocalizationsCa extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Control total: editeu, canvieu la mida, gireu I comprimiu la mida del fitxer junts';
+
+  @override
+  String get imgFmtOriginalLabel => 'Format original';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Manteniu el format original (més ràpid, sense conversió).';
+
+  @override
+  String get imgFmtPngLabel => 'Imatge PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Format PNG sense pèrdues amb suport de transparència.';
+
+  @override
+  String get imgFmtJpgLabel => 'Imatge JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Format JPEG comprimit estàndard per a una compatibilitat universal.';
+
+  @override
+  String get imgFmtWebpLabel => 'Imatge WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Format WebP modern que ofereix compressió superior i mida petita.';
+
+  @override
+  String get imgFmtAvifLabel => 'Imatge AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Format AVIF de nova generació amb una eficiència de compressió ultra alta.';
+
+  @override
+  String get imgResOriginalLabel => 'Dimensions originals';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Mantingueu les dimensions de l\'amplada i l\'alçada de la imatge original.';
+
+  @override
+  String get imgRes4kLabel => '4K màxim (3840 píxels)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Redueix la dimensió màxima de la imatge a 3840 píxels (4K màx).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD màxim (1920 píxels)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Redueix la dimensió màxima de la imatge a 1920 píxels (màx. Full HD).';
+
+  @override
+  String get imgRes720pLabel => 'HD màxim (1280 píxels)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Redueix la dimensió màxima de la imatge a 1280 píxels (HD màx.).';
+
+  @override
+  String get imgRes480pLabel => 'SD màxim (854 píxels)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Redueix la dimensió màxima de la imatge a 854 píxels (SD màx.).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Conserva la imatge original EXIF ​​i les metadades de la càmera.';
+
+  @override
+  String get cleanNoiseLabel => 'Soroll net';
+
+  @override
+  String get outputLargerTooltip =>
+      'La sortida serà més gran que l\'original!\nAtureu-vos i proveu de restablir els valors predeterminats.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel·la';
+
+  @override
+  String get removeBtnTooltip => 'Eliminar';
+
+  @override
+  String get selectLanguageTitle => 'Seleccioneu Idioma';
+
+  @override
+  String get searchLanguageHint => 'Cerca l\'idioma per nom o codi...';
+
+  @override
+  String get noLanguagesMatchSearch =>
+      'No hi ha cap idioma que coincideixi amb la vostra cerca.';
+
+  @override
+  String get languageTooltip => 'Llengua';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Compressió Shrinkeo completa';
+
+  @override
+  String get notifyOutputLargerTitle => 'Sortida més gran que l\'original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count idiomes';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'S\'han comprimit correctament $success vídeos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return '($failed fallat)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return 'S\'espera que $fileName sigui més gran que la mida del fitxer original. Considereu la possibilitat de cancel·lar i restablir la configuració per defecte.';
+  }
 }

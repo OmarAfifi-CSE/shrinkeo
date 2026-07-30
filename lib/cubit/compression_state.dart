@@ -439,21 +439,21 @@ enum ImageOutputFormat {
 
   String get label {
     switch (this) {
-      case ImageOutputFormat.original: return 'Original Format';
-      case ImageOutputFormat.png: return 'PNG Image (.png)';
-      case ImageOutputFormat.jpg: return 'JPEG Image (.jpg)';
-      case ImageOutputFormat.webp: return 'WebP Image (.webp)';
-      case ImageOutputFormat.avif: return 'AVIF Image (.avif)';
+      case ImageOutputFormat.original: return AppStrings.imgFmtOriginalLabel;
+      case ImageOutputFormat.png: return AppStrings.imgFmtPngLabel;
+      case ImageOutputFormat.jpg: return AppStrings.imgFmtJpgLabel;
+      case ImageOutputFormat.webp: return AppStrings.imgFmtWebpLabel;
+      case ImageOutputFormat.avif: return AppStrings.imgFmtAvifLabel;
     }
   }
 
   String get description {
     switch (this) {
-      case ImageOutputFormat.original: return 'Keep original format (Fastest, no conversion).';
-      case ImageOutputFormat.png: return 'Lossless PNG format with transparency support.';
-      case ImageOutputFormat.jpg: return 'Standard compressed JPEG format for universal compatibility.';
-      case ImageOutputFormat.webp: return 'Modern WebP format offering superior compression and small size.';
-      case ImageOutputFormat.avif: return 'Next-gen AVIF format with ultra-high compression efficiency.';
+      case ImageOutputFormat.original: return AppStrings.imgFmtOriginalDesc;
+      case ImageOutputFormat.png: return AppStrings.imgFmtPngDesc;
+      case ImageOutputFormat.jpg: return AppStrings.imgFmtJpgDesc;
+      case ImageOutputFormat.webp: return AppStrings.imgFmtWebpDesc;
+      case ImageOutputFormat.avif: return AppStrings.imgFmtAvifDesc;
     }
   }
 }
@@ -471,21 +471,21 @@ enum ImageResizeMode {
 
   String get label {
     switch (this) {
-      case ImageResizeMode.original: return 'Original Dimensions';
-      case ImageResizeMode.p4k: return '4K Max (3840px)';
-      case ImageResizeMode.p1080: return 'Full HD Max (1920px)';
-      case ImageResizeMode.p720: return 'HD Max (1280px)';
-      case ImageResizeMode.p480: return 'SD Max (854px)';
+      case ImageResizeMode.original: return AppStrings.imgResOriginalLabel;
+      case ImageResizeMode.p4k: return AppStrings.imgRes4kLabel;
+      case ImageResizeMode.p1080: return AppStrings.imgRes1080pLabel;
+      case ImageResizeMode.p720: return AppStrings.imgRes720pLabel;
+      case ImageResizeMode.p480: return AppStrings.imgRes480pLabel;
     }
   }
 
   String get description {
     switch (this) {
-      case ImageResizeMode.original: return 'Keep original image width and height dimensions.';
-      case ImageResizeMode.p4k: return 'Scale down image max dimension to 3840px (4K max).';
-      case ImageResizeMode.p1080: return 'Scale down image max dimension to 1920px (Full HD max).';
-      case ImageResizeMode.p720: return 'Scale down image max dimension to 1280px (HD max).';
-      case ImageResizeMode.p480: return 'Scale down image max dimension to 854px (SD max).';
+      case ImageResizeMode.original: return AppStrings.imgResOriginalDesc;
+      case ImageResizeMode.p4k: return AppStrings.imgRes4kDesc;
+      case ImageResizeMode.p1080: return AppStrings.imgRes1080pDesc;
+      case ImageResizeMode.p720: return AppStrings.imgRes720pDesc;
+      case ImageResizeMode.p480: return AppStrings.imgRes480pDesc;
     }
   }
 }

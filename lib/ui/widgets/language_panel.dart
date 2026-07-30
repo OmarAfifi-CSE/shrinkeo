@@ -2,6 +2,7 @@ import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/app_strings.dart';
 import '../../core/language_helper.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
@@ -99,7 +100,7 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Select Language / اختر اللغة',
+                  AppStrings.selectLanguageTitle,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                     letterSpacing: -0.3,
@@ -119,7 +120,7 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                     ),
                   ),
                   child: Text(
-                    '${LanguageHelper.supportedCodes.length} Languages',
+                    AppStrings.languagesCountLabel(LanguageHelper.supportedCodes.length),
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
@@ -133,7 +134,7 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                   onPressed: () {
                     context.read<CompressionCubit>().toggleLanguageSection();
                   },
-                  tooltip: 'Close / إغلاق',
+                  tooltip: AppStrings.closeTooltip,
                   splashRadius: 18,
                 ),
               ],
@@ -165,8 +166,7 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                 style: const TextStyle(fontSize: 13),
                 decoration: InputDecoration(
                   isDense: true,
-                  hintText:
-                      'Search language by name or code... / ابحث عن لغة...',
+                  hintText: AppStrings.searchLanguageHint,
                   hintStyle: TextStyle(
                     fontSize: 12,
                     color: theme.textTheme.bodySmall?.color?.withValues(
@@ -204,7 +204,7 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                       padding: const EdgeInsets.all(24),
                       child: Center(
                         child: Text(
-                          'No languages match your search.',
+                          AppStrings.noLanguagesMatchSearch,
                           style: TextStyle(
                             fontSize: 13,
                             color: theme.textTheme.bodySmall?.color?.withValues(

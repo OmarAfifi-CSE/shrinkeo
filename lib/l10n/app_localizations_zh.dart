@@ -936,4 +936,122 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get intentCompressAndEditTooltip => '完全控制：编辑、调整大小、旋转和压缩文件大小';
+
+  @override
+  String get imgFmtOriginalLabel => '原始格式';
+
+  @override
+  String get imgFmtOriginalDesc => '保持原始格式（最快，无需转换）。';
+
+  @override
+  String get imgFmtPngLabel => 'PNG 图像 (.png)';
+
+  @override
+  String get imgFmtPngDesc => '具有透明度支持的无损 PNG 格式。';
+
+  @override
+  String get imgFmtJpgLabel => 'JPEG 图像 (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc => '标准压缩 JPEG 格式，具有通用兼容性。';
+
+  @override
+  String get imgFmtWebpLabel => 'WebP 图像 (.webp)';
+
+  @override
+  String get imgFmtWebpDesc => '现代 WebP 格式提供卓越的压缩和小尺寸。';
+
+  @override
+  String get imgFmtAvifLabel => 'AVIF 图像 (.avif)';
+
+  @override
+  String get imgFmtAvifDesc => '具有超高压缩效率的下一代 AVIF 格式。';
+
+  @override
+  String get imgResOriginalLabel => '原始尺寸';
+
+  @override
+  String get imgResOriginalDesc => '保留原始图像的宽度和高度尺寸。';
+
+  @override
+  String get imgRes4kLabel => '4K 最大 (3840 像素)';
+
+  @override
+  String get imgRes4kDesc => '将图像最大尺寸缩小至 3840 像素（最大 4K）。';
+
+  @override
+  String get imgRes1080pLabel => '全高清最大 (1920 像素)';
+
+  @override
+  String get imgRes1080pDesc => '将图像最大尺寸缩小至 1920 像素（全高清最大）。';
+
+  @override
+  String get imgRes720pLabel => '最大高清 (1280 像素)';
+
+  @override
+  String get imgRes720pDesc => '将图像最大尺寸缩小至 1280 像素（最大高清）。';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854px)';
+
+  @override
+  String get imgRes480pDesc => '将图像最大尺寸缩小至 854 像素（SD 最大）。';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Preserves original image EXIF & camera metadata.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

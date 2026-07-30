@@ -958,4 +958,132 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Contrôle total : modifiez, redimensionnez, faites pivoter ET compressez la taille du fichier ensemble';
+
+  @override
+  String get imgFmtOriginalLabel => 'Format original';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Conserver le format original (le plus rapide, pas de conversion).';
+
+  @override
+  String get imgFmtPngLabel => 'Image PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Format PNG sans perte avec prise en charge de la transparence.';
+
+  @override
+  String get imgFmtJpgLabel => 'Image JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Format JPEG compressé standard pour une compatibilité universelle.';
+
+  @override
+  String get imgFmtWebpLabel => 'Image WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Format WebP moderne offrant une compression supérieure et une petite taille.';
+
+  @override
+  String get imgFmtAvifLabel => 'Image AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Format AVIF de nouvelle génération avec une efficacité de compression ultra élevée.';
+
+  @override
+  String get imgResOriginalLabel => 'Dimensions d\'origine';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Conservez les dimensions originales de largeur et de hauteur de l’image.';
+
+  @override
+  String get imgRes4kLabel => '4K maximum (3 840 px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Réduisez la dimension maximale de l’image à 3 840 px (4 K max).';
+
+  @override
+  String get imgRes1080pLabel => 'Pleine HD maximale (1920 px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Réduisez la dimension maximale de l’image à 1 920 px (Full HD max).';
+
+  @override
+  String get imgRes720pLabel => 'HD maximale (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Réduisez la dimension maximale de l’image à 1 280 px (HD max).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854 px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Réduisez la dimension maximale de l’image à 854 px (SD max).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Préserve les métadonnées EXIF ​​et de l\'appareil photo de l\'image originale.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

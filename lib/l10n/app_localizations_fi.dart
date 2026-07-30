@@ -955,4 +955,131 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Täysi hallinta: Muokkaa, muuta kokoa, kierrä JA pakkaa tiedostokokoa yhdessä';
+
+  @override
+  String get imgFmtOriginalLabel => 'Alkuperäinen muoto';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Säilytä alkuperäinen muoto (nopein, ei muuntamista).';
+
+  @override
+  String get imgFmtPngLabel => 'PNG-kuva (.png)';
+
+  @override
+  String get imgFmtPngDesc => 'Häviötön PNG-muoto läpinäkyvyystuella.';
+
+  @override
+  String get imgFmtJpgLabel => 'JPEG-kuva (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Normaali pakattu JPEG-muoto yleiseen yhteensopivuuteen.';
+
+  @override
+  String get imgFmtWebpLabel => 'WebP-kuva (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Moderni WebP-muoto, joka tarjoaa erinomaisen pakkauksen ja pienen koon.';
+
+  @override
+  String get imgFmtAvifLabel => 'AVIF-kuva (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Seuraavan sukupolven AVIF-muoto erittäin korkealla pakkausteholla.';
+
+  @override
+  String get imgResOriginalLabel => 'Alkuperäiset mitat';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Säilytä alkuperäisen kuvan leveys ja korkeus.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Pienennä kuvan enimmäismitta 3840 pikseliin (enintään 4K).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Max (1920px)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Pienennä kuvan enimmäismitta 1920 pikseliin (Full HD max).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Pienennä kuvan enimmäismitta 1280 pikseliin (HD max).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Pienennä kuvan enimmäismitta 854 pikseliin (SD max).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Säilyttää alkuperäisen kuvan EXIF- ja kameran metatiedot.';
+
+  @override
+  String get cleanNoiseLabel => 'Puhdas melu';
+
+  @override
+  String get outputLargerTooltip =>
+      'Tulos on suurempi kuin alkuperäinen!\nPysäytä ja yritä Palauta oletukset.';
+
+  @override
+  String get estimatedSizePrefix => 'Arvioitu:';
+
+  @override
+  String get cancelBtnTooltip => 'Peruuttaa';
+
+  @override
+  String get removeBtnTooltip => 'Poistaa';
+
+  @override
+  String get selectLanguageTitle => 'Valitse Kieli';
+
+  @override
+  String get searchLanguageHint => 'Hae kieltä nimellä tai koodilla...';
+
+  @override
+  String get noLanguagesMatchSearch => 'Mikään kieli ei vastaa hakuasi.';
+
+  @override
+  String get languageTooltip => 'Kieli';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Tulostus suurempi kuin alkuperäinen';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count kieltä';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return '$success videota pakattiin onnistuneesti.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return '($failed epäonnistui)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName:n odotetaan olevan suurempi kuin alkuperäinen tiedostokoko. Harkitse asetusten peruuttamista ja palauttamista oletusasetuksiin.';
+  }
 }

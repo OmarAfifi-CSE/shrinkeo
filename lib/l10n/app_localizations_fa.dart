@@ -945,4 +945,129 @@ class AppLocalizationsFa extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'کنترل کامل: ویرایش، تغییر اندازه، چرخش و فشرده سازی اندازه فایل با هم';
+
+  @override
+  String get imgFmtOriginalLabel => 'فرمت اصلی';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'فرمت اصلی را حفظ کنید (سریعترین، بدون تبدیل).';
+
+  @override
+  String get imgFmtPngLabel => 'تصویر PNG (png.)';
+
+  @override
+  String get imgFmtPngDesc => 'فرمت PNG بدون اتلاف با پشتیبانی از شفافیت.';
+
+  @override
+  String get imgFmtJpgLabel => 'تصویر JPEG (jpg.)';
+
+  @override
+  String get imgFmtJpgDesc => 'فرمت استاندارد JPEG فشرده برای سازگاری جهانی.';
+
+  @override
+  String get imgFmtWebpLabel => 'تصویر WebP (webp.)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'قالب مدرن WebP با فشرده سازی عالی و اندازه کوچک.';
+
+  @override
+  String get imgFmtAvifLabel => 'تصویر AVIF (avif.)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'فرمت AVIF نسل بعدی با راندمان فشرده سازی فوق العاده بالا.';
+
+  @override
+  String get imgResOriginalLabel => 'ابعاد اصلی';
+
+  @override
+  String get imgResOriginalDesc => 'ابعاد عرض و ارتفاع تصویر اصلی را حفظ کنید.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840px)';
+
+  @override
+  String get imgRes4kDesc =>
+      'حداکثر ابعاد تصویر را به 3840 پیکسل (حداکثر 4K) کاهش دهید.';
+
+  @override
+  String get imgRes1080pLabel => 'حداکثر فول اچ دی (1920 پیکسل)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'حداکثر ابعاد تصویر را به 1920 پیکسل کاهش دهید (حداکثر فول اچ دی).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'حداکثر ابعاد تصویر را به 1280 پیکسل (حداکثر HD) کاهش دهید.';
+
+  @override
+  String get imgRes480pLabel => 'حداکثر SD (854 پیکسل)';
+
+  @override
+  String get imgRes480pDesc =>
+      'حداکثر ابعاد تصویر را به 854 پیکسل (حداکثر SD) کاهش دهید.';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'EXIF تصویر اصلی و ابرداده دوربین را حفظ می کند.';
+
+  @override
+  String get cleanNoiseLabel => 'نویز تمیز';
+
+  @override
+  String get outputLargerTooltip =>
+      'خروجی بزرگتر از اصلی خواهد بود!\nتوقف کنید و Reset to Defaults را امتحان کنید.';
+
+  @override
+  String get estimatedSizePrefix => 'برآورد:';
+
+  @override
+  String get cancelBtnTooltip => 'لغو کنید';
+
+  @override
+  String get removeBtnTooltip => 'حذف کنید';
+
+  @override
+  String get selectLanguageTitle => 'زبان را انتخاب کنید';
+
+  @override
+  String get searchLanguageHint => 'جستجوی زبان بر اساس نام یا کد...';
+
+  @override
+  String get noLanguagesMatchSearch => 'هیچ زبانی با جستجوی شما مطابقت ندارد.';
+
+  @override
+  String get languageTooltip => 'زبان';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'فشرده سازی Shrinkeo Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'خروجی بزرگتر از اصلی';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count زبان';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return '$success ویدیو با موفقیت فشرده شد.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return '($failed ناموفق)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return 'انتظار می رود $fileName بزرگتر از اندازه فایل اصلی باشد. لغو و بازنشانی تنظیمات به حالت پیش فرض را در نظر بگیرید.';
+  }
 }

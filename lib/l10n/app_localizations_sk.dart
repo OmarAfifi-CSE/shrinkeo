@@ -958,4 +958,132 @@ class AppLocalizationsSk extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Úplná kontrola: Spoločne upravujte, zmeňte veľkosť, otáčajte A komprimujte veľkosť súboru';
+
+  @override
+  String get imgFmtOriginalLabel => 'Pôvodný formát';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Ponechajte pôvodný formát (najrýchlejší, bez konverzie).';
+
+  @override
+  String get imgFmtPngLabel => 'Obrázok PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Bezstratový formát PNG s podporou priehľadnosti.';
+
+  @override
+  String get imgFmtJpgLabel => 'Obrázok JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Štandardný komprimovaný formát JPEG pre univerzálnu kompatibilitu.';
+
+  @override
+  String get imgFmtWebpLabel => 'Obrázok WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Moderný formát WebP ponúka vynikajúcu kompresiu a malú veľkosť.';
+
+  @override
+  String get imgFmtAvifLabel => 'Obrázok AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Formát AVIF novej generácie s mimoriadne vysokou účinnosťou kompresie.';
+
+  @override
+  String get imgResOriginalLabel => 'Pôvodné rozmery';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Ponechajte pôvodné rozmery šírky a výšky obrázka.';
+
+  @override
+  String get imgRes4kLabel => '4K Max (3840 pixelov)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Zmenšiť maximálny rozmer obrázka na 3 840 pixelov (max. 4 kB).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Max (1920 pixelov)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Zmenšiť maximálny rozmer obrázka na 1920 pixelov (maximálne Full HD).';
+
+  @override
+  String get imgRes720pLabel => 'HD Max (1280px)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Zmenšiť maximálny rozmer obrázka na 1280 pixelov (max. HD).';
+
+  @override
+  String get imgRes480pLabel => 'SD Max (854px)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Zmenšiť maximálny rozmer obrázka na 854 pixelov (max. SD).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Zachováva pôvodný EXIF ​​obrázka a metadáta fotoaparátu.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }

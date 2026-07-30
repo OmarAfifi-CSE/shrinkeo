@@ -952,4 +952,132 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get intentCompressAndEditTooltip =>
       'Kontrol penuh: Edit, ubah ukuran, putar DAN kompres ukuran file secara bersamaan';
+
+  @override
+  String get imgFmtOriginalLabel => 'Format Asli';
+
+  @override
+  String get imgFmtOriginalDesc =>
+      'Pertahankan format asli (Tercepat, tanpa konversi).';
+
+  @override
+  String get imgFmtPngLabel => 'Gambar PNG (.png)';
+
+  @override
+  String get imgFmtPngDesc =>
+      'Format PNG lossless dengan dukungan transparansi.';
+
+  @override
+  String get imgFmtJpgLabel => 'Gambar JPEG (.jpg)';
+
+  @override
+  String get imgFmtJpgDesc =>
+      'Format JPEG terkompresi standar untuk kompatibilitas universal.';
+
+  @override
+  String get imgFmtWebpLabel => 'Gambar WebP (.webp)';
+
+  @override
+  String get imgFmtWebpDesc =>
+      'Format WebP modern menawarkan kompresi superior dan ukuran kecil.';
+
+  @override
+  String get imgFmtAvifLabel => 'Gambar AVIF (.avif)';
+
+  @override
+  String get imgFmtAvifDesc =>
+      'Format AVIF generasi berikutnya dengan efisiensi kompresi sangat tinggi.';
+
+  @override
+  String get imgResOriginalLabel => 'Dimensi Asli';
+
+  @override
+  String get imgResOriginalDesc =>
+      'Pertahankan dimensi lebar dan tinggi gambar asli.';
+
+  @override
+  String get imgRes4kLabel => '4K Maks (3840 piksel)';
+
+  @override
+  String get imgRes4kDesc =>
+      'Turunkan dimensi maksimal gambar menjadi 3840 piksel (maks 4K).';
+
+  @override
+  String get imgRes1080pLabel => 'Full HD Maks (1920 piksel)';
+
+  @override
+  String get imgRes1080pDesc =>
+      'Turunkan dimensi maksimal gambar menjadi 1920 piksel (maks Full HD).';
+
+  @override
+  String get imgRes720pLabel => 'HD Maks (1280 piksel)';
+
+  @override
+  String get imgRes720pDesc =>
+      'Turunkan dimensi maksimal gambar menjadi 1280 piksel (HD maks).';
+
+  @override
+  String get imgRes480pLabel => 'SD Maks (854 piksel)';
+
+  @override
+  String get imgRes480pDesc =>
+      'Turunkan dimensi maksimal gambar menjadi 854 piksel (SD maks).';
+
+  @override
+  String get keepMetadataImageInfoDesc =>
+      'Mempertahankan EXIF ​​gambar asli & metadata kamera.';
+
+  @override
+  String get cleanNoiseLabel => 'Clean Noise';
+
+  @override
+  String get outputLargerTooltip =>
+      'Output will be larger than original!\nStop and try Reset to Defaults.';
+
+  @override
+  String get estimatedSizePrefix => 'Est:';
+
+  @override
+  String get cancelBtnTooltip => 'Cancel';
+
+  @override
+  String get removeBtnTooltip => 'Remove';
+
+  @override
+  String get selectLanguageTitle => 'Select Language';
+
+  @override
+  String get searchLanguageHint => 'Search language by name or code...';
+
+  @override
+  String get noLanguagesMatchSearch => 'No languages match your search.';
+
+  @override
+  String get languageTooltip => 'Language';
+
+  @override
+  String get notifyCompressionCompleteTitle => 'Shrinkeo Compression Complete';
+
+  @override
+  String get notifyOutputLargerTitle => 'Output Larger Than Original';
+
+  @override
+  String languagesCountLabel(String count) {
+    return '$count Languages';
+  }
+
+  @override
+  String notifyCompressionCompleteSuccess(String success) {
+    return 'Successfully compressed $success videos.';
+  }
+
+  @override
+  String notifyCompressionCompleteFailed(String failed) {
+    return ' ($failed failed)';
+  }
+
+  @override
+  String notifyOutputLargerDesc(String fileName) {
+    return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  }
 }
