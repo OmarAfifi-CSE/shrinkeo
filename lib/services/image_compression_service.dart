@@ -76,10 +76,6 @@ class ImageCompressionService {
           inputPath,
           '-vf',
           'scale=$w:$h:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2',
-          '-colorspace',
-          'bt709',
-          '-color_trc',
-          'srgb',
           tempResizedPath,
         ];
         await Process.run(ffmpegPath, resizeArgs);
@@ -129,17 +125,13 @@ class ImageCompressionService {
             '-vf',
             'scale=${maxWidth ?? -1}:${maxHeight ?? -1}:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2'
           ],
-          '-colorspace',
-          'bt709',
-          '-color_trc',
-          'srgb',
           '-pix_fmt',
-          'rgb24', // Force 24-bit full RGB color without YUV matrix shifts or limited range truncation
+          'bgr24', // Full 24-bit RGB pixel format for BMP extraction
           tempBmpPath,
         ];
-        await Process.run(ffmpegPath, bmpArgs);
+        final bmpRes = await Process.run(ffmpegPath, bmpArgs);
 
-        if (File(tempBmpPath).existsSync()) {
+        if (bmpRes.exitCode == 0 && File(tempBmpPath).existsSync()) {
           final mozArgs = [
             '-quality',
             '$quality',
@@ -207,8 +199,6 @@ class ImageCompressionService {
         'scale=$w:$h:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2'
       ]);
     }
-
-    args.addAll(['-colorspace', 'bt709', '-color_trc', 'srgb']);
 
     switch (outFormat) {
       case '.webp':
