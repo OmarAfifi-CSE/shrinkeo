@@ -678,7 +678,7 @@ class AppLocalizationsMs extends AppLocalizations {
   String get addFolderBtn => 'Tambah Folder';
 
   @override
-  String get dragDropMoreMsg => 'Atau seret & lepas lebih banyak video di sini';
+  String get dragDropMoreMsg => 'Atau seret & lepas fail lain di mana sahaja';
 
   @override
   String get openOutputFolderTooltip => 'Buka Folder Output';
@@ -742,13 +742,20 @@ class AppLocalizationsMs extends AppLocalizations {
   String get videosPlural => 'video';
 
   @override
-  String get releaseToAddVideosMsg => 'Lepaskan untuk menambah video';
+  String get fileSingle => 'fail';
 
   @override
-  String get dragDropHereMsg => 'Seret & lepas fail atau folder di sini';
+  String get filesPlural => 'fail';
 
   @override
-  String get supportedFormatsMsg => 'Menyokong MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Lepaskan untuk menambah fail';
+
+  @override
+  String get dragDropHereMsg => 'Seret & lepas video atau imej di sini';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Menyokong MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF dan banyak lagi';
 
   @override
   String get selectFilesBtn => 'Pilih Fail';
@@ -935,27 +942,6 @@ class AppLocalizationsMs extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Jalur GPS & Maklumat Kamera';
 
   @override
-  String get intentCompressOnly => 'Mampat Sahaja';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Fokus semata-mata pada mengurangkan saiz fail (% Kualiti atau Sasaran KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Edit / Tukar Sahaja';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Ubah saiz, putar, pangkas atau tukar format tanpa mengurangkan kualiti visual';
-
-  @override
-  String get intentCompressAndEdit => 'Mampat & Edit';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Kawalan penuh: Edit, ubah saiz, putar DAN mampatkan saiz fail bersama-sama';
-
-  @override
   String get imgFmtOriginalLabel => 'Format Asal';
 
   @override
@@ -1029,6 +1015,44 @@ class AppLocalizationsMs extends AppLocalizations {
       'Mengekalkan imej asal EXIF ​​​​& metadata kamera.';
 
   @override
+  String get imageQualityModeLabel => 'Tahap Kualiti';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Mengekod pada tahap kualiti tetap — kualiti lebih tinggi bermakna fail lebih besar.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Saiz Sasaran';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Mencari secara automatik kualiti tertinggi yang muat dalam had saiz.';
+
+  @override
+  String get imageQualitySliderTitle => 'Kualiti Imej';
+
+  @override
+  String get imageTargetSizeTitle => 'Saiz Fail Sasaran';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Mengekod berulang kali dengan kualiti menurun sehingga fail muat dalam had. Had yang sangat kecil boleh mengurangkan kualiti.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Had $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Taip saiz KB tersuai';
+
+  @override
+  String get imageProcessingFailedError => 'Pemprosesan imej gagal';
+
+  @override
+  String get imageProcessingErrorMsg => 'Ralat pemprosesan imej';
+
+  @override
   String get cleanNoiseLabel => 'Bersihkan bunyi';
 
   @override
@@ -1069,7 +1093,7 @@ class AppLocalizationsMs extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Berjaya memampatkan $success fail.';
   }
 
   @override

@@ -679,8 +679,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get addFolderBtn => 'Adaugă Dosar';
 
   @override
-  String get dragDropMoreMsg =>
-      'Sau trageți & plasați mai multe videoclipuri aici';
+  String get dragDropMoreMsg => 'Sau trageți mai multe fișiere oriunde';
 
   @override
   String get openOutputFolderTooltip => 'Deschide Dosarul de Salvare';
@@ -744,13 +743,20 @@ class AppLocalizationsRo extends AppLocalizations {
   String get videosPlural => 'video-uri';
 
   @override
-  String get releaseToAddVideosMsg => 'Eliberați pentru adăugare';
+  String get fileSingle => 'fișier';
 
   @override
-  String get dragDropHereMsg => 'Trageți & plasați fișiere sau dosare aici';
+  String get filesPlural => 'fișiere';
 
   @override
-  String get supportedFormatsMsg => 'Suportă MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Eliberați pentru a adăuga fișiere';
+
+  @override
+  String get dragDropHereMsg => 'Trageți videoclipuri sau imagini aici';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Acceptă MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF și multe altele';
 
   @override
   String get selectFilesBtn => 'Selectează Fișiere';
@@ -941,27 +947,6 @@ class AppLocalizationsRo extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Strip GPS și informații despre cameră';
 
   @override
-  String get intentCompressOnly => 'Doar compresă';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Concentrați-vă exclusiv pe reducerea dimensiunii fișierului (% calitate sau KB/MB țintă)';
-
-  @override
-  String get intentEditConvertOnly => 'Numai editați / convertiți';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Redimensionați, rotiți, tăiați sau convertiți formatul fără a reduce calitatea vizuală';
-
-  @override
-  String get intentCompressAndEdit => 'Comprimați și editați';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Control total: editați, redimensionați, rotiți ȘI comprimați dimensiunea fișierului împreună';
-
-  @override
   String get imgFmtOriginalLabel => 'Format original';
 
   @override
@@ -1036,6 +1021,45 @@ class AppLocalizationsRo extends AppLocalizations {
       'Păstrează imaginea originală EXIF ​​și metadatele camerei.';
 
   @override
+  String get imageQualityModeLabel => 'Nivel de calitate';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Codifică la un nivel de calitate fix — calitate mai mare înseamnă fișiere mai mari.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Dimensiune țintă';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Găsește automat cea mai mare calitate care încape în limita de dimensiune.';
+
+  @override
+  String get imageQualitySliderTitle => 'Calitatea imaginii';
+
+  @override
+  String get imageTargetSizeTitle => 'Dimensiunea țintă a fișierului';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Codifică repetat cu calitate descrescătoare până când fișierul încape în limită. Limite foarte mici pot reduce calitatea.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Limită $size';
+  }
+
+  @override
+  String get customKbSizeTooltip =>
+      'Introduceți o dimensiune personalizată în KB';
+
+  @override
+  String get imageProcessingFailedError => 'Procesarea imaginii a eșuat';
+
+  @override
+  String get imageProcessingErrorMsg => 'Eroare de procesare a imaginii';
+
+  @override
   String get cleanNoiseLabel => 'Curățare zgomot';
 
   @override
@@ -1076,7 +1100,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success fișiere comprimate cu succes.';
   }
 
   @override

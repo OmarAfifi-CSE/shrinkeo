@@ -674,7 +674,7 @@ class AppLocalizationsNl extends AppLocalizations {
   String get addFolderBtn => 'Map Toevoegen';
 
   @override
-  String get dragDropMoreMsg => 'Of sleep & neerzet hier meer video\'s';
+  String get dragDropMoreMsg => 'Of sleep meer bestanden overal heen';
 
   @override
   String get openOutputFolderTooltip => 'Open Output Map';
@@ -737,13 +737,20 @@ class AppLocalizationsNl extends AppLocalizations {
   String get videosPlural => 'video\'s';
 
   @override
-  String get releaseToAddVideosMsg => 'Loslaten om toe te voegen';
+  String get fileSingle => 'bestand';
 
   @override
-  String get dragDropHereMsg => 'Sleep bestanden of mappen hierheen';
+  String get filesPlural => 'bestanden';
 
   @override
-  String get supportedFormatsMsg => 'Ondersteunt MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Laat los om bestanden toe te voegen';
+
+  @override
+  String get dragDropHereMsg => 'Sleep video\'s of afbeeldingen hierheen';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Ondersteunt MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF en meer';
 
   @override
   String get selectFilesBtn => 'Selecteer Bestanden';
@@ -934,27 +941,6 @@ class AppLocalizationsNl extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'GPS- & Camera-info Verwijderen';
 
   @override
-  String get intentCompressOnly => 'Alleen comprimeren';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Focus puur op het verkleinen van de bestandsgrootte (Kwaliteit% of Doel KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Alleen bewerken/converteren';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Formaat wijzigen, roteren, bijsnijden of converteren zonder de visuele kwaliteit te verminderen';
-
-  @override
-  String get intentCompressAndEdit => 'Comprimeren en bewerken';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Volledige controle: bestandsgrootte bewerken, vergroten/verkleinen, roteren EN comprimeren';
-
-  @override
   String get imgFmtOriginalLabel => 'Origineel formaat';
 
   @override
@@ -1029,6 +1015,44 @@ class AppLocalizationsNl extends AppLocalizations {
       'Behoudt de originele EXIF-afbeelding en camera-metagegevens.';
 
   @override
+  String get imageQualityModeLabel => 'Kwaliteitsniveau';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Codeert op een vast kwaliteitsniveau — hogere kwaliteit betekent grotere bestanden.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Doelgrootte';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Vindt automatisch de hoogste kwaliteit die binnen de groottelimiet past.';
+
+  @override
+  String get imageQualitySliderTitle => 'Beeldkwaliteit';
+
+  @override
+  String get imageTargetSizeTitle => 'Doelbestandsgrootte';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Codeert herhaaldelijk met dalende kwaliteit totdat het bestand binnen de limiet past. Zeer kleine limieten kunnen kwaliteit verminderen.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Limiet $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Typ een aangepaste KB-grootte';
+
+  @override
+  String get imageProcessingFailedError => 'Beeldverwerking mislukt';
+
+  @override
+  String get imageProcessingErrorMsg => 'Fout bij beeldverwerking';
+
+  @override
   String get cleanNoiseLabel => 'Ruis verwijderen';
 
   @override
@@ -1069,7 +1093,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success bestanden succesvol gecomprimeerd.';
   }
 
   @override

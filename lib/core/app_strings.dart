@@ -335,6 +335,8 @@ class AppStrings {
   static String get totalSavedLabel => _l10n?.totalSavedLabel ?? 'Total Saved';
   static String get videoSingle => _l10n?.videoSingle ?? 'video';
   static String get videosPlural => _l10n?.videosPlural ?? 'videos';
+  static String get fileSingle => _l10n?.fileSingle ?? 'file';
+  static String get filesPlural => _l10n?.filesPlural ?? 'files';
 
   // ===========================================================================
   // 9. DROP ZONE & FULLSCREEN OVERLAY
@@ -417,12 +419,21 @@ class AppStrings {
   static String get exifCameraPrivacyTitle => _l10n?.exifCameraPrivacyTitle ?? 'EXIF / Camera Privacy';
   static String get keepMetadataLabel => _l10n?.keepMetadataLabel ?? 'Keep Metadata';
   static String get stripGpsCameraInfoLabel => _l10n?.stripGpsCameraInfoLabel ?? 'Strip GPS & Camera Info';
-  static String get intentCompressOnly => _l10n?.intentCompressOnly ?? 'Compress Only';
-  static String get intentCompressOnlyTooltip => _l10n?.intentCompressOnlyTooltip ?? 'Focus purely on reducing file size (Quality % or Target KB/MB)';
-  static String get intentEditConvertOnly => _l10n?.intentEditConvertOnly ?? 'Edit / Convert Only';
-  static String get intentEditConvertOnlyTooltip => _l10n?.intentEditConvertOnlyTooltip ?? 'Resize, rotate, trim, or convert format without reducing visual quality';
-  static String get intentCompressAndEdit => _l10n?.intentCompressAndEdit ?? 'Compress & Edit';
-  static String get intentCompressAndEditTooltip => _l10n?.intentCompressAndEditTooltip ?? 'Full control: Edit, resize, rotate AND compress file size together';
+
+  // Image Compression Modes
+  static String get imageQualityModeLabel => _l10n?.imageQualityModeLabel ?? 'Quality Level';
+  static String get imageQualityModeDesc => _l10n?.imageQualityModeDesc ?? 'Encodes at a fixed quality level — higher quality means larger files.';
+  static String get imageTargetSizeModeLabel => _l10n?.imageTargetSizeModeLabel ?? 'Target Size';
+  static String get imageTargetSizeModeDesc => _l10n?.imageTargetSizeModeDesc ?? 'Automatically finds the highest quality that fits under the size limit.';
+  static String get imageQualitySliderTitle => _l10n?.imageQualitySliderTitle ?? 'Image Quality';
+  static String get imageTargetSizeTitle => _l10n?.imageTargetSizeTitle ?? 'Target File Size';
+  static String get imageTargetSizeDesc => _l10n?.imageTargetSizeDesc ?? 'Encodes repeatedly at decreasing quality until the file fits under the limit. Very small limits may reduce quality.';
+  static String imageTargetSizeLimitLabel(String size) => _l10n?.imageTargetSizeLimitLabel(size) ?? '$size Limit';
+  static String get customKbSizeTooltip => _l10n?.customKbSizeTooltip ?? 'Type custom KB size';
+
+  // Image Processing Errors
+  static String get imageProcessingFailedError => _l10n?.imageProcessingFailedError ?? 'Image processing failed';
+  static String get imageProcessingErrorMsg => _l10n?.imageProcessingErrorMsg ?? 'Image processing error';
 
   // Image Format Labels & Descriptions
   static String get imgFmtOriginalLabel => _l10n?.imgFmtOriginalLabel ?? 'Original Format';

@@ -671,7 +671,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get addFolderBtn => 'افزودن پوشه';
 
   @override
-  String get dragDropMoreMsg => 'یا ویدیوها را به اینجا بکشید و رها کنید';
+  String get dragDropMoreMsg => 'یا فایل‌های بیشتری را هرجا بکشید و رها کنید';
 
   @override
   String get openOutputFolderTooltip => 'باز کردن پوشه خروجی';
@@ -734,13 +734,20 @@ class AppLocalizationsFa extends AppLocalizations {
   String get videosPlural => 'ویدیو';
 
   @override
-  String get releaseToAddVideosMsg => 'برای رهاسازی بکشید';
+  String get fileSingle => 'فایل';
 
   @override
-  String get dragDropHereMsg => 'فایل یا پوشه را اینجا رها کنید';
+  String get filesPlural => 'فایل';
 
   @override
-  String get supportedFormatsMsg => 'پشتیبانی از MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'برای افزودن فایل‌ها رها کنید';
+
+  @override
+  String get dragDropHereMsg => 'ویدیوها یا تصاویر را اینجا رها کنید';
+
+  @override
+  String get supportedFormatsMsg =>
+      'پشتیبانی از MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF و بیشتر';
 
   @override
   String get selectFilesBtn => 'انتخاب فایل';
@@ -926,27 +933,6 @@ class AppLocalizationsFa extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'حذف اطلاعات موقعیت و دوربین';
 
   @override
-  String get intentCompressOnly => 'فقط فشرده سازی';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'تمرکز صرفاً بر روی کاهش اندازه فایل (% کیفیت یا KB/MB هدف)';
-
-  @override
-  String get intentEditConvertOnly => 'فقط ویرایش / تبدیل';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'تغییر اندازه، چرخش، برش، یا تبدیل فرمت بدون کاهش کیفیت بصری';
-
-  @override
-  String get intentCompressAndEdit => 'فشرده سازی و ویرایش';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'کنترل کامل: ویرایش، تغییر اندازه، چرخش و فشرده سازی اندازه فایل با هم';
-
-  @override
   String get imgFmtOriginalLabel => 'فرمت اصلی';
 
   @override
@@ -1018,6 +1004,44 @@ class AppLocalizationsFa extends AppLocalizations {
       'EXIF تصویر اصلی و ابرداده دوربین را حفظ می کند.';
 
   @override
+  String get imageQualityModeLabel => 'سطح کیفیت';
+
+  @override
+  String get imageQualityModeDesc =>
+      'با سطح کیفیت ثابت کدگذاری می‌کند — کیفیت بالاتر یعنی فایل‌های بزرگ‌تر.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'حجم هدف';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'به‌طور خودکار بالاترین کیفیتی را پیدا می‌کند که در محدوده حجم جا شود.';
+
+  @override
+  String get imageQualitySliderTitle => 'کیفیت تصویر';
+
+  @override
+  String get imageTargetSizeTitle => 'حجم هدف فایل';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'با کیفیت کاهشی مکرر کدگذاری می‌کند تا فایل در محدوده جا شود. محدوده‌های خیلی کوچک ممکن است کیفیت را کاهش دهند.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'حد $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'حجم دلخواه به کیلوبایت بنویسید';
+
+  @override
+  String get imageProcessingFailedError => 'پردازش تصویر ناموفق بود';
+
+  @override
+  String get imageProcessingErrorMsg => 'خطا در پردازش تصویر';
+
+  @override
   String get cleanNoiseLabel => 'پاکسازی نویز';
 
   @override
@@ -1058,7 +1082,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return '$success ویدیو با موفقیت فشرده شد.';
+    return '$success فایل با موفقیت فشرده شد.';
   }
 
   @override

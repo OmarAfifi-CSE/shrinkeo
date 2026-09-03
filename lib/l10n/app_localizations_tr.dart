@@ -674,7 +674,8 @@ class AppLocalizationsTr extends AppLocalizations {
   String get addFolderBtn => 'Klasör Ekle';
 
   @override
-  String get dragDropMoreMsg => 'Veya videoları buraya sürükleyip bırakın';
+  String get dragDropMoreMsg =>
+      'Ya da başka dosyaları istediğiniz yere sürükleyip bırakın';
 
   @override
   String get openOutputFolderTooltip => 'Çıktı Klasörünü Aç';
@@ -738,13 +739,21 @@ class AppLocalizationsTr extends AppLocalizations {
   String get videosPlural => 'video';
 
   @override
-  String get releaseToAddVideosMsg => 'Videoları eklemek için bırakın';
+  String get fileSingle => 'dosya';
 
   @override
-  String get dragDropHereMsg => 'Dosya veya klasörleri buraya sürükleyin';
+  String get filesPlural => 'dosya';
 
   @override
-  String get supportedFormatsMsg => 'MP4, MKV, MOV, AVI, WMV destekler';
+  String get releaseToAddVideosMsg => 'Dosya eklemek için bırakın';
+
+  @override
+  String get dragDropHereMsg =>
+      'Videoları veya resimleri buraya sürükleyip bırakın';
+
+  @override
+  String get supportedFormatsMsg =>
+      'MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF ve daha fazlasını destekler';
 
   @override
   String get selectFilesBtn => 'Dosya Seç';
@@ -932,27 +941,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'GPS ve Kamera Bilgilerini Sil';
 
   @override
-  String get intentCompressOnly => 'Yalnızca Sıkıştır';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Tamamen dosya boyutunu küçültmeye odaklanın (Kalite %\'si veya Hedef KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Yalnızca Düzenle / Dönüştür';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Görsel kaliteyi düşürmeden formatı yeniden boyutlandırın, döndürün, kırpın veya dönüştürün';
-
-  @override
-  String get intentCompressAndEdit => 'Sıkıştır ve Düzenle';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Tam kontrol: Dosya boyutunu birlikte düzenleyin, yeniden boyutlandırın, döndürün VE sıkıştırın';
-
-  @override
   String get imgFmtOriginalLabel => 'Orijinal Format';
 
   @override
@@ -1026,6 +1014,44 @@ class AppLocalizationsTr extends AppLocalizations {
       'Orijinal fotoğrafın EXIF ve kamera meta verilerini korur.';
 
   @override
+  String get imageQualityModeLabel => 'Kalite Düzeyi';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Sabit kalite düzeyinde kodlar — daha yüksek kalite daha büyük dosyalar anlamına gelir.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Hedef Boyut';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Boyut sınırına sığan en yüksek kaliteyi otomatik bulur.';
+
+  @override
+  String get imageQualitySliderTitle => 'Görüntü Kalitesi';
+
+  @override
+  String get imageTargetSizeTitle => 'Hedef Dosya Boyutu';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Dosya sınırına sığana kadar azalan kaliteyle tekrar tekrar kodlar. Çok küçük sınırlar kaliteyi düşürebilir.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Sınır $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Özel KB boyutu yazın';
+
+  @override
+  String get imageProcessingFailedError => 'Görüntü işleme başarısız oldu';
+
+  @override
+  String get imageProcessingErrorMsg => 'Görüntü işleme hatası';
+
+  @override
   String get cleanNoiseLabel => 'Gürültü Azaltma';
 
   @override
@@ -1067,7 +1093,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return '$success video başarıyla sıkıştırıldı.';
+    return '$success dosya başarıyla sıkıştırıldı.';
   }
 
   @override

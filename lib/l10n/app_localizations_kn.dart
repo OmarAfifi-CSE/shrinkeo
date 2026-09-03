@@ -678,7 +678,7 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String get dragDropMoreMsg =>
-      'ಅಥವಾ ಇನ್ನಷ್ಟು ವೀಡಿಯೊಗಳನ್ನು ಇಲ್ಲಿ ಡ್ರಾಗ್ ಮತ್ತು ಡ್ರಾಪ್ ಮಾಡಿ';
+      'ಅಥವಾ ಹೆಚ್ಚಿನ ಫೈಲ್‌ಗಳನ್ನು ಎಲ್ಲಿಯಾದರೂ ಎಳೆದು ಬಿಡಿ';
 
   @override
   String get openOutputFolderTooltip => 'ಔಟ್‌ಪುಟ್ ಫೋಲ್ಡರ್ ತೆರೆಯಿರಿ';
@@ -741,14 +741,20 @@ class AppLocalizationsKn extends AppLocalizations {
   String get videosPlural => 'ವೀಡಿಯೊಗಳು';
 
   @override
-  String get releaseToAddVideosMsg => 'ವೀಡಿಯೊಗಳನ್ನು ಸೇರಿಸಲು ಬಿಡಿ';
+  String get fileSingle => 'ಫೈಲ್';
 
   @override
-  String get dragDropHereMsg =>
-      'ಫೈಲ್‌ಗಳು ಅಥವಾ ಫೋಲ್ಡರ್‌ಗಳನ್ನು ಇಲ್ಲಿ ಡ್ರಾಗ್ ಮಾಡಿ ಬಿಡಿ';
+  String get filesPlural => 'ಫೈಲ್‌ಗಳು';
 
   @override
-  String get supportedFormatsMsg => 'MP4, MKV, MOV, AVI, WMV ಬೆಂಬಲಿತವಾಗಿದೆ';
+  String get releaseToAddVideosMsg => 'ಫೈಲ್‌ಗಳನ್ನು ಸೇರಿಸಲು ಬಿಡಿ';
+
+  @override
+  String get dragDropHereMsg => 'ವೀಡಿಯೊ ಅಥವಾ ಚಿತ್ರಗಳನ್ನು ಇಲ್ಲಿ ಎಳೆದು ಬಿಡಿ';
+
+  @override
+  String get supportedFormatsMsg =>
+      'MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF ಮತ್ತು ಇನ್ನಷ್ಟು ಬೆಂಬಲಿತ';
 
   @override
   String get selectFilesBtn => 'ಫೈಲ್‌ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ';
@@ -937,27 +943,6 @@ class AppLocalizationsKn extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'ಸ್ಟ್ರಿಪ್ GPS ಮತ್ತು ಕ್ಯಾಮರಾ ಮಾಹಿತಿ';
 
   @override
-  String get intentCompressOnly => 'ಸಂಕುಚಿತಗೊಳಿಸು ಮಾತ್ರ';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'ಫೈಲ್ ಗಾತ್ರವನ್ನು (ಗುಣಮಟ್ಟ % ಅಥವಾ ಟಾರ್ಗೆಟ್ KB/MB) ಕಡಿಮೆ ಮಾಡುವುದರ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿ';
-
-  @override
-  String get intentEditConvertOnly => 'ಸಂಪಾದಿಸಿ / ಪರಿವರ್ತಿಸಿ ಮಾತ್ರ';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'ದೃಶ್ಯ ಗುಣಮಟ್ಟವನ್ನು ಕಡಿಮೆ ಮಾಡದೆಯೇ ಸ್ವರೂಪವನ್ನು ಮರುಗಾತ್ರಗೊಳಿಸಿ, ತಿರುಗಿಸಿ, ಟ್ರಿಮ್ ಮಾಡಿ ಅಥವಾ ಪರಿವರ್ತಿಸಿ';
-
-  @override
-  String get intentCompressAndEdit => 'ಕುಗ್ಗಿಸಿ ಮತ್ತು ಸಂಪಾದಿಸಿ';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'ಪೂರ್ಣ ನಿಯಂತ್ರಣ: ಫೈಲ್ ಗಾತ್ರವನ್ನು ಸಂಪಾದಿಸಿ, ಮರುಗಾತ್ರಗೊಳಿಸಿ, ತಿರುಗಿಸಿ ಮತ್ತು ಸಂಕುಚಿತಗೊಳಿಸಿ';
-
-  @override
   String get imgFmtOriginalLabel => 'ಮೂಲ ಸ್ವರೂಪ';
 
   @override
@@ -1031,6 +1016,44 @@ class AppLocalizationsKn extends AppLocalizations {
       'ಮೂಲ ಚಿತ್ರ EXIF ​​ಮತ್ತು ಕ್ಯಾಮರಾ ಮೆಟಾಡೇಟಾವನ್ನು ಸಂರಕ್ಷಿಸುತ್ತದೆ.';
 
   @override
+  String get imageQualityModeLabel => 'ಗುಣಮಟ್ಟದ ಮಟ್ಟ';
+
+  @override
+  String get imageQualityModeDesc =>
+      'ನಿಗದಿತ ಗುಣಮಟ್ಟದ ಮಟ್ಟದಲ್ಲಿ ಎನ್‌ಕೋಡ್ ಮಾಡುತ್ತದೆ — ಹೆಚ್ಚಿನ ಗುಣಮಟ್ಟ ಎಂದರೆ ದೊಡ್ಡ ಫೈಲ್‌ಗಳು.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'ಗುರಿ ಗಾತ್ರ';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'ಗಾತ್ರದ ಮಿತಿಯೊಳಗೆ ಹೊಂದಿಕೆಯಾಗುವ ಅತಿ ಹೆಚ್ಚಿನ ಗುಣಮಟ್ಟವನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಹುಡುಕುತ್ತದೆ.';
+
+  @override
+  String get imageQualitySliderTitle => 'ಚಿತ್ರದ ಗುಣಮಟ್ಟ';
+
+  @override
+  String get imageTargetSizeTitle => 'ಗುರಿ ಫೈಲ್ ಗಾತ್ರ';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'ಫೈಲ್ ಮಿತಿಯೊಳಗೆ ಸೇರುವವರೆಗೆ ಕಡಿಮೆಯಾಗುತ್ತಿರುವ ಗುಣಮಟ್ಟದೊಂದಿಗೆ ಪುನರಾವರ್ತಿತವಾಗಿ ಎನ್‌ಕೋಡ್ ಮಾಡುತ್ತದೆ. ತುಂಬಾ ಚಿಕ್ಕ ಮಿತಿಯು ಗುಣಮಟ್ಟವನ್ನು ಕಡಿಮೆ ಮಾಡಬಹುದು.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return '$size ಮಿತಿ';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'ಕಸ್ಟಮ್ KB ಗಾತ್ರ ಟೈಪ್ ಮಾಡಿ';
+
+  @override
+  String get imageProcessingFailedError => 'ಚಿತ್ರ ಪ್ರಕ್ರಿಯೆ ವಿಫಲವಾಗಿದೆ';
+
+  @override
+  String get imageProcessingErrorMsg => 'ಚಿತ್ರ ಪ್ರಕ್ರಿಯೆ ದೋಷ';
+
+  @override
   String get cleanNoiseLabel => 'ಶಬ್ದ ಶಮನಗೊಳಿಸಿ';
 
   @override
@@ -1071,7 +1094,7 @@ class AppLocalizationsKn extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success ಫೈಲ್‌ಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಂಕುಚಿಸಲಾಗಿದೆ.';
   }
 
   @override

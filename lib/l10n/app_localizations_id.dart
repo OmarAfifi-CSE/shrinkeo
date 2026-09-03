@@ -678,7 +678,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get addFolderBtn => 'Tambah Folder';
 
   @override
-  String get dragDropMoreMsg => 'Atau seret & lepas lebih banyak video di sini';
+  String get dragDropMoreMsg => 'Atau seret & lepas file lain di mana saja';
 
   @override
   String get openOutputFolderTooltip => 'Buka Folder Output';
@@ -741,13 +741,20 @@ class AppLocalizationsId extends AppLocalizations {
   String get videosPlural => 'video';
 
   @override
-  String get releaseToAddVideosMsg => 'Lepaskan untuk menambah video';
+  String get fileSingle => 'file';
 
   @override
-  String get dragDropHereMsg => 'Seret & lepas berkas atau folder di sini';
+  String get filesPlural => 'file';
 
   @override
-  String get supportedFormatsMsg => 'Mendukung MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Lepaskan untuk menambah file';
+
+  @override
+  String get dragDropHereMsg => 'Seret & lepas video atau gambar di sini';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Mendukung MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF dan lainnya';
 
   @override
   String get selectFilesBtn => 'Pilih Berkas';
@@ -933,27 +940,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Hapus Info GPS & Kamera';
 
   @override
-  String get intentCompressOnly => 'Kompres Saja';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Fokus murni pada pengurangan ukuran file (% Kualitas atau Target KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Edit / Konversi Saja';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Ubah ukuran, putar, potong, atau ubah format tanpa mengurangi kualitas visual';
-
-  @override
-  String get intentCompressAndEdit => 'Kompres & Edit';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Kontrol penuh: Edit, ubah ukuran, putar DAN kompres ukuran file secara bersamaan';
-
-  @override
   String get imgFmtOriginalLabel => 'Format Asli';
 
   @override
@@ -1028,6 +1014,44 @@ class AppLocalizationsId extends AppLocalizations {
       'Mempertahankan EXIF ​​gambar asli & metadata kamera.';
 
   @override
+  String get imageQualityModeLabel => 'Tingkat Kualitas';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Mengenkode pada tingkat kualitas tetap — kualitas lebih tinggi berarti file lebih besar.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Ukuran Sasaran';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Secara otomatis menemukan kualitas tertinggi yang muat dalam batas ukuran.';
+
+  @override
+  String get imageQualitySliderTitle => 'Kualitas Gambar';
+
+  @override
+  String get imageTargetSizeTitle => 'Ukuran File Sasaran';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Mengenkode berulang kali dengan kualitas menurun hingga file muat dalam batas. Batas yang sangat kecil dapat mengurangi kualitas.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Batas $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Ketik ukuran KB khusus';
+
+  @override
+  String get imageProcessingFailedError => 'Pemrosesan gambar gagal';
+
+  @override
+  String get imageProcessingErrorMsg => 'Kesalahan pemrosesan gambar';
+
+  @override
   String get cleanNoiseLabel => 'Bersihkan kebisingan';
 
   @override
@@ -1068,7 +1092,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Berhasil mengompres $success file.';
   }
 
   @override

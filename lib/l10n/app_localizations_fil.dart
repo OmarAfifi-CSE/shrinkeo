@@ -680,7 +680,8 @@ class AppLocalizationsFil extends AppLocalizations {
   String get addFolderBtn => 'Magdagdag ng Folder';
 
   @override
-  String get dragDropMoreMsg => 'O i-drag at i-drop ang iba pang video rito';
+  String get dragDropMoreMsg =>
+      'O i-drag at i-drop ang iba pang mga file kahit saan';
 
   @override
   String get openOutputFolderTooltip => 'Buksan ang Output Folder';
@@ -744,13 +745,20 @@ class AppLocalizationsFil extends AppLocalizations {
   String get videosPlural => 'mga video';
 
   @override
-  String get releaseToAddVideosMsg => 'Bitawan para idagdag ang mga video';
+  String get fileSingle => 'file';
 
   @override
-  String get dragDropHereMsg => 'I-drag at i-drop ang mga file o folder rito';
+  String get filesPlural => 'mga file';
 
   @override
-  String get supportedFormatsMsg => 'Sumusuporta sa MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'I-bitawan para magdagdag ng mga file';
+
+  @override
+  String get dragDropHereMsg => 'I-drag at i-drop ang mga video o imahe dito';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Sumusuporta sa MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF at iba pa';
 
   @override
   String get selectFilesBtn => 'Pumili ng mga File';
@@ -942,27 +950,6 @@ class AppLocalizationsFil extends AppLocalizations {
       'I-strip ang GPS at Impormasyon ng Camera';
 
   @override
-  String get intentCompressOnly => 'Compress Lang';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Purong tumutok sa pagpapaliit ng laki ng file (% ng Kalidad o Target na KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'I-edit / I-convert Lang';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Baguhin ang laki, i-rotate, gupitin, o i-convert ang format nang hindi binabawasan ang visual na kalidad';
-
-  @override
-  String get intentCompressAndEdit => 'I-compress at I-edit';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Buong kontrol: I-edit, palitan ang laki, i-rotate AT i-compress ang laki ng file nang magkasama';
-
-  @override
   String get imgFmtOriginalLabel => 'Orihinal na Format';
 
   @override
@@ -1037,6 +1024,44 @@ class AppLocalizationsFil extends AppLocalizations {
       'Pinapanatili ang orihinal na larawang EXIF ​​at metadata ng camera.';
 
   @override
+  String get imageQualityModeLabel => 'Antas ng Kalidad';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Nag-e-encode sa fixed na antas ng kalidad — mas mataas na kalidad, mas malalaking file.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Target na Laki';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Awtomatikong hinahanap ang pinakamataas na kalidad na kasya sa limitasyon ng laki.';
+
+  @override
+  String get imageQualitySliderTitle => 'Kalidad ng Imahe';
+
+  @override
+  String get imageTargetSizeTitle => 'Target na Laki ng File';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Paulit-ulit na nag-e-encode na pababang kalidad hanggang pumasa ang file sa limit. Napakaliit na limit ay maaaring magpababa ng kalidad.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Limitasyon $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Mag-type ng custom na laki sa KB';
+
+  @override
+  String get imageProcessingFailedError => 'Nabigo ang pagproseso ng imahe';
+
+  @override
+  String get imageProcessingErrorMsg => 'Error sa pagproseso ng imahe';
+
+  @override
   String get cleanNoiseLabel => 'Linisin ang ingay';
 
   @override
@@ -1081,7 +1106,7 @@ class AppLocalizationsFil extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Matagumpay na na-compress ang $success video.';
+    return 'Matagumpay na na-compress ang $success na file.';
   }
 
   @override

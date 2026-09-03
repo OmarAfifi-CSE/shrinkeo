@@ -673,7 +673,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get addFolderBtn => 'Thêm Thư mục';
 
   @override
-  String get dragDropMoreMsg => 'Hoặc kéo & thả thêm video vào đây';
+  String get dragDropMoreMsg => 'Hoặc kéo và thả thêm tệp ở bất kỳ đâu';
 
   @override
   String get openOutputFolderTooltip => 'Mở Thư mục Đầu ra';
@@ -736,13 +736,20 @@ class AppLocalizationsVi extends AppLocalizations {
   String get videosPlural => 'video';
 
   @override
-  String get releaseToAddVideosMsg => 'Thả để thêm video';
+  String get fileSingle => 'tệp';
 
   @override
-  String get dragDropHereMsg => 'Kéo & thả tệp hoặc thư mục vào đây';
+  String get filesPlural => 'tệp';
 
   @override
-  String get supportedFormatsMsg => 'Hỗ trợ MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Thả để thêm tệp';
+
+  @override
+  String get dragDropHereMsg => 'Kéo và thả video hoặc hình ảnh vào đây';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Hỗ trợ MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF và nhiều hơn';
 
   @override
   String get selectFilesBtn => 'Chọn Tệp';
@@ -930,27 +937,6 @@ class AppLocalizationsVi extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Tách thông tin GPS và camera';
 
   @override
-  String get intentCompressOnly => 'Chỉ nén';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Tập trung hoàn toàn vào việc giảm kích thước tệp (% Chất lượng hoặc KB/MB mục tiêu)';
-
-  @override
-  String get intentEditConvertOnly => 'Chỉ chỉnh sửa/chuyển đổi';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Thay đổi kích thước, xoay, cắt hoặc chuyển đổi định dạng mà không làm giảm chất lượng hình ảnh';
-
-  @override
-  String get intentCompressAndEdit => 'Nén & Chỉnh sửa';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Kiểm soát hoàn toàn: Chỉnh sửa, thay đổi kích thước, xoay VÀ nén kích thước tệp cùng nhau';
-
-  @override
   String get imgFmtOriginalLabel => 'Định dạng gốc';
 
   @override
@@ -1024,6 +1010,44 @@ class AppLocalizationsVi extends AppLocalizations {
       'Bảo tồn siêu dữ liệu máy ảnh và EXIF ​​​​hình ảnh gốc.';
 
   @override
+  String get imageQualityModeLabel => 'Mức chất lượng';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Mã hóa ở mức chất lượng cố định — chất lượng cao hơn nghĩa là tệp lớn hơn.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Kích thước mục tiêu';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Tự động tìm chất lượng cao nhất vừa trong giới hạn kích thước.';
+
+  @override
+  String get imageQualitySliderTitle => 'Chất lượng ảnh';
+
+  @override
+  String get imageTargetSizeTitle => 'Kích thước tệp mục tiêu';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Mã hóa lặp lại với chất lượng giảm dần cho đến khi tệp vừa trong giới hạn. Giới hạn rất nhỏ có thể giảm chất lượng.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Giới hạn $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Nhập kích thước KB tùy chỉnh';
+
+  @override
+  String get imageProcessingFailedError => 'Xử lý ảnh thất bại';
+
+  @override
+  String get imageProcessingErrorMsg => 'Lỗi xử lý ảnh';
+
+  @override
   String get cleanNoiseLabel => 'Làm sạch tiếng ồn';
 
   @override
@@ -1064,7 +1088,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Đã nén thành công $success tệp.';
   }
 
   @override

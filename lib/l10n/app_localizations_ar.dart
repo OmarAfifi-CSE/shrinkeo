@@ -700,7 +700,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get dragDropMoreMsg =>
-      'أو قم بسحب وإسقاط المزيد من الفيديوهات في أي مكان';
+      'أو قم بسحب وإسقاط المزيد من الملفات في أي مكان';
 
   @override
   String get openOutputFolderTooltip => 'فتح مجلد الحفظ';
@@ -764,13 +764,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get videosPlural => 'فيديوهات';
 
   @override
-  String get releaseToAddVideosMsg => 'اترك لإضافة الفيديوهات';
+  String get fileSingle => 'ملف';
 
   @override
-  String get dragDropHereMsg => 'اسحب وأسقط ملفات الفيديوهات أو المجلدات هنا';
+  String get filesPlural => 'ملفات';
 
   @override
-  String get supportedFormatsMsg => 'يدعم بسلاسة صيغ ‎MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'أفلت لإضافة الملفات';
+
+  @override
+  String get dragDropHereMsg => 'قم بسحب وإسقاط الفيديوهات أو الصور هنا';
+
+  @override
+  String get supportedFormatsMsg =>
+      'يدعم MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF والمزيد';
 
   @override
   String get selectFilesBtn => 'اختر الملفات';
@@ -963,27 +970,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'حذف بيانات الموقع والكاميرا';
 
   @override
-  String get intentCompressOnly => 'ضغط فقط';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'التركيز فقط على تقليل حجم الملف (الجودة % أو الهدف كيلوبايت/ميجابايت)';
-
-  @override
-  String get intentEditConvertOnly => 'تحرير / تحويل فقط';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'قم بتغيير حجم التنسيق أو تدويره أو قصه أو تحويله دون تقليل جودة الصورة';
-
-  @override
-  String get intentCompressAndEdit => 'ضغط وتحرير';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'التحكم الكامل: تحرير حجم الملف وتغيير حجمه وتدويره وضغطه معًا';
-
-  @override
   String get imgFmtOriginalLabel => 'التنسيق الأصلي';
 
   @override
@@ -1055,6 +1041,44 @@ class AppLocalizationsAr extends AppLocalizations {
       'الحفاظ على بيانات الكاميرا والـ EXIF الخاصة بالصورة الأصلية.';
 
   @override
+  String get imageQualityModeLabel => 'مستوى الجودة';
+
+  @override
+  String get imageQualityModeDesc =>
+      'يضغط بمستوى جودة ثابت — الجودة الأعلى تعني ملفات أكبر.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'الحجم المستهدف';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'يبحث تلقائيًا عن أعلى جودة تناسب الحجم المحدد.';
+
+  @override
+  String get imageQualitySliderTitle => 'جودة الصورة';
+
+  @override
+  String get imageTargetSizeTitle => 'الحجم المستهدف للملف';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'يكرر الضغط بجودة متناقصة حتى يصبح الملف ضمن الحد المحدد. الحدود الصغيرة جدًا قد تقلل الجودة.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'حد $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'اكتب حجمًا مخصصًا بالكيلوبايت';
+
+  @override
+  String get imageProcessingFailedError => 'فشلت معالجة الصورة';
+
+  @override
+  String get imageProcessingErrorMsg => 'خطأ في معالجة الصورة';
+
+  @override
   String get cleanNoiseLabel => 'تنظيف الضوضاء';
 
   @override
@@ -1095,7 +1119,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'تم ضغط $success مقاطع فيديو بنجاح.';
+    return 'تم ضغط $success ملف بنجاح.';
   }
 
   @override

@@ -1505,7 +1505,7 @@ abstract class AppLocalizations {
   /// No description provided for @dragDropMoreMsg.
   ///
   /// In en, this message translates to:
-  /// **'Or drag & drop more videos anywhere'**
+  /// **'Or drag & drop more files anywhere'**
   String get dragDropMoreMsg;
 
   /// No description provided for @openOutputFolderTooltip.
@@ -1628,22 +1628,34 @@ abstract class AppLocalizations {
   /// **'videos'**
   String get videosPlural;
 
+  /// No description provided for @fileSingle.
+  ///
+  /// In en, this message translates to:
+  /// **'file'**
+  String get fileSingle;
+
+  /// No description provided for @filesPlural.
+  ///
+  /// In en, this message translates to:
+  /// **'files'**
+  String get filesPlural;
+
   /// No description provided for @releaseToAddVideosMsg.
   ///
   /// In en, this message translates to:
-  /// **'Release to add videos'**
+  /// **'Release to add files'**
   String get releaseToAddVideosMsg;
 
   /// No description provided for @dragDropHereMsg.
   ///
   /// In en, this message translates to:
-  /// **'Drag & drop video files or folders here'**
+  /// **'Drag & drop videos or images here'**
   String get dragDropHereMsg;
 
   /// No description provided for @supportedFormatsMsg.
   ///
   /// In en, this message translates to:
-  /// **'Seamlessly supports MP4, MKV, MOV, AVI, WMV'**
+  /// **'MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF & more'**
   String get supportedFormatsMsg;
 
   /// No description provided for @selectFilesBtn.
@@ -1970,42 +1982,6 @@ abstract class AppLocalizations {
   /// **'Strip GPS & Camera Info'**
   String get stripGpsCameraInfoLabel;
 
-  /// No description provided for @intentCompressOnly.
-  ///
-  /// In en, this message translates to:
-  /// **'Compress Only'**
-  String get intentCompressOnly;
-
-  /// No description provided for @intentCompressOnlyTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'Focus purely on reducing file size (Quality % or Target KB/MB)'**
-  String get intentCompressOnlyTooltip;
-
-  /// No description provided for @intentEditConvertOnly.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit / Convert Only'**
-  String get intentEditConvertOnly;
-
-  /// No description provided for @intentEditConvertOnlyTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'Resize, rotate, trim, or convert format without reducing visual quality'**
-  String get intentEditConvertOnlyTooltip;
-
-  /// No description provided for @intentCompressAndEdit.
-  ///
-  /// In en, this message translates to:
-  /// **'Compress & Edit'**
-  String get intentCompressAndEdit;
-
-  /// No description provided for @intentCompressAndEditTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'Full control: Edit, resize, rotate AND compress file size together'**
-  String get intentCompressAndEditTooltip;
-
   /// No description provided for @imgFmtOriginalLabel.
   ///
   /// In en, this message translates to:
@@ -2132,6 +2108,72 @@ abstract class AppLocalizations {
   /// **'Preserves original image EXIF & camera metadata.'**
   String get keepMetadataImageInfoDesc;
 
+  /// No description provided for @imageQualityModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality Level'**
+  String get imageQualityModeLabel;
+
+  /// No description provided for @imageQualityModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Encodes at a fixed quality level — higher quality means larger files.'**
+  String get imageQualityModeDesc;
+
+  /// No description provided for @imageTargetSizeModeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Target Size'**
+  String get imageTargetSizeModeLabel;
+
+  /// No description provided for @imageTargetSizeModeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically finds the highest quality that fits under the size limit.'**
+  String get imageTargetSizeModeDesc;
+
+  /// No description provided for @imageQualitySliderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Image Quality'**
+  String get imageQualitySliderTitle;
+
+  /// No description provided for @imageTargetSizeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Target File Size'**
+  String get imageTargetSizeTitle;
+
+  /// No description provided for @imageTargetSizeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Encodes repeatedly at decreasing quality until the file fits under the limit. Very small limits may reduce quality.'**
+  String get imageTargetSizeDesc;
+
+  /// No description provided for @imageTargetSizeLimitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} Limit'**
+  String imageTargetSizeLimitLabel(String size);
+
+  /// No description provided for @customKbSizeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Type custom KB size'**
+  String get customKbSizeTooltip;
+
+  /// No description provided for @imageProcessingFailedError.
+  ///
+  /// In en, this message translates to:
+  /// **'Image processing failed'**
+  String get imageProcessingFailedError;
+
+  /// No description provided for @imageProcessingErrorMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Image processing error'**
+  String get imageProcessingErrorMsg;
+
   /// No description provided for @cleanNoiseLabel.
   ///
   /// In en, this message translates to:
@@ -2207,7 +2249,7 @@ abstract class AppLocalizations {
   /// No description provided for @notifyCompressionCompleteSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Successfully compressed {success} videos.'**
+  /// **'Successfully compressed {success} files.'**
   String notifyCompressionCompleteSuccess(String success);
 
   /// No description provided for @notifyCompressionCompleteFailed.

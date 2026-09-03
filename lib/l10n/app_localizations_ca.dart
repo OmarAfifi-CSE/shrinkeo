@@ -679,7 +679,7 @@ class AppLocalizationsCa extends AppLocalizations {
   String get addFolderBtn => 'Afegeix Carpeta';
 
   @override
-  String get dragDropMoreMsg => 'O arrossega i deixa anar més vídeos aquí';
+  String get dragDropMoreMsg => 'O arrossegueu més fitxers a qualsevol lloc';
 
   @override
   String get openOutputFolderTooltip => 'Obre Carpeta de Sortida';
@@ -743,14 +743,20 @@ class AppLocalizationsCa extends AppLocalizations {
   String get videosPlural => 'vídeos';
 
   @override
-  String get releaseToAddVideosMsg => 'Deixa anar per afegir vídeos';
+  String get fileSingle => 'fitxer';
 
   @override
-  String get dragDropHereMsg =>
-      'Arrossega i deixa anar fitxers o carpetes aquí';
+  String get filesPlural => 'fitxers';
 
   @override
-  String get supportedFormatsMsg => 'Suporta MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Deixeu anar per afegir fitxers';
+
+  @override
+  String get dragDropHereMsg => 'Arrossegueu vídeos o imatges aquí';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Admet MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF i més';
 
   @override
   String get selectFilesBtn => 'Selecciona Fitxers';
@@ -940,27 +946,6 @@ class AppLocalizationsCa extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Elimina GPS i informació de la càmera';
 
   @override
-  String get intentCompressOnly => 'Només comprimir';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Centra\'t exclusivament en reduir la mida del fitxer (% de qualitat o KB/MB objectiu)';
-
-  @override
-  String get intentEditConvertOnly => 'Només editar/convertir';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Canvia la mida, gira, retalla o converteix el format sense reduir la qualitat visual';
-
-  @override
-  String get intentCompressAndEdit => 'Comprimir i editar';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Control total: editeu, canvieu la mida, gireu I comprimiu la mida del fitxer junts';
-
-  @override
   String get imgFmtOriginalLabel => 'Format original';
 
   @override
@@ -1035,6 +1020,45 @@ class AppLocalizationsCa extends AppLocalizations {
       'Conserva la imatge original EXIF ​​i les metadades de la càmera.';
 
   @override
+  String get imageQualityModeLabel => 'Nivell de qualitat';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Codifica amb un nivell de qualitat fix — més qualitat significa fitxers més grans.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Mida objectiu';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Troba automàticament la qualitat més alta que cap dins del límit de mida.';
+
+  @override
+  String get imageQualitySliderTitle => 'Qualitat de la imatge';
+
+  @override
+  String get imageTargetSizeTitle => 'Mida objectiu del fitxer';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Codifica repetidament amb qualitat decreixent fins que el fitxer cap dins del límit. Els límits molt petits poden reduir la qualitat.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Límit $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Escriviu una mida personalitzada en KB';
+
+  @override
+  String get imageProcessingFailedError =>
+      'El processament de la imatge ha fallat';
+
+  @override
+  String get imageProcessingErrorMsg => 'Error de processament de la imatge';
+
+  @override
   String get cleanNoiseLabel => 'Netejar soroll';
 
   @override
@@ -1076,7 +1100,7 @@ class AppLocalizationsCa extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'S\'han comprimit correctament $success vídeos.';
+    return 'S\'han comprimit correctament $success fitxers.';
   }
 
   @override

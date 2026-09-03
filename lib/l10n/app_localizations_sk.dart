@@ -676,7 +676,7 @@ class AppLocalizationsSk extends AppLocalizations {
   String get addFolderBtn => 'Pridať Zložku';
 
   @override
-  String get dragDropMoreMsg => 'Alebo presuňte sem ďalšie videá';
+  String get dragDropMoreMsg => 'Alebo presuňte ďalšie súbory kdekoľvek';
 
   @override
   String get openOutputFolderTooltip => 'Otvoriť Výstupnú Zložku';
@@ -740,13 +740,20 @@ class AppLocalizationsSk extends AppLocalizations {
   String get videosPlural => 'videá';
 
   @override
-  String get releaseToAddVideosMsg => 'Pustiť pre pridanie videí';
+  String get fileSingle => 'súbor';
 
   @override
-  String get dragDropHereMsg => 'Presuňte súbory alebo zložky sem';
+  String get filesPlural => 'súborov';
 
   @override
-  String get supportedFormatsMsg => 'Podporuje MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Pusťte pre pridanie súborov';
+
+  @override
+  String get dragDropHereMsg => 'Presuňte sem videá alebo obrázky';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Podporuje MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF a ďalšie';
 
   @override
   String get selectFilesBtn => 'Vybrať Súbory';
@@ -939,27 +946,6 @@ class AppLocalizationsSk extends AppLocalizations {
       'Odstráňte informácie o GPS a fotoaparáte';
 
   @override
-  String get intentCompressOnly => 'Iba komprimovať';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Zamerajte sa čisto na zmenšenie veľkosti súboru (% kvality alebo cieľové KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Iba upraviť/previesť';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Zmeňte veľkosť, otáčajte, orezávajte alebo konvertujte formát bez zníženia vizuálnej kvality';
-
-  @override
-  String get intentCompressAndEdit => 'Komprimovať a upravovať';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Úplná kontrola: Spoločne upravujte, zmeňte veľkosť, otáčajte A komprimujte veľkosť súboru';
-
-  @override
   String get imgFmtOriginalLabel => 'Pôvodný formát';
 
   @override
@@ -1034,6 +1020,44 @@ class AppLocalizationsSk extends AppLocalizations {
       'Zachováva pôvodný EXIF ​​obrázka a metadáta fotoaparátu.';
 
   @override
+  String get imageQualityModeLabel => 'Úroveň kvality';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Kóduje na pevnej úrovni kvality — vyššia kvalita znamená väčšie súbory.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Cieľová veľkosť';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Automaticky nájde najvyššiu kvalitu, ktorá sa zmestí do limitu veľkosti.';
+
+  @override
+  String get imageQualitySliderTitle => 'Kvalita obrázka';
+
+  @override
+  String get imageTargetSizeTitle => 'Cieľová veľkosť súboru';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Opakovane kóduje s klesajúcou kvalitou, kým sa súbor nezmestí do limitu. Veľmi malé limity môžu znížiť kvalitu.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Limit $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Zadajte vlastnú veľkosť v KB';
+
+  @override
+  String get imageProcessingFailedError => 'Spracovanie obrázka zlyhalo';
+
+  @override
+  String get imageProcessingErrorMsg => 'Chyba spracovania obrázka';
+
+  @override
   String get cleanNoiseLabel => 'Vyčistiť šum';
 
   @override
@@ -1074,7 +1098,7 @@ class AppLocalizationsSk extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Úspešne komprimovaných súborov: $success.';
   }
 
   @override

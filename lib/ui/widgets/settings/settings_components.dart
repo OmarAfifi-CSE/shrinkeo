@@ -2137,22 +2137,51 @@ class _ImageTab extends StatelessWidget {
     final isLocked = state.isProcessing;
     final cubit = context.read<CompressionCubit>();
 
-    return SingleChildScrollView(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Left Column: Image Quality Preset Modes & Output Format
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppStrings.compressionModeTitle,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
+    return Row(
+      key: const ValueKey('tab_image'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Left Column: Compression Mode (Quality / Target Size) & Output Format
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppStrings.compressionModeTitle,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(height: 6),
+              ),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 6,
+                runSpacing: 6,
+                children: [
+                  Tooltip(
+                    message: AppStrings.imageQualityModeDesc,
+                    child: _OptionChip(
+                      label: AppStrings.imageQualityModeLabel,
+                      icon: Icons.auto_awesome_rounded,
+                      isSelected: !state.isImageTargetSizeMode,
+                      isLocked: isLocked,
+                      onTap: () => cubit.toggleImageTargetSizeMode(false),
+                    ),
+                  ),
+                  Tooltip(
+                    message: AppStrings.imageTargetSizeModeDesc,
+                    child: _OptionChip(
+                      label: AppStrings.imageTargetSizeModeLabel,
+                      icon: Icons.track_changes_rounded,
+                      isSelected: state.isImageTargetSizeMode,
+                      isLocked: isLocked,
+                      onTap: () => cubit.toggleImageTargetSizeMode(true),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              if (!state.isImageTargetSizeMode) ...[
+                // Quality presets + manual slider
                 Wrap(
                   spacing: 6,
                   runSpacing: 6,
@@ -2160,152 +2189,433 @@ class _ImageTab extends StatelessWidget {
                     _OptionChip(
                       label: AppStrings.smartAutoLabel,
                       icon: Icons.auto_awesome_rounded,
-                      isSelected: state.imageQuality == 75 || (state.imageQuality > 50 && state.imageQuality < 90),
+                      isSelected: state.imageQuality == 75,
                       isLocked: isLocked,
                       onTap: () => cubit.updateImageQuality(75),
                     ),
                     _OptionChip(
                       label: AppStrings.maxSavingsLabel,
                       icon: Icons.bolt_rounded,
-                      isSelected: state.imageQuality == 30 || state.imageQuality <= 40,
+                      isSelected: state.imageQuality == 30,
                       isLocked: isLocked,
                       onTap: () => cubit.updateImageQuality(30),
                     ),
                     _OptionChip(
                       label: AppStrings.ultraFidelityLabel,
                       icon: Icons.high_quality_rounded,
-                      isSelected: state.imageQuality == 95 || state.imageQuality >= 90,
+                      isSelected: state.imageQuality == 95,
                       isLocked: isLocked,
                       onTap: () => cubit.updateImageQuality(95),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
-                if (state.imageQuality <= 40)
-                  _InfoBox(
-                    label: AppStrings.maxSavingsLabel,
-                    description: AppStrings.maxSavingsDesc,
-                    icon: Icons.bolt_rounded,
-                  )
-                else if (state.imageQuality >= 90)
-                  _InfoBox(
-                    label: AppStrings.ultraFidelityLabel,
-                    description: AppStrings.ultraFidelityDesc,
-                    icon: Icons.high_quality_rounded,
-                  )
-                else
-                  _InfoBox(
-                    label: AppStrings.smartAutoLabel,
-                    description: AppStrings.smartAutoDesc,
-                    icon: Icons.auto_awesome_rounded,
-                  ),
-                const SizedBox(height: 12),
-                Text(
-                  AppStrings.targetImageFormatTitle,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: ImageOutputFormat.values.map((fmt) {
-                    return _OptionChip(
-                      label: fmt.label,
-                      icon: Icons.image_outlined,
-                      isSelected: state.imageOutputFormat == fmt,
-                      isLocked: isLocked,
-                      onTap: () => cubit.updateImageOutputFormat(fmt),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 6),
+                _ImageQualitySlider(state: state, isLocked: isLocked),
+                const SizedBox(height: 8),
                 _InfoBox(
-                  label: state.imageOutputFormat.label,
-                  description: state.imageOutputFormat.description,
-                  icon: Icons.image_outlined,
+                  label: _qualityLabel(state.imageQuality),
+                  description: _qualityDesc(state.imageQuality),
+                  icon: Icons.auto_awesome_rounded,
                 ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 14),
-
-          // Right Column: Resizing & EXIF Privacy
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppStrings.dimensionResizingTitle,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 6),
+              ] else ...[
+                // Target size presets + custom KB input
                 Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: ImageResizeMode.values.map((mode) {
-                    return _OptionChip(
-                      label: mode.label,
-                      icon: Icons.aspect_ratio_rounded,
-                      isSelected: state.imageResizeMode == mode,
-                      isLocked: isLocked,
-                      onTap: () => cubit.updateImageResizeMode(mode),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 6),
-                _InfoBox(
-                  label: state.imageResizeMode.label,
-                  description: state.imageResizeMode.description,
-                  icon: Icons.aspect_ratio_rounded,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  AppStrings.exifCameraPrivacyTitle,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
+                  spacing: 6,
+                  runSpacing: 6,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    _OptionChip(
-                      label: AppStrings.keepMetadataLabel,
-                      icon: Icons.info_outline_rounded,
-                      isSelected: !state.stripImageExif,
+                    ...[100.0, 200.0, 500.0, 1024.0, 2048.0].map((kb) {
+                      final isSelected =
+                          (state.imageTargetSizeKB - kb).abs() < 0.5;
+                      return _OptionChip(
+                        label: _formatKB(kb),
+                        isSelected: isSelected,
+                        isLocked: isLocked,
+                        onTap: () => cubit.updateImageTargetSizeKB(kb),
+                      );
+                    }),
+                    _CustomImageSizeInput(
+                      targetSizeKB: state.imageTargetSizeKB,
                       isLocked: isLocked,
-                      onTap: () => cubit.toggleStripImageExif(false),
-                    ),
-                    _OptionChip(
-                      label: AppStrings.stripGpsCameraInfoLabel,
-                      icon: Icons.security_rounded,
-                      isSelected: state.stripImageExif,
-                      isLocked: isLocked,
-                      onTap: () => cubit.toggleStripImageExif(true),
+                      onChanged: (val) => cubit.updateImageTargetSizeKB(val),
                     ),
                   ],
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 _InfoBox(
-                  label: !state.stripImageExif
-                      ? AppStrings.keepMetadataLabel
-                      : AppStrings.stripGpsCameraInfoLabel,
-                  description: !state.stripImageExif
-                      ? AppStrings.keepMetadataImageInfoDesc
-                      : AppStrings.stripGpsExifInfoDesc,
-                  icon: !state.stripImageExif
-                      ? Icons.info_outline_rounded
-                      : Icons.security_rounded,
+                  label: AppStrings.imageTargetSizeLimitLabel(
+                    _formatKB(state.imageTargetSizeKB),
+                  ),
+                  description: AppStrings.imageTargetSizeDesc,
+                  icon: Icons.track_changes_rounded,
                 ),
               ],
+              const SizedBox(height: 12),
+              Text(
+                AppStrings.targetImageFormatTitle,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: ImageOutputFormat.values.map((fmt) {
+                  return _OptionChip(
+                    label: fmt.label,
+                    icon: Icons.image_outlined,
+                    isSelected: state.imageOutputFormat == fmt,
+                    isLocked: isLocked,
+                    onTap: () => cubit.updateImageOutputFormat(fmt),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 6),
+              _InfoBox(
+                label: state.imageOutputFormat.label,
+                description: state.imageOutputFormat.description,
+                icon: Icons.image_outlined,
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 14),
+
+        // Right Column: Resizing & EXIF Privacy
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppStrings.dimensionResizingTitle,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: ImageResizeMode.values.map((mode) {
+                  return _OptionChip(
+                    label: mode.label,
+                    icon: Icons.aspect_ratio_rounded,
+                    isSelected: state.imageResizeMode == mode,
+                    isLocked: isLocked,
+                    onTap: () => cubit.updateImageResizeMode(mode),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 6),
+              _InfoBox(
+                label: state.imageResizeMode.label,
+                description: state.imageResizeMode.description,
+                icon: Icons.aspect_ratio_rounded,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                AppStrings.exifCameraPrivacyTitle,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: [
+                  _OptionChip(
+                    label: AppStrings.keepMetadataLabel,
+                    icon: Icons.info_outline_rounded,
+                    isSelected: !state.stripImageExif,
+                    isLocked: isLocked,
+                    onTap: () => cubit.toggleStripImageExif(false),
+                  ),
+                  _OptionChip(
+                    label: AppStrings.stripGpsCameraInfoLabel,
+                    icon: Icons.security_rounded,
+                    isSelected: state.stripImageExif,
+                    isLocked: isLocked,
+                    onTap: () => cubit.toggleStripImageExif(true),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              _InfoBox(
+                label: !state.stripImageExif
+                    ? AppStrings.keepMetadataLabel
+                    : AppStrings.stripGpsCameraInfoLabel,
+                description: !state.stripImageExif
+                    ? AppStrings.keepMetadataImageInfoDesc
+                    : AppStrings.stripGpsExifInfoDesc,
+                icon: !state.stripImageExif
+                    ? Icons.info_outline_rounded
+                    : Icons.security_rounded,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _qualityLabel(int q) {
+    if (q >= 90) return AppStrings.ultraFidelityLabel;
+    if (q <= 40) return AppStrings.maxSavingsLabel;
+    return AppStrings.smartAutoLabel;
+  }
+
+  String _qualityDesc(int q) {
+    if (q >= 90) return AppStrings.ultraFidelityDesc;
+    if (q <= 40) return AppStrings.maxSavingsDesc;
+    return AppStrings.smartAutoDesc;
+  }
+
+  static String _formatKB(double kb) {
+    if (kb >= 1024 && kb % 1024 == 0) {
+      return '${(kb / 1024).toStringAsFixed(0)} MB';
+    }
+    return '${kb.toStringAsFixed(0)} KB';
+  }
+}
+
+/// Quality slider with a color-coded value badge (mirrors the CRF slider).
+class _ImageQualitySlider extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _ImageQualitySlider({required this.state, required this.isLocked});
+
+  Color _qualityColor(int q) {
+    if (q >= 90) return AppColors.successGreen;
+    if (q >= 50) return AppColors.infoBlue;
+    if (q >= 25) return AppColors.warningOrange;
+    return AppColors.errorRed;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final cubit = context.read<CompressionCubit>();
+    final theme = Theme.of(context);
+    final color = _qualityColor(state.imageQuality);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+              AppStrings.imageQualitySliderTitle,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: theme.textTheme.bodyMedium?.color,
+              ),
+            ),
+            const Spacer(),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(6),
+                border: Border.all(color: color.withValues(alpha: 0.3)),
+              ),
+              child: Text(
+                '${state.imageQuality}%',
+                style: TextStyle(
+                  color: color,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        SliderTheme(
+          data: SliderThemeData(
+            activeTrackColor: color,
+            inactiveTrackColor:
+                (Theme.of(context).brightness == Brightness.dark
+                    ? AppColors.borderDark
+                    : AppColors.borderLight),
+            thumbColor: color,
+            overlayColor: color.withValues(alpha: 0.12),
+            trackHeight: 4,
+            thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
+            tickMarkShape: SliderTickMarkShape.noTickMark,
+            valueIndicatorShape: const RectangularSliderValueIndicatorShape(),
+            valueIndicatorColor: color,
+            valueIndicatorTextStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+            ),
+            showValueIndicator: ShowValueIndicator.onDrag,
+          ),
+          child: Slider(
+            value: state.imageQuality.toDouble(),
+            min: 5,
+            max: 95,
+            divisions: 90,
+            label: '${state.imageQuality}',
+            onChanged: isLocked
+                ? null
+                : (value) => cubit.updateImageQuality(value.round()),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Custom numeric input for target image size in KB.
+class _CustomImageSizeInput extends StatefulWidget {
+  final double targetSizeKB;
+  final bool isLocked;
+  final ValueChanged<double> onChanged;
+
+  const _CustomImageSizeInput({
+    required this.targetSizeKB,
+    required this.isLocked,
+    required this.onChanged,
+  });
+
+  @override
+  State<_CustomImageSizeInput> createState() => _CustomImageSizeInputState();
+}
+
+class _CustomImageSizeInputState extends State<_CustomImageSizeInput> {
+  late TextEditingController _controller;
+  bool _isFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: _formatValue(widget.targetSizeKB));
+  }
+
+  @override
+  void didUpdateWidget(covariant _CustomImageSizeInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.targetSizeKB != widget.targetSizeKB) {
+      final formatted = _formatValue(widget.targetSizeKB);
+      if (_controller.text != formatted) {
+        _controller.text = formatted;
+      }
+    }
+  }
+
+  String _formatValue(double kb) {
+    return kb.toStringAsFixed(0);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final activeColor = isDark
+        ? AppColors.primaryAccentLight
+        : AppColors.primaryAccent;
+    final inactiveBorder = isDark
+        ? AppColors.borderDark
+        : AppColors.borderLight;
+
+    const presets = [100.0, 200.0, 500.0, 1024.0, 2048.0];
+    final isPreset = presets.any((val) => (widget.targetSizeKB - val).abs() < 0.5);
+    final isCustomActive = _isFocused || !isPreset;
+
+    return Focus(
+      onFocusChange: (focused) {
+        setState(() => _isFocused = focused);
+        if (!focused) {
+          final parsed = double.tryParse(_controller.text);
+          if (parsed == null) {
+            final formatted = _formatValue(widget.targetSizeKB);
+            _controller.text = formatted;
+          } else if (parsed < 10 || parsed > 51200) {
+            final clamped = parsed.clamp(10.0, 51200.0);
+            _controller.text = _formatValue(clamped);
+            widget.onChanged(clamped);
+          }
+        }
+      },
+      child: Tooltip(
+        message: AppStrings.customKbSizeTooltip,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          width: 96,
+          height: 33,
+          decoration: BoxDecoration(
+            color: isCustomActive
+                ? activeColor.withValues(alpha: 0.15)
+                : inactiveBorder.withValues(alpha: 0.3),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isCustomActive
+                  ? activeColor.withValues(alpha: 0.6)
+                  : inactiveBorder.withValues(alpha: 0.4),
             ),
           ),
-        ],
+          padding: const EdgeInsets.symmetric(horizontal: 6),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.edit_rounded,
+                size: 12,
+                color: isCustomActive
+                    ? activeColor
+                    : theme.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
+              ),
+              const SizedBox(width: 4),
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  enabled: !widget.isLocked,
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: isCustomActive ? activeColor : theme.textTheme.bodyMedium?.color,
+                  ),
+                  onChanged: (val) {
+                    final parsed = double.tryParse(val);
+                    if (parsed != null && parsed >= 10 && parsed <= 51200) {
+                      widget.onChanged(parsed);
+                    }
+                  },
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 6),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                ),
+              ),
+              Text(
+                'KB',
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w700,
+                  color: isCustomActive
+                      ? activeColor
+                      : theme.textTheme.bodySmall?.color?.withValues(alpha: 0.6),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

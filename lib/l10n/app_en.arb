@@ -220,7 +220,7 @@
   "scanningFilesMsg": "Scanning files... This may take a moment.",
   "addFilesBtn": "Add Files",
   "addFolderBtn": "Add Folder",
-  "dragDropMoreMsg": "Or drag & drop more videos anywhere",
+  "dragDropMoreMsg": "Or drag & drop more files anywhere",
   "openOutputFolderTooltip": "Open Output Folder",
   "statusQueued": "Queued",
   "statusAnalyzing": "Analyzing",
@@ -241,9 +241,11 @@
   "totalSavedLabel": "Total Saved",
   "videoSingle": "video",
   "videosPlural": "videos",
-  "releaseToAddVideosMsg": "Release to add videos",
-  "dragDropHereMsg": "Drag & drop video files or folders here",
-  "supportedFormatsMsg": "Seamlessly supports MP4, MKV, MOV, AVI, WMV",
+  "fileSingle": "file",
+  "filesPlural": "files",
+  "releaseToAddVideosMsg": "Release to add files",
+  "dragDropHereMsg": "Drag & drop videos or images here",
+  "supportedFormatsMsg": "MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF & more",
   "selectFilesBtn": "Select Files",
   "selectFolderBtn": "Select Folder",
   "releaseToShrinkTitle": "Release to Shrink",
@@ -312,12 +314,6 @@
   "dimensionResizingTitle": "Dimension Resizing",
   "exifCameraPrivacyTitle": "EXIF / Camera Privacy",
   "stripGpsCameraInfoLabel": "Strip GPS & Camera Info",
-  "intentCompressOnly": "Compress Only",
-  "intentCompressOnlyTooltip": "Focus purely on reducing file size (Quality % or Target KB/MB)",
-  "intentEditConvertOnly": "Edit / Convert Only",
-  "intentEditConvertOnlyTooltip": "Resize, rotate, trim, or convert format without reducing visual quality",
-  "intentCompressAndEdit": "Compress & Edit",
-  "intentCompressAndEditTooltip": "Full control: Edit, resize, rotate AND compress file size together",
   "imgFmtOriginalLabel": "Original Format",
   "imgFmtOriginalDesc": "Keep original format (Fastest, no conversion).",
   "imgFmtPngLabel": "PNG Image (.png)",
@@ -339,6 +335,24 @@
   "imgRes480pLabel": "SD Max (854px)",
   "imgRes480pDesc": "Scale down image max dimension to 854px (SD max).",
   "keepMetadataImageInfoDesc": "Preserves original image EXIF & camera metadata.",
+  "imageQualityModeLabel": "Quality Level",
+  "imageQualityModeDesc": "Encodes at a fixed quality level — higher quality means larger files.",
+  "imageTargetSizeModeLabel": "Target Size",
+  "imageTargetSizeModeDesc": "Automatically finds the highest quality that fits under the size limit.",
+  "imageQualitySliderTitle": "Image Quality",
+  "imageTargetSizeTitle": "Target File Size",
+  "imageTargetSizeDesc": "Encodes repeatedly at decreasing quality until the file fits under the limit. Very small limits may reduce quality.",
+  "imageTargetSizeLimitLabel": "{size} Limit",
+  "@imageTargetSizeLimitLabel": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "customKbSizeTooltip": "Type custom KB size",
+  "imageProcessingFailedError": "Image processing failed",
+  "imageProcessingErrorMsg": "Image processing error",
   "cleanNoiseLabel": "Clean Noise",
   "outputLargerTooltip": "Output will be larger than original!\nStop and try Reset to Defaults.",
   "estimatedSizePrefix": "Est:",
@@ -358,7 +372,7 @@
       }
     }
   },
-  "notifyCompressionCompleteSuccess": "Successfully compressed {success} videos.",
+  "notifyCompressionCompleteSuccess": "Successfully compressed {success} files.",
   "@notifyCompressionCompleteSuccess": {
     "placeholders": {
       "success": {

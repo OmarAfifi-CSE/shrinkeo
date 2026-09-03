@@ -172,6 +172,12 @@ class _QueueSummary extends StatelessWidget {
         )
         .length;
 
+    // Mixed queues (videos + images) are labelled "files" instead of "videos".
+    final hasImages = state.videos.any((v) => v.mediaType == MediaType.image);
+    final unitLabel = total == 1
+        ? (hasImages ? AppStrings.fileSingle : AppStrings.videoSingle)
+        : (hasImages ? AppStrings.filesPlural : AppStrings.videosPlural);
+
     int totalSavedBytes = 0;
     if (state.phase == CompressionPhase.completed) {
       for (final v in state.videos) {
@@ -194,7 +200,7 @@ class _QueueSummary extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Text(
-          '$total ${total == 1 ? AppStrings.videoSingle : AppStrings.videosPlural}',
+          '$total $unitLabel',
           style: TextStyle(
             color: Theme.of(context).textTheme.bodySmall?.color,
             fontSize: 13,

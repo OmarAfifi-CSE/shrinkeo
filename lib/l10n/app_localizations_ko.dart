@@ -669,7 +669,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get addFolderBtn => '폴더 추가';
 
   @override
-  String get dragDropMoreMsg => '또는 비디오를 이곳으로 끌어다 놓으세요';
+  String get dragDropMoreMsg => '또는 다른 파일을 어디에나 끌어다 놓기';
 
   @override
   String get openOutputFolderTooltip => '저장 폴더 열기';
@@ -732,13 +732,20 @@ class AppLocalizationsKo extends AppLocalizations {
   String get videosPlural => '개 비디오';
 
   @override
-  String get releaseToAddVideosMsg => '마우스를 놓아 비디오 추가';
+  String get fileSingle => '파일';
 
   @override
-  String get dragDropHereMsg => '파일이나 폴더를 이곳으로 끌어다 놓으세요';
+  String get filesPlural => '파일';
 
   @override
-  String get supportedFormatsMsg => 'MP4, MKV, MOV, AVI, WMV 지원';
+  String get releaseToAddVideosMsg => '놓아서 파일 추가';
+
+  @override
+  String get dragDropHereMsg => '동영상이나 이미지를 여기에 끌어다 놓기';
+
+  @override
+  String get supportedFormatsMsg =>
+      'MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF 등 지원';
 
   @override
   String get selectFilesBtn => '파일 선택';
@@ -920,27 +927,6 @@ class AppLocalizationsKo extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'GPS 및 카메라 정보 삭제';
 
   @override
-  String get intentCompressOnly => '압축만';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      '파일 크기(품질 % 또는 대상 KB/MB)를 줄이는 데만 집중합니다.';
-
-  @override
-  String get intentEditConvertOnly => '편집/변환만 가능';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      '시각적 품질을 저하시키지 않고 형식 크기 조정, 회전, 다듬기 또는 변환';
-
-  @override
-  String get intentCompressAndEdit => '압축 및 편집';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      '모든 권한: 파일 크기를 함께 편집, 크기 조정, 회전 및 압축';
-
-  @override
   String get imgFmtOriginalLabel => '원본 형식';
 
   @override
@@ -1004,6 +990,42 @@ class AppLocalizationsKo extends AppLocalizations {
   String get keepMetadataImageInfoDesc => '원본 이미지의 EXIF 및 카메라 메타데이터를 유지합니다.';
 
   @override
+  String get imageQualityModeLabel => '품질 수준';
+
+  @override
+  String get imageQualityModeDesc => '고정된 품질 수준으로 인코딩합니다 — 품질이 높을수록 파일이 커집니다.';
+
+  @override
+  String get imageTargetSizeModeLabel => '목표 크기';
+
+  @override
+  String get imageTargetSizeModeDesc => '크기 제한에 맞는 최고 품질을 자동으로 찾습니다.';
+
+  @override
+  String get imageQualitySliderTitle => '이미지 품질';
+
+  @override
+  String get imageTargetSizeTitle => '목표 파일 크기';
+
+  @override
+  String get imageTargetSizeDesc =>
+      '파일이 제한 안에 들어올 때까지 낮아지는 품질로 반복 인코딩합니다. 너무 작은 제한은 품질을 낮출 수 있습니다.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return '$size 제한';
+  }
+
+  @override
+  String get customKbSizeTooltip => '사용자 지정 KB 크기 입력';
+
+  @override
+  String get imageProcessingFailedError => '이미지 처리 실패';
+
+  @override
+  String get imageProcessingErrorMsg => '이미지 처리 오류';
+
+  @override
   String get cleanNoiseLabel => '노이즈 감소';
 
   @override
@@ -1043,7 +1065,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return '$success개 비디오 압축 성공.';
+    return '$success개 파일을 성공적으로 압축했습니다.';
   }
 
   @override

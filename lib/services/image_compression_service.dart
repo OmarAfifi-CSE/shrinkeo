@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:path/path.dart' as p;
 import 'ffmpeg_service.dart';
-import '../models/video_file.dart';
 
 /// Service responsible for professional image compression, format conversion,
 /// dimension resizing, and EXIF metadata stripping.
@@ -13,23 +12,53 @@ class ImageCompressionService {
       : _ffmpegService = ffmpegService ?? FfmpegService();
 
   /// Compresses or converts an image file based on configuration.
+  ///
+  /// When [targetSizeKB] is set (target size mode), an iterative binary search
+  /// finds the highest encoder quality whose output still fits under the size
+  /// limit and the best candidate is written to [outputPath].
+  /// [isCancelled] is polled between search iterations so a cancelled job
+  /// stops early instead of running all encodes.
   Future<ProcessResult> processImage({
     required String inputPath,
     required String outputPath,
-    required MediaActionIntent actionIntent,
     int quality = 80, // 1 - 100
     String targetFormat = 'original', // 'original', 'png', 'jpg', 'webp', 'avif'
     int? maxWidth,
     int? maxHeight,
     bool stripExif = true,
+    double? targetSizeKB,
+    bool Function()? isCancelled,
     void Function(double progress)? onProgress,
   }) async {
-    onProgress?.call(0.25);
+    if (targetSizeKB != null && targetSizeKB > 0) {
+      return _processWithTargetSize(
+        inputPath: inputPath,
+        outputPath: outputPath,
+        quality: quality,
+        targetFormat: targetFormat,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        stripExif: stripExif,
+        targetSizeKB: targetSizeKB,
+        isCancelled: isCancelled,
+        onProgress: onProgress,
+      );
+    }
+
+    onProgress?.call(0.15);
     final result = await _executeSinglePass(
       inputPath: inputPath,
       outputPath: outputPath,
-      actionIntent: actionIntent,
       quality: quality,
+      targetFormat: targetFormat,
+      maxWidth: maxWidth,
+      maxHeight: maxHeight,
+      stripExif: stripExif,
+    );
+    onProgress?.call(0.85);
+    _applyNoLargerFileSafety(
+      inputPath: inputPath,
+      outputPath: outputPath,
       targetFormat: targetFormat,
       maxWidth: maxWidth,
       maxHeight: maxHeight,
@@ -39,77 +68,166 @@ class ImageCompressionService {
     return result;
   }
 
-  /// Executes a single compression pass using pngquant for PNG or FFmpeg for other formats.
+  /// Binary-searches the highest quality whose encoded output fits under
+  /// [targetSizeKB]. Each iteration encodes to a temp candidate; the best
+  /// fitting candidate (or the smallest one if none fits) becomes the output.
+  Future<ProcessResult> _processWithTargetSize({
+    required String inputPath,
+    required String outputPath,
+    required int quality,
+    required String targetFormat,
+    int? maxWidth,
+    int? maxHeight,
+    required bool stripExif,
+    required double targetSizeKB,
+    bool Function()? isCancelled,
+    void Function(double progress)? onProgress,
+  }) async {
+    final maxBytes = (targetSizeKB * 1024).round();
+    final tempExt = _effectiveExtension(inputPath, targetFormat);
+    final tempDir = Directory.systemTemp.path;
+    final stamp = DateTime.now().microsecondsSinceEpoch;
+
+    // Keep original format identity for "already small enough" shortcuts:
+    // they only apply when the original is reused as-is.
+    final ext = p.extension(inputPath).toLowerCase();
+    final sameFormatNoOps =
+        ext == tempExt && maxWidth == null && maxHeight == null && !stripExif;
+
+    // Fast path: the original already fits and nothing else was requested.
+    if (sameFormatNoOps && File(inputPath).lengthSync() <= maxBytes) {
+      File(inputPath).copySync(outputPath);
+      onProgress?.call(1.0);
+      return ProcessResult(0, 0, '', '');
+    }
+
+    String? bestPath;
+    ProcessResult bestResult = ProcessResult(0, -1, '', '');
+    String? smallestPath;
+    ProcessResult smallestResult = ProcessResult(0, -1, '', '');
+    int smallestSize = 1 << 62;
+
+    int lo = 5;
+    int hi = 95;
+    int iteration = 0;
+    const maxIterations = 7;
+    bool aborted = false;
+
+    while (lo <= hi && iteration < maxIterations) {
+      if (isCancelled != null && isCancelled()) {
+        aborted = true;
+        break;
+      }
+
+      final candidateQuality = (lo + hi) ~/ 2;
+      final candidatePath = p.join(
+        tempDir,
+        'shrinkeo_img_${stamp}_$iteration$tempExt',
+      );
+
+      final res = await _executeSinglePass(
+        inputPath: inputPath,
+        outputPath: candidatePath,
+        quality: candidateQuality,
+        targetFormat: targetFormat,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        stripExif: stripExif,
+      );
+
+      final candidateFile = File(candidatePath);
+      final ok = res.exitCode == 0 && candidateFile.existsSync();
+
+      if (!ok) {
+        // Encoder refused this quality level; search lower.
+        _tryDelete(candidatePath);
+        hi = candidateQuality - 1;
+      } else {
+        final size = candidateFile.lengthSync();
+        if (size <= maxBytes) {
+          _tryDelete(bestPath);
+          bestPath = candidatePath;
+          bestResult = res;
+          lo = candidateQuality + 1; // Try higher quality.
+        } else {
+          if (size < smallestSize) {
+            _tryDelete(smallestPath);
+            smallestPath = candidatePath;
+            smallestResult = res;
+            smallestSize = size;
+          } else {
+            _tryDelete(candidatePath);
+          }
+          hi = candidateQuality - 1; // Search lower quality.
+        }
+      }
+
+      iteration++;
+      onProgress?.call(0.1 + (0.8 * iteration / maxIterations));
+    }
+
+    if (aborted) {
+      _tryDelete(bestPath);
+      _tryDelete(smallestPath);
+      return ProcessResult(0, -1, '', 'Cancelled');
+    }
+
+    // Prefer the best fitting candidate; otherwise keep the smallest attempt
+    // so the user still gets the closest achievable result.
+    final chosenPath = bestPath ?? smallestPath;
+    final chosenResult = bestPath != null ? bestResult : smallestResult;
+
+    if (chosenPath == null) {
+      return ProcessResult(0, 1, '', 'No usable output produced');
+    }
+
+    final otherPath = identical(chosenPath, bestPath) ? smallestPath : bestPath;
+
+    // Never ship a re-encode larger than the untouched original.
+    if (sameFormatNoOps &&
+        File(inputPath).lengthSync() <= File(chosenPath).lengthSync()) {
+      _tryDelete(chosenPath);
+      _tryDelete(otherPath);
+      File(inputPath).copySync(outputPath);
+      onProgress?.call(1.0);
+      return ProcessResult(0, 0, '', '');
+    }
+
+    try {
+      File(chosenPath).copySync(outputPath);
+    } finally {
+      _tryDelete(chosenPath);
+      _tryDelete(otherPath);
+    }
+
+    onProgress?.call(1.0);
+    return chosenResult;
+  }
+
+  /// Executes a single compression pass using pngquant for PNG, MozJPEG for
+  /// JPEG, cwebp for WebP, or FFmpeg for everything else.
   Future<ProcessResult> _executeSinglePass({
     required String inputPath,
     required String outputPath,
-    required MediaActionIntent actionIntent,
     required int quality,
     required String targetFormat,
     int? maxWidth,
     int? maxHeight,
     required bool stripExif,
   }) async {
-    final ext = p.extension(inputPath).toLowerCase();
     final ffmpegPath = _ffmpegService.ffmpegPath;
-
-    String effectiveExt = ext;
-    if (targetFormat != 'original') {
-      effectiveExt = '.${targetFormat.replaceAll('.', '')}';
-    }
-
-    final outFormat = effectiveExt.toLowerCase();
+    final outFormat = _effectiveExtension(inputPath, targetFormat);
 
     // 1. PNG images ARE COMPRESSED EXCLUSIVELY BY pngquant.exe - 0% FFMPEG!
     if (outFormat == '.png') {
-      final pngquantPath = _resolveToolPath('pngquant.exe') ?? 'pngquant.exe';
-      String inputForPngquant = inputPath;
-      String? tempResizedPath;
-
-      if (maxWidth != null || maxHeight != null) {
-        tempResizedPath = '$outputPath.resized.png';
-        final w = maxWidth ?? -1;
-        final h = maxHeight ?? -1;
-        final resizeArgs = [
-          '-y',
-          '-i',
-          inputPath,
-          '-vf',
-          'scale=$w:$h:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2',
-          tempResizedPath,
-        ];
-        await Process.run(ffmpegPath, resizeArgs);
-        inputForPngquant = tempResizedPath;
-      }
-
-      int minQ = (quality - 30).clamp(1, 85);
-      int maxQ = quality.clamp(35, 98);
-      if (quality <= 40) {
-        minQ = 1;
-        maxQ = 40;
-      } else if (quality >= 90) {
-        minQ = 80;
-        maxQ = 98;
-      }
-
-      final pngArgs = [
-        '--quality',
-        '$minQ-$maxQ',
-        '--speed',
-        '1',
-        '--force',
-        '--output',
-        outputPath,
-        inputForPngquant,
-      ];
-
-      final res = await Process.run(pngquantPath, pngArgs);
-
-      if (tempResizedPath != null && File(tempResizedPath).existsSync()) {
-        try { File(tempResizedPath).deleteSync(); } catch (_) {}
-      }
-
-      return res;
+      return _encodePng(
+        inputPath: inputPath,
+        outputPath: outputPath,
+        quality: quality,
+        maxWidth: maxWidth,
+        maxHeight: maxHeight,
+        ffmpegPath: ffmpegPath,
+      );
     }
 
     // 2. JPEG images ARE COMPRESSED EXCLUSIVELY BY Mozilla MozJPEG (cjpeg.exe)
@@ -146,20 +264,14 @@ class ImageCompressionService {
             tempBmpPath,
           ];
           final res = await Process.run(cjpegPath, mozArgs);
-          try { File(tempBmpPath).deleteSync(); } catch (_) {}
+          _tryDelete(tempBmpPath);
 
           if (res.exitCode == 0 && File(outputPath).existsSync()) {
-            _applyNoLargerFileSafety(
-              inputPath: inputPath,
-              outputPath: outputPath,
-              targetFormat: targetFormat,
-              ext: ext,
-              outFormat: outFormat,
-              maxWidth: maxWidth,
-              maxHeight: maxHeight,
-            );
             return res;
           }
+          // Otherwise fall through to the FFmpeg fallback below.
+        } else {
+          _tryDelete(tempBmpPath);
         }
       }
     }
@@ -182,14 +294,18 @@ class ImageCompressionService {
         ];
         final res = await Process.run(cwebpPath, webpArgs);
         if (res.exitCode == 0 && File(outputPath).existsSync()) {
-          _applyNoLargerFileSafety(inputPath: inputPath, outputPath: outputPath, targetFormat: targetFormat, ext: ext, outFormat: outFormat, maxWidth: maxWidth, maxHeight: maxHeight);
           return res;
         }
+        // Otherwise fall through to the FFmpeg fallback below.
       }
     }
 
     // 4. FFmpeg compression & encoding for WebP fallback, AVIF, etc.
     final List<String> args = ['-y', '-i', inputPath];
+
+    if (stripExif) {
+      args.addAll(['-map_metadata', '-1']);
+    }
 
     if (maxWidth != null || maxHeight != null) {
       final w = maxWidth ?? -1;
@@ -212,7 +328,7 @@ class ImageCompressionService {
 
       case '.jpg':
       case '.jpeg':
-        args.addAll(['-c:v', 'mjpeg', '-pix_fmt', 'yuvj420p', '-color_range', 'pc']);
+        args.addAll(['-c:v', 'mjpeg', '-q:v', '${(quality / 10).round().clamp(1, 10)}', '-pix_fmt', 'yuvj420p', '-color_range', 'pc']);
         break;
 
       default:
@@ -222,25 +338,119 @@ class ImageCompressionService {
 
     args.add(outputPath);
 
-    final res = await Process.run(ffmpegPath, args);
-
-    _applyNoLargerFileSafety(inputPath: inputPath, outputPath: outputPath, targetFormat: targetFormat, ext: ext, outFormat: outFormat, maxWidth: maxWidth, maxHeight: maxHeight);
-
-    return res;
+    return Process.run(ffmpegPath, args);
   }
 
-  /// Safety Guarantee: If target format is original (or same format), no resizing was requested,
-  /// and the compressed file ended up LARGER than original, preserve the original file!
+  /// PNG pipeline: optional FFmpeg pre-resize, then pngquant with a wide-range
+  /// retry (pngquant refuses to save when the palette can't reach the
+  /// requested minimum quality) and a final FFmpeg lossless fallback.
+  Future<ProcessResult> _encodePng({
+    required String inputPath,
+    required String outputPath,
+    required int quality,
+    required int? maxWidth,
+    required int? maxHeight,
+    required String ffmpegPath,
+  }) async {
+    final pngquantPath = _resolveToolPath('pngquant.exe');
+    String inputForPngquant = inputPath;
+    String? tempResizedPath;
+
+    if (maxWidth != null || maxHeight != null) {
+      tempResizedPath = '$outputPath.resized.png';
+      final w = maxWidth ?? -1;
+      final h = maxHeight ?? -1;
+      final resizeArgs = [
+        '-y',
+        '-i',
+        inputPath,
+        '-vf',
+        'scale=$w:$h:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2',
+        tempResizedPath,
+      ];
+      await Process.run(ffmpegPath, resizeArgs);
+      inputForPngquant = tempResizedPath;
+    }
+
+    if (pngquantPath != null) {
+      int minQ = (quality - 30).clamp(1, 85);
+      int maxQ = quality.clamp(35, 98);
+      if (quality <= 40) {
+        minQ = 1;
+        maxQ = 40;
+      } else if (quality >= 90) {
+        minQ = 80;
+        maxQ = 98;
+      }
+
+      final res = await Process.run(pngquantPath, [
+        '--quality',
+        '$minQ-$maxQ',
+        '--speed',
+        '1',
+        '--force',
+        '--output',
+        outputPath,
+        inputForPngquant,
+      ]);
+
+      if (res.exitCode == 0 && File(outputPath).existsSync()) {
+        _tryDelete(tempResizedPath);
+        return res;
+      }
+
+      // Retry without a quality floor: pngquant fails with exit code 2 or 99
+      // when the image palette cannot reach the requested minimum quality.
+      _tryDelete(outputPath);
+      final retry = await Process.run(pngquantPath, [
+        '--speed',
+        '1',
+        '--force',
+        '--output',
+        outputPath,
+        inputForPngquant,
+      ]);
+
+      if (retry.exitCode == 0 && File(outputPath).existsSync()) {
+        _tryDelete(tempResizedPath);
+        return retry;
+      }
+    }
+
+    // FFmpeg lossless PNG fallback when pngquant is missing or refuses.
+    _tryDelete(outputPath);
+    final fallbackArgs = [
+      '-y',
+      '-i',
+      inputForPngquant,
+      if (maxWidth != null || maxHeight != null) ...[
+        '-vf',
+        'scale=${maxWidth ?? -1}:${maxHeight ?? -1}:force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2'
+      ],
+      '-compression_level',
+      '9',
+      outputPath,
+    ];
+    final fallback = await Process.run(ffmpegPath, fallbackArgs);
+    _tryDelete(tempResizedPath);
+    return fallback;
+  }
+
+  /// Safety Guarantee: if the target format is original (or the same format),
+  /// no resizing was requested, EXIF privacy stripping is off, and the
+  /// compressed file ended up LARGER than the original, preserve the original!
   void _applyNoLargerFileSafety({
     required String inputPath,
     required String outputPath,
     required String targetFormat,
-    required String ext,
-    required String outFormat,
     int? maxWidth,
     int? maxHeight,
+    bool stripExif = false,
   }) {
     if (maxWidth != null || maxHeight != null) return;
+    if (stripExif) return; // Never restore EXIF metadata the user asked to strip.
+    final ext = p.extension(inputPath).toLowerCase();
+    final outFormat = _effectiveExtension(inputPath, targetFormat);
     if (targetFormat != 'original' && ext != outFormat) return;
 
     final outFile = File(outputPath);
@@ -255,9 +465,25 @@ class ImageCompressionService {
     }
   }
 
+  /// The output extension after applying [targetFormat] to [inputPath].
+  String _effectiveExtension(String inputPath, String targetFormat) {
+    if (targetFormat != 'original' && targetFormat.isNotEmpty) {
+      return '.${targetFormat.replaceAll('.', '').toLowerCase()}';
+    }
+    return p.extension(inputPath).toLowerCase();
+  }
+
+  void _tryDelete(String? path) {
+    if (path == null) return;
+    try {
+      final file = File(path);
+      if (file.existsSync()) file.deleteSync();
+    } catch (_) {}
+  }
+
   /// Resolves the absolute path to a standalone CLI tool (pngquant.exe, cjpeg.exe, cwebp.exe).
   String? _resolveToolPath(String toolName) {
-    // 1. Release bin folder next to executable
+    // 1. Release bin folder next to the executable
     final bundledPath = p.join(
       p.dirname(Platform.resolvedExecutable),
       'bin',
@@ -276,11 +502,6 @@ class ImageCompressionService {
       final wingetPath = p.join(localAppData, 'Microsoft', 'WinGet', 'Links', toolName);
       if (File(wingetPath).existsSync()) return wingetPath;
     }
-
-    // 4. Candidate tools release folder
-    const userToolsDir = r'C:\Users\Omar\Documents\Flutter\B- Releases\Shrinkeo\tools';
-    final userToolPath = p.join(userToolsDir, toolName);
-    if (File(userToolPath).existsSync()) return userToolPath;
 
     return null;
   }

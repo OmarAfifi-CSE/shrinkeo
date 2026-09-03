@@ -675,7 +675,7 @@ class AppLocalizationsEl extends AppLocalizations {
   String get addFolderBtn => 'Προσθήκη Φακέλου';
 
   @override
-  String get dragDropMoreMsg => 'Ή σύρετε & αφήστε περισσότερα βίντεο εδώ';
+  String get dragDropMoreMsg => 'Ή σύρετε περισσότερα αρχεία οπουδήποτε';
 
   @override
   String get openOutputFolderTooltip => 'Άνοιγμα Φακέλου Εξόδου';
@@ -739,13 +739,20 @@ class AppLocalizationsEl extends AppLocalizations {
   String get videosPlural => 'βίντεο';
 
   @override
-  String get releaseToAddVideosMsg => 'Αφήστε για προσθήκη βίντεο';
+  String get fileSingle => 'αρχείο';
 
   @override
-  String get dragDropHereMsg => 'Σύρετε & αφήστε αρχεία ή φακέλους εδώ';
+  String get filesPlural => 'αρχεία';
 
   @override
-  String get supportedFormatsMsg => 'Υποστηρίζει MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Αφήστε για προσθήκη αρχείων';
+
+  @override
+  String get dragDropHereMsg => 'Σύρετε βίντεο ή εικόνες εδώ';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Υποστηρίζει MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF και άλλα';
 
   @override
   String get selectFilesBtn => 'Επιλογή Αρχείων';
@@ -936,27 +943,6 @@ class AppLocalizationsEl extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Απογύμνωση GPS & Πληροφορίες κάμερας';
 
   @override
-  String get intentCompressOnly => 'Μόνο συμπίεση';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Εστίαση καθαρά στη μείωση του μεγέθους του αρχείου (ποσοστό ποιότητας ή στόχος KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Επεξεργασία / Μετατροπή Μόνο';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Αλλαγή μεγέθους, περιστροφή, περικοπή ή μετατροπή μορφής χωρίς μείωση της οπτικής ποιότητας';
-
-  @override
-  String get intentCompressAndEdit => 'Συμπίεση & Επεξεργασία';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Πλήρης έλεγχος: Επεξεργασία, αλλαγή μεγέθους, περιστροφή ΚΑΙ συμπίεση μεγέθους αρχείου μαζί';
-
-  @override
   String get imgFmtOriginalLabel => 'Αρχική Μορφή';
 
   @override
@@ -1031,6 +1017,45 @@ class AppLocalizationsEl extends AppLocalizations {
       'Διατηρεί την αρχική εικόνα EXIF ​​& μεταδεδομένα κάμερας.';
 
   @override
+  String get imageQualityModeLabel => 'Επίπεδο ποιότητας';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Κωδικοποιεί σε σταθερό επίπεδο ποιότητας — υψηλότερη ποιότητα σημαίνει μεγαλύτερα αρχεία.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Στόχος μεγέθους';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Βρίσκει αυτόματα την υψηλότερη ποιότητα που χωράει στο όριο μεγέθους.';
+
+  @override
+  String get imageQualitySliderTitle => 'Ποιότητα εικόνας';
+
+  @override
+  String get imageTargetSizeTitle => 'Μέγεθος αρχείου-στόχος';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Κωδικοποιεί επανειλημμένα με φθίνουσα ποιότητα μέχρι το αρχείο να χωρέσει στο όριο. Πολύ μικρά όρια μπορεί να μειώσουν την ποιότητα.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Όριο $size';
+  }
+
+  @override
+  String get customKbSizeTooltip =>
+      'Πληκτρολογήστε προσαρμοσμένο μέγεθος σε KB';
+
+  @override
+  String get imageProcessingFailedError => 'Η επεξεργασία εικόνας απέτυχε';
+
+  @override
+  String get imageProcessingErrorMsg => 'Σφάλμα επεξεργασίας εικόνας';
+
+  @override
   String get cleanNoiseLabel => 'Καθαρισμός θορύβου';
 
   @override
@@ -1072,7 +1097,7 @@ class AppLocalizationsEl extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Συμπιέστηκαν με επιτυχία $success βίντεο.';
+    return 'Επιτυχής συμπίεση $success αρχείων.';
   }
 
   @override

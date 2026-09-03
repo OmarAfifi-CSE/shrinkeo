@@ -480,22 +480,17 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(state.copyWith(stripImageExif: enabled));
   }
 
-  /// Updates target image size in KB.
+  /// Updates target image size in KB (10 KB – 50 MB).
   void updateImageTargetSizeKB(double targetKB) {
-    _prefs.setDouble('imageTargetSizeKB', targetKB);
-    emit(state.copyWith(imageTargetSizeKB: targetKB));
+    final clamped = targetKB.clamp(10.0, 51200.0);
+    _prefs.setDouble('imageTargetSizeKB', clamped);
+    emit(state.copyWith(imageTargetSizeKB: clamped));
   }
 
   /// Toggles target size mode for images.
   void toggleImageTargetSizeMode(bool enabled) {
     _prefs.setBool('isImageTargetSizeMode', enabled);
     emit(state.copyWith(isImageTargetSizeMode: enabled));
-  }
-
-  /// Updates target action intent (Compress Only, Edit/Convert Only, or Compress & Edit).
-  void updateActionIntent(MediaActionIntent intent) {
-    _prefs.setString('mediaActionIntent', intent.name);
-    emit(state.copyWith(mediaActionIntent: intent));
   }
 
   /// Resets all compression settings to their defaults.
@@ -522,7 +517,6 @@ class CompressionCubit extends Cubit<CompressionState> {
     _prefs.setBool('stripImageExif', false);
     _prefs.setDouble('imageTargetSizeKB', 500.0);
     _prefs.setBool('isImageTargetSizeMode', false);
-    _prefs.setString('mediaActionIntent', MediaActionIntent.compressAndConvert.name);
 
     emit(
       state.copyWith(
@@ -559,7 +553,6 @@ class CompressionCubit extends Cubit<CompressionState> {
         stripImageExif: false,
         imageTargetSizeKB: 500.0,
         isImageTargetSizeMode: false,
-        mediaActionIntent: MediaActionIntent.compressAndConvert,
       ),
     );
   }
@@ -1200,17 +1193,7 @@ class CompressionCubit extends Cubit<CompressionState> {
 
         // Optionally delete the original file to Recycle Bin
         if (state.deleteOriginalOnSuccess) {
-          try {
-            await Process.run('powershell.exe', [
-              '-NoProfile',
-              '-NonInteractive',
-              '-Command',
-              'Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile("${video.filePath.replaceAll("'", "''")}", "OnlyErrorDialogs", "SendToRecycleBin")',
-            ]);
-          } catch (e) {
-            // Ignore deletion errors to not fail the successful compression
-            debugPrint('Failed to move original to recycle bin: $e');
-          }
+          await _sendToRecycleBin(video.filePath);
         }
         break; // Success, break the retry loop
       } catch (e) {
@@ -1342,7 +1325,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     String outputPath = p.join(outputFolder, '$baseName$targetExt');
     int counter = 1;
     while (File(outputPath).existsSync()) {
-      outputPath = p.join(outputFolder, '${baseName}_compressed_$counter$targetExt');
+      outputPath = p.join(outputFolder, '${baseName}_$counter$targetExt');
       counter++;
     }
 
@@ -1356,16 +1339,25 @@ class CompressionCubit extends Cubit<CompressionState> {
       final result = await _imageCompressionService.processImage(
         inputPath: video.filePath,
         outputPath: outputPath,
-        actionIntent: video.actionIntent,
         quality: state.imageQuality,
         targetFormat: state.imageOutputFormat.value,
         maxWidth: maxDim,
         maxHeight: maxDim,
         stripExif: state.stripImageExif,
+        targetSizeKB: state.isImageTargetSizeMode ? state.imageTargetSizeKB : null,
+        isCancelled: () => _cancelRequested,
         onProgress: (prog) {
           safelyUpdateVideo(video.copyWith(progress: prog, status: VideoStatus.compressing));
         },
       );
+
+      // The user cancelled while processing — discard any output that was
+      // still written and leave the item cancelled (set by cancelSingle /
+      // cancelCompression).
+      if (_cancelRequested) {
+        _tryDeleteFile(outputPath);
+        return;
+      }
 
       if (result.exitCode == 0 && File(outputPath).existsSync()) {
         final outSizeBytes = await File(outputPath).length();
@@ -1384,13 +1376,13 @@ class CompressionCubit extends Cubit<CompressionState> {
         );
 
         if (state.deleteOriginalOnSuccess) {
-          try { await File(video.filePath).delete(); } catch (_) {}
+          await _sendToRecycleBin(video.filePath);
         }
       } else {
         safelyUpdateVideo(
           video.copyWith(
             status: VideoStatus.failed,
-            errorMessage: 'Image processing failed: ${result.stderr}',
+            errorMessage: '${AppStrings.imageProcessingFailedError}: ${result.stderr}',
           ),
         );
       }
@@ -1398,10 +1390,37 @@ class CompressionCubit extends Cubit<CompressionState> {
       safelyUpdateVideo(
         video.copyWith(
           status: VideoStatus.failed,
-          errorMessage: 'Image processing error: $e',
+          errorMessage: '${AppStrings.imageProcessingErrorMsg}: $e',
         ),
       );
     }
+  }
+
+  /// Moves a file to the Recycle Bin (Windows) or deletes it on other platforms.
+  Future<void> _sendToRecycleBin(String filePath) async {
+    try {
+      if (Platform.isWindows) {
+        await Process.run('powershell.exe', [
+          '-NoProfile',
+          '-NonInteractive',
+          '-Command',
+          'Add-Type -AssemblyName Microsoft.VisualBasic; [Microsoft.VisualBasic.FileIO.FileSystem]::DeleteFile("${filePath.replaceAll("'", "''")}", "OnlyErrorDialogs", "SendToRecycleBin")',
+        ]);
+      } else {
+        await File(filePath).delete();
+      }
+    } catch (e) {
+      // Ignore deletion errors to not fail the successful compression
+      debugPrint('Failed to move original to recycle bin: $e');
+    }
+  }
+
+  /// Best-effort deletion used for cleaning up cancelled output files.
+  void _tryDeleteFile(String path) {
+    try {
+      final file = File(path);
+      if (file.existsSync()) file.deleteSync();
+    } catch (_) {}
   }
 
   /// Cancels the entire compression workflow.

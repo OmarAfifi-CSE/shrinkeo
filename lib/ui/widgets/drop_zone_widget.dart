@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
+import '../../models/video_file.dart';
 import '../app_colors.dart';
 
 /// Animated drop zone for dragging and dropping video files and folders.
@@ -161,27 +162,12 @@ class DropZoneWidget extends StatelessWidget {
     );
   }
 
-  /// Opens native file picker for multiple video files.
+  /// Opens native file picker for multiple video & image files.
   Future<void> _pickMultipleFiles(CompressionCubit cubit) async {
     try {
       final result = await FilePicker.pickFiles(
         type: FileType.custom,
-        allowedExtensions: [
-          'mp4',
-          'mkv',
-          'mov',
-          'avi',
-          'wmv',
-          'webm',
-          'png',
-          'jpg',
-          'jpeg',
-          'webp',
-          'avif',
-          'bmp',
-          'tiff',
-          'heic',
-        ],
+        allowedExtensions: VideoFile.pickerExtensions,
         allowMultiple: true,
       );
 

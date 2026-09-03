@@ -674,7 +674,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get addFolderBtn => 'Додати Папку';
 
   @override
-  String get dragDropMoreMsg => 'Або перетягніть більше відео сюди';
+  String get dragDropMoreMsg => 'Або перетягніть ще файли будь-куди';
 
   @override
   String get openOutputFolderTooltip => 'Відкрити Папку Збереження';
@@ -738,13 +738,20 @@ class AppLocalizationsUk extends AppLocalizations {
   String get videosPlural => 'відео';
 
   @override
-  String get releaseToAddVideosMsg => 'Відпустіть для додавання';
+  String get fileSingle => 'файл';
 
   @override
-  String get dragDropHereMsg => 'Перетягніть файли або папки сюди';
+  String get filesPlural => 'файлів';
 
   @override
-  String get supportedFormatsMsg => 'Підтримує MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Відпустіть, щоб додати файли';
+
+  @override
+  String get dragDropHereMsg => 'Перетягніть відео або зображення сюди';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Підтримує MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF та інші';
 
   @override
   String get selectFilesBtn => 'Обрати Файли';
@@ -933,27 +940,6 @@ class AppLocalizationsUk extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Видалення інформації про GPS і камеру';
 
   @override
-  String get intentCompressOnly => 'Лише стиснення';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Зосередьтеся лише на зменшенні розміру файлу (% якості або цільове значення КБ/МБ)';
-
-  @override
-  String get intentEditConvertOnly => 'Лише редагування/перетворення';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Змінюйте розмір, обертайте, обрізайте або конвертуйте формат без зниження візуальної якості';
-
-  @override
-  String get intentCompressAndEdit => 'Стискати та редагувати';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Повний контроль: редагуйте, змінюйте розмір, повертайте ТА стискайте розмір файлу разом';
-
-  @override
   String get imgFmtOriginalLabel => 'Оригінальний формат';
 
   @override
@@ -1027,6 +1013,44 @@ class AppLocalizationsUk extends AppLocalizations {
       'Зберігає EXIF ​​оригінального зображення та метадані камери.';
 
   @override
+  String get imageQualityModeLabel => 'Рівень якості';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Кодує на фіксованому рівні якості — вища якість означає більші файли.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Цільовий розмір';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Автоматично знаходить найвищу якість, яка вміщується в ліміт розміру.';
+
+  @override
+  String get imageQualitySliderTitle => 'Якість зображення';
+
+  @override
+  String get imageTargetSizeTitle => 'Цільовий розмір файлу';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Кодує повторно зі знижувальною якістю, поки файл не вміститься в ліміт. Дуже малі ліміти можуть знизити якість.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Ліміт $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Введіть власний розмір у КБ';
+
+  @override
+  String get imageProcessingFailedError => 'Не вдалося обробити зображення';
+
+  @override
+  String get imageProcessingErrorMsg => 'Помилка обробки зображення';
+
+  @override
   String get cleanNoiseLabel => 'Очистити шум';
 
   @override
@@ -1067,7 +1091,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Успішно стиснуто файли: $success.';
   }
 
   @override

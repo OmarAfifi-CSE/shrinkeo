@@ -680,7 +680,7 @@ class AppLocalizationsHu extends AppLocalizations {
   String get addFolderBtn => 'Mappa Hozzáadása';
 
   @override
-  String get dragDropMoreMsg => 'Vagy húzzon ide további videókat';
+  String get dragDropMoreMsg => 'Vagy húzzon további fájlokat bárhol';
 
   @override
   String get openOutputFolderTooltip => 'Kimeneti Mappa Megnyitása';
@@ -744,13 +744,20 @@ class AppLocalizationsHu extends AppLocalizations {
   String get videosPlural => 'videó';
 
   @override
-  String get releaseToAddVideosMsg => 'Engedje el a videók hozzáadásához';
+  String get fileSingle => 'fájl';
 
   @override
-  String get dragDropHereMsg => 'Húzza ide a fájlokat vagy mappákat';
+  String get filesPlural => 'fájl';
 
   @override
-  String get supportedFormatsMsg => 'Támogatja: MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Engedje el a fájlok hozzáadásához';
+
+  @override
+  String get dragDropHereMsg => 'Húzza ide a videókat vagy képeket';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Támogatja: MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF és több';
 
   @override
   String get selectFilesBtn => 'Fájlok Kiválasztása';
@@ -941,27 +948,6 @@ class AppLocalizationsHu extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Strip GPS és kamera Info';
 
   @override
-  String get intentCompressOnly => 'Csak tömörítés';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Pusztán a fájlméret csökkentésére összpontosítson (% minőség vagy cél KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Csak szerkesztés / konvertálás';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Átméretezheti, elforgathatja, vághatja le vagy konvertálhatja a formátumot a vizuális minőség romlása nélkül';
-
-  @override
-  String get intentCompressAndEdit => 'Tömörítés és szerkesztés';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Teljes ellenőrzés: együtt szerkesztheti, átméretezheti, elforgathatja ÉS tömöríti a fájlméretet';
-
-  @override
   String get imgFmtOriginalLabel => 'Eredeti formátum';
 
   @override
@@ -1036,6 +1022,44 @@ class AppLocalizationsHu extends AppLocalizations {
       'Megőrzi az eredeti kép EXIF ​​és a kamera metaadatait.';
 
   @override
+  String get imageQualityModeLabel => 'Minőségi szint';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Rögzített minőségi szinten kódol — magasabb minőség nagyobb fájlokat jelent.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Célméret';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Automatikusan megkeresi a legmagasabb minőséget, amely belefér a méretkorlátba.';
+
+  @override
+  String get imageQualitySliderTitle => 'Képminőség';
+
+  @override
+  String get imageTargetSizeTitle => 'Célfájlméret';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Csökkenő minőséggel ismételten kódol, amíg a fájl belefér a korlátba. A nagyon kis korlátok ronthatják a minőséget.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return '$size korlát';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Írjon egyéni KB méretet';
+
+  @override
+  String get imageProcessingFailedError => 'A képfeldolgozás sikertelen';
+
+  @override
+  String get imageProcessingErrorMsg => 'Képfeldolgozási hiba';
+
+  @override
   String get cleanNoiseLabel => 'Zajszűrés';
 
   @override
@@ -1076,7 +1100,7 @@ class AppLocalizationsHu extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success fájl sikeresen tömörítve.';
   }
 
   @override

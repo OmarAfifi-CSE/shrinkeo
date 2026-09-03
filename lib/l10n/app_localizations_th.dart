@@ -674,7 +674,7 @@ class AppLocalizationsTh extends AppLocalizations {
   String get addFolderBtn => 'เพิ่มโฟลเดอร์';
 
   @override
-  String get dragDropMoreMsg => 'หรือลากและวางวิดีโอเพิ่มเติมที่นี่';
+  String get dragDropMoreMsg => 'หรือลากและวางไฟล์เพิ่มเติมที่ใดก็ได้';
 
   @override
   String get openOutputFolderTooltip => 'เปิดโฟลเดอร์ปลายทาง';
@@ -737,13 +737,20 @@ class AppLocalizationsTh extends AppLocalizations {
   String get videosPlural => 'วิดีโอ';
 
   @override
-  String get releaseToAddVideosMsg => 'ปล่อยเพื่อเพิ่มไฟล์วิดีโอ';
+  String get fileSingle => 'ไฟล์';
 
   @override
-  String get dragDropHereMsg => 'ลากและวางไฟล์หรือโฟลเดอร์ตรงนี้';
+  String get filesPlural => 'ไฟล์';
 
   @override
-  String get supportedFormatsMsg => 'รองรับไฟล์ MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'ปล่อยเพื่อเพิ่มไฟล์';
+
+  @override
+  String get dragDropHereMsg => 'ลากและวางวิดีโอหรือรูปภาพที่นี่';
+
+  @override
+  String get supportedFormatsMsg =>
+      'รองรับ MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF และอื่น ๆ';
 
   @override
   String get selectFilesBtn => 'เลือกไฟล์';
@@ -932,27 +939,6 @@ class AppLocalizationsTh extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'ตัดข้อมูล GPS และกล้อง';
 
   @override
-  String get intentCompressOnly => 'บีบอัดเท่านั้น';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'มุ่งเน้นที่การลดขนาดไฟล์เพียงอย่างเดียว (% คุณภาพหรือเป้าหมาย KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'แก้ไข/แปลงเท่านั้น';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'ปรับขนาด หมุน ตัดแต่ง หรือแปลงรูปแบบโดยไม่ลดคุณภาพของภาพ';
-
-  @override
-  String get intentCompressAndEdit => 'บีบอัดและแก้ไข';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'การควบคุมเต็มรูปแบบ: แก้ไข ปรับขนาด หมุน และบีบอัดขนาดไฟล์เข้าด้วยกัน';
-
-  @override
   String get imgFmtOriginalLabel => 'รูปแบบดั้งเดิม';
 
   @override
@@ -1024,6 +1010,44 @@ class AppLocalizationsTh extends AppLocalizations {
       'รักษาภาพต้นฉบับ EXIF ​​​​และข้อมูลเมตาของกล้อง';
 
   @override
+  String get imageQualityModeLabel => 'ระดับคุณภาพ';
+
+  @override
+  String get imageQualityModeDesc =>
+      'เข้ารหัสที่ระดับคุณภาพคงที่ — คุณภาพสูงขึ้นหมายถึงไฟล์ที่ใหญ่ขึ้น';
+
+  @override
+  String get imageTargetSizeModeLabel => 'ขนาดเป้าหมาย';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'ค้นหาคุณภาพสูงสุดที่พอดีกับขีดจำกัดขนาดโดยอัตโนมัติ';
+
+  @override
+  String get imageQualitySliderTitle => 'คุณภาพรูปภาพ';
+
+  @override
+  String get imageTargetSizeTitle => 'ขนาดไฟล์เป้าหมาย';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'เข้ารหัสซ้ำด้วยคุณภาพที่ลดลงจนกว่าไฟล์จะพอดีกับขีดจำกัด ขีดจำกัดที่เล็กมากอาจลดคุณภาพ';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'ขีดจำกัด $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'พิมพ์ขนาด KB แบบกำหนดเอง';
+
+  @override
+  String get imageProcessingFailedError => 'การประมวลผลรูปภาพล้มเหลว';
+
+  @override
+  String get imageProcessingErrorMsg => 'ข้อผิดพลาดในการประมวลผลรูปภาพ';
+
+  @override
   String get cleanNoiseLabel => 'ลดเสียงรบกวน';
 
   @override
@@ -1064,7 +1088,7 @@ class AppLocalizationsTh extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'บีบอัด $success ไฟล์สำเร็จ';
   }
 
   @override

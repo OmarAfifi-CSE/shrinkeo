@@ -669,7 +669,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get addFolderBtn => '添加文件夹';
 
   @override
-  String get dragDropMoreMsg => '或拖拽更多视频至任意区域';
+  String get dragDropMoreMsg => '或将更多文件拖放到任意位置';
 
   @override
   String get openOutputFolderTooltip => '打开输出文件夹';
@@ -732,13 +732,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get videosPlural => '个视频';
 
   @override
-  String get releaseToAddVideosMsg => '松开鼠标添加视频';
+  String get fileSingle => '个文件';
 
   @override
-  String get dragDropHereMsg => '拖拽视频文件或文件夹至此处';
+  String get filesPlural => '个文件';
 
   @override
-  String get supportedFormatsMsg => '完美支持 MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => '松开以添加文件';
+
+  @override
+  String get dragDropHereMsg => '将视频或图片拖放到此处';
+
+  @override
+  String get supportedFormatsMsg =>
+      '支持 MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF 等';
 
   @override
   String get selectFilesBtn => '选择文件';
@@ -919,24 +926,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get stripGpsCameraInfoLabel => '清除GPS和相机信息';
 
   @override
-  String get intentCompressOnly => '仅压缩';
-
-  @override
-  String get intentCompressOnlyTooltip => '专注于减小文件大小（质量百分比或目标 KB/MB）';
-
-  @override
-  String get intentEditConvertOnly => '仅编辑/转换';
-
-  @override
-  String get intentEditConvertOnlyTooltip => '调整大小、旋转、修剪或转换格式，而不会降低视觉质量';
-
-  @override
-  String get intentCompressAndEdit => '压缩和编辑';
-
-  @override
-  String get intentCompressAndEditTooltip => '完全控制：编辑、调整大小、旋转和压缩文件大小';
-
-  @override
   String get imgFmtOriginalLabel => '原始格式';
 
   @override
@@ -1000,6 +989,41 @@ class AppLocalizationsZh extends AppLocalizations {
   String get keepMetadataImageInfoDesc => '保留原始图像的 EXIF 和相机元数据。';
 
   @override
+  String get imageQualityModeLabel => '质量等级';
+
+  @override
+  String get imageQualityModeDesc => '以固定质量等级编码 — 质量越高，文件越大。';
+
+  @override
+  String get imageTargetSizeModeLabel => '目标大小';
+
+  @override
+  String get imageTargetSizeModeDesc => '自动找到符合大小限制的最高质量。';
+
+  @override
+  String get imageQualitySliderTitle => '图像质量';
+
+  @override
+  String get imageTargetSizeTitle => '目标文件大小';
+
+  @override
+  String get imageTargetSizeDesc => '以递减的质量反复编码，直到文件符合限制。过小的限制可能会降低质量。';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return '限制 $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => '输入自定义 KB 大小';
+
+  @override
+  String get imageProcessingFailedError => '图像处理失败';
+
+  @override
+  String get imageProcessingErrorMsg => '图像处理错误';
+
+  @override
   String get cleanNoiseLabel => '降噪';
 
   @override
@@ -1039,7 +1063,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return '成功压缩 $success 个视频。';
+    return '成功压缩 $success 个文件。';
   }
 
   @override

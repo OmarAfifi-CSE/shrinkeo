@@ -17,7 +17,9 @@ class SettingsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CompressionCubit, CompressionState>(
-      buildWhen: (prev, curr) => prev != curr,
+      // Rebuild only when a rendered setting (or the expanded/locked state)
+      // changes — never on processing progress ticks.
+      buildWhen: (prev, curr) => curr.settingsDifferFrom(prev),
       builder: (context, state) {
         return AnimatedCrossFade(
           duration: const Duration(milliseconds: 250),
@@ -314,7 +316,7 @@ class _SettingsContentState extends State<_SettingsContent>
               height: _tabController.index == 0
                   ? 400.0
                   : _tabController.index == 1
-                      ? 490.0
+                      ? 505.0
                       : _tabController.index == 2
                           ? 230.0
                           : _tabController.index == 3
@@ -322,7 +324,7 @@ class _SettingsContentState extends State<_SettingsContent>
                                       OutputLocationMode.unified
                                   ? 320.0
                                   : 230.0)
-                              : 280.0,
+                              : 400.0,
               child: TabBarView(
                 controller: _tabController,
                 physics: const BouncingScrollPhysics(),

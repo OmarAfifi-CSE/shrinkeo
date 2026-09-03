@@ -672,7 +672,7 @@ class AppLocalizationsSv extends AppLocalizations {
   String get addFolderBtn => 'Lägg till Mapp';
 
   @override
-  String get dragDropMoreMsg => 'Eller dra & släpp fler videor här';
+  String get dragDropMoreMsg => 'Eller dra och släpp fler filer var som helst';
 
   @override
   String get openOutputFolderTooltip => 'Öppna Utdatamapp';
@@ -736,13 +736,20 @@ class AppLocalizationsSv extends AppLocalizations {
   String get videosPlural => 'videor';
 
   @override
-  String get releaseToAddVideosMsg => 'Släpp för att lägga till videor';
+  String get fileSingle => 'fil';
 
   @override
-  String get dragDropHereMsg => 'Dra & släpp filer eller mappar här';
+  String get filesPlural => 'filer';
 
   @override
-  String get supportedFormatsMsg => 'Stöder MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Släpp för att lägga till filer';
+
+  @override
+  String get dragDropHereMsg => 'Dra och släpp videor eller bilder här';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Stöder MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF och mer';
 
   @override
   String get selectFilesBtn => 'Välj Filer';
@@ -931,27 +938,6 @@ class AppLocalizationsSv extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Ta bort GPS- & Kamerainfo';
 
   @override
-  String get intentCompressOnly => 'Komprimera endast';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Fokusera enbart på att minska filstorleken (Kvalitet % eller Mål KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Endast redigera/konvertera';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Ändra storlek, rotera, trimma eller konvertera format utan att minska den visuella kvaliteten';
-
-  @override
-  String get intentCompressAndEdit => 'Komprimera och redigera';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Full kontroll: Redigera, ändra storlek, rotera OCH komprimera filstorleken tillsammans';
-
-  @override
   String get imgFmtOriginalLabel => 'Originalformat';
 
   @override
@@ -1024,6 +1010,44 @@ class AppLocalizationsSv extends AppLocalizations {
       'Bevarar originalbildens EXIF ​​och kamerametadata.';
 
   @override
+  String get imageQualityModeLabel => 'Kvalitetsnivå';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Kodar med fast kvalitetsnivå — högre kvalitet ger större filer.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Målstorlek';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Hittar automatiskt högsta kvalitet som ryms inom storleksgränsen.';
+
+  @override
+  String get imageQualitySliderTitle => 'Bildkvalitet';
+
+  @override
+  String get imageTargetSizeTitle => 'Målfilstorlek';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Kodar upprepade gånger med sjunkande kvalitet tills filen ryms inom gränsen. Mycket små gränser kan minska kvaliteten.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Gräns $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Ange anpassad KB-storlek';
+
+  @override
+  String get imageProcessingFailedError => 'Bildbearbetning misslyckades';
+
+  @override
+  String get imageProcessingErrorMsg => 'Fel vid bildbearbetning';
+
+  @override
   String get cleanNoiseLabel => 'Rensa brus';
 
   @override
@@ -1064,7 +1088,7 @@ class AppLocalizationsSv extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Komprimerade $success filer.';
   }
 
   @override

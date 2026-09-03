@@ -26,7 +26,7 @@ class VideoQueueView extends StatelessWidget {
         final result = await FilePicker.pickFiles(
           allowMultiple: true,
           type: FileType.custom,
-          allowedExtensions: ['mp4', 'mkv', 'mov', 'avi', 'wmv'],
+          allowedExtensions: VideoFile.pickerExtensions,
         );
         if (result != null && result.files.isNotEmpty) {
           final paths = result.files

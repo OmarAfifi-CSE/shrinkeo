@@ -674,7 +674,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get addFolderBtn => 'Dodaj Mapu';
 
   @override
-  String get dragDropMoreMsg => 'Ili povucite i ispustite još videa ovdje';
+  String get dragDropMoreMsg => 'Ili povucite dodatne datoteke bilo gdje';
 
   @override
   String get openOutputFolderTooltip => 'Otvori Izlaznu Mapu';
@@ -738,13 +738,21 @@ class AppLocalizationsHr extends AppLocalizations {
   String get videosPlural => 'videa';
 
   @override
-  String get releaseToAddVideosMsg => 'Ispustite za dodavanje videa';
+  String get fileSingle => 'datoteka';
 
   @override
-  String get dragDropHereMsg => 'Povucite i ispustite datoteke ili mape ovdje';
+  String get filesPlural => 'datoteka';
 
   @override
-  String get supportedFormatsMsg => 'Podržava MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Pustite za dodavanje datoteka';
+
+  @override
+  String get dragDropHereMsg =>
+      'Povucite i ispustite videozapise ili slike ovdje';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Podržava MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF i više';
 
   @override
   String get selectFilesBtn => 'Odaberi Datoteke';
@@ -932,27 +940,6 @@ class AppLocalizationsHr extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Skini podatke o GPS-u i kameri';
 
   @override
-  String get intentCompressOnly => 'Samo komprimirati';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Usredotočite se isključivo na smanjenje veličine datoteke (% kvalitete ili ciljani KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Samo uređivanje/pretvorba';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Promijenite veličinu, rotirajte, izrežite ili pretvorite format bez smanjenja vizualne kvalitete';
-
-  @override
-  String get intentCompressAndEdit => 'Komprimiraj i uredi';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Potpuna kontrola: zajedno uređujte, mijenjajte veličinu, rotirajte I komprimirajte veličinu datoteke';
-
-  @override
   String get imgFmtOriginalLabel => 'Izvorni format';
 
   @override
@@ -1027,6 +1014,44 @@ class AppLocalizationsHr extends AppLocalizations {
       'Čuva originalnu sliku EXIF ​​i metapodatke kamere.';
 
   @override
+  String get imageQualityModeLabel => 'Razina kvalitete';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Kodira uz fiksnu razinu kvalitete — viša kvaliteta znači veće datoteke.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Ciljana veličina';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Automatski pronalazi najvišu kvalitetu koja stane u ograničenje veličine.';
+
+  @override
+  String get imageQualitySliderTitle => 'Kvaliteta slike';
+
+  @override
+  String get imageTargetSizeTitle => 'Ciljana veličina datoteke';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Ponovno kodira sa smanjujućom kvalitetom dok datoteka ne stane u ograničenje. Vrlo mala ograničenja mogu smanjiti kvalitetu.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Ograničenje $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Unesite prilagođenu veličinu u KB';
+
+  @override
+  String get imageProcessingFailedError => 'Obrada slike nije uspjela';
+
+  @override
+  String get imageProcessingErrorMsg => 'Pogreška obrade slike';
+
+  @override
   String get cleanNoiseLabel => 'Očisti šum';
 
   @override
@@ -1067,7 +1092,7 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Uspješno komprimirano datoteka: $success.';
   }
 
   @override

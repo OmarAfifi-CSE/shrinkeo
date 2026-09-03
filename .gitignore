@@ -1,6 +1,7 @@
 App Icons
 windows_outputs
 .vscode
+.agents
 build_and_export.ps1
 # Miscellaneous
 *.class

@@ -681,7 +681,8 @@ class AppLocalizationsMl extends AppLocalizations {
   String get addFolderBtn => 'ഫോൾഡർ ചേർക്കുക';
 
   @override
-  String get dragDropMoreMsg => 'അല്ലെങ്കിൽ കൂടുതൽ വീഡിയോകൾ ഇവിടെ വലിച്ചിടുക';
+  String get dragDropMoreMsg =>
+      'അല്ലെങ്കിൽ കൂടുതൽ ഫയലുകൾ എവിടെയെങ്കിലും വലിച്ചിടുക';
 
   @override
   String get openOutputFolderTooltip => 'ഔട്ട്പുട്ട് ഫോൾഡർ തുറക്കുക';
@@ -745,13 +746,20 @@ class AppLocalizationsMl extends AppLocalizations {
   String get videosPlural => 'വീഡിയോകൾ';
 
   @override
-  String get releaseToAddVideosMsg => 'വീഡിയോകൾ ചേർക്കാൻ വിടുക';
+  String get fileSingle => 'ഫയൽ';
 
   @override
-  String get dragDropHereMsg => 'ഫയലുകളോ ഫോൾഡറുകളോ ഇവിടെ വലിച്ചിടുക';
+  String get filesPlural => 'ഫയലുകൾ';
 
   @override
-  String get supportedFormatsMsg => 'MP4, MKV, MOV, AVI, WMV പിന്തുണയ്ക്കുന്നു';
+  String get releaseToAddVideosMsg => 'ഫയലുകൾ ചേർക്കാൻ വിടുക';
+
+  @override
+  String get dragDropHereMsg => 'വീഡിയോകളോ ചിത്രങ്ങളോ ഇവിടെ വലിച്ചിടുക';
+
+  @override
+  String get supportedFormatsMsg =>
+      'MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF എന്നിവയെ പിന്തുണയ്ക്കുന്നു';
 
   @override
   String get selectFilesBtn => 'ഫയലുകൾ തിരഞ്ഞെടുക്കുക';
@@ -940,27 +948,6 @@ class AppLocalizationsMl extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'സ്ട്രിപ്പ് GPS & ക്യാമറ വിവരങ്ങൾ';
 
   @override
-  String get intentCompressOnly => 'കംപ്രസ് മാത്രം';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'ഫയൽ വലുപ്പം കുറയ്ക്കുന്നതിൽ ശ്രദ്ധ കേന്ദ്രീകരിക്കുക (ഗുണനിലവാരം% അല്ലെങ്കിൽ ടാർഗെറ്റ് KB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'എഡിറ്റ് / പരിവർത്തനം മാത്രം';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'ദൃശ്യ നിലവാരം കുറയ്ക്കാതെ ഫോർമാറ്റിൻ്റെ വലുപ്പം മാറ്റുക, തിരിക്കുക, ട്രിം ചെയ്യുക അല്ലെങ്കിൽ പരിവർത്തനം ചെയ്യുക';
-
-  @override
-  String get intentCompressAndEdit => 'കംപ്രസ് & എഡിറ്റ്';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'പൂർണ്ണ നിയന്ത്രണം: എഡിറ്റ് ചെയ്യുക, വലുപ്പം മാറ്റുക, തിരിക്കുക, ഫയൽ വലുപ്പം ഒരുമിച്ച് കംപ്രസ് ചെയ്യുക';
-
-  @override
   String get imgFmtOriginalLabel => 'യഥാർത്ഥ ഫോർമാറ്റ്';
 
   @override
@@ -1035,6 +1022,44 @@ class AppLocalizationsMl extends AppLocalizations {
       'യഥാർത്ഥ ഇമേജ് എക്സിഫും ക്യാമറ മെറ്റാഡാറ്റയും സംരക്ഷിക്കുന്നു.';
 
   @override
+  String get imageQualityModeLabel => 'ഗുണനിലവാര നില';
+
+  @override
+  String get imageQualityModeDesc =>
+      'നിശ്ചിത ഗുണനിലവാര നിലയിൽ എൻകോഡ് ചെയ്യുന്നു — ഉയർന്ന ഗുണനിലവാരം വലിയ ഫയലുകൾക്ക് കാരണമാകുന്നു.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'ലക്ഷ്യ വലുപ്പം';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'വലുപ്പ പരിധിക്കുള്ളിൽ ഒതുങ്ങുന്ന ഏറ്റവും ഉയർന്ന ഗുണനിലവാരം സ്വയമേവ കണ്ടെത്തുന്നു.';
+
+  @override
+  String get imageQualitySliderTitle => 'ചിത്ര ഗുണനിലവാരം';
+
+  @override
+  String get imageTargetSizeTitle => 'ലക്ഷ്യ ഫയൽ വലുപ്പം';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'ഫയൽ പരിധിക്കുള്ളിൽ ഒതുങ്ങുന്നതുവരെ കുറയുന്ന ഗുണനിലവാരത്തിൽ ആവർത്തിച്ച് എൻകോഡ് ചെയ്യുന്നു. വളരെ ചെറിയ പരിധി ഗുണനിലവാരം കുറയ്ക്കാം.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return '$size പരിധി';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'ഇഷ്ടാനുസൃത KB വലുപ്പം ടൈപ്പ് ചെയ്യുക';
+
+  @override
+  String get imageProcessingFailedError => 'ചിത്ര പ്രോസസ്സിംഗ് പരാജയപ്പെട്ടു';
+
+  @override
+  String get imageProcessingErrorMsg => 'ചിത്ര പ്രോസസ്സിംഗ് പിശക്';
+
+  @override
   String get cleanNoiseLabel => 'ശബ്ദം കുറയ്ക്കുക';
 
   @override
@@ -1075,7 +1100,7 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return '$success ഫയലുകൾ വിജയകരമായി കംപ്രസ് ചെയ്തു.';
   }
 
   @override

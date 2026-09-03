@@ -630,7 +630,7 @@ class CompressionState extends Equatable {
 
   // ---- Image Compression & Conversion Settings ----
 
-  /// Target image quality (1-100). Default: 80.
+  /// Target image quality (1-100). Default: 75.
   final int imageQuality;
 
   /// Target output format for images.
@@ -648,9 +648,6 @@ class CompressionState extends Equatable {
   /// Whether target size mode is enabled for images.
   final bool isImageTargetSizeMode;
 
-  /// Target action intent (Compress Only, Edit/Convert Only, or Compress & Edit).
-  final MediaActionIntent mediaActionIntent;
-
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -660,7 +657,6 @@ class CompressionState extends Equatable {
     this.fallbackWarningMessage,
     this.isDragHovering = false,
     this.isScanningFiles = false,
-    this.mediaActionIntent = MediaActionIntent.compressAndConvert,
     this.crfQuality = 22,
     this.isTargetSizeMode = false,
     this.targetSizeMB = 25.0,
@@ -696,11 +692,11 @@ class CompressionState extends Equatable {
     this.customAspectRatio = '16:10',
     this.customRotationAngle = 45.0,
     this.languageCode = 'en',
-    this.imageQuality = 80,
+    this.imageQuality = 75,
     this.imageOutputFormat = ImageOutputFormat.original,
     this.imageResizeMode = ImageResizeMode.original,
-    this.stripImageExif = true,
-    this.imageTargetSizeKB = 200.0,
+    this.stripImageExif = false,
+    this.imageTargetSizeKB = 500.0,
     this.isImageTargetSizeMode = false,
   });
 
@@ -758,11 +754,9 @@ class CompressionState extends Equatable {
     int? imageQuality,
     ImageOutputFormat? imageOutputFormat,
     ImageResizeMode? imageResizeMode,
-    bool? enablePngQuantization,
     bool? stripImageExif,
     double? imageTargetSizeKB,
     bool? isImageTargetSizeMode,
-    MediaActionIntent? mediaActionIntent,
   }) {
     return CompressionState(
       videos: videos ?? this.videos,
@@ -775,7 +769,6 @@ class CompressionState extends Equatable {
       fallbackWarningMessage: clearFallbackWarningMessage ? null : (fallbackWarningMessage ?? this.fallbackWarningMessage),
       isDragHovering: isDragHovering ?? this.isDragHovering,
       isScanningFiles: isScanningFiles ?? this.isScanningFiles,
-      mediaActionIntent: mediaActionIntent ?? this.mediaActionIntent,
       crfQuality: crfQuality ?? this.crfQuality,
       isTargetSizeMode: isTargetSizeMode ?? this.isTargetSizeMode,
       targetSizeMB: targetSizeMB ?? this.targetSizeMB,
@@ -846,6 +839,50 @@ class CompressionState extends Equatable {
       phase == CompressionPhase.probing ||
       phase == CompressionPhase.compressing;
 
+  /// Whether any field rendered by the settings panel differs from [other].
+  ///
+  /// Used to scope panel rebuilds: transient processing fields (queue list,
+  /// progress, ETA, ...) are intentionally ignored so the panel does not
+  /// rebuild on every progress tick while compressing.
+  bool settingsDifferFrom(CompressionState other) {
+    return isProcessing != other.isProcessing ||
+        isSettingsExpanded != other.isSettingsExpanded ||
+        crfQuality != other.crfQuality ||
+        isTargetSizeMode != other.isTargetSizeMode ||
+        targetSizeMB != other.targetSizeMB ||
+        encodingPreset != other.encodingPreset ||
+        videoCodec != other.videoCodec ||
+        enableVideoDenoise != other.enableVideoDenoise ||
+        hardwareEncoder != other.hardwareEncoder ||
+        audioMode != other.audioMode ||
+        enableAudioDenoise != other.enableAudioDenoise ||
+        audioNormalizeMode != other.audioNormalizeMode ||
+        audioChannelsMode != other.audioChannelsMode ||
+        resolutionMode != other.resolutionMode ||
+        frameRateMode != other.frameRateMode ||
+        outputFormat != other.outputFormat ||
+        outputLocationMode != other.outputLocationMode ||
+        deleteOriginalOnSuccess != other.deleteOriginalOnSuccess ||
+        customOutputDirectory != other.customOutputDirectory ||
+        trimEnabled != other.trimEnabled ||
+        trimStartTime != other.trimStartTime ||
+        trimEndTime != other.trimEndTime ||
+        videoRotationMode != other.videoRotationMode ||
+        videoSpeedMode != other.videoSpeedMode ||
+        aspectRatioMode != other.aspectRatioMode ||
+        exportType != other.exportType ||
+        stripMetadata != other.stripMetadata ||
+        autoCropBlackBars != other.autoCropBlackBars ||
+        customAspectRatio != other.customAspectRatio ||
+        customRotationAngle != other.customRotationAngle ||
+        imageQuality != other.imageQuality ||
+        imageOutputFormat != other.imageOutputFormat ||
+        imageResizeMode != other.imageResizeMode ||
+        stripImageExif != other.stripImageExif ||
+        imageTargetSizeKB != other.imageTargetSizeKB ||
+        isImageTargetSizeMode != other.isImageTargetSizeMode;
+  }
+
   /// Human-readable label for the current CRF quality tier.
   String get crfLabel {
     if (crfQuality == 0) return AppStrings.crfLossless;
@@ -907,6 +944,5 @@ class CompressionState extends Equatable {
     stripImageExif,
     imageTargetSizeKB,
     isImageTargetSizeMode,
-    mediaActionIntent,
   ];
 }

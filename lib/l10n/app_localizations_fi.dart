@@ -678,7 +678,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get addFolderBtn => 'Lisää Kansio';
 
   @override
-  String get dragDropMoreMsg => 'Tai vedä & pudota lisää videoita tähän';
+  String get dragDropMoreMsg => 'Tai raahaa lisää tiedostoja mihin tahansa';
 
   @override
   String get openOutputFolderTooltip => 'Avaa Tallennuskansio';
@@ -741,13 +741,20 @@ class AppLocalizationsFi extends AppLocalizations {
   String get videosPlural => 'videota';
 
   @override
-  String get releaseToAddVideosMsg => 'Vapauta lisätäksesi videot';
+  String get fileSingle => 'tiedosto';
 
   @override
-  String get dragDropHereMsg => 'Vedä & pudota tiedostot tai kansiot tähän';
+  String get filesPlural => 'tiedostoa';
 
   @override
-  String get supportedFormatsMsg => 'Tukee MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Päästä irti lisätäksesi tiedostoja';
+
+  @override
+  String get dragDropHereMsg => 'Raahaa videoita tai kuvia tähän';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Tukee MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF ja muita';
 
   @override
   String get selectFilesBtn => 'Valitse Tiedostot';
@@ -936,27 +943,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Poista GPS- ja kameratiedot';
 
   @override
-  String get intentCompressOnly => 'Pakkaa vain';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Keskity pelkästään tiedostokoon pienentämiseen (laatuprosentti tai tavoiteKB/MB)';
-
-  @override
-  String get intentEditConvertOnly => 'Vain muokkaus / muuntaminen';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Muuta kokoa, kierrä, leikkaa tai muunna muotoa heikentämättä visuaalista laatua';
-
-  @override
-  String get intentCompressAndEdit => 'Pakkaa ja muokkaa';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Täysi hallinta: Muokkaa, muuta kokoa, kierrä JA pakkaa tiedostokokoa yhdessä';
-
-  @override
   String get imgFmtOriginalLabel => 'Alkuperäinen muoto';
 
   @override
@@ -1030,6 +1016,44 @@ class AppLocalizationsFi extends AppLocalizations {
       'Säilyttää alkuperäisen kuvan EXIF- ja kameran metatiedot.';
 
   @override
+  String get imageQualityModeLabel => 'Laatutaso';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Koodaa kiinteällä laatutasolla — korkeampi laatu tarkoittaa suurempia tiedostoja.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Tavoitekoko';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Etsii automaattisesti korkeimman laadun, joka mahtuu kokorajaan.';
+
+  @override
+  String get imageQualitySliderTitle => 'Kuvan laatu';
+
+  @override
+  String get imageTargetSizeTitle => 'Tavoitetiedostokoko';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Koodaa toistuvasti laskevalla laadulla, kunnes tiedosto mahtuu rajaan. Erittäin pienet rajat voivat heikentää laatua.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Raja $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Kirjoita mukautettu KB-koko';
+
+  @override
+  String get imageProcessingFailedError => 'Kuvankäsittely epäonnistui';
+
+  @override
+  String get imageProcessingErrorMsg => 'Kuvankäsittelyvirhe';
+
+  @override
   String get cleanNoiseLabel => 'Puhdista kohina';
 
   @override
@@ -1070,7 +1094,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return '$success videota pakattiin onnistuneesti.';
+    return '$success tiedostoa pakattu onnistuneesti.';
   }
 
   @override

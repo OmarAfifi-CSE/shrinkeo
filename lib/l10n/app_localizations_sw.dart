@@ -676,7 +676,7 @@ class AppLocalizationsSw extends AppLocalizations {
   String get addFolderBtn => 'Ongeza Kabati';
 
   @override
-  String get dragDropMoreMsg => 'Au kokota & dondosha video zaidi hapa';
+  String get dragDropMoreMsg => 'Au buruta faili zaidi popote';
 
   @override
   String get openOutputFolderTooltip => 'Fungua Kabati la Hifadhi';
@@ -740,13 +740,20 @@ class AppLocalizationsSw extends AppLocalizations {
   String get videosPlural => 'video';
 
   @override
-  String get releaseToAddVideosMsg => 'Achia ili kuongeza video';
+  String get fileSingle => 'faili';
 
   @override
-  String get dragDropHereMsg => 'Kokota & dondosha faili au makabati hapa';
+  String get filesPlural => 'faili';
 
   @override
-  String get supportedFormatsMsg => 'Inasaidia MP4, MKV, MOV, AVI, WMV';
+  String get releaseToAddVideosMsg => 'Dondosha kuongeza faili';
+
+  @override
+  String get dragDropHereMsg => 'Buruta na udondoshe video au picha hapa';
+
+  @override
+  String get supportedFormatsMsg =>
+      'Inaunga mkono MP4, MKV, MOV, AVI, WMV, WebM • PNG, JPG, WebP, AVIF na zaidi';
 
   @override
   String get selectFilesBtn => 'Chagua Faili';
@@ -932,27 +939,6 @@ class AppLocalizationsSw extends AppLocalizations {
   String get stripGpsCameraInfoLabel => 'Maelezo ya Kamera na GPS';
 
   @override
-  String get intentCompressOnly => 'Compress Tu';
-
-  @override
-  String get intentCompressOnlyTooltip =>
-      'Lenga katika kupunguza ukubwa wa faili (Ubora % au KB/MB Lengwa)';
-
-  @override
-  String get intentEditConvertOnly => 'Hariri / Badilisha Pekee';
-
-  @override
-  String get intentEditConvertOnlyTooltip =>
-      'Badilisha ukubwa, zungusha, punguza au ubadilishe umbizo bila kupunguza ubora wa mwonekano';
-
-  @override
-  String get intentCompressAndEdit => 'Compress & Edit';
-
-  @override
-  String get intentCompressAndEditTooltip =>
-      'Udhibiti kamili: Hariri, badilisha ukubwa, zungusha NA bana saizi ya faili pamoja';
-
-  @override
   String get imgFmtOriginalLabel => 'Umbizo Asilia';
 
   @override
@@ -1027,6 +1013,44 @@ class AppLocalizationsSw extends AppLocalizations {
       'Huhifadhi picha halisi ya EXIF ​​na metadata ya kamera.';
 
   @override
+  String get imageQualityModeLabel => 'Kiwango cha Ubora';
+
+  @override
+  String get imageQualityModeDesc =>
+      'Husimba kwa kiwango thabiti cha ubora — ubora wa juu unamaanisha faili kubwa zaidi.';
+
+  @override
+  String get imageTargetSizeModeLabel => 'Ukubwa Lengwa';
+
+  @override
+  String get imageTargetSizeModeDesc =>
+      'Hutafuta kiotomatiki ubora wa juu zaidi unaofitsia ndani ya kikomo cha ukubwa.';
+
+  @override
+  String get imageQualitySliderTitle => 'Ubora wa Picha';
+
+  @override
+  String get imageTargetSizeTitle => 'Ukubwa Lengwa wa Faili';
+
+  @override
+  String get imageTargetSizeDesc =>
+      'Husimba mara kwa mara kwa ubora unaoendelea kupungua hadi faili ifitsie ndani ya kikomo. Vikomo vidogo sana vinaweza kupunguza ubora.';
+
+  @override
+  String imageTargetSizeLimitLabel(String size) {
+    return 'Kikomo $size';
+  }
+
+  @override
+  String get customKbSizeTooltip => 'Andika ukubwa wa KB unaotakiwa';
+
+  @override
+  String get imageProcessingFailedError => 'Uchakataji wa picha umeshindikana';
+
+  @override
+  String get imageProcessingErrorMsg => 'Hitilafu ya uchakataji wa picha';
+
+  @override
   String get cleanNoiseLabel => 'Safisha kelele';
 
   @override
@@ -1067,7 +1091,7 @@ class AppLocalizationsSw extends AppLocalizations {
 
   @override
   String notifyCompressionCompleteSuccess(String success) {
-    return 'Successfully compressed $success videos.';
+    return 'Imebanwa faili $success kwa mafanikio.';
   }
 
   @override

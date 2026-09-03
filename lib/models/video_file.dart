@@ -3,9 +3,6 @@ import 'package:equatable/equatable.dart';
 /// Type of media file (Video vs Image).
 enum MediaType { video, image }
 
-/// Intended processing action for a queued item.
-enum MediaActionIntent { compressOnly, convertOnly, resizeOnly, compressAndConvert }
-
 /// Status of an individual video/image in the processing queue.
 enum VideoStatus { queued, probing, compressing, success, failed, cancelled }
 
@@ -87,9 +84,6 @@ class VideoFile extends Equatable {
   /// Media type classification (video vs image).
   final MediaType mediaType;
 
-  /// Intended processing action for this media item.
-  final MediaActionIntent actionIntent;
-
   /// Image width in pixels (populated for images).
   final int? imageWidth;
 
@@ -115,7 +109,6 @@ class VideoFile extends Equatable {
     this.eta,
     this.processingSpeed,
     this.mediaType = MediaType.video,
-    this.actionIntent = MediaActionIntent.compressAndConvert,
     this.imageWidth,
     this.imageHeight,
   });
@@ -140,7 +133,6 @@ class VideoFile extends Equatable {
     Duration? eta,
     double? processingSpeed,
     MediaType? mediaType,
-    MediaActionIntent? actionIntent,
     int? imageWidth,
     int? imageHeight,
     // Allow explicitly setting nullable fields to null.
@@ -191,7 +183,6 @@ class VideoFile extends Equatable {
           ? null
           : (processingSpeed ?? this.processingSpeed),
       mediaType: mediaType ?? this.mediaType,
-      actionIntent: actionIntent ?? this.actionIntent,
       imageWidth: clearImageDimensions ? null : (imageWidth ?? this.imageWidth),
       imageHeight: clearImageDimensions ? null : (imageHeight ?? this.imageHeight),
     );
@@ -211,6 +202,13 @@ class VideoFile extends Equatable {
   static bool isValidMediaExtension(String ext) {
     final e = ext.toLowerCase();
     return validVideoExtensions.contains(e) || validImageExtensions.contains(e);
+  }
+
+  /// Allowed extensions for the native file picker (without leading dots),
+  /// covering both video and image formats.
+  static List<String> get pickerExtensions {
+    final all = <String>{...validVideoExtensions, ...validImageExtensions};
+    return all.map((e) => e.substring(1)).toList()..sort();
   }
 
   /// Formats byte sizes into human-readable strings (e.g., "12.5 MB").
@@ -251,7 +249,6 @@ class VideoFile extends Equatable {
         eta,
         processingSpeed,
         mediaType,
-        actionIntent,
         imageWidth,
         imageHeight,
       ];

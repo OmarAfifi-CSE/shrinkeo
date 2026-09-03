@@ -204,12 +204,11 @@ class VideoFileCard extends StatelessWidget {
               ],
             ),
 
-            // -- Progress bar (only for videos during compression) --
+            // -- Progress bar (during compression, videos & images alike) --
             AnimatedSize(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              child: (video.status == VideoStatus.compressing &&
-                      video.mediaType == MediaType.video)
+              child: video.status == VideoStatus.compressing
                   ? Column(
                       children: [
                         const SizedBox(height: 10),
@@ -296,10 +295,6 @@ class VideoFileCard extends StatelessWidget {
 
   Widget _buildRightStatusContent(BuildContext context, ThemeData theme) {
     if (video.status == VideoStatus.compressing) {
-      if (video.mediaType == MediaType.image) {
-        return const SizedBox.shrink(key: ValueKey('compressing_image'));
-      }
-
       return Row(
         key: ValueKey('compressing_${video.id}'),
         mainAxisAlignment: MainAxisAlignment.end,
