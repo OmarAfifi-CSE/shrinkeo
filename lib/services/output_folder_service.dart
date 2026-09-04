@@ -26,8 +26,10 @@ class OutputFolderService {
         if (downloadsDir != null) {
           return await _createUniqueFolder(downloadsDir.path);
         }
-      } catch (_) {}
-      
+      } catch (e) {
+        debugPrint('Downloads fallback failed too: $e. Using system temp.');
+      }
+
       // Ultimate fallback
       return await _createUniqueFolder(Directory.systemTemp.path);
     }

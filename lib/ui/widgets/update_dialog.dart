@@ -67,7 +67,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
     final Uri url = Uri.parse(fallbackStr);
     try {
       await launchUrl(url, mode: LaunchMode.externalApplication);
-    } catch (_) {}
+    } catch (_) {
+      // Last-resort fallback; the main download path already surfaced an error.
+    }
   }
 
   Future<void> _handleUpdate() async {
@@ -98,6 +100,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
       _downloadStatus = 'Starting download...';
     });
 
+    final client = http.Client();
+    IOSink? openSink;
+
     try {
       String? actualDownloadUrl =
           widget.downloadUrl ?? widget.blockState?.updateUrl;
@@ -119,57 +124,75 @@ class _UpdateDialogState extends State<UpdateDialog> {
       });
 
       final request = http.Request('GET', Uri.parse(actualDownloadUrl));
-      final http.StreamedResponse response = await http.Client().send(request);
 
+      final http.StreamedResponse response = await client.send(request);
       if (response.statusCode != 200) {
         throw Exception('Download failed with status: ${response.statusCode}');
       }
 
       final contentLength = response.contentLength;
-      Directory tempDir = await getTemporaryDirectory();
+      final Directory tempDir = await getTemporaryDirectory();
 
-      // Clean up old update files
+      // Clean up previous Shrinkeo update installers only — never touch
+      // unrelated executables living in the shared OS temp directory.
       try {
         final List<FileSystemEntity> entities = tempDir.listSync();
         for (final entity in entities) {
-          if (entity is File && entity.path.endsWith('.exe')) {
+          if (entity is File &&
+              entity.path.toLowerCase().endsWith('.exe') &&
+              p.basename(entity.path).toLowerCase().contains('shrinkeo')) {
             entity.deleteSync();
           }
         }
-      } catch (_) {}
+      } catch (_) {
+        // Best-effort cleanup; leftover installers are harmless.
+      }
 
       final String fileName = actualDownloadUrl.split('/').last;
       final File file = File(p.join(tempDir.path, fileName));
       final IOSink sink = file.openWrite();
+      openSink = sink;
 
       int downloaded = 0;
+      double lastEmittedFraction = 0.0;
+      DateTime lastEmitTime = DateTime.now();
+
       await for (final chunk in response.stream) {
         sink.add(chunk);
         downloaded += chunk.length;
-        if (contentLength != null && contentLength > 0) {
-          if (mounted) {
-            setState(() {
-              _downloadProgress = downloaded / contentLength;
-              final String downloadedMb = (downloaded / (1024 * 1024))
-                  .toStringAsFixed(1);
-              final String totalMb = (contentLength / (1024 * 1024))
-                  .toStringAsFixed(1);
-              _downloadStatus = '$downloadedMb MB / $totalMb MB';
-            });
+
+        // Throttle UI updates: only rebuild on a >=1% step or >=100 ms.
+        final now = DateTime.now();
+        final fraction = contentLength != null && contentLength > 0
+            ? downloaded / contentLength
+            : null;
+        final shouldEmit = fraction == null
+            ? now.difference(lastEmitTime).inMilliseconds >= 100
+            : (fraction - lastEmittedFraction).abs() >= 0.01 ||
+                  now.difference(lastEmitTime).inMilliseconds >= 100;
+        if (!shouldEmit || !mounted) continue;
+        lastEmittedFraction = fraction ?? lastEmittedFraction;
+        lastEmitTime = now;
+
+        setState(() {
+          final String downloadedMb = (downloaded / (1024 * 1024))
+              .toStringAsFixed(1);
+          if (fraction != null) {
+            _downloadProgress = fraction;
+            // fraction != null guarantees contentLength != null && > 0.
+            final String totalMb = (contentLength! / (1024 * 1024))
+                .toStringAsFixed(1);
+            _downloadStatus = '$downloadedMb MB / $totalMb MB';
+          } else {
+            _downloadStatus = '$downloadedMb MB downloaded';
           }
-        } else {
-          if (mounted) {
-            setState(() {
-              final String downloadedMb = (downloaded / (1024 * 1024))
-                  .toStringAsFixed(1);
-              _downloadStatus = '$downloadedMb MB downloaded';
-            });
-          }
-        }
+        });
       }
 
       await sink.flush();
       await sink.close();
+      openSink = null;
+      client.close();
 
       if (mounted) {
         setState(() {
@@ -189,6 +212,17 @@ class _UpdateDialogState extends State<UpdateDialog> {
           _errorMessage = AppStrings.failedDownloadUpdateMsg;
         });
       }
+    } finally {
+      // Guarantee the sink and HTTP client are released on any failure
+      // (mid-stream errors, cancellation, etc.). Double-close is harmless.
+      if (openSink != null) {
+        try {
+          await openSink.close();
+        } catch (_) {
+          // Sink already closed or disk error; nothing more to do.
+        }
+      }
+      client.close();
     }
   }
 
@@ -230,7 +264,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
               onPressed: () {
                 Navigator.of(context).pop(); // Close confirm dialog
               },
-              child: Text(AppStrings.skipUpdateCancelBtn,
+              child: Text(
+                AppStrings.skipUpdateCancelBtn,
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
@@ -268,7 +303,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
           child: Container(
             constraints: BoxConstraints(
               maxWidth: 500,
-              maxHeight: MediaQuery.of(context).size.height * 0.85,
+              maxHeight: MediaQuery.sizeOf(context).height * 0.85,
             ),
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
@@ -311,7 +346,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.blockState?.title ?? AppStrings.updateAvailableTitle,
+                              widget.blockState?.title ??
+                                  AppStrings.updateAvailableTitle,
                               style: TextStyle(
                                 color: textTheme.bodyLarge?.color,
                                 fontWeight: FontWeight.w700,
@@ -323,7 +359,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
                                 widget.newVersion!.isNotEmpty) ...[
                               const SizedBox(height: 2),
                               Text(
-                                AppStrings.versionAvailableMsg(widget.newVersion!),
+                                AppStrings.versionAvailableMsg(
+                                  widget.newVersion!,
+                                ),
                                 style: TextStyle(
                                   color: textTheme.bodyMedium?.color,
                                   fontSize: 13.0,
@@ -350,7 +388,6 @@ class _UpdateDialogState extends State<UpdateDialog> {
                       const SizedBox(height: 10.0),
                     ],
                     Container(
-                      width: double.infinity,
                       constraints: const BoxConstraints(maxHeight: 350),
                       padding: const EdgeInsets.all(14.0),
                       decoration: BoxDecoration(
@@ -360,42 +397,53 @@ class _UpdateDialogState extends State<UpdateDialog> {
                           color: theme.colorScheme.onSurface.withAlpha(10),
                         ),
                       ),
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: MarkdownBody(
-                          data: _releaseNotes,
-                          styleSheet: MarkdownStyleSheet(
-                            p: TextStyle(
-                              color: textTheme.bodyMedium?.color,
-                              fontSize: 13.0,
-                              height: 1.5,
+                      // LayoutBuilder keeps the width bounded by the dialog
+                      // constraints (no unbounded-width layout).
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          return SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minWidth: constraints.maxWidth,
+                              ),
+                              child: MarkdownBody(
+                                data: _releaseNotes,
+                                styleSheet: MarkdownStyleSheet(
+                                  p: TextStyle(
+                                    color: textTheme.bodyMedium?.color,
+                                    fontSize: 13.0,
+                                    height: 1.5,
+                                  ),
+                                  listBullet: const TextStyle(
+                                    color: AppColors.primaryAccent,
+                                    fontSize: 13.0,
+                                  ),
+                                  strong: TextStyle(
+                                    color: textTheme.bodyLarge?.color,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 13.0,
+                                  ),
+                                  h1: TextStyle(
+                                    color: textTheme.bodyLarge?.color,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18.0,
+                                  ),
+                                  h2: TextStyle(
+                                    color: textTheme.bodyLarge?.color,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
+                                  ),
+                                  h3: TextStyle(
+                                    color: textTheme.bodyLarge?.color,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                              ),
                             ),
-                            listBullet: const TextStyle(
-                              color: AppColors.primaryAccent,
-                              fontSize: 13.0,
-                            ),
-                            strong: TextStyle(
-                              color: textTheme.bodyLarge?.color,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 13.0,
-                            ),
-                            h1: TextStyle(
-                              color: textTheme.bodyLarge?.color,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
-                            ),
-                            h2: TextStyle(
-                              color: textTheme.bodyLarge?.color,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.0,
-                            ),
-                            h3: TextStyle(
-                              color: textTheme.bodyLarge?.color,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14.0,
-                            ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(height: 24.0),
@@ -506,7 +554,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: Text(AppStrings.exitAppBtn,
+                                child: Text(
+                                  AppStrings.exitAppBtn,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 13.0,
@@ -600,7 +649,8 @@ class _UpdateDialogState extends State<UpdateDialog> {
                               size: 16,
                               color: AppColors.primaryAccent,
                             ),
-                            label: Text(AppStrings.downloadFromWebsiteBtn,
+                            label: Text(
+                              AppStrings.downloadFromWebsiteBtn,
                               style: const TextStyle(
                                 color: AppColors.primaryAccent,
                                 fontSize: 13,

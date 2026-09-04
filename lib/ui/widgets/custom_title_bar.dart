@@ -7,6 +7,7 @@ import '../../core/app_constants.dart';
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
+import '../../models/video_file.dart';
 import '../app_colors.dart';
 import '../screens/home_screen.dart';
 
@@ -67,17 +68,6 @@ class CustomTitleBar extends StatelessWidget {
                         ? AppColors.successGreen
                         : const Color(0xFF059669);
 
-                    String formatBytes(int bytes) {
-                      if (bytes < 1024) return '$bytes B';
-                      if (bytes < 1024 * 1024) {
-                        return '${(bytes / 1024).toStringAsFixed(1)} KB';
-                      }
-                      if (bytes < 1024 * 1024 * 1024) {
-                        return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
-                      }
-                      return '${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
-                    }
-
                     return Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Tooltip(
@@ -103,7 +93,7 @@ class CustomTitleBar extends StatelessWidget {
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                '${AppStrings.savedSpacePrefix} \u200E${formatBytes(state.globalSavedBytes)}',
+                                '${AppStrings.savedSpacePrefix} ${VideoFile.formatFileSize(state.globalSavedBytes)}',
                                 style: TextStyle(
                                   color: badgeColor,
                                   fontSize: 10,
@@ -142,52 +132,6 @@ class CustomTitleBar extends StatelessWidget {
                   },
                 ),
 
-                // Active config badge
-                BlocBuilder<CompressionCubit, CompressionState>(
-                  buildWhen: (prev, curr) =>
-                      prev.crfQuality != curr.crfQuality ||
-                      prev.isTargetSizeMode != curr.isTargetSizeMode ||
-                      prev.targetSizeMB != curr.targetSizeMB ||
-                      prev.encodingPreset != curr.encodingPreset,
-                  builder: (context, state) {
-                    final isDark = theme.brightness == Brightness.dark;
-                    final badgeColor = isDark
-                        ? AppColors.primaryAccentLight
-                        : AppColors.primaryAccent;
-
-                    final modeText = state.isTargetSizeMode
-                        ? '${state.targetSizeMB.toStringAsFixed(state.targetSizeMB % 1 == 0 ? 0 : 1)} MB'
-                        : 'CRF ${state.crfQuality}';
-
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 6),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 3,
-                        ),
-                        decoration: BoxDecoration(
-                          color: badgeColor.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: badgeColor.withValues(alpha: 0.3),
-                          ),
-                        ),
-                        child: Directionality(
-                          textDirection: TextDirection.ltr,
-                          child: Text(
-                            '$modeText · ${state.encodingPreset.label}',
-                            style: TextStyle(
-                              color: badgeColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
 
                 // Theme toggle
                 BlocBuilder<CompressionCubit, CompressionState>(
@@ -259,7 +203,7 @@ class CustomTitleBar extends StatelessWidget {
                   onTap: () => windowManager.minimize(),
                   tooltip: AppStrings.minimizeTooltip,
                 ),
-                _MaximizeButton(),
+                const _MaximizeButton(),
                 _TitleBarButton(
                   icon: Icons.close_rounded,
                   iconColor: theme.iconTheme.color,
@@ -280,6 +224,8 @@ class CustomTitleBar extends StatelessWidget {
 
 /// Maximize/restore button that reacts to window state.
 class _MaximizeButton extends StatefulWidget {
+  const _MaximizeButton();
+
   @override
   State<_MaximizeButton> createState() => _MaximizeButtonState();
 }
@@ -359,6 +305,7 @@ class _TitleBarButtonState extends State<_TitleBarButton> {
   @override
   Widget build(BuildContext context) {
     final button = MouseRegion(
+      cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
       child: GestureDetector(

@@ -212,18 +212,22 @@ class VideoFileCard extends StatelessWidget {
                   ? Column(
                       children: [
                         const SizedBox(height: 10),
-                        LinearProgressIndicator(
-                          key: ValueKey('progress_${video.id}'),
-                          value: video.progress,
-                          minHeight: 4,
-                          borderRadius: BorderRadius.circular(2),
-                          backgroundColor:
-                              theme.brightness == Brightness.dark
-                                  ? AppColors.borderDark
-                                  : AppColors.borderLight,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            theme.colorScheme.primary.withValues(
-                              alpha: 0.9,
+                        RepaintBoundary(
+                          // Isolates per-tick progress repaints from the rest
+                          // of the card's raster cache.
+                          child: LinearProgressIndicator(
+                            key: ValueKey('progress_${video.id}'),
+                            value: video.progress,
+                            minHeight: 4,
+                            borderRadius: BorderRadius.circular(2),
+                            backgroundColor:
+                                theme.brightness == Brightness.dark
+                                    ? AppColors.borderDark
+                                    : AppColors.borderLight,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              theme.colorScheme.primary.withValues(
+                                alpha: 0.9,
+                              ),
                             ),
                           ),
                         ),

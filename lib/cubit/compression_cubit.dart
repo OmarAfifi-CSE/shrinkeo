@@ -547,6 +547,8 @@ class CompressionCubit extends Cubit<CompressionState> {
         exportType: ExportType.video,
         stripMetadata: false,
         autoCropBlackBars: false,
+        customAspectRatio: '16:10',
+        customRotationAngle: 45.0,
         imageQuality: 75,
         imageOutputFormat: ImageOutputFormat.original,
         imageResizeMode: ImageResizeMode.original,

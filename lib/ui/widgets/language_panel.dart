@@ -402,7 +402,8 @@ class _LanguageCardState extends State<_LanguageCard> {
                 ),
                 if (widget.isSelected)
                   Padding(
-                    padding: const EdgeInsets.only(left: 4),
+                    // Directional so the check hugs the text edge in RTL too.
+                    padding: const EdgeInsetsDirectional.only(start: 4),
                     child: Icon(
                       Icons.check_circle_rounded,
                       size: 16,

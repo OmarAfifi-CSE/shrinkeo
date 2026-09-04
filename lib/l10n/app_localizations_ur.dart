@@ -894,7 +894,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get trimTimeTooltip =>
-      'وقت درج کریں مثلاً 5 (5 سیکنڈ)، 1:30 (1 منٹ 30 سیکنڈ)، یا 00:01:30';
+      'وقت درج کریں مثلًا 5 (5 سیکنڈ)، 1:30 (1 منٹ 30 سیکنڈ)، یا 00:01:30';
 
   @override
   String get tabImageSuite => 'امیج ٹولز';

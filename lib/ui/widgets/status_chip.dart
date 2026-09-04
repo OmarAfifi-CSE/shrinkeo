@@ -91,6 +91,9 @@ class StatusChip extends StatelessWidget {
 }
 
 /// Widget that gently pulses its icon to indicate active processing.
+///
+/// Pulses by animating the icon's color alpha instead of an [Opacity] layer,
+/// so no saveLayer/OpacityLayer is pushed and raster stays cheap.
 class _PulsingIcon extends StatefulWidget {
   final IconData icon;
   final Color color;
@@ -104,7 +107,7 @@ class _PulsingIcon extends StatefulWidget {
 class _PulsingIconState extends State<_PulsingIcon>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _opacity;
+  late final Animation<Color?> _color;
 
   @override
   void initState() {
@@ -114,9 +117,9 @@ class _PulsingIconState extends State<_PulsingIcon>
       vsync: this,
     )..repeat(reverse: true);
 
-    _opacity = Tween<double>(
-      begin: 0.4,
-      end: 1.0,
+    _color = ColorTween(
+      begin: widget.color.withValues(alpha: 0.4),
+      end: widget.color,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
@@ -128,14 +131,13 @@ class _PulsingIconState extends State<_PulsingIcon>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _opacity,
-      builder: (context, child) {
-        return Opacity(
-          opacity: _opacity.value,
-          child: Icon(widget.icon, size: 14, color: widget.color),
-        );
-      },
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: _color,
+        builder: (context, _) {
+          return Icon(widget.icon, size: 14, color: _color.value);
+        },
+      ),
     );
   }
 }

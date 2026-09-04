@@ -18,7 +18,10 @@ class UpdateService {
       if (response.statusCode == 200) {
         return json.decode(response.body);
       }
-    } catch (_) {}
+    } catch (e) {
+      // Offline or rate-limited: update check is best-effort, never fatal.
+      debugPrint('GitHub releases fetch failed: $e');
+    }
     return null;
   }
 

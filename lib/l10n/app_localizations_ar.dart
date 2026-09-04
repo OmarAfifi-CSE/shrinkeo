@@ -12,7 +12,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appName => 'Shrinkeo';
 
   @override
-  String get totalSpaceSaved => 'إجمالي المساحة المحفوظة كلياً';
+  String get totalSpaceSaved => 'إجمالي المساحة المحفوظة كليًا';
 
   @override
   String get savedSpacePrefix => 'تم توفير:';
@@ -97,7 +97,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get targetSizeDesc =>
-      'يحسب معدل البت للالتزام بالحجم المستهدف (الأدنى: ‎1 MB). الحدود المنخفضة جداً للفيديوهات الطويلة ستقلل الجودة البصرية.';
+      'يحسب معدل البت للالتزام بالحجم المستهدف (الأدنى: ‎1 MB). الحدود المنخفضة جدًا للفيديوهات الطويلة ستقلل الجودة البصرية.';
 
   @override
   String get encodingSpeedTitle => 'سرعة الترميز';
@@ -110,23 +110,23 @@ class AppLocalizationsAr extends AppLocalizations {
       'أقصى سرعة ممكنة، ولكنه يحقق أقل نسبة تقليل للحجم.';
 
   @override
-  String get presetSuperfastLabel => 'سريع جداً ممتاز';
+  String get presetSuperfastLabel => 'سريع جدًا ممتاز';
 
   @override
-  String get presetSuperfastDesc => 'ترميز سريع جداً مع كفاءة ضغط أقل.';
+  String get presetSuperfastDesc => 'ترميز سريع جدًا مع كفاءة ضغط أقل.';
 
   @override
-  String get presetVeryfastLabel => 'سريع جداً';
+  String get presetVeryfastLabel => 'سريع جدًا';
 
   @override
   String get presetVeryfastDesc =>
-      'أسرع من المتوسط ويقدم تقليلاً معتدلاً للحجم.';
+      'أسرع من المتوسط ويقدم تقليلًا معتدلًا للحجم.';
 
   @override
   String get presetFasterLabel => 'أسرع';
 
   @override
-  String get presetFasterDesc => 'تحسين خفيف للسرعة مع ضغط ممتاز عموماً.';
+  String get presetFasterDesc => 'تحسين خفيف للسرعة مع ضغط ممتاز عمومًا.';
 
   @override
   String get presetFastLabel => 'سريع';
@@ -147,10 +147,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get presetSlowDesc =>
-      'عملية أبطأ ولكن تنتج ملفات أصغر حجماً بشكل ملحوظ.';
+      'عملية أبطأ ولكن تنتج ملفات أصغر حجمًا بشكل ملحوظ.';
 
   @override
-  String get presetVeryslowLabel => 'بطيء جداً';
+  String get presetVeryslowLabel => 'بطيء جدًا';
 
   @override
   String get presetVeryslowDesc =>
@@ -244,7 +244,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get res480pLabel => '480p';
 
   @override
-  String get res480pDesc => 'تخفيض الدقة لـ ‎480p (جودة ‎DVD، حجم صغير جداً).';
+  String get res480pDesc => 'تخفيض الدقة لـ ‎480p (جودة ‎DVD، حجم صغير جدًا).';
 
   @override
   String get res360pLabel => '360p';
@@ -339,7 +339,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get keepMetadataInfoDesc => 'الحفاظ على بيانات الفيديو الأصلية كاملة.';
 
   @override
-  String get autoCropBlackBarsTitle => 'قص الحواف السوداء تلقائياً';
+  String get autoCropBlackBarsTitle => 'قص الحواف السوداء تلقائيًا';
 
   @override
   String get autoCropLabel => 'قص تلقائي';
@@ -430,7 +430,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get aspectCinemaLabel => '21:9 (سينمائي)';
 
   @override
-  String get aspectCinemaDesc => 'أبعاد سينمائية عريضة جداً للشاشات الفائقة';
+  String get aspectCinemaDesc => 'أبعاد سينمائية عريضة جدًا للشاشات الفائقة';
 
   @override
   String get aspectCustomLabel => 'نسبة مخصصة';
@@ -451,7 +451,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rotOriginalDesc => 'الحفاظ على اتجاه الفيديو الأصلي';
 
   @override
-  String get rot90Label => '90° يميناً';
+  String get rot90Label => '90° يمينًا';
 
   @override
   String get rot90Desc => 'تدوير الفيديو ‎90 درجة باتجاه عقارب الساعة';
@@ -460,10 +460,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rot180Label => '180° مقلوب';
 
   @override
-  String get rot180Desc => 'قلب الفيديو رأساً على عقب';
+  String get rot180Desc => 'قلب الفيديو رأسًا على عقب';
 
   @override
-  String get rot270Label => '270° يساراً';
+  String get rot270Label => '270° يسارًا';
 
   @override
   String get rot270Desc => 'تدوير الفيديو ‎270 درجة باتجاه عقارب الساعة';
@@ -472,13 +472,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get rotFlipHLabel => 'قلب أفقي';
 
   @override
-  String get rotFlipHDesc => 'عكس اتجاه الفيديو أفقياً (مرآة)';
+  String get rotFlipHDesc => 'عكس اتجاه الفيديو أفقيًا (مرآة)';
 
   @override
   String get rotFlipVLabel => 'قلب رأسي';
 
   @override
-  String get rotFlipVDesc => 'عكس اتجاه الفيديو رأسياً';
+  String get rotFlipVDesc => 'عكس اتجاه الفيديو رأسيًا';
 
   @override
   String get rotCustomLabel => 'زاوية مخصصة';
@@ -659,7 +659,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get toRecycleBinDesc =>
-      'نقل الفيديوهات الأصلية لسلة المهملات تلقائياً بعد نجاح الضغط.';
+      'نقل الفيديوهات الأصلية لسلة المهملات تلقائيًا بعد نجاح الضغط.';
 
   @override
   String get outputFormatTitle => 'صيغة الحاوية (‎Container)';
@@ -669,7 +669,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get formatOriginalDesc =>
-      'الحفاظ على الصيغة الأصلية (الأسرع والأقل استهلاكاً).';
+      'الحفاظ على الصيغة الأصلية (الأسرع والأقل استهلاكًا).';
 
   @override
   String get formatMp4Label => 'MP4';
@@ -786,7 +786,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get selectFolderBtn => 'اختر المجلد';
 
   @override
-  String get releaseToShrinkTitle => 'اترك للضغط فوراً';
+  String get releaseToShrinkTitle => 'اترك للضغط فورًا';
 
   @override
   String get filesWillBeAddedDesc => 'سيتم إضافة ملفاتك إلى قائمة المعالجة.';
@@ -819,13 +819,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get updateRequiredDescOldVersion =>
-      'إصدارك الحالي لم يعد مدعوماً. يرجى التحديث لاستكمال استخدام التطبيق.';
+      'إصدارك الحالي لم يعد مدعومًا. يرجى التحديث لاستكمال استخدام التطبيق.';
 
   @override
   String get updateNowBtn => 'التحديث الآن';
 
   @override
-  String get laterBtn => 'لاحقاً';
+  String get laterBtn => 'لاحقًا';
 
   @override
   String get updateAvailableTitle => 'تحديث متوفر';
@@ -860,7 +860,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get maintenanceDescDefault =>
-      'Shrinkeo يخضع للصيانة حالياً. يرجى المحاولة لاحقاً.';
+      'Shrinkeo يخضع للصيانة حاليًا. يرجى المحاولة لاحقًا.';
 
   @override
   String versionAvailableMsg(String version) {
@@ -882,11 +882,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ffmpegMissingError =>
-      'مكتبات ‎FFmpeg مفقودة أو تالفة.\n\nيرجى إعادة تثبيت Shrinkeo أو التثبيت يدوياً عبر:\n‎winget install Gyan.FFmpeg';
+      'مكتبات ‎FFmpeg مفقودة أو تالفة.\n\nيرجى إعادة تثبيت Shrinkeo أو التثبيت يدويًا عبر:\n‎winget install Gyan.FFmpeg';
 
   @override
   String hwFallbackNotificationBody(String encoderLabel) {
-    return 'فشل المسرع ‎$encoderLabel. تم التحول تلقائياً للضغط بواسطة المعالج (‎CPU).';
+    return 'فشل المسرع ‎$encoderLabel. تم التحول تلقائيًا للضغط بواسطة المعالج (‎CPU).';
   }
 
   @override
@@ -915,7 +915,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String trimActiveDesc(Object end, Object start) {
-    return 'قص مقطع الفيديو بدءاً من $start وحتى $end.';
+    return 'قص مقطع الفيديو بدءًا من $start وحتى $end.';
   }
 
   @override
@@ -928,7 +928,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get trimTimeTooltip =>
-      'أدخل التوقيت مثلاً: 5 (5 ثوانٍ)، 1:30 (دقيقة و30 ثانية)، أو 00:01:30';
+      'أدخل التوقيت مثلًا: 5 (5 ثوانٍ)، 1:30 (دقيقة و30 ثانية)، أو 00:01:30';
 
   @override
   String get tabImageSuite => 'أدوات الصور';
@@ -941,7 +941,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get smartAutoDesc =>
-      'يقلل حجم الملف تلقائياً بنسبة 60-80% مع وضوح بصري تام ومبهر. مثالي للاستخدام اليومي.';
+      'يقلل حجم الملف تلقائيًا بنسبة 60-80% مع وضوح بصري تام ومبهر. مثالي للاستخدام اليومي.';
 
   @override
   String get maxSavingsLabel => 'أقصى توفير';
@@ -955,7 +955,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ultraFidelityDesc =>
-      'يحافظ على دقة التفاصيل الأصلية كاملة مع ضغط خفيف جداً. ممتاز للأرشيف والطباعة.';
+      'يحافظ على دقة التفاصيل الأصلية كاملة مع ضغط خفيف جدًا. ممتاز للأرشيف والطباعة.';
 
   @override
   String get targetImageFormatTitle => 'صيغة الصورة المستهدفة';
