@@ -19,8 +19,8 @@ dependencies:
   equatable: ^2.1.0
 
   # File input
-  desktop_drop: ^0.7.1
-  file_picker: ^11.0.2
+  desktop_drop: ^0.8.4
+  file_picker: ^12.2.0
 
   # Utilities
   path: ^1.9.1

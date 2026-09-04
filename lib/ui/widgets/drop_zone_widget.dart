@@ -165,14 +165,13 @@ class DropZoneWidget extends StatelessWidget {
   /// Opens native file picker for multiple video & image files.
   Future<void> _pickMultipleFiles(CompressionCubit cubit) async {
     try {
-      final result = await FilePicker.pickFiles(
+      final files = await FilePicker.pickFiles(
         type: FileType.custom,
         allowedExtensions: VideoFile.pickerExtensions,
-        allowMultiple: true,
       );
 
-      if (result != null && result.files.isNotEmpty) {
-        final paths = result.files
+      if (files.isNotEmpty) {
+        final paths = files
             .where((f) => f.path != null)
             .map((f) => f.path!)
             .toList();

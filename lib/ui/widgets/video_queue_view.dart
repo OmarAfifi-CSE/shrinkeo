@@ -23,13 +23,12 @@ class VideoQueueView extends StatelessWidget {
 
     Future<void> pickMultipleFiles() async {
       try {
-        final result = await FilePicker.pickFiles(
-          allowMultiple: true,
+        final files = await FilePicker.pickFiles(
           type: FileType.custom,
           allowedExtensions: VideoFile.pickerExtensions,
         );
-        if (result != null && result.files.isNotEmpty) {
-          final paths = result.files
+        if (files.isNotEmpty) {
+          final paths = files
               .where((f) => f.path != null)
               .map((f) => f.path!)
               .toList();
