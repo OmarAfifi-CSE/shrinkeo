@@ -10,8 +10,7 @@ import 'package:shrinkeo/main.dart';
 
 /// Boot & interaction smoke test for the real application widget tree.
 ///
-/// - Outbound HTTP is blocked so the startup update check fails fast and
-///   silently (exactly like an offline machine).
+/// - Outbound HTTP is blocked to guarantee the app remains 100% offline.
 /// - The window_manager method channel is mocked so the custom title bar and
 ///   maximize button behave deterministically in the test environment.
 void main() {

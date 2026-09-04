@@ -44,22 +44,4 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // 3. Fetch latest version tag from GitHub for badge update
-    async function fetchLatestRelease() {
-        try {
-            const response = await fetch('https://api.github.com/repos/OmarAfifi-CSE/shrinkeo/releases/latest');
-            if (!response.ok) return;
-            const data = await response.json();
-            
-            // Update version badge if it exists
-            const versionBadge = document.querySelector('.badge');
-            if (versionBadge && data.tag_name) {
-                versionBadge.innerText = `${data.tag_name} is Here 🎬`;
-            }
-        } catch (error) {
-            console.error('Error fetching release tag:', error);
-        }
-    }
-
-    fetchLatestRelease();
 });

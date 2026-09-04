@@ -15,7 +15,6 @@ import 'services/desktop_integration_service.dart';
 import 'ui/app_colors.dart';
 import 'ui/app_theme.dart';
 import 'ui/screens/home_screen.dart';
-import 'services/remote_config_service.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -59,13 +58,6 @@ void main(List<String> args) async {
 
   runApp(ShrinkeoApp(prefs: prefs));
 
-  // Run the update check in the background. 
-  // If an update is required, it will swap the screen without blocking startup.
-  RemoteConfigService.checkBlockState().then((state) {
-    if (state.isBlocked) {
-      globalBlockState.value = state;
-    }
-  });
 
   // Add initial args if any
   if (args.isNotEmpty && Platform.isWindows) {

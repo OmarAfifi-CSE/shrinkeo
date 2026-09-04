@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shrinkeo - The Ultimate Offline Video Compressor</title>
+    <title>Shrinkeo - Offline Video & Image Compression Suite</title>
     <meta name="description"
-        content="Shrinkeo is a lightning-fast, privacy-first desktop application designed to compress videos without sacrificing quality. 100% offline, GPU accelerated, and free.">
+        content="Shrinkeo is an offline, privacy-first desktop application designed to compress videos and images with exceptional visual quality and precision control. 100% local, GPU-accelerated, and available on the Microsoft Store.">
     <meta name="keywords"
-        content="video compressor, shrinkeo, offline video compression, ffmpeg, flutter, gpu acceleration, mp4 compressor">
+        content="video compressor, image compressor, shrinkeo, offline video compression, offline image compression, mozjpeg, pngquant, cwebp, webp, avif, ffmpeg, flutter, gpu acceleration, mp4 compressor">
     <meta name="author" content="Omar Afifi">
-    <meta property="og:title" content="Shrinkeo - Offline Video Compression">
+    <meta property="og:title" content="Shrinkeo - Offline Video & Image Compression Suite">
     <meta property="og:description"
-        content="Compress videos natively on your PC with zero cloud uploads. Powered by FFmpeg and GPU acceleration.">
+        content="Compress videos and photos natively on your PC with zero cloud uploads. Powered by FFmpeg, MozJPEG, cwebp, pngquant, and GPU acceleration.">
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
@@ -42,8 +42,8 @@
                 <a href="#">Home</a>
                 <a href="#features">Features</a>
                 <a href="#how-it-works">How it Works</a>
-                <a href="https://github.com/OmarAfifi-CSE/shrinkeo" class="btn btn-nav" target="_blank">
-                    <i class="fab fa-github"></i> GitHub
+                <a href="https://apps.microsoft.com/store/detail/XP8JW74PJ5WXPV" class="btn btn-nav" target="_blank">
+                    <i class="fab fa-microsoft"></i> Microsoft Store
                 </a>
             </div>
         </div>
@@ -53,10 +53,9 @@
     <section class="hero">
         <div class="container hero-content">
             <div class="hero-text fade-up">
-                <span class="badge">Introducing Shrinkeo 🎬</span>
-                <h1>Compress Videos.<br><span class="gradient-text">Keep Your Privacy.</span></h1>
-                <p>Say goodbye to subscription-based cloud compressors. Shrinkeo is a powerful, 100% offline
-                    desktop application for Windows that harnesses GPU acceleration (NVIDIA/AMD/Intel/AV1), target size or CRF modes, video editing & GIF/MP3 export, audio denoise/normalization, and 44 global languages.</p>
+                <span class="badge">v1.3.0 | Video & Image Suite</span>
+                <h1>Compress Videos & Images.<br><span class="gradient-text">Keep Quality & Privacy.</span></h1>
+                <p>No cloud uploads, no subscriptions, and no compromises on visual quality. Shrinkeo is an offline Windows desktop application that gives you granular control over video and photo compression—using 2-Pass VBR, CRF tuning, GPU acceleration, dedicated image engines (MozJPEG, pngquant, WebP, AVIF), and 44 global languages.</p>
                 <div class="hero-buttons">
                     <a href="https://apps.microsoft.com/store/detail/XP8JW74PJ5WXPV"
                         class="btn btn-primary btn-large" target="_blank">
@@ -76,7 +75,7 @@
         </div>
     </section>
 
-    <!-- Brand Stats Section (Optional for social proof) -->
+    <!-- Brand Stats Section -->
     <div class="stats-bar fade-up delay-2">
         <div class="container stats-container">
             <div class="stat-item">
@@ -92,11 +91,11 @@
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <i class="fas fa-microchip"></i> Powered by FFmpeg
+                <i class="fas fa-images"></i> Video & Image Suite
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
-                <i class="fas fa-code"></i> Open Source
+                <i class="fab fa-microsoft"></i> Microsoft Store
             </div>
         </div>
     </div>
@@ -105,17 +104,37 @@
     <section id="features" class="features">
         <div class="container">
             <div class="section-header fade-up">
-                <h2>Everything You Need <span class="gradient-text">(And More)</span></h2>
-                <p>We didn't cut any corners. Shrinkeo is packed with enterprise-grade features wrapped in an elegant
-                    UI.</p>
+                <h2>Engineered for Quality <span class="gradient-text">& Precision</span></h2>
+                <p>Built with industry-standard encoding engines, offering fine-grained control without complex command lines.</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card glass-card fade-up">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3>Image Suite & Optimization</h3>
+                    <p>Compress photos with Smart Auto, Max Savings, or Ultra Fidelity presets. Target size in KB, convert between PNG, JPEG, WebP & AVIF, strip EXIF metadata, and downscale dimensions.</p>
+                </div>
+                <div class="feature-card glass-card fade-up delay-1">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>MozJPEG & PNG Quantization</h3>
+                    <p>State-of-the-art PNG quantization (pngquant) and MozJPEG algorithms reduce file sizes up to 90% while preserving pristine visual clarity and transparency.</p>
+                </div>
+                <div class="feature-card glass-card fade-up delay-2">
                     <div class="feature-icon-wrapper">
                         <i class="fas fa-globe"></i>
                     </div>
                     <h3>44 Languages & Live Search</h3>
                     <p>Native localization covering 95%+ of global users with a dedicated Globe Language Selector, live search bar, flag badges, and instant live translation.</p>
+                </div>
+                <div class="feature-card glass-card fade-up">
+                    <div class="feature-icon-wrapper">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Target Size & CRF Modes</h3>
+                    <p>Specify an exact target size (e.g. 25 MB for Discord or 500 KB for photos) with 2-Pass VBR and binary-search algorithms, or visually tune quality using the CRF slider.</p>
                 </div>
                 <div class="feature-card glass-card fade-up delay-1">
                     <div class="feature-icon-wrapper">
@@ -133,45 +152,24 @@
                 </div>
                 <div class="feature-card glass-card fade-up">
                     <div class="feature-icon-wrapper">
-                        <i class="fas fa-bullseye"></i>
-                    </div>
-                    <h3>Target Size & CRF Modes</h3>
-                    <p>Specify an exact target size (e.g. 25 MB for Discord) with 2-Pass VBR rate control, or visually tune quality using the professional CRF slider.</p>
-                </div>
-                <div class="feature-card glass-card fade-up delay-1">
-                    <div class="feature-icon-wrapper">
                         <i class="fas fa-volume-high"></i>
                     </div>
                     <h3>Audio Normalization & Downmix</h3>
                     <p>Boost & normalize quiet lecture or vlog audio with EBU R128 Speech or Movie Dynamic filters, and downmix surround sound to Stereo (2.0) or Mono (1.0).</p>
                 </div>
-                <div class="feature-card glass-card fade-up delay-2">
+                <div class="feature-card glass-card fade-up delay-1">
                     <div class="feature-icon-wrapper">
-                        <i class="fas fa-wand-magic-sparkles"></i>
+                        <i class="fas fa-filter"></i>
                     </div>
                     <h3>Video & Audio Denoise</h3>
                     <p>Clean up video grain with 3D spatial-temporal filtering and eliminate mic & background fan hiss using FFT audio noise reduction.</p>
                 </div>
-                <div class="feature-card glass-card fade-up">
+                <div class="feature-card glass-card fade-up delay-2">
                     <div class="feature-icon-wrapper">
                         <i class="fas fa-film"></i>
                     </div>
                     <h3>Next-Gen Codecs & FastStart</h3>
                     <p>Compress with AV1, H.265 (HEVC), H.264, or VP9. Encodes with -movflags +faststart for instant web streaming. Harness NVIDIA, AMD, or Intel GPUs.</p>
-                </div>
-                <div class="feature-card glass-card fade-up delay-1">
-                    <div class="feature-icon-wrapper">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <h3>Batch Queue & Shell Menu</h3>
-                    <p>Drag and drop 100+ videos to process sequentially, or right-click any video on PC to "Compress with Shrinkeo" via clean non-admin shell integration.</p>
-                </div>
-                <div class="feature-card glass-card fade-up delay-2">
-                    <div class="feature-icon-wrapper">
-                        <i class="fas fa-chart-pie"></i>
-                    </div>
-                    <h3>Satisfying Analytics</h3>
-                    <p>Watch live progress, get accurate ETAs, compare original vs. compressed file sizes, and track your total Global Saved Space over time!</p>
                 </div>
             </div>
         </div>
@@ -181,8 +179,8 @@
     <section id="interface" class="interface">
         <div class="container">
             <div class="section-header fade-up">
-                <h2>A unified, modern <span class="gradient-text">Experience</span></h2>
-                <p>Everything is accessible through a clean, modern interface designed for maximum productivity and simplicity.
+                <h2>A Clean, Intuitive <span class="gradient-text">Interface</span></h2>
+                <p>Granular encoding controls and presets organized across five dedicated tabs.
                 </p>
             </div>
             <div class="showcase-grid">
@@ -218,17 +216,17 @@
                 <div class="step fade-up">
                     <div class="step-number">01</div>
                     <h3>Drop</h3>
-                    <p>Drag and drop your massive video files into the dashboard.</p>
+                    <p>Drag and drop your video and image files into the dashboard.</p>
                 </div>
                 <div class="step fade-up delay-1">
                     <div class="step-number">02</div>
                     <h3>Tune</h3>
-                    <p>Adjust the quality slider, choose your desired codecs, or pick a hardware encoder directly from the settings panel.</p>
+                    <p>Pick a preset, adjust the quality or target size slider, or choose output formats from the settings panel.</p>
                 </div>
                 <div class="step fade-up delay-2">
                     <div class="step-number">03</div>
                     <h3>Compress</h3>
-                    <p>Hit start, grab a coffee, and watch your files shrink instantly.</p>
+                    <p>Hit start and let Shrinkeo process your batch queue with high visual fidelity and detailed progress tracking.</p>
                 </div>
             </div>
         </div>
@@ -239,48 +237,47 @@
         <div class="container">
             <div class="section-header fade-up">
                 <h2>The New <span class="gradient-text">Standard</span></h2>
-                <p>How Shrinkeo redefines the video compression experience.</p>
+                <p>How Shrinkeo redefines the media compression experience.</p>
             </div>
             <div class="comparison-grid fade-up">
                 <div class="comparison-card glass-card">
                     <div class="comp-head">Metric</div>
                     <div class="comp-row">Privacy</div>
                     <div class="comp-row">File Limits</div>
-                    <div class="comp-row">Speed</div>
+                    <div class="comp-row">Media Support</div>
                     <div class="comp-row">Cost</div>
                 </div>
                 <div class="comparison-card glass-card featured">
                     <div class="comp-head">Shrinkeo</div>
                     <div class="comp-row accent-text">100% Offline</div>
                     <div class="comp-row accent-text">Unlimited</div>
-                    <div class="comp-row accent-text">GPU Accelerated</div>
+                    <div class="comp-row accent-text">Videos & Images</div>
                     <div class="comp-row accent-text">Free Forever</div>
                 </div>
                 <div class="comparison-card glass-card">
                     <div class="comp-head">Cloud Compressors</div>
                     <div class="comp-row">Server Uploads</div>
-                    <div class="comp-row">Often < 500MB</div>
-                            <div class="comp-row">Dependent on Internet</div>
-                            <div class="comp-row">Monthly Subscriptions</div>
-                    </div>
+                    <div class="comp-row">Often &lt; 500MB</div>
+                    <div class="comp-row">Usually Separate</div>
+                    <div class="comp-row">Monthly Subscriptions</div>
                 </div>
             </div>
+        </div>
     </section>
 
     <!-- Download Section -->
     <section id="download" class="download-cta">
         <div class="container">
             <div class="cta-card glass-card fade-up">
-                <h2>Ready to save gigabytes of hard drive space?</h2>
-                <p>Download Shrinkeo now and experience the fastest way to compress videos.</p>
+                <h2>High-quality compression, completely offline.</h2>
+                <p>Get Shrinkeo from the Microsoft Store for a private, precise, and reliable video and image compression experience on Windows.</p>
                 <div class="download-buttons">
                     <a href="https://apps.microsoft.com/store/detail/XP8JW74PJ5WXPV"
                         class="btn btn-primary btn-large" id="download-windows" target="_blank">
                         <i class="fab fa-microsoft"></i> Get from Microsoft Store
                     </a>
                 </div>
-                <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-muted);">It's completely free and open
-                    source.</p>
+                <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-muted);">Completely free and open source. Local, native, and private.</p>
             </div>
         </div>
     </section>
@@ -297,15 +294,14 @@
             </div>
             <div class="footer-right">
                 <a href="https://ko-fi.com/omarafifi" target="_blank" class="coffee-btn"><i class="fas fa-coffee"></i> Buy me a coffee</a>
-                <a href="https://github.com/OmarAfifi-CSE/shrinkeo" target="_blank"><i class="fab fa-github"></i>
-                    GitHub</a>
-                <a href="https://github.com/OmarAfifi-CSE/shrinkeo/issues" target="_blank">Issues</a>
+                <a href="https://apps.microsoft.com/store/detail/XP8JW74PJ5WXPV" target="_blank"><i class="fab fa-microsoft"></i> Microsoft Store</a>
+                <a href="https://github.com/OmarAfifi-CSE/shrinkeo" target="_blank"><i class="fab fa-github"></i> GitHub</a>
             </div>
         </div>
     </footer>
 
     <script src="js/compression-bg.js"></script>
-    <script src="js/main.js?v=1.2.0"></script>
+    <script src="js/main.js?v=1.3.0"></script>
 </body>
 
 </html>
