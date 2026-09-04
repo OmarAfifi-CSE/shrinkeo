@@ -39,36 +39,8 @@ class VideoFileCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    // File format badge or Thumbnail
-                    if (video.thumbnailPath != null &&
-                        File(video.thumbnailPath!).existsSync())
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: theme.brightness == Brightness.dark
-                                ? Colors.white.withValues(alpha: 0.1)
-                                : Colors.black.withValues(alpha: 0.08),
-                            width: 0.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: theme.brightness == Brightness.dark
-                                  ? Colors.white.withValues(alpha: 0.25)
-                                  : Colors.black.withValues(alpha: 0.25),
-                              blurRadius: 8,
-                              spreadRadius: 1,
-                            ),
-                          ],
-                          image: DecorationImage(
-                            image: FileImage(File(video.thumbnailPath!)),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      )
-                    else if (video.mediaType == MediaType.image &&
+                    // Live thumbnail for image items, format badge otherwise.
+                    if (video.mediaType == MediaType.image &&
                         File(video.filePath).existsSync())
                       Container(
                         width: 44,

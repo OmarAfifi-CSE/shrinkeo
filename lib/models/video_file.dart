@@ -72,9 +72,6 @@ class VideoFile extends Equatable {
   /// Error message (populated on failure).
   final String? errorMessage;
 
-  /// Absolute path to a generated thumbnail image.
-  final String? thumbnailPath;
-
   /// Estimated time remaining for compression.
   final Duration? eta;
 
@@ -105,7 +102,6 @@ class VideoFile extends Equatable {
     this.hasWarnedLargerSize = false,
     this.largerSizeWarningStartTime,
     this.errorMessage,
-    this.thumbnailPath,
     this.eta,
     this.processingSpeed,
     this.mediaType = MediaType.video,
@@ -129,7 +125,6 @@ class VideoFile extends Equatable {
     bool? hasWarnedLargerSize,
     DateTime? largerSizeWarningStartTime,
     String? errorMessage,
-    String? thumbnailPath,
     Duration? eta,
     double? processingSpeed,
     MediaType? mediaType,
@@ -143,7 +138,6 @@ class VideoFile extends Equatable {
     bool clearHasWarnedLargerSize = false,
     bool clearLargerSizeWarningStartTime = false,
     bool clearErrorMessage = false,
-    bool clearThumbnailPath = false,
     bool clearEta = false,
     bool clearProcessingSpeed = false,
     bool clearImageDimensions = false,
@@ -175,9 +169,6 @@ class VideoFile extends Equatable {
       errorMessage: clearErrorMessage
           ? null
           : (errorMessage ?? this.errorMessage),
-      thumbnailPath: clearThumbnailPath
-          ? null
-          : (thumbnailPath ?? this.thumbnailPath),
       eta: clearEta ? null : (eta ?? this.eta),
       processingSpeed: clearProcessingSpeed
           ? null
@@ -245,7 +236,6 @@ class VideoFile extends Equatable {
         hasWarnedLargerSize,
         largerSizeWarningStartTime,
         errorMessage,
-        thumbnailPath,
         eta,
         processingSpeed,
         mediaType,

@@ -9,9 +9,14 @@ import '../ui/widgets/update_dialog.dart';
 
 class UpdateService {
   /// Fetches releases from GitHub.
-  static Future<List<dynamic>?> _fetchReleases() async {
+  ///
+  /// [client] is injectable for tests; a temporary client is created (and
+  /// closed) when omitted.
+  static Future<List<dynamic>?> _fetchReleases(http.Client? client) async {
+    final owned = client == null;
+    final effective = client ?? http.Client();
     try {
-      final response = await http
+      final response = await effective
           .get(Uri.parse(AppConstants.githubApiUrl))
           .timeout(const Duration(seconds: 10));
 
@@ -21,6 +26,8 @@ class UpdateService {
     } catch (e) {
       // Offline or rate-limited: update check is best-effort, never fatal.
       debugPrint('GitHub releases fetch failed: $e');
+    } finally {
+      if (owned) effective.close();
     }
     return null;
   }
@@ -31,7 +38,7 @@ class UpdateService {
       for (var asset in assets) {
         final String name = asset['name']?.toString().toLowerCase() ?? '';
         if (name.endsWith('.exe')) {
-          return asset['browser_download_url'];
+          return asset['browser_download_url']?.toString();
         }
       }
     }
@@ -39,8 +46,8 @@ class UpdateService {
   }
 
   /// Gets the latest download URL for the current platform from GitHub releases.
-  static Future<String?> getLatestDownloadUrl() async {
-    final releases = await _fetchReleases();
+  static Future<String?> getLatestDownloadUrl({http.Client? client}) async {
+    final releases = await _fetchReleases(client);
     if (releases == null || releases.isEmpty) return null;
 
     final latestRelease = releases.first;
@@ -50,9 +57,12 @@ class UpdateService {
   }
 
   /// Checks for updates and shows a dialog if a newer version is available.
-  static Future<void> checkForUpdates(BuildContext context) async {
+  static Future<void> checkForUpdates(
+    BuildContext context, {
+    http.Client? client,
+  }) async {
     try {
-      final releases = await _fetchReleases();
+      final releases = await _fetchReleases(client);
       if (releases == null || releases.isEmpty) return;
 
       final PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -112,9 +122,9 @@ class UpdateService {
   }
 
   /// Fetches and returns aggregated release notes for all versions newer than the local version.
-  static Future<String?> getAggregatedReleaseNotes() async {
+  static Future<String?> getAggregatedReleaseNotes({http.Client? client}) async {
     try {
-      final releases = await _fetchReleases();
+      final releases = await _fetchReleases(client);
       if (releases == null || releases.isEmpty) return null;
 
       final PackageInfo packageInfo = await PackageInfo.fromPlatform();

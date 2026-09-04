@@ -59,172 +59,70 @@ class CompressionCubit extends Cubit<CompressionState> {
            crfQuality: prefs.getInt('crfQuality') ?? 22,
            isTargetSizeMode: prefs.getBool('isTargetSizeMode') ?? false,
            targetSizeMB: prefs.getDouble('targetSizeMB') ?? 25.0,
-           encodingPreset: _parsePreset(prefs),
-           videoCodec: _parseCodec(prefs),
+           encodingPreset: parseEnum(
+               prefs, 'encodingPreset', EncodingPreset.values, EncodingPreset.fast),
+           videoCodec:
+               parseEnum(prefs, 'videoCodec', VideoCodec.values, VideoCodec.h264),
            enableVideoDenoise: prefs.getBool('enableVideoDenoise') ?? false,
-           hardwareEncoder: _parseHardwareEncoder(prefs),
-           audioMode: _parseAudioMode(prefs),
+           hardwareEncoder: parseEnum(prefs, 'hardwareEncoder',
+               HardwareEncoder.values, HardwareEncoder.software),
+           audioMode:
+               parseEnum(prefs, 'audioMode', AudioMode.values, AudioMode.copy),
            enableAudioDenoise: prefs.getBool('enableAudioDenoise') ?? false,
-           audioNormalizeMode: _parseAudioNormalizeMode(prefs),
-           audioChannelsMode: _parseAudioChannelsMode(prefs),
-           resolutionMode: _parseResolutionMode(prefs),
-           frameRateMode: _parseFrameRateMode(prefs),
-           outputFormat: _parseOutputFormat(prefs),
-           outputLocationMode: _parseOutputLocationMode(prefs),
+           audioNormalizeMode: parseEnum(prefs, 'audioNormalizeMode',
+               AudioNormalizeMode.values, AudioNormalizeMode.off),
+           audioChannelsMode: parseEnum(prefs, 'audioChannelsMode',
+               AudioChannelsMode.values, AudioChannelsMode.original),
+           resolutionMode: parseEnum(prefs, 'resolutionMode',
+               ResolutionMode.values, ResolutionMode.original),
+           frameRateMode: parseEnum(prefs, 'frameRateMode', FrameRateMode.values,
+               FrameRateMode.original),
+           outputFormat: parseEnum(
+               prefs, 'outputFormat', OutputFormat.values, OutputFormat.original),
+           outputLocationMode: parseEnum(prefs, 'outputLocationMode',
+               OutputLocationMode.values, OutputLocationMode.unified),
            deleteOriginalOnSuccess:
                prefs.getBool('deleteOriginalOnSuccess') ?? false,
            globalSavedBytes: prefs.getInt('globalSavedBytes') ?? 0,
            languageCode: prefs.getString('languageCode') ?? 'en',
            imageQuality: prefs.getInt('imageQuality') ?? 75,
-           imageOutputFormat: _parseImageOutputFormat(prefs),
-           imageResizeMode: _parseImageResizeMode(prefs),
+           imageOutputFormat: parseEnum(prefs, 'imageOutputFormat',
+               ImageOutputFormat.values, ImageOutputFormat.original),
+           imageResizeMode: parseEnum(prefs, 'imageResizeMode',
+               ImageResizeMode.values, ImageResizeMode.original),
            stripImageExif: prefs.getBool('stripImageExif') ?? false,
            imageTargetSizeKB: prefs.getDouble('imageTargetSizeKB') ?? 500.0,
            isImageTargetSizeMode: prefs.getBool('isImageTargetSizeMode') ?? false,
          ),
        );
 
+  /// Parses a persisted enum stored by [Enum.name], falling back to
+  /// [fallback] when the key is missing or holds an unknown value.
+  static T parseEnum<T extends Enum>(
+    SharedPreferences prefs,
+    String key,
+    List<T> values,
+    T fallback,
+  ) {
+    final str = prefs.getString(key);
+    if (str == null) return fallback;
+    for (final value in values) {
+      if (value.name == str) return value;
+    }
+    return fallback;
+  }
+
+  /// Parses the persisted theme, tolerating legacy `ThemeMode.x` values
+  /// written by older app versions.
   static ThemeMode _parseTheme(SharedPreferences prefs) {
-    final themeStr = prefs.getString('themeMode');
-    if (themeStr != null) {
-      return ThemeMode.values.firstWhere(
-        (e) => e.toString() == themeStr,
-        orElse: () => ThemeMode.system,
-      );
+    final str = prefs.getString('themeMode');
+    if (str == null) return ThemeMode.system;
+    for (final value in ThemeMode.values) {
+      if (value.name == str || 'ThemeMode.${value.name}' == str) {
+        return value;
+      }
     }
     return ThemeMode.system;
-  }
-
-  static ImageOutputFormat _parseImageOutputFormat(SharedPreferences prefs) {
-    final str = prefs.getString('imageOutputFormat');
-    if (str != null) {
-      return ImageOutputFormat.values.firstWhere(
-        (e) => e.name == str,
-        orElse: () => ImageOutputFormat.original,
-      );
-    }
-    return ImageOutputFormat.original;
-  }
-
-  static ImageResizeMode _parseImageResizeMode(SharedPreferences prefs) {
-    final str = prefs.getString('imageResizeMode');
-    if (str != null) {
-      return ImageResizeMode.values.firstWhere(
-        (e) => e.name == str,
-        orElse: () => ImageResizeMode.original,
-      );
-    }
-    return ImageResizeMode.original;
-  }
-
-  static EncodingPreset _parsePreset(SharedPreferences prefs) {
-    final presetStr = prefs.getString('encodingPreset');
-    if (presetStr != null) {
-      return EncodingPreset.values.firstWhere(
-        (e) => e.name == presetStr,
-        orElse: () => EncodingPreset.fast,
-      );
-    }
-    return EncodingPreset.fast;
-  }
-
-  static VideoCodec _parseCodec(SharedPreferences prefs) {
-    final codecStr = prefs.getString('videoCodec');
-    if (codecStr != null) {
-      return VideoCodec.values.firstWhere(
-        (e) => e.name == codecStr,
-        orElse: () => VideoCodec.h264,
-      );
-    }
-    return VideoCodec.h264;
-  }
-
-  static HardwareEncoder _parseHardwareEncoder(SharedPreferences prefs) {
-    final encStr = prefs.getString('hardwareEncoder');
-    if (encStr != null) {
-      return HardwareEncoder.values.firstWhere(
-        (e) => e.name == encStr,
-        orElse: () => HardwareEncoder.software,
-      );
-    }
-    return HardwareEncoder.software;
-  }
-
-  static AudioMode _parseAudioMode(SharedPreferences prefs) {
-    final modeStr = prefs.getString('audioMode');
-    if (modeStr != null) {
-      return AudioMode.values.firstWhere(
-        (e) => e.name == modeStr,
-        orElse: () => AudioMode.copy,
-      );
-    }
-    return AudioMode.copy;
-  }
-
-  static AudioNormalizeMode _parseAudioNormalizeMode(SharedPreferences prefs) {
-    final modeStr = prefs.getString('audioNormalizeMode');
-    if (modeStr != null) {
-      return AudioNormalizeMode.values.firstWhere(
-        (e) => e.name == modeStr,
-        orElse: () => AudioNormalizeMode.off,
-      );
-    }
-    return AudioNormalizeMode.off;
-  }
-
-  static AudioChannelsMode _parseAudioChannelsMode(SharedPreferences prefs) {
-    final modeStr = prefs.getString('audioChannelsMode');
-    if (modeStr != null) {
-      return AudioChannelsMode.values.firstWhere(
-        (e) => e.name == modeStr,
-        orElse: () => AudioChannelsMode.original,
-      );
-    }
-    return AudioChannelsMode.original;
-  }
-
-  static ResolutionMode _parseResolutionMode(SharedPreferences prefs) {
-    final modeStr = prefs.getString('resolutionMode');
-    if (modeStr != null) {
-      return ResolutionMode.values.firstWhere(
-        (e) => e.name == modeStr,
-        orElse: () => ResolutionMode.original,
-      );
-    }
-    return ResolutionMode.original;
-  }
-
-  static FrameRateMode _parseFrameRateMode(SharedPreferences prefs) {
-    final modeStr = prefs.getString('frameRateMode');
-    if (modeStr != null) {
-      return FrameRateMode.values.firstWhere(
-        (e) => e.name == modeStr,
-        orElse: () => FrameRateMode.original,
-      );
-    }
-    return FrameRateMode.original;
-  }
-
-  static OutputFormat _parseOutputFormat(SharedPreferences prefs) {
-    final formatStr = prefs.getString('outputFormat');
-    if (formatStr != null) {
-      return OutputFormat.values.firstWhere(
-        (e) => e.name == formatStr,
-        orElse: () => OutputFormat.original,
-      );
-    }
-    return OutputFormat.original;
-  }
-
-  static OutputLocationMode _parseOutputLocationMode(SharedPreferences prefs) {
-    final modeStr = prefs.getString('outputLocationMode');
-    if (modeStr != null) {
-      return OutputLocationMode.values.firstWhere(
-        (e) => e.name == modeStr,
-        orElse: () => OutputLocationMode.unified,
-      );
-    }
-    return OutputLocationMode.unified;
   }
 
   // ---------------------------------------------------------------------------
@@ -419,7 +317,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     final newMode = state.themeMode == ThemeMode.dark
         ? ThemeMode.light
         : ThemeMode.dark;
-    _prefs.setString('themeMode', newMode.toString());
+    _prefs.setString('themeMode', newMode.name);
     emit(state.copyWith(themeMode: newMode));
   }
 
