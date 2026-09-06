@@ -38,6 +38,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   final FileScannerService _fileScannerService;
   final OutputFolderService _outputFolderService;
   final ImageCompressionService _imageCompressionService;
+  final int maxConcurrentImages;
 
   bool _cancelRequested = false;
   bool _workflowRunning = false;
@@ -49,11 +50,14 @@ class CompressionCubit extends Cubit<CompressionState> {
     FileScannerService? fileScannerService,
     OutputFolderService? outputFolderService,
     ImageCompressionService? imageCompressionService,
+    int? maxConcurrentImages,
     required SharedPreferences prefs,
   }) : _ffmpegService = ffmpegService ?? FfmpegService(),
        _fileScannerService = fileScannerService ?? FileScannerService(),
        _outputFolderService = outputFolderService ?? OutputFolderService(),
        _imageCompressionService = imageCompressionService ?? ImageCompressionService(),
+       maxConcurrentImages = maxConcurrentImages ??
+           (Platform.numberOfProcessors ~/ 2).clamp(2, 4),
        _prefs = prefs,
        super(
          CompressionState(
@@ -704,6 +708,8 @@ class CompressionCubit extends Cubit<CompressionState> {
       return;
     }
 
+    if (_cancelRequested || isClosed) return;
+
     // Cache resolved folders for "Same as Original" to avoid creating duplicate folders.
     final Map<String, String> resolvedOutputFolders = {};
 
@@ -735,6 +741,8 @@ class CompressionCubit extends Cubit<CompressionState> {
       }
     }
 
+    if (_cancelRequested || isClosed) return;
+
     emit(
       state.copyWith(
         phase: CompressionPhase.probing,
@@ -752,24 +760,80 @@ class CompressionCubit extends Cubit<CompressionState> {
       state.copyWith(phase: CompressionPhase.probing),
     ); // Immediate emit to lock UI
 
-    // Process each queued video sequentially.
-    // Use a while loop to dynamically pick up any videos added DURING compression.
+    // Concurrency limit for image processing:
+    final Set<String> activeImageIds = {};
+    final Set<Future<void>> activeImageTasks = {};
+
+    // Process queued media items:
+    // - Videos are processed strictly sequentially (1 at a time) to avoid CPU/GPU starvation.
+    // - Images are processed concurrently in a bounded worker pool (up to maxConcurrentImages).
     while (true) {
       if (_cancelRequested || isClosed) break;
 
-      final nextQueuedIndex = state.videos.indexWhere(
-        (v) => v.status == VideoStatus.queued,
-      );
-
-      if (nextQueuedIndex == -1) {
-        break; // No more queued videos, exit loop.
+      final queuedItems = state.videos.where((v) => v.status == VideoStatus.queued).toList();
+      if (queuedItems.isEmpty && activeImageTasks.isEmpty) {
+        break; // All queued media items are complete!
       }
 
-      await _processVideo(
-        state.videos[nextQueuedIndex].id,
-        outputFolder,
-        resolvedOutputFolders,
-      );
+      // If the next queued item is a video:
+      if (queuedItems.isNotEmpty && queuedItems.first.mediaType == MediaType.video) {
+        // Drain all active in-flight image workers so the video has 100% of CPU/GPU resources
+        if (activeImageTasks.isNotEmpty) {
+          await Future.any(activeImageTasks);
+          continue;
+        }
+
+        // Process video sequentially
+        await _processVideo(
+          queuedItems.first.id,
+          outputFolder,
+          resolvedOutputFolders,
+        );
+        continue;
+      }
+
+      // Find the next queued image before any queued video to preserve queue ordering
+      VideoFile? nextQueuedImage;
+      for (final v in queuedItems) {
+        if (v.mediaType == MediaType.video) {
+          break; // Do not jump over a queued video
+        }
+        if (v.mediaType == MediaType.image && !activeImageIds.contains(v.id)) {
+          nextQueuedImage = v;
+          break;
+        }
+      }
+
+      // If we have an image to process and pool capacity is available:
+      if (nextQueuedImage != null && activeImageTasks.length < maxConcurrentImages) {
+        final imageId = nextQueuedImage.id;
+        activeImageIds.add(imageId);
+
+        late Future<void> task;
+        task = _processImageItem(
+          imageId,
+          outputFolder,
+          resolvedOutputFolders,
+        ).whenComplete(() {
+          activeImageIds.remove(imageId);
+          activeImageTasks.remove(task);
+        });
+
+        activeImageTasks.add(task);
+        continue; // Immediately fill remaining pool slots up to maxConcurrentImages
+      }
+
+      // Wait for any active image worker to complete
+      if (activeImageTasks.isNotEmpty) {
+        await Future.any(activeImageTasks);
+      } else if (queuedItems.isEmpty) {
+        break;
+      }
+    }
+
+    // Await any remaining active image tasks before declaring queue completion
+    if (activeImageTasks.isNotEmpty) {
+      await Future.wait(activeImageTasks);
     }
 
     // Mark as completed.
@@ -1340,8 +1404,6 @@ class CompressionCubit extends Cubit<CompressionState> {
         }
 
         final savedBytes = (video.fileSizeBytes - outSizeBytes).clamp(0, video.fileSizeBytes);
-        final newGlobalSaved = state.globalSavedBytes + savedBytes;
-        _prefs.setInt('globalSavedBytes', newGlobalSaved);
 
         safelyUpdateVideo(
           video.copyWith(
@@ -1351,8 +1413,8 @@ class CompressionCubit extends Cubit<CompressionState> {
             outputPath: outputPath,
             outputSizeBytes: outSizeBytes,
           ),
-          globalSavedBytes: newGlobalSaved,
         );
+        _addGlobalSavedBytes(savedBytes);
 
         if (state.deleteOriginalOnSuccess &&
             outSizeBytes < video.fileSizeBytes &&
@@ -1443,19 +1505,17 @@ class CompressionCubit extends Cubit<CompressionState> {
     _cancelRequested = true;
     await _ffmpegService.cancelCurrentProcess();
 
-    // Mark the currently compressing video as cancelled.
-    if (state.currentIndex >= 0 && state.currentIndex < state.videos.length) {
-      final current = state.videos[state.currentIndex];
+    // Mark any active compressing or probing items as cancelled.
+    for (int i = 0; i < state.videos.length; i++) {
+      final current = state.videos[i];
       if (current.status == VideoStatus.compressing ||
           current.status == VideoStatus.probing) {
-        
-        // Delete partial file
         if (current.outputPath != null) {
-          await _deleteFileWithRetry(current.outputPath!);
+          _tryDeleteFile(current.outputPath!);
         }
 
         _updateVideo(
-          state.currentIndex,
+          i,
           current.copyWith(status: VideoStatus.cancelled),
         );
       }
@@ -1590,6 +1650,14 @@ class CompressionCubit extends Cubit<CompressionState> {
         globalSavedBytes: globalSavedBytes,
       ),
     );
+  }
+
+  /// Atomically accumulates global saved bytes into state and SharedPreferences.
+  void _addGlobalSavedBytes(int deltaBytes) {
+    if (deltaBytes <= 0) return;
+    final updated = state.globalSavedBytes + deltaBytes;
+    _prefs.setInt('globalSavedBytes', updated);
+    emit(state.copyWith(globalSavedBytes: updated));
   }
 
   /// Opens the given folder in the native file explorer.

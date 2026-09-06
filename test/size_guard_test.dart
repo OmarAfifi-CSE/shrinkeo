@@ -363,4 +363,119 @@ void main() {
     expect(retriedItem.savedBytes, 5000);
     expect(File(retriedItem.outputPath!).existsSync(), isTrue);
   });
+
+  test('bounded parallel image pool compresses multiple images concurrently and accumulates savings', () async {
+    final trackingImageService = ParallelTrackingImageService();
+    final cubit = CompressionCubit(
+      imageCompressionService: trackingImageService,
+      ffmpegService: BloatingFfmpegService(),
+      maxConcurrentImages: 3,
+      prefs: prefs,
+    );
+
+    final img1 = createTestFile('p1.png', 4000, 1);
+    final img2 = createTestFile('p2.png', 4000, 2);
+    final img3 = createTestFile('p3.png', 4000, 3);
+    final img4 = createTestFile('p4.png', 4000, 4);
+
+    await cubit.addFiles([img1, img2, img3, img4]);
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+
+    expect(cubit.state.videos.length, 4);
+
+    await cubit.startCompression();
+
+    // Verify peak concurrency reached the pool capacity (up to 3)
+    expect(trackingImageService.peakActive, greaterThanOrEqualTo(2));
+    expect(trackingImageService.peakActive, lessThanOrEqualTo(3));
+
+    // Verify all 4 images succeeded
+    for (final v in cubit.state.videos) {
+      expect(v.status, VideoStatus.success);
+      expect(v.outputSizeBytes, 2000);
+      expect(v.savedBytes, 2000);
+      expect(File(v.outputPath!).existsSync(), isTrue);
+    }
+
+    // Total saved = 4 * 2000 = 8000 bytes atomically accumulated
+    expect(cubit.state.globalSavedBytes, 8000);
+  });
+
+  test('cancelling parallel image compression marks active workers as cancelled', () async {
+    final trackingImageService = ParallelTrackingImageService(delayMs: 150);
+    final cubit = CompressionCubit(
+      imageCompressionService: trackingImageService,
+      ffmpegService: BloatingFfmpegService(),
+      maxConcurrentImages: 2,
+      prefs: prefs,
+    );
+
+    final img1 = createTestFile('c1.png', 4000, 1);
+    final img2 = createTestFile('c2.png', 4000, 2);
+    final img3 = createTestFile('c3.png', 4000, 3);
+
+    await cubit.addFiles([img1, img2, img3]);
+    final running = cubit.startCompression();
+
+    // Wait until workers are in-flight
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    await cubit.cancelCompression();
+    await running;
+
+    expect(cubit.state.phase, CompressionPhase.idle);
+    for (final v in cubit.state.videos) {
+      expect(v.status == VideoStatus.cancelled || v.status == VideoStatus.queued, isTrue);
+    }
+  });
+}
+
+class ParallelTrackingImageService extends ImageCompressionService {
+  final int delayMs;
+  int currentActive = 0;
+  int peakActive = 0;
+
+  ParallelTrackingImageService({this.delayMs = 60});
+
+  @override
+  Future<ProcessResult> processImage({
+    required String inputPath,
+    required String outputPath,
+    int quality = 80,
+    String targetFormat = 'original',
+    int? maxWidth,
+    int? maxHeight,
+    bool stripExif = true,
+    double? targetSizeKB,
+    bool Function()? isCancelled,
+    void Function(double progress)? onProgress,
+    void Function(ImageProgress progress)? onStatus,
+  }) async {
+    currentActive++;
+    if (currentActive > peakActive) {
+      peakActive = currentActive;
+    }
+
+    try {
+      final step = (delayMs ~/ 5).clamp(1, 100);
+      for (int i = 0; i < 5; i++) {
+        if (isCancelled?.call() ?? false) {
+          return ProcessResult(999, -1, '', 'Cancelled');
+        }
+        await Future<void>.delayed(Duration(milliseconds: step));
+      }
+
+      if (isCancelled?.call() ?? false) {
+        return ProcessResult(999, -1, '', 'Cancelled');
+      }
+
+      final inBytes = File(inputPath).lengthSync();
+      final outFile = File(outputPath);
+      final outBytes = inBytes ~/ 2;
+      outFile.writeAsBytesSync(List.filled(outBytes, 11));
+
+      return ProcessResult(999, 0, '', '');
+    } finally {
+      currentActive--;
+    }
+  }
 }

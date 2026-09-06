@@ -61,6 +61,7 @@ void main() {
         final cubit = CompressionCubit(
           prefs: await SharedPreferences.getInstance(),
           ffmpegService: ReadyFfmpeg(),
+          maxConcurrentImages: 1,
           imageCompressionService: ImageCompressionService(
             processStarter: (_, args) async {
               starts++;
