@@ -1,8 +1,8 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/app_strings.dart';
+import '../../../core/file_picker_helper.dart';
 import '../../../cubit/compression_cubit.dart';
 import '../../../cubit/compression_state.dart';
 import '../../app_colors.dart';
@@ -16,21 +16,23 @@ class SettingsPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompressionCubit, CompressionState>(
-      // Rebuild only when a rendered setting (or the expanded/locked state)
-      // changes — never on processing progress ticks.
-      buildWhen: (prev, curr) => curr.settingsDifferFrom(prev),
-      builder: (context, state) {
-        return AnimatedCrossFade(
-          duration: const Duration(milliseconds: 250),
-          sizeCurve: Curves.easeOut,
-          crossFadeState: state.isSettingsExpanded
-              ? CrossFadeState.showSecond
-              : CrossFadeState.showFirst,
-          firstChild: const SizedBox.shrink(),
-          secondChild: _SettingsContent(state: state),
-        );
-      },
+    return RepaintBoundary(
+      child: BlocBuilder<CompressionCubit, CompressionState>(
+        // Rebuild only when a rendered setting (or the expanded/locked state)
+        // changes — never on processing progress ticks.
+        buildWhen: (prev, curr) => curr.settingsDifferFrom(prev),
+        builder: (context, state) {
+          return AnimatedCrossFade(
+            duration: const Duration(milliseconds: 250),
+            sizeCurve: Curves.easeOut,
+            crossFadeState: state.isSettingsExpanded
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            firstChild: const SizedBox.shrink(),
+            secondChild: _SettingsContent(state: state),
+          );
+        },
+      ),
     );
   }
 }
@@ -47,28 +49,27 @@ class _SettingsContent extends StatefulWidget {
 class _SettingsContentState extends State<_SettingsContent>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  int _activeTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 5, vsync: this);
-    _tabController.addListener(() {
-      if (!_tabController.indexIsChanging) {
-        setState(() {});
-      }
-    });
+    _tabController.addListener(_handleTabChange);
   }
 
-  @override
-  void didUpdateWidget(covariant _SettingsContent oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.state != widget.state) {
-      setState(() {});
+  void _handleTabChange() {
+    final newIndex = _tabController.index;
+    if (_activeTabIndex != newIndex) {
+      setState(() {
+        _activeTabIndex = newIndex;
+      });
     }
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_handleTabChange);
     _tabController.dispose();
     super.dispose();
   }
@@ -309,45 +310,56 @@ class _SettingsContentState extends State<_SettingsContent>
             ),
             const SizedBox(height: 14),
 
-            // -- Smooth Sliding TabBarView Content --
+            // -- Smooth Synchronized TabBarView Content --
             AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
+              duration: const Duration(milliseconds: 250),
               curve: Curves.easeOutCubic,
-              height: _tabController.index == 0
-                  ? 400.0
-                  : _tabController.index == 1
-                      ? 505.0
-                      : _tabController.index == 2
-                          ? 230.0
-                          : _tabController.index == 3
-                              ? (widget.state.outputLocationMode ==
-                                      OutputLocationMode.unified
-                                  ? 320.0
-                                  : 230.0)
-                              : 400.0,
+              height: _getTabHeight(_activeTabIndex, widget.state),
               child: TabBarView(
                 controller: _tabController,
                 physics: const BouncingScrollPhysics(),
                 children: [
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: _buildVideoTab(isLocked, widget.state),
+                  _KeepAliveTab(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: _VideoTabContent(
+                        state: widget.state,
+                        isLocked: isLocked,
+                      ),
+                    ),
                   ),
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: _ToolsTabContent(state: widget.state, isLocked: isLocked),
+                  _KeepAliveTab(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: _ToolsTabContent(
+                        state: widget.state,
+                        isLocked: isLocked,
+                      ),
+                    ),
                   ),
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: _buildAudioTab(isLocked, widget.state),
+                  _KeepAliveTab(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: _AudioTabContent(
+                        state: widget.state,
+                        isLocked: isLocked,
+                      ),
+                    ),
                   ),
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: _buildEngineTab(isLocked, widget.state),
+                  _KeepAliveTab(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: _EngineTabContent(
+                        state: widget.state,
+                        isLocked: isLocked,
+                      ),
+                    ),
                   ),
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: _ImageTab(state: widget.state),
+                  _KeepAliveTab(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: _ImageTab(state: widget.state),
+                    ),
                   ),
                 ],
               ),
@@ -358,7 +370,48 @@ class _SettingsContentState extends State<_SettingsContent>
     );
   }
 
-  Widget _buildVideoTab(bool isLocked, CompressionState state) {
+  double _getTabHeight(int index, CompressionState state) => switch (index) {
+    0 => 400.0,
+    1 => 505.0,
+    2 => 230.0,
+    3 => state.outputLocationMode == OutputLocationMode.unified
+        ? 320.0
+        : 230.0,
+    _ => 400.0,
+  };
+}
+
+/// Retains tab subtree state in memory to eliminate recreate churn on tab switch.
+class _KeepAliveTab extends StatefulWidget {
+  final Widget child;
+
+  const _KeepAliveTab({required this.child});
+
+  @override
+  State<_KeepAliveTab> createState() => _KeepAliveTabState();
+}
+
+class _KeepAliveTabState extends State<_KeepAliveTab>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
+  }
+}
+
+/// Isolated widget for the Video Quality tab.
+class _VideoTabContent extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _VideoTabContent({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       key: const ValueKey('tab_video'),
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -405,8 +458,17 @@ class _SettingsContentState extends State<_SettingsContent>
       ],
     );
   }
+}
 
-  Widget _buildAudioTab(bool isLocked, CompressionState state) {
+/// Isolated widget for the Audio Settings tab.
+class _AudioTabContent extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _AudioTabContent({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       key: const ValueKey('tab_audio'),
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -428,8 +490,17 @@ class _SettingsContentState extends State<_SettingsContent>
       ],
     );
   }
+}
 
-  Widget _buildEngineTab(bool isLocked, CompressionState state) {
+/// Isolated widget for the Engine & Output tab.
+class _EngineTabContent extends StatelessWidget {
+  final CompressionState state;
+  final bool isLocked;
+
+  const _EngineTabContent({required this.state, required this.isLocked});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       key: const ValueKey('tab_engine'),
       crossAxisAlignment: CrossAxisAlignment.start,

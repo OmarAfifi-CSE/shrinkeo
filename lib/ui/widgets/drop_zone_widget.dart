@@ -1,12 +1,11 @@
 import 'dart:ui' as dart_ui;
-import 'package:file_picker/file_picker.dart';
+import '../../core/file_picker_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
-import '../../models/video_file.dart';
 import '../app_colors.dart';
 
 /// Animated drop zone for dragging and dropping video files and folders.
@@ -164,34 +163,17 @@ class DropZoneWidget extends StatelessWidget {
 
   /// Opens native file picker for multiple video & image files.
   Future<void> _pickMultipleFiles(CompressionCubit cubit) async {
-    try {
-      final files = await FilePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: VideoFile.pickerExtensions,
-      );
-
-      if (files.isNotEmpty) {
-        final paths = files
-            .where((f) => f.path != null)
-            .map((f) => f.path!)
-            .toList();
-        cubit.addFiles(paths);
-      }
-    } catch (_) {
-      // Silently ignore picker errors.
+    final paths = await FilePickerHelper.pickMultipleMediaFiles();
+    if (paths.isNotEmpty) {
+      cubit.addFiles(paths);
     }
   }
 
   /// Opens native folder picker and scans for video files.
   Future<void> _pickFolder(CompressionCubit cubit) async {
-    try {
-      final result = await FilePicker.getDirectoryPath();
-
-      if (result != null) {
-        cubit.addFiles([result]);
-      }
-    } catch (_) {
-      // Silently ignore picker errors.
+    final path = await FilePickerHelper.pickDirectory();
+    if (path != null) {
+      cubit.addFiles([path]);
     }
   }
 }

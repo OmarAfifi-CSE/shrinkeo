@@ -67,12 +67,10 @@ class _OutputDirectorySection extends StatelessWidget {
                 onPressed: isLocked
                     ? null
                     : () async {
-                        try {
-                          final result = await FilePicker.getDirectoryPath();
-                          if (result != null) {
-                            cubit.updateCustomOutputDirectory(result);
-                          }
-                        } catch (_) {}
+                        final result = await FilePickerHelper.pickDirectory();
+                        if (result != null) {
+                          cubit.updateCustomOutputDirectory(result);
+                        }
                       },
                 icon: const Icon(Icons.folder_open_rounded, size: 16),
                 label: Text(AppStrings.changeBtn),

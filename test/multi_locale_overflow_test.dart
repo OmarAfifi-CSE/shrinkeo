@@ -7,11 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shrinkeo/cubit/compression_cubit.dart';
 import 'package:shrinkeo/core/language_helper.dart';
 import 'package:shrinkeo/l10n/app_localizations.dart';
-import 'package:shrinkeo/models/video_file.dart';
+import 'package:shrinkeo/models/file_item.dart';
 import 'package:shrinkeo/ui/widgets/bottom_action_bar.dart';
 import 'package:shrinkeo/ui/widgets/language_panel.dart';
 import 'package:shrinkeo/ui/widgets/settings/settings_panel.dart';
-import 'package:shrinkeo/ui/widgets/video_queue_view.dart';
+import 'package:shrinkeo/ui/widgets/file_queue_view.dart';
 
 /// Multi-locale overflow & rendering proof: pumps the full composite UI
 /// (language panel + settings tabs + queue + bottom bar) under

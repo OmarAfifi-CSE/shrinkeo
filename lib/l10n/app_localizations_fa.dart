@@ -448,7 +448,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get rot180Label => '۱۸۰° وارونه';
 
   @override
-  String get rot180Desc => 'چرخش کاملاً وارونه';
+  String get rot180Desc => 'چرخش کاملًا وارونه';
 
   @override
   String get rot270Label => '۲۷۰° به چپ';
@@ -792,7 +792,7 @@ class AppLocalizationsFa extends AppLocalizations {
   String get updateNowBtn => 'به‌روزرسانی الان';
 
   @override
-  String get laterBtn => 'بعداً';
+  String get laterBtn => 'بعدًا';
 
   @override
   String get updateAvailableTitle => 'به‌روزرسانی موجود است';
@@ -891,7 +891,7 @@ class AppLocalizationsFa extends AppLocalizations {
 
   @override
   String get trimTimeTooltip =>
-      'زمان را وارد کنید مثلاً 5 (5 ثانیه)، 1:30 (1 دقیقه و 30 ثانیه) یا 00:01:30';
+      'زمان را وارد کنید مثلًا 5 (5 ثانیه)، 1:30 (1 دقیقه و 30 ثانیه) یا 00:01:30';
 
   @override
   String get tabImageSuite => 'ابزار تصاویر';

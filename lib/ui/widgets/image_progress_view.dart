@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../models/image_progress.dart';
-import '../../models/video_file.dart';
+import '../../models/file_item.dart';
 
 /// Reports encoder work within the current stage, never an invented overall ETA.
 class ImageProgressView extends StatelessWidget {

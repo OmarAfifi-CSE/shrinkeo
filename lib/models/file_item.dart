@@ -4,8 +4,11 @@ import 'image_progress.dart';
 /// Type of media file (Video vs Image).
 enum MediaType { video, image }
 
-/// Status of an individual video/image in the processing queue.
-enum VideoStatus { queued, probing, compressing, success, failed, cancelled }
+/// Status of an individual video/image file in the processing queue.
+enum FileStatus { queued, probing, compressing, success, failed, cancelled }
+
+/// Backward compatibility alias for [FileStatus].
+typedef VideoStatus = FileStatus;
 
 /// Set of valid video file extensions accepted by the application.
 const Set<String> validVideoExtensions = {
@@ -29,8 +32,8 @@ const Set<String> validImageExtensions = {
   '.heic',
 };
 
-/// Immutable model representing a single video file in the compression queue.
-class VideoFile extends Equatable {
+/// Immutable model representing a single file (video or image) in the compression queue.
+class FileItem extends Equatable {
   /// Unique identifier (derived from path hash + timestamp).
   final String id;
 
@@ -89,14 +92,14 @@ class VideoFile extends Equatable {
   /// Image height in pixels (populated for images).
   final int? imageHeight;
 
-  const VideoFile({
+  const FileItem({
     required this.id,
     required this.filePath,
     required this.fileName,
     required this.extension,
     required this.fileSizeBytes,
     this.totalDuration,
-    this.status = VideoStatus.queued,
+    this.status = FileStatus.queued,
     this.progress = 0.0,
     this.imageProgress,
     this.outputPath,
@@ -113,14 +116,14 @@ class VideoFile extends Equatable {
   });
 
   /// Creates a copy with the given fields overridden.
-  VideoFile copyWith({
+  FileItem copyWith({
     String? id,
     String? filePath,
     String? fileName,
     String? extension,
     int? fileSizeBytes,
     Duration? totalDuration,
-    VideoStatus? status,
+    FileStatus? status,
     double? progress,
     ImageProgress? imageProgress,
     bool clearImageProgress = false,
@@ -147,7 +150,7 @@ class VideoFile extends Equatable {
     bool clearProcessingSpeed = false,
     bool clearImageDimensions = false,
   }) {
-    return VideoFile(
+    return FileItem(
       id: id ?? this.id,
       filePath: filePath ?? this.filePath,
       fileName: fileName ?? this.fileName,
@@ -218,12 +221,25 @@ class VideoFile extends Equatable {
     return '\u200E${(bytes / (1024 * 1024 * 1024)).toStringAsFixed(2)} GB';
   }
 
+  /// Whether this file is an image.
+  bool get isImage => mediaType == MediaType.image;
+
+  /// Whether this file is a video.
+  bool get isVideo => mediaType == MediaType.video;
+
+  /// Total bytes saved by compression (0 if uncompressed, failed, or reverted).
+  int get savedBytes {
+    if (outputSizeBytes == null || outputSizeBytes! >= fileSizeBytes) return 0;
+    return fileSizeBytes - outputSizeBytes!;
+  }
+
   /// Returns the compression ratio as a percentage string (e.g., "-42%").
   String? get compressionRatio {
     if (outputSizeBytes == null || fileSizeBytes == 0) return null;
     final ratio = ((fileSizeBytes - outputSizeBytes!) / fileSizeBytes * 100)
         .round();
-    return '-$ratio%';
+    if (ratio == 0) return '0%';
+    return ratio > 0 ? '-$ratio%' : '+${-ratio}%';
   }
 
   @override
@@ -250,3 +266,7 @@ class VideoFile extends Equatable {
         imageHeight,
       ];
 }
+
+/// Backward compatibility alias for [FileItem].
+typedef VideoFile = FileItem;
+

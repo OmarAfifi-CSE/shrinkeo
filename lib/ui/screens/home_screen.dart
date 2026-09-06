@@ -19,7 +19,7 @@ import '../widgets/custom_title_bar.dart';
 import '../widgets/drop_zone_widget.dart';
 import '../widgets/language_panel.dart';
 import '../widgets/settings/settings_panel.dart';
-import '../widgets/video_queue_view.dart';
+import '../widgets/file_queue_view.dart';
 import '../app_colors.dart';
 
 /// The main interface of the Shrinkeo application.

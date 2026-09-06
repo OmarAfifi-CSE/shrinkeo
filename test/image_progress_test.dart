@@ -8,8 +8,8 @@ import 'package:shrinkeo/l10n/app_localizations.dart';
 import 'package:shrinkeo/models/image_progress.dart';
 import 'package:shrinkeo/services/image_compression_service.dart';
 import 'package:shrinkeo/services/image_job.dart';
-import 'package:shrinkeo/ui/widgets/video_file_card.dart';
-import 'package:shrinkeo/models/video_file.dart';
+import 'package:shrinkeo/ui/widgets/file_card.dart';
+import 'package:shrinkeo/models/file_item.dart';
 
 class TestProcess implements Process {
   final errors = StreamController<List<int>>();

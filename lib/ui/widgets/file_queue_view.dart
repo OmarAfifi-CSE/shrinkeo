@@ -1,4 +1,4 @@
-import 'package:file_picker/file_picker.dart';
+import '../../core/file_picker_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,45 +6,34 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
-import '../../models/video_file.dart';
-import 'video_file_card.dart';
+import '../../models/file_item.dart';
+import 'file_card.dart';
 
 import 'package:animated_list_plus/animated_list_plus.dart';
 import 'package:animated_list_plus/transitions.dart';
 
-class VideoQueueView extends StatelessWidget {
+class FileQueueView extends StatelessWidget {
   final CompressionState state;
 
-  const VideoQueueView({super.key, required this.state});
+  const FileQueueView({super.key, required this.state});
+
+  Future<void> _pickMultipleFiles(CompressionCubit cubit) async {
+    final paths = await FilePickerHelper.pickMultipleMediaFiles();
+    if (paths.isNotEmpty) {
+      cubit.addFiles(paths);
+    }
+  }
+
+  Future<void> _pickFolder(CompressionCubit cubit) async {
+    final path = await FilePickerHelper.pickDirectory();
+    if (path != null) {
+      cubit.addFiles([path]);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CompressionCubit>();
-
-    Future<void> pickMultipleFiles() async {
-      try {
-        final files = await FilePicker.pickFiles(
-          type: FileType.custom,
-          allowedExtensions: VideoFile.pickerExtensions,
-        );
-        if (files.isNotEmpty) {
-          final paths = files
-              .where((f) => f.path != null)
-              .map((f) => f.path!)
-              .toList();
-          cubit.addFiles(paths);
-        }
-      } catch (_) {}
-    }
-
-    Future<void> pickFolder() async {
-      try {
-        final result = await FilePicker.getDirectoryPath();
-        if (result != null) {
-          cubit.addFiles([result]);
-        }
-      } catch (_) {}
-    }
 
     return Column(
       children: [
@@ -60,7 +49,7 @@ class VideoQueueView extends StatelessWidget {
               sizeFraction: 0.7,
               curve: Curves.easeInOut,
               animation: animation,
-              child: VideoFileCard(
+              child: FileCard(
                 key: ValueKey(video.id),
                 video: video,
                 onRemove: () => cubit.cancelSingle(video.id),
@@ -102,13 +91,13 @@ class VideoQueueView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     OutlinedButton.icon(
-                      onPressed: pickMultipleFiles,
+                      onPressed: () => _pickMultipleFiles(cubit),
                       icon: const Icon(Icons.note_add_rounded, size: 16),
                       label: Text(AppStrings.addFilesBtn),
                     ),
                     const SizedBox(width: 12),
                     OutlinedButton.icon(
-                      onPressed: pickFolder,
+                      onPressed: () => _pickFolder(cubit),
                       icon: const Icon(
                         Icons.create_new_folder_rounded,
                         size: 16,
@@ -147,3 +136,6 @@ class VideoQueueView extends StatelessWidget {
     );
   }
 }
+
+/// Backward compatibility alias for [FileQueueView].
+typedef VideoQueueView = FileQueueView;

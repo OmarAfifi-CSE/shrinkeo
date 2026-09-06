@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/app_strings.dart';
-import '../../models/video_file.dart';
+import '../../models/file_item.dart';
 import '../app_colors.dart';
 
 /// Color-coded status indicator chip for a video's processing state.

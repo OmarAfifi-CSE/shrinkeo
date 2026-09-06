@@ -7,7 +7,7 @@ import '../../core/app_constants.dart';
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
-import '../../models/video_file.dart';
+import '../../models/file_item.dart';
 import '../app_colors.dart';
 import '../screens/home_screen.dart';
 

@@ -5,6 +5,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:path/path.dart' as p;
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:flutter/foundation.dart';
 
 class DesktopIntegrationService {
   static final StreamController<List<String>> _controller =
@@ -59,7 +60,9 @@ class DesktopIntegrationService {
       if (!dir.existsSync()) dir.createSync(recursive: true);
       final fileName = 'args_${DateTime.now().microsecondsSinceEpoch}.json';
       File(p.join(queuePath, fileName)).writeAsStringSync(jsonEncode(args));
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('DesktopIntegrationService: _writeArgsToQueue error: $e');
+    }
   }
 
   static void _startQueueWatcher(String queuePath) {
@@ -87,7 +90,9 @@ class DesktopIntegrationService {
             final content = file.readAsStringSync();
             allPaths.addAll(List<String>.from(jsonDecode(content)));
             file.deleteSync();
-          } catch (_) {}
+          } catch (e) {
+            debugPrint('DesktopIntegrationService: error reading arg file: $e');
+          }
         }
       }
 
@@ -134,8 +139,14 @@ class DesktopIntegrationService {
       // Changed 'Global\\' to 'Local\\' because standard users don't have SeCreateGlobalPrivilege.
       // Since explorer.exe and the app run in the same session, Local works perfectly.
       final name = 'Local\\Shrinkeo_Unique_Mutex_Lock'.toNativeUtf16();
-      createMutex(nullptr, 1, name);
-    } catch (_) {}
+      try {
+        createMutex(nullptr, 1, name);
+      } finally {
+        malloc.free(name);
+      }
+    } catch (e) {
+      debugPrint('DesktopIntegrationService: _createWin32Mutex error: $e');
+    }
   }
 
   // Instantly terminates the process using Windows API to avoid Flutter/Dart VM shutdown hangs.
@@ -147,7 +158,8 @@ class DesktopIntegrationService {
             'ExitProcess',
           );
       exitProcess(exitCode);
-    } catch (_) {
+    } catch (e) {
+      debugPrint('DesktopIntegrationService: _exitProcess failed: $e');
       exit(exitCode); // Fallback
     }
   }

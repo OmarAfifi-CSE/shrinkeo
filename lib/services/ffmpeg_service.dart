@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 
 import '../core/app_strings.dart';
@@ -949,7 +950,9 @@ class FfmpegService {
       } else if (Platform.isLinux || Platform.isMacOS) {
         Process.run('renice', ['-n', '10', '-p', '${process.pid}']);
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('FfmpegService: Could not adjust process priority: $e');
+    }
 
     final timeRegex = RegExp(r'time=(\d+):(\d+):(\d+(?:\.\d+)?)');
     final speedRegex = RegExp(r'speed=\s*(\d+(?:\.\d+)?)x');
@@ -1040,7 +1043,9 @@ class FfmpegService {
               if (file.existsSync()) {
                 currentOutputSize = file.lengthSync();
               }
-            } catch (_) {}
+            } catch (e) {
+              debugPrint('FfmpegService: Error querying output file size: $e');
+            }
 
             String? stepText;
             if (passNumber == 1) {
@@ -1064,16 +1069,16 @@ class FfmpegService {
   }
 
   void _cleanup2PassLogs(String passLogPrefix) {
-    try {
-      final tempDir = Directory.systemTemp;
-      for (final entity in tempDir.listSync()) {
-        if (entity is File && entity.path.startsWith(passLogPrefix)) {
-          try {
-            entity.deleteSync();
-          } catch (_) {}
+    for (final suffix in ['-0.log', '-0.log.mbtree', '.log']) {
+      try {
+        final logFile = File('$passLogPrefix$suffix');
+        if (logFile.existsSync()) {
+          logFile.deleteSync();
         }
+      } catch (e) {
+        debugPrint('FfmpegService: Error deleting pass log $passLogPrefix$suffix: $e');
       }
-    } catch (_) {}
+    }
   }
 
   /// Cancels the currently running FFmpeg process, if any.
@@ -1084,7 +1089,9 @@ class FfmpegService {
       process.kill(ProcessSignal.sigkill);
       try {
         await process.exitCode.timeout(const Duration(milliseconds: 1500));
-      } catch (_) {}
+      } catch (e) {
+        debugPrint('FfmpegService: Process kill timeout: $e');
+      }
       _currentProcess = null;
     }
   }

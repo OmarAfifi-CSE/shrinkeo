@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
-import '../../models/video_file.dart';
+import '../../models/file_item.dart';
 import '../../l10n/app_localizations.dart';
 import '../app_colors.dart';
 import 'dart:ui' as dart_ui;
@@ -25,21 +25,22 @@ class BottomActionBar extends StatelessWidget {
         : AppColors.surfaceContainerLight;
     final borderColor = isDark ? AppColors.borderDark : AppColors.borderLight;
 
-    return ClipRect(
-      child: BackdropFilter(
-        filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-          decoration: BoxDecoration(
-            color: surfaceContainer.withValues(alpha: isDark ? 0.6 : 0.7),
-            border: Border(
-              top: BorderSide(
-                color: borderColor.withValues(alpha: isDark ? 0.3 : 0.6),
+    return RepaintBoundary(
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: dart_ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+            decoration: BoxDecoration(
+              color: surfaceContainer.withValues(alpha: isDark ? 0.6 : 0.7),
+              border: Border(
+                top: BorderSide(
+                  color: borderColor.withValues(alpha: isDark ? 0.3 : 0.6),
+                ),
               ),
             ),
-          ),
-          child: Row(
-            children: [
+            child: Row(
+              children: [
               // -- Queue Summary --
               Expanded(child: _QueueSummary(state: state)),
 
@@ -148,7 +149,8 @@ class BottomActionBar extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 }
 

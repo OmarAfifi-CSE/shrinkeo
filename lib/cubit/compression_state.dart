@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 import '../core/app_strings.dart';
-import '../models/video_file.dart';
+import '../models/file_item.dart';
 
 /// Overall phase of the compression workflow.
 enum CompressionPhase {

@@ -10,7 +10,7 @@ import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../core/app_strings.dart';
-import '../models/video_file.dart';
+import '../models/file_item.dart';
 import '../services/ffmpeg_service.dart';
 import '../services/file_scanner_service.dart';
 import '../services/output_folder_service.dart';
@@ -503,8 +503,8 @@ class CompressionCubit extends Cubit<CompressionState> {
       int fileSize = 0;
       try {
         fileSize = await file.length();
-      } catch (_) {
-        // If we can't get the file size, still add it with 0.
+      } catch (e) {
+        debugPrint('Failed to retrieve file length for $path: $e');
       }
 
       final id = '${path.hashCode}_${DateTime.now().microsecondsSinceEpoch}';
@@ -556,7 +556,9 @@ class CompressionCubit extends Cubit<CompressionState> {
           );
           if (_cancelRequested) return;
           batchDurations[video.id] = totalDuration;
-        } catch (_) {}
+        } catch (e) {
+          debugPrint('Failed to probe duration for ${video.filePath}: $e');
+        }
       }
 
       if (batchDurations.isNotEmpty) {
@@ -928,6 +930,7 @@ class CompressionCubit extends Cubit<CompressionState> {
       ),
     );
     int retryCount = 0;
+    bool exceededOriginalSize = false;
     while (retryCount < 2) {
       try {
         await for (final progress in _ffmpegService.compress(
@@ -1069,6 +1072,17 @@ class CompressionCubit extends Cubit<CompressionState> {
             }
           }
 
+          // If the output file being written has exceeded or reached the original file size,
+          // abort early to avoid wasting CPU/time and revert to original video.
+          if (state.exportType == ExportType.video &&
+              video.fileSizeBytes > 0 &&
+              progress.currentOutputSizeBytes != null &&
+              progress.currentOutputSizeBytes! >= video.fileSizeBytes) {
+            exceededOriginalSize = true;
+            await _ffmpegService.cancelCurrentProcess();
+            break;
+          }
+
           video = video.copyWith(
             progress: progress.progress,
             processingSpeed: progress.speed,
@@ -1082,9 +1096,21 @@ class CompressionCubit extends Cubit<CompressionState> {
 
         // Get compressed file size.
         final outputFile = File(outputPath);
-        final outputSize = await outputFile.exists()
+        int outputSize = await outputFile.exists()
             ? await outputFile.length()
             : 0;
+
+        // If compression resulted in a file larger than or equal to the original video,
+        // revert to the original video so the file size does not increase.
+        if (state.exportType == ExportType.video &&
+            (exceededOriginalSize || outputSize >= video.fileSizeBytes) &&
+            video.fileSizeBytes > 0) {
+          if (p.normalize(video.filePath) != p.normalize(outputPath)) {
+            await _deleteFileWithRetry(outputPath);
+            await File(video.filePath).copy(outputPath);
+          }
+          outputSize = video.fileSizeBytes;
+        }
 
         int? newGlobalSavedBytes;
         if (outputSize > 0 && outputSize < video.fileSizeBytes) {
@@ -1099,22 +1125,47 @@ class CompressionCubit extends Cubit<CompressionState> {
           outputSizeBytes: outputSize,
           eta: Duration.zero,
           processingSpeed: 0.0,
+          clearHasWarnedLargerSize: true,
+          clearLargerSizeWarningStartTime: true,
         );
         safelyUpdateVideo(video, globalSavedBytes: newGlobalSavedBytes);
 
         // Optionally delete the original file to Recycle Bin
-        if (state.deleteOriginalOnSuccess) {
+        if (state.deleteOriginalOnSuccess &&
+            p.normalize(video.filePath) != p.normalize(outputPath) &&
+            await File(outputPath).exists()) {
           await _sendToRecycleBin(video.filePath);
         }
         break; // Success, break the retry loop
       } catch (e) {
-        // Clean up partial output file on failure or cancellation.
-        try {
-          final partialFile = File(outputPath);
-          if (await partialFile.exists()) {
-            await partialFile.delete();
+        if (exceededOriginalSize && !_cancelRequested) {
+          // Revert to original video
+          if (p.normalize(video.filePath) != p.normalize(outputPath)) {
+            await _deleteFileWithRetry(outputPath);
+            await File(video.filePath).copy(outputPath);
           }
-        } catch (_) {}
+
+          video = video.copyWith(
+            status: VideoStatus.success,
+            progress: 1.0,
+            outputSizeBytes: video.fileSizeBytes,
+            eta: Duration.zero,
+            processingSpeed: 0.0,
+            clearHasWarnedLargerSize: true,
+            clearLargerSizeWarningStartTime: true,
+          );
+          safelyUpdateVideo(video);
+
+          if (state.deleteOriginalOnSuccess &&
+              p.normalize(video.filePath) != p.normalize(outputPath) &&
+              await File(outputPath).exists()) {
+            await _sendToRecycleBin(video.filePath);
+          }
+          break;
+        }
+
+        // Clean up partial output file on failure or cancellation.
+        await _deleteFileWithRetry(outputPath);
 
         if (isCompressionCancelled(e)) {
           safelyUpdateVideo(video.copyWith(status: VideoStatus.cancelled));
@@ -1167,17 +1218,7 @@ class CompressionCubit extends Cubit<CompressionState> {
 
         // Genuine failure (or second attempt failed)
         if (video.outputPath != null) {
-          final file = File(video.outputPath!);
-          int retries = 0;
-          while (file.existsSync() && retries < 5) {
-            try {
-              file.deleteSync();
-              break;
-            } catch (_) {
-              await Future.delayed(const Duration(milliseconds: 100));
-              retries++;
-            }
-          }
+          await _deleteFileWithRetry(video.outputPath!);
         }
         safelyUpdateVideo(
           video.copyWith(status: VideoStatus.failed, errorMessage: errorMsg),
@@ -1279,12 +1320,28 @@ class CompressionCubit extends Cubit<CompressionState> {
         return;
       }
 
-      if (result.exitCode == 0 && File(outputPath).existsSync() && File(outputPath).lengthSync() > 0) {
-        final outSizeBytes = await File(outputPath).length();
+      final outputFile = File(outputPath);
+      final fileExists = await outputFile.exists();
+      final fileLength = fileExists ? await outputFile.length() : 0;
+      if (result.exitCode == 0 && fileExists && fileLength > 0) {
+        int outSizeBytes = fileLength;
         if (imageCancelled()) {
           _tryDeleteFile(outputPath);
           return;
         }
+
+        // If compressed image ended up larger than or equal to the original,
+        // revert to original image so size does not increase.
+        if (state.imageOutputFormat == ImageOutputFormat.original &&
+            outSizeBytes >= video.fileSizeBytes &&
+            video.fileSizeBytes > 0) {
+          if (p.normalize(video.filePath) != p.normalize(outputPath)) {
+            await _deleteFileWithRetry(outputPath);
+            await File(video.filePath).copy(outputPath);
+          }
+          outSizeBytes = video.fileSizeBytes;
+        }
+
         final savedBytes = (video.fileSizeBytes - outSizeBytes).clamp(0, video.fileSizeBytes);
         final newGlobalSaved = state.globalSavedBytes + savedBytes;
         _prefs.setInt('globalSavedBytes', newGlobalSaved);
@@ -1300,7 +1357,9 @@ class CompressionCubit extends Cubit<CompressionState> {
           globalSavedBytes: newGlobalSaved,
         );
 
-        if (state.deleteOriginalOnSuccess) {
+        if (state.deleteOriginalOnSuccess &&
+            p.normalize(video.filePath) != p.normalize(outputPath) &&
+            await File(outputPath).exists()) {
           await _sendToRecycleBin(video.filePath);
         }
       } else {
@@ -1342,12 +1401,40 @@ class CompressionCubit extends Cubit<CompressionState> {
     }
   }
 
+  /// Deletes a file with retries to handle temporary OS file locks (e.g. on Windows).
+  Future<void> _deleteFileWithRetry(String path) async {
+    final file = File(path);
+    int retries = 0;
+    while (retries < 5) {
+      try {
+        if (await file.exists()) {
+          await file.delete();
+        }
+        break;
+      } catch (e) {
+        retries++;
+        if (retries < 5) {
+          await Future.delayed(const Duration(milliseconds: 100));
+        } else {
+          debugPrint(
+            'Failed to delete file with retry after $retries attempts ($path): $e',
+          );
+        }
+      }
+    }
+  }
+
   /// Best-effort deletion used for cleaning up cancelled output files.
   void _tryDeleteFile(String path) {
     try {
       final file = File(path);
-      if (file.existsSync()) file.deleteSync();
-    } catch (_) {}
+      if (file.existsSync()) {
+        file.deleteSync();
+      }
+    } catch (e) {
+      debugPrint('Sync deletion failed for $path, falling back to retry: $e');
+      _deleteFileWithRetry(path);
+    }
   }
 
   /// Cancels the entire compression workflow.
@@ -1366,17 +1453,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         
         // Delete partial file
         if (current.outputPath != null) {
-          final file = File(current.outputPath!);
-          int retries = 0;
-          while (file.existsSync() && retries < 5) {
-            try {
-              file.deleteSync();
-              break;
-            } catch (_) {
-              await Future.delayed(const Duration(milliseconds: 100));
-              retries++;
-            }
-          }
+          await _deleteFileWithRetry(current.outputPath!);
         }
 
         _updateVideo(
@@ -1418,17 +1495,7 @@ class CompressionCubit extends Cubit<CompressionState> {
       
       // Delete partial file
       if (video.outputPath != null) {
-        final file = File(video.outputPath!);
-        int retries = 0;
-        while (file.existsSync() && retries < 5) {
-          try {
-            file.deleteSync();
-            break;
-          } catch (_) {
-            await Future.delayed(const Duration(milliseconds: 100));
-            retries++;
-          }
-        }
+        await _deleteFileWithRetry(video.outputPath!);
       }
 
       _updateVideo(index, video.copyWith(status: VideoStatus.cancelled));

@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:shrinkeo/cubit/compression_cubit.dart';
 import 'package:shrinkeo/cubit/compression_state.dart';
-import 'package:shrinkeo/models/video_file.dart';
+import 'package:shrinkeo/models/file_item.dart';
 
 /// Exhaustive state & settings matrix for the CompressionCubit: every setter,
 /// clamping rule, persistence round-trip, reset-to-defaults, and the queue

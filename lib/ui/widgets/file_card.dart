@@ -6,7 +6,7 @@ import 'package:path/path.dart' as p;
 
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
-import '../../models/video_file.dart';
+import '../../models/file_item.dart';
 import '../../models/image_progress.dart';
 import 'image_progress_view.dart';
 import '../app_colors.dart';
@@ -18,11 +18,11 @@ import 'glass_container.dart';
 ///
 /// Shows: file icon, name, size, status, progress bar, compression result,
 /// and a cancel/remove button.
-class VideoFileCard extends StatelessWidget {
+class FileCard extends StatelessWidget {
   final VideoFile video;
   final VoidCallback? onRemove;
 
-  const VideoFileCard({super.key, required this.video, this.onRemove});
+  const FileCard({super.key, required this.video, this.onRemove});
 
   @override
   Widget build(BuildContext context) {
@@ -419,6 +419,12 @@ class _CompressionResult extends StatelessWidget {
         percent = (savedBytes / video.fileSizeBytes * 100).toStringAsFixed(0);
         badgeText = '${AppStrings.savedPrefix} \u200E$percent%';
         badgeColor = AppColors.successGreen;
+      } else if (savedBytes == 0 && video.outputSizeBytes != null) {
+        percent = '0';
+        badgeText = '0%';
+        badgeColor = Theme.of(context).brightness == Brightness.dark
+            ? Colors.blueGrey.shade300
+            : Colors.grey.shade600;
       } else if (savedBytes < 0) {
         final increasedBytes = -savedBytes;
         percent = (increasedBytes / video.fileSizeBytes * 100).toStringAsFixed(
@@ -445,7 +451,7 @@ class _CompressionResult extends StatelessWidget {
             ),
           ),
         ),
-        if (savedBytes != 0 && video.fileSizeBytes > 0) ...[
+        if (badgeText.isNotEmpty && video.fileSizeBytes > 0) ...[
           const SizedBox(width: 8),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
@@ -520,3 +526,6 @@ class _ActionButton extends StatelessWidget {
     );
   }
 }
+
+/// Backward compatibility alias for [FileCard].
+typedef VideoFileCard = FileCard;

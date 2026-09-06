@@ -1,8 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 
-import '../models/video_file.dart';
+import '../models/file_item.dart';
 
 /// Service responsible for scanning file paths and filtering valid video files.
 class FileScannerService {
@@ -26,8 +27,8 @@ class FileScannerService {
           _addIfVideo(path, videoPaths);
         }
         // Silently ignore links, notFound, and other entity types.
-      } catch (_) {
-        // Silently ignore any file system errors (permissions, etc.).
+      } catch (e) {
+        debugPrint('FileScannerService: Error scanning path "$path": $e');
       }
     }
 
@@ -45,8 +46,8 @@ class FileScannerService {
           _addIfVideo(entity.path, results);
         }
       }
-    } catch (_) {
-      // Silently ignore inaccessible directories.
+    } catch (e) {
+      debugPrint('FileScannerService: Error accessing directory "${directory.path}": $e');
     }
   }
 

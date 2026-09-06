@@ -15,25 +15,27 @@ class LanguagePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompressionCubit, CompressionState>(
-      buildWhen: (prev, curr) =>
-          prev.isLanguageExpanded != curr.isLanguageExpanded ||
-          prev.languageCode != curr.languageCode,
-      builder: (context, state) {
-        final isRtl = LanguageHelper.isRtl(state.languageCode);
-        return Directionality(
-          textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
-          child: AnimatedCrossFade(
-            duration: const Duration(milliseconds: 250),
-            sizeCurve: Curves.easeOut,
-            crossFadeState: state.isLanguageExpanded
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-            firstChild: const SizedBox.shrink(),
-            secondChild: _LanguagePanelContent(state: state),
-          ),
-        );
-      },
+    return RepaintBoundary(
+      child: BlocBuilder<CompressionCubit, CompressionState>(
+        buildWhen: (prev, curr) =>
+            prev.isLanguageExpanded != curr.isLanguageExpanded ||
+            prev.languageCode != curr.languageCode,
+        builder: (context, state) {
+          final isRtl = LanguageHelper.isRtl(state.languageCode);
+          return Directionality(
+            textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+            child: AnimatedCrossFade(
+              duration: const Duration(milliseconds: 250),
+              sizeCurve: Curves.easeOut,
+              crossFadeState: state.isLanguageExpanded
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              firstChild: const SizedBox.shrink(),
+              secondChild: _LanguagePanelContent(state: state),
+            ),
+          );
+        },
+      ),
     );
   }
 }

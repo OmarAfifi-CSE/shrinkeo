@@ -10,7 +10,7 @@ import 'package:local_notifier/local_notifier.dart';
 import 'package:shrinkeo/cubit/compression_cubit.dart';
 import 'package:shrinkeo/cubit/compression_state.dart';
 import 'package:shrinkeo/l10n/app_localizations.dart';
-import 'package:shrinkeo/models/video_file.dart';
+import 'package:shrinkeo/models/file_item.dart';
 import 'package:shrinkeo/services/ffmpeg_service.dart';
 import 'package:shrinkeo/services/image_compression_service.dart';
 import 'package:shrinkeo/ui/widgets/bottom_action_bar.dart';
