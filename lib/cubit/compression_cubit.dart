@@ -96,7 +96,9 @@ class CompressionCubit extends Cubit<CompressionState> {
            imageTargetSizeKB: prefs.getDouble('imageTargetSizeKB') ?? 500.0,
            isImageTargetSizeMode: prefs.getBool('isImageTargetSizeMode') ?? false,
          ),
-       );
+       ) {
+    _cleanupOrphanedTempFiles();
+  }
 
   /// Parses a persisted enum stored by [Enum.name], falling back to
   /// [fallback] when the key is missing or holds an unknown value.
@@ -1130,8 +1132,9 @@ class CompressionCubit extends Cubit<CompressionState> {
         );
         safelyUpdateVideo(video, globalSavedBytes: newGlobalSavedBytes);
 
-        // Optionally delete the original file to Recycle Bin
+        // Optionally delete the original file to Recycle Bin ONLY if space was actually saved
         if (state.deleteOriginalOnSuccess &&
+            outputSize < video.fileSizeBytes &&
             p.normalize(video.filePath) != p.normalize(outputPath) &&
             await File(outputPath).exists()) {
           await _sendToRecycleBin(video.filePath);
@@ -1139,7 +1142,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         break; // Success, break the retry loop
       } catch (e) {
         if (exceededOriginalSize && !_cancelRequested) {
-          // Revert to original video
+          // Revert to original video (no space saved, original file is never deleted)
           if (p.normalize(video.filePath) != p.normalize(outputPath)) {
             await _deleteFileWithRetry(outputPath);
             await File(video.filePath).copy(outputPath);
@@ -1155,12 +1158,6 @@ class CompressionCubit extends Cubit<CompressionState> {
             clearLargerSizeWarningStartTime: true,
           );
           safelyUpdateVideo(video);
-
-          if (state.deleteOriginalOnSuccess &&
-              p.normalize(video.filePath) != p.normalize(outputPath) &&
-              await File(outputPath).exists()) {
-            await _sendToRecycleBin(video.filePath);
-          }
           break;
         }
 
@@ -1358,6 +1355,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         );
 
         if (state.deleteOriginalOnSuccess &&
+            outSizeBytes < video.fileSizeBytes &&
             p.normalize(video.filePath) != p.normalize(outputPath) &&
             await File(outputPath).exists()) {
           await _sendToRecycleBin(video.filePath);
@@ -1510,6 +1508,65 @@ class CompressionCubit extends Cubit<CompressionState> {
         ),
       );
     }
+  }
+
+  /// Retries an individual failed or cancelled video/image.
+  ///
+  /// Resets status to [FileStatus.queued], clears errors, progress, and previous outputs,
+  /// and automatically triggers compression if the cubit is currently idle.
+  Future<void> retrySingle(String id) async {
+    final index = state.videos.indexWhere((v) => v.id == id);
+    if (index < 0) return;
+
+    final video = state.videos[index];
+    if (video.status != VideoStatus.failed &&
+        video.status != VideoStatus.cancelled) {
+      return;
+    }
+
+    final resetVideo = video.copyWith(
+      status: VideoStatus.queued,
+      progress: 0.0,
+      clearImageProgress: true,
+      clearOutputPath: true,
+      clearOutputSizeBytes: true,
+      clearCurrentOutputSizeBytes: true,
+      clearErrorMessage: true,
+      clearHasWarnedLargerSize: true,
+      clearLargerSizeWarningStartTime: true,
+      clearEta: true,
+      clearProcessingSpeed: true,
+    );
+
+    _updateVideo(index, resetVideo);
+
+    if (!state.isProcessing) {
+      emit(state.copyWith(phase: CompressionPhase.idle));
+      await startCompression();
+    }
+  }
+
+  /// Safely cleans up leftover temporary files or folders from previous crashed sessions.
+  void _cleanupOrphanedTempFiles() {
+    Future.microtask(() async {
+      try {
+        final tempDir = Directory.systemTemp;
+        if (!await tempDir.exists()) return;
+
+        final oneHourAgo = DateTime.now().subtract(const Duration(hours: 1));
+        await for (final entity in tempDir.list(followLinks: false)) {
+          final name = p.basename(entity.path).toLowerCase();
+          if (name.startsWith('shrinkeo_')) {
+            try {
+              final stat = await entity.stat();
+              if (stat.modified.isBefore(oneHourAgo)) {
+                await entity.delete(recursive: true);
+              }
+            } catch (_) {}
+          }
+        }
+      } catch (_) {}
+    });
   }
 
   // ---------------------------------------------------------------------------

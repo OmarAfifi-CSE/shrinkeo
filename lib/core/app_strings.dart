@@ -476,4 +476,17 @@ class AppStrings {
   static String notifyCompressionCompleteFailed(int failed) => _l10n?.notifyCompressionCompleteFailed(failed.toString()) ?? ' ($failed failed)';
   static String get notifyOutputLargerTitle => _l10n?.notifyOutputLargerTitle ?? 'Output Larger Than Original';
   static String notifyOutputLargerDesc(String fileName) => _l10n?.notifyOutputLargerDesc(fileName) ?? '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
+  static String get outputPreservedOriginalTooltip {
+    if (_context != null && Localizations.localeOf(_context!).languageCode == 'ar') {
+      return 'تم الاحتفاظ بالملف الأصلي تلقائيًا لمنع زيادة حجمه';
+    }
+    return 'Original file preserved automatically because compression would have increased its size.';
+  }
+
+  static String get retryFileTooltip {
+    if (_context != null && Localizations.localeOf(_context!).languageCode == 'ar') {
+      return 'إعادة محاولة معالجة هذا الملف';
+    }
+    return 'Retry processing this file';
+  }
 }

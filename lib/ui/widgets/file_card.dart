@@ -453,18 +453,23 @@ class _CompressionResult extends StatelessWidget {
         ),
         if (badgeText.isNotEmpty && video.fileSizeBytes > 0) ...[
           const SizedBox(width: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
-              color: badgeColor.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              badgeText,
-              style: TextStyle(
-                color: badgeColor,
-                fontSize: 11,
-                fontWeight: FontWeight.w800,
+          Tooltip(
+            message: (savedBytes == 0 && video.outputSizeBytes != null)
+                ? AppStrings.outputPreservedOriginalTooltip
+                : '',
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+              decoration: BoxDecoration(
+                color: badgeColor.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                badgeText,
+                style: TextStyle(
+                  color: badgeColor,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ),
           ),
@@ -474,7 +479,7 @@ class _CompressionResult extends StatelessWidget {
   }
 }
 
-/// Cancel (while processing) or Remove (while idle) button.
+/// Cancel (while processing) or Remove (while idle) button, with Retry for failed items.
 class _ActionButton extends StatelessWidget {
   final VideoFile video;
   final VoidCallback? onRemove;
@@ -495,8 +500,59 @@ class _ActionButton extends StatelessWidget {
 
     if (!isRemovable && !isProcessing) return const SizedBox.shrink();
 
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final redColor = isDark ? Colors.redAccent.shade200 : AppColors.errorRed;
+
+    if (video.status == VideoStatus.failed) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Tooltip(
+            message: AppStrings.retryFileTooltip,
+            child: InkWell(
+              onTap: () => context.read<CompressionCubit>().retrySingle(video.id),
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.12),
+                ),
+                child: Icon(
+                  Icons.refresh_rounded,
+                  size: 16,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 6),
+          Tooltip(
+            message: AppStrings.removeBtnTooltip,
+            child: InkWell(
+              onTap: onRemove,
+              borderRadius: BorderRadius.circular(8),
+              child: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: (theme.iconTheme.color ?? Colors.grey)
+                      .withValues(alpha: 0.08),
+                ),
+                child: Icon(
+                  Icons.close_rounded,
+                  size: 16,
+                  color: theme.textTheme.bodySmall?.color,
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
 
     return Tooltip(
       message: isProcessing ? AppStrings.cancelBtnTooltip : AppStrings.removeBtnTooltip,
@@ -511,7 +567,7 @@ class _ActionButton extends StatelessWidget {
             color:
                 (isProcessing
                         ? redColor
-                        : Theme.of(context).iconTheme.color ?? Colors.grey)
+                        : theme.iconTheme.color ?? Colors.grey)
                     .withValues(alpha: 0.08),
           ),
           child: Icon(
@@ -519,7 +575,7 @@ class _ActionButton extends StatelessWidget {
             size: 16,
             color: isProcessing
                 ? redColor.withValues(alpha: 0.8)
-                : Theme.of(context).textTheme.bodySmall?.color,
+                : theme.textTheme.bodySmall?.color,
           ),
         ),
       ),

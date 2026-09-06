@@ -144,6 +144,61 @@ class BloatingImageCompressionService extends ImageCompressionService {
   }
 }
 
+class FlakyFfmpegService extends FfmpegService {
+  bool shouldFail = true;
+
+  @override
+  Future<void> checkDependencies() async {}
+
+  @override
+  Future<Duration> probeDuration(String path) async =>
+      const Duration(seconds: 10);
+
+  @override
+  Stream<CompressionProgress> compress({
+    required String inputPath,
+    required String outputPath,
+    required Duration totalDuration,
+    int crf = 22,
+    bool isTargetSizeMode = false,
+    double targetSizeMB = 25.0,
+    String preset = 'fast',
+    required VideoCodec codec,
+    bool enableVideoDenoise = false,
+    required HardwareEncoder hardwareEncoder,
+    required AudioMode audioMode,
+    bool enableAudioDenoise = false,
+    AudioNormalizeMode audioNormalizeMode = AudioNormalizeMode.off,
+    AudioChannelsMode audioChannelsMode = AudioChannelsMode.original,
+    required ResolutionMode resolutionMode,
+    required FrameRateMode frameRateMode,
+    bool trimEnabled = false,
+    String trimStartTime = '00:00:00',
+    String trimEndTime = '00:00:00',
+    VideoRotationMode videoRotationMode = VideoRotationMode.original,
+    VideoSpeedMode videoSpeedMode = VideoSpeedMode.original,
+    AspectRatioMode aspectRatioMode = AspectRatioMode.original,
+    ExportType exportType = ExportType.video,
+    bool stripMetadata = false,
+    bool autoCropBlackBars = false,
+    String customAspectRatio = '16:10',
+    double customRotationAngle = 45.0,
+  }) async* {
+    if (shouldFail) {
+      throw Exception('Simulated temporary encoder crash');
+    }
+    final inBytes = File(inputPath).lengthSync();
+    final outFile = File(outputPath);
+    outFile.writeAsBytesSync(List.filled(inBytes ~/ 2, 55));
+    yield CompressionProgress(
+      progress: 1.0,
+      speed: 1.5,
+      eta: Duration.zero,
+      currentOutputSizeBytes: inBytes ~/ 2,
+    );
+  }
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -256,5 +311,56 @@ void main() {
     expect(resultFile.existsSync(), isTrue);
     expect(resultFile.lengthSync(), 5000);
     expect(resultFile.readAsBytesSync(), List.filled(5000, 3));
+  });
+
+  test('deleteOriginalOnSuccess does NOT delete original file when size is preserved (savedBytes == 0)', () async {
+    final mockFfmpeg = BloatingFfmpegService();
+    final cubit = CompressionCubit(
+      ffmpegService: mockFfmpeg,
+      prefs: prefs,
+    );
+    cubit.updateDeleteOriginalOnSuccess(true);
+
+    final originalVideoPath = createTestFile('safe_clip.mp4', 12000, 4);
+    await cubit.addFiles([originalVideoPath]);
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+
+    await cubit.startCompression();
+
+    final completedItem = cubit.state.videos.first;
+    expect(completedItem.status, VideoStatus.success);
+    expect(completedItem.savedBytes, 0);
+
+    // Verify original file is PRESERVED and NOT deleted!
+    expect(File(originalVideoPath).existsSync(), isTrue);
+    expect(File(originalVideoPath).lengthSync(), 12000);
+  });
+
+  test('retrySingle re-queues and successfully compresses a previously failed item', () async {
+    final mockFfmpeg = FlakyFfmpegService();
+    final cubit = CompressionCubit(
+      ffmpegService: mockFfmpeg,
+      prefs: prefs,
+    );
+
+    final originalVideoPath = createTestFile('flaky_clip.mp4', 10000, 5);
+    await cubit.addFiles([originalVideoPath]);
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+
+    // First attempt fails
+    await cubit.startCompression();
+
+    expect(cubit.state.videos.first.status, VideoStatus.failed);
+    expect(cubit.state.phase, CompressionPhase.completed);
+
+    // Next attempt succeeds
+    mockFfmpeg.shouldFail = false;
+    await cubit.retrySingle(cubit.state.videos.first.id);
+
+    final retriedItem = cubit.state.videos.first;
+    expect(retriedItem.status, VideoStatus.success);
+    expect(retriedItem.outputSizeBytes, 5000);
+    expect(retriedItem.savedBytes, 5000);
+    expect(File(retriedItem.outputPath!).existsSync(), isTrue);
   });
 }
