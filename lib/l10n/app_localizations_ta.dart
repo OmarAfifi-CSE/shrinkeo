@@ -1140,4 +1140,47 @@ class AppLocalizationsTa extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$total இல் $done முடிந்தது';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'சுருக்குதல் கோப்பின் அளவை அதிகரிக்கும் என்பதால் அசல் கோப்பு தானாகவே பாதுகாக்கப்பட்டது.';
+
+  @override
+  String get retryFileTooltip =>
+      'இந்தக் கோப்பை மீண்டும் செயலாக்க முயற்சிக்கவும்';
+
+  @override
+  String get pauseBtn => 'இடைநிறுத்து';
+
+  @override
+  String get resumeBtn => 'மீண்டும் தொடங்கு';
+
+  @override
+  String get pausingBtn => 'இடைநிறுத்தப்படுகிறது...';
+
+  @override
+  String get pausedLabel => 'இடைநிறுத்தப்பட்டது';
+
+  @override
+  String get compareImagesTooltip => 'முந்தைய மற்றும் பிந்தையதை ஒப்பிடுக';
+
+  @override
+  String get compareImagesTitle =>
+      'சுருக்குவதற்கு முன்னும் பின்னும் பட ஒப்பீடு';
+
+  @override
+  String get originalLabel => 'அசல்';
+
+  @override
+  String get compressedLabel => 'சுருக்கப்பட்டது';
+
+  @override
+  String get dragToCompare => 'ஒப்பிட ஸ்லைடரை இழுக்கவும்';
+
+  @override
+  String get resetZoomTooltip => 'பெரிதாக்கலை மீட்டமை';
+
+  @override
+  String get imageFilesNotFound =>
+      'ஒப்பீட்டிற்காக வட்டில் ஒன்று அல்லது இரண்டு படக் கோப்புகளும் காணப்படவில்லை.';
 }

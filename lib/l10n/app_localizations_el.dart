@@ -1138,4 +1138,45 @@ class AppLocalizationsEl extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Ολοκληρώθηκαν $done από $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Το αρχικό αρχείο διατηρήθηκε αυτόματα επειδή η συμπίεση θα αύξανε το μέγεθός του.';
+
+  @override
+  String get retryFileTooltip => 'Επανάληψη επεξεργασίας αυτού του αρχείου';
+
+  @override
+  String get pauseBtn => 'Παύση';
+
+  @override
+  String get resumeBtn => 'Συνέχιση';
+
+  @override
+  String get pausingBtn => 'Σε παύση...';
+
+  @override
+  String get pausedLabel => 'Σε παύση';
+
+  @override
+  String get compareImagesTooltip => 'Σύγκριση πριν και μετά';
+
+  @override
+  String get compareImagesTitle => 'Σύγκριση εικόνας πριν και μετά τη συμπίεση';
+
+  @override
+  String get originalLabel => 'Αρχικό';
+
+  @override
+  String get compressedLabel => 'Συμπιεσμένο';
+
+  @override
+  String get dragToCompare => 'Σύρετε το ρυθμιστικό για σύγκριση';
+
+  @override
+  String get resetZoomTooltip => 'Επαναφορά εστίασης';
+
+  @override
+  String get imageFilesNotFound =>
+      'Δεν βρέθηκε ένα ή και τα δύο αρχεία εικόνας στον δίσκο για σύγκριση.';
 }

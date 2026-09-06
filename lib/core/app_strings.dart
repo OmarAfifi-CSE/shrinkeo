@@ -476,17 +476,39 @@ class AppStrings {
   static String notifyCompressionCompleteFailed(int failed) => _l10n?.notifyCompressionCompleteFailed(failed.toString()) ?? ' ($failed failed)';
   static String get notifyOutputLargerTitle => _l10n?.notifyOutputLargerTitle ?? 'Output Larger Than Original';
   static String notifyOutputLargerDesc(String fileName) => _l10n?.notifyOutputLargerDesc(fileName) ?? '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
-  static String get outputPreservedOriginalTooltip {
-    if (_context != null && Localizations.localeOf(_context!).languageCode == 'ar') {
-      return 'تم الاحتفاظ بالملف الأصلي تلقائيًا لمنع زيادة حجمه';
-    }
-    return 'Original file preserved automatically because compression would have increased its size.';
-  }
+  static String get outputPreservedOriginalTooltip =>
+      _l10n?.outputPreservedOriginalTooltip ??
+      'Original file preserved automatically because compression would have increased its size.';
 
-  static String get retryFileTooltip {
-    if (_context != null && Localizations.localeOf(_context!).languageCode == 'ar') {
-      return 'إعادة محاولة معالجة هذا الملف';
-    }
-    return 'Retry processing this file';
-  }
+  static String get retryFileTooltip =>
+      _l10n?.retryFileTooltip ?? 'Retry processing this file';
+
+  static String get pauseBtn => _l10n?.pauseBtn ?? 'Pause';
+
+  static String get resumeBtn => _l10n?.resumeBtn ?? 'Resume';
+
+  static String get pausingBtn => _l10n?.pausingBtn ?? 'Pausing...';
+
+  static String get pausedLabel => _l10n?.pausedLabel ?? 'Paused';
+
+  static String get compareImagesTooltip =>
+      _l10n?.compareImagesTooltip ?? 'Compare Before & After';
+
+  static String get compareImagesTitle =>
+      _l10n?.compareImagesTitle ?? 'Before & After Comparison';
+
+  static String get originalLabel => _l10n?.originalLabel ?? 'Original';
+
+  static String get compressedLabel =>
+      _l10n?.compressedLabel ?? 'Compressed';
+
+  static String get dragToCompare =>
+      _l10n?.dragToCompare ?? 'Drag slider to compare';
+
+  static String get resetZoomTooltip =>
+      _l10n?.resetZoomTooltip ?? 'Reset Zoom';
+
+  static String get imageFilesNotFound =>
+      _l10n?.imageFilesNotFound ??
+      'One or both image files could not be found on disk for comparison.';
 }

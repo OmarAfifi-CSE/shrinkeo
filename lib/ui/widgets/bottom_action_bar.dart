@@ -8,6 +8,7 @@ import '../../models/file_item.dart';
 import '../../l10n/app_localizations.dart';
 import '../app_colors.dart';
 import 'dart:ui' as dart_ui;
+import 'smooth_button.dart';
 
 class BottomActionBar extends StatelessWidget {
   final CompressionState state;
@@ -49,10 +50,13 @@ class BottomActionBar extends StatelessWidget {
                   !state.isProcessing)
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child: TextButton.icon(
-                    onPressed: () => cubit.clearCompleted(),
-                    icon: const Icon(Icons.cleaning_services_rounded, size: 16),
-                    label: Text(AppStrings.clearCompletedBtn),
+                  child: SmoothButton(
+                    enableHoverScale: true,
+                    child: TextButton.icon(
+                      onPressed: () => cubit.clearCompleted(),
+                      icon: const Icon(Icons.cleaning_services_rounded, size: 16),
+                      label: Text(AppStrings.clearCompletedBtn),
+                    ),
                   ),
                 ),
 
@@ -60,29 +64,84 @@ class BottomActionBar extends StatelessWidget {
               if (!state.isProcessing && state.videos.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
-                  child: TextButton.icon(
-                    onPressed: () => cubit.clearAll(),
-                    icon: const Icon(Icons.delete_sweep_rounded, size: 16),
-                    label: Text(AppStrings.clearAllBtn),
+                  child: SmoothButton(
+                    enableHoverScale: true,
+                    child: TextButton.icon(
+                      onPressed: () => cubit.clearAll(),
+                      icon: const Icon(Icons.delete_sweep_rounded, size: 16),
+                      label: Text(AppStrings.clearAllBtn),
+                    ),
                   ),
                 ),
 
-              // -- Cancel / Start button --
-              if (state.isProcessing)
-                ElevatedButton.icon(
-                  onPressed: () => cubit.cancelCompression(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.errorRed,
-                    foregroundColor: Colors.white,
+              // -- Cancel / Pause / Resume / Start button --
+              if (state.isProcessing) ...[
+                SmoothButton(
+                  enabled: !state.isPauseRequested,
+                  enableHoverScale: true,
+                  child: OutlinedButton.icon(
+                    onPressed: state.isPauseRequested
+                        ? null
+                        : () => cubit.pauseCompression(),
+                    icon: state.isPauseRequested
+                        ? const SizedBox(
+                            width: 14,
+                            height: 14,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.pause_rounded, size: 18),
+                    label: Text(
+                      state.isPauseRequested
+                          ? AppStrings.pausingBtn
+                          : AppStrings.pauseBtn,
+                    ),
                   ),
-                  icon: const Icon(Icons.stop_rounded, size: 18),
-                  label: Text(AppStrings.stopAllBtn),
-                )
+                ),
+                const SizedBox(width: 8),
+                SmoothButton(
+                  enableHoverScale: true,
+                  child: ElevatedButton.icon(
+                    onPressed: () => cubit.cancelCompression(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.errorRed,
+                      foregroundColor: Colors.white,
+                    ),
+                    icon: const Icon(Icons.stop_rounded, size: 18),
+                    label: Text(AppStrings.stopAllBtn),
+                  ),
+                ),
+              ]
+              else if (state.isPaused && state.canResume) ...[
+                SmoothButton(
+                  enableHoverScale: true,
+                  child: ElevatedButton.icon(
+                    onPressed: () => cubit.resumeCompression(),
+                    icon: const Icon(Icons.play_arrow_rounded, size: 20),
+                    label: Text(AppStrings.resumeBtn),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                SmoothButton(
+                  enableHoverScale: true,
+                  child: OutlinedButton.icon(
+                    onPressed: () => cubit.cancelCompression(),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.errorRed,
+                      side: const BorderSide(color: AppColors.errorRed),
+                    ),
+                    icon: const Icon(Icons.stop_rounded, size: 18),
+                    label: Text(AppStrings.stopAllBtn),
+                  ),
+                ),
+              ]
               else if (state.canStart)
-                ElevatedButton.icon(
-                  onPressed: () => cubit.startCompression(),
-                  icon: const Icon(Icons.play_arrow_rounded, size: 20),
-                  label: Text(AppStrings.startCompressionBtn),
+                SmoothButton(
+                  enableHoverScale: true,
+                  child: ElevatedButton.icon(
+                    onPressed: () => cubit.startCompression(),
+                    icon: const Icon(Icons.play_arrow_rounded, size: 20),
+                    label: Text(AppStrings.startCompressionBtn),
+                  ),
                 )
               else if (state.phase == CompressionPhase.completed)
                 Row(
@@ -124,22 +183,25 @@ class BottomActionBar extends StatelessWidget {
                       const SizedBox(width: 12),
                       SizedBox(
                         height: 40,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            if (state.outputFolderPath != null) {
-                              cubit.openOutputFolder(state.outputFolderPath!);
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.colorScheme.primary,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                        child: SmoothButton(
+                          enableHoverScale: true,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              if (state.outputFolderPath != null) {
+                                cubit.openOutputFolder(state.outputFolderPath!);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: theme.colorScheme.primary,
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
+                            icon: const Icon(Icons.folder_open_rounded, size: 18),
+                            label: Text(AppStrings.openFolderBtn),
                           ),
-                          icon: const Icon(Icons.folder_open_rounded, size: 18),
-                          label: Text(AppStrings.openFolderBtn),
                         ),
                       ),
                     ],
@@ -202,7 +264,7 @@ class _QueueSummary extends StatelessWidget {
         const SizedBox(width: 6),
         Flexible(
           child: Text(
-            hasImages && (state.isProcessing || state.phase == CompressionPhase.completed)
+            hasImages && (state.isProcessing || state.isPaused || state.phase == CompressionPhase.completed)
                 ? AppLocalizations.of(context)!.queueCompleted(success, total)
                 : '$total $unitLabel',
             maxLines: 1,
@@ -214,7 +276,34 @@ class _QueueSummary extends StatelessWidget {
             ),
           ),
         ),
+        if (state.isPaused && state.canResume) ...[
+          const SizedBox(width: 10),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: Colors.amber.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(color: Colors.amber.withValues(alpha: 0.35)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.pause_rounded, size: 13, color: Colors.amber),
+                const SizedBox(width: 4),
+                Text(
+                  AppStrings.pausedLabel,
+                  style: const TextStyle(
+                    color: Colors.amber,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
         if (state.isProcessing ||
+            state.isPaused ||
             state.phase == CompressionPhase.completed) ...[
           const SizedBox(width: 12),
           _MiniCounter(

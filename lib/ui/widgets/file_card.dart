@@ -8,11 +8,13 @@ import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../models/file_item.dart';
 import '../../models/image_progress.dart';
+import 'image_comparison_dialog.dart';
 import 'image_progress_view.dart';
 import '../app_colors.dart';
 import 'status_chip.dart';
 
 import 'glass_container.dart';
+import 'smooth_button.dart';
 
 /// Card widget displaying a single video file in the compression queue.
 ///
@@ -27,47 +29,69 @@ class FileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final canCompare = video.status == VideoStatus.success &&
+        video.mediaType == MediaType.image &&
+        video.outputPath != null;
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: GlassContainer(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // -- Top row: icon, name, status, actions --
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Row(
-                  children: [
-                    // Live thumbnail for image items, format badge otherwise.
-                    if (video.mediaType == MediaType.image &&
-                        File(video.filePath).existsSync())
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: theme.brightness == Brightness.dark
-                                ? Colors.white.withValues(alpha: 0.1)
-                                : Colors.black.withValues(alpha: 0.08),
-                            width: 0.5,
-                          ),
-                          image: DecorationImage(
-                            image: FileImage(File(video.filePath)),
-                            fit: BoxFit.cover,
+    Widget card = GlassContainer(
+      useBackdropFilter: false,
+      padding: const EdgeInsets.all(14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // -- Top row: icon, name, status, actions --
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Row(
+                children: [
+                  // Live thumbnail for image items, format badge otherwise.
+                  if (video.mediaType == MediaType.image &&
+                      video.filePath.isNotEmpty)
+                    Tooltip(
+                      message: canCompare ? AppStrings.compareImagesTooltip : '',
+                      child: MouseRegion(
+                        cursor: canCompare
+                            ? SystemMouseCursors.click
+                            : SystemMouseCursors.basic,
+                        child: GestureDetector(
+                          onTap: canCompare
+                              ? () => ImageComparisonDialog.show(context, video)
+                              : null,
+                          child: RepaintBoundary(
+                            child: Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: theme.brightness == Brightness.dark
+                                      ? Colors.white.withValues(alpha: 0.1)
+                                      : Colors.black.withValues(alpha: 0.08),
+                                  width: 0.5,
+                                ),
+                                image: DecorationImage(
+                                  image: ResizeImage(
+                                    FileImage(File(video.filePath)),
+                                    width: 120,
+                                    height: 120,
+                                  ),
+                                  fit: BoxFit.cover,
+                                  onError: (error, stackTrace) {},
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                      )
-                    else
-                      _FormatBadge(extension: video.extension),
-                    const SizedBox(width: 12),
+                      ),
+                    )
+                  else
+                    _FormatBadge(extension: video.extension),
+                  const SizedBox(width: 12),
 
-                    // File name & size
-                    Expanded(
-                      child: Column(
+                  // File name & size
+                  Expanded(
+                    child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -193,7 +217,7 @@ class FileCard extends StatelessWidget {
                           // of the card's raster cache.
                           child: LinearProgressIndicator(
                             key: ValueKey('progress_${video.id}'),
-                            value: video.progress,
+                            value: video.progress > 0 ? video.progress : null,
                             minHeight: 4,
                             borderRadius: BorderRadius.circular(2),
                             backgroundColor:
@@ -269,13 +293,26 @@ class FileCard extends StatelessWidget {
             ],
           ],
         ),
+      );
+
+    if (canCompare) {
+      card = GestureDetector(
+        onTap: () => ImageComparisonDialog.show(context, video),
+        child: card,
+      );
+    }
+
+    return RepaintBoundary(
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 12.0),
+        child: card,
       ),
     );
   }
 
   Widget _buildRightStatusContent(BuildContext context, ThemeData theme) {
-    if (video.status == VideoStatus.compressing) {
-      if (video.mediaType == MediaType.image) return const SizedBox.shrink();
+    if (video.status == VideoStatus.compressing &&
+        video.mediaType != MediaType.image) {
       return Row(
         key: ValueKey('compressing_${video.id}'),
         mainAxisAlignment: MainAxisAlignment.end,
@@ -308,26 +345,63 @@ class FileCard extends StatelessWidget {
       );
     } else if (video.status == VideoStatus.success &&
         video.outputSizeBytes != null) {
+      final canCompare = video.mediaType == MediaType.image &&
+          video.outputPath != null;
+
       return Row(
         key: ValueKey('success_${video.id}'),
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _CompressionResult(video: video),
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerRight,
+              child: _CompressionResult(video: video),
+            ),
+          ),
+          if (canCompare) ...[
+            const SizedBox(width: 8),
+            SmoothButton(
+              tooltip: AppStrings.compareImagesTooltip,
+              onTap: () => ImageComparisonDialog.show(context, video),
+              enableHoverScale: true,
+              child: Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.12),
+                ),
+                child: Icon(
+                  Icons.compare_rounded,
+                  size: 16,
+                  color: theme.colorScheme.primary,
+                ),
+              ),
+            ),
+          ],
           if (video.outputPath != null) ...[
             const SizedBox(width: 8),
-            Tooltip(
-              message: AppStrings.openOutputFolderTooltip,
-              child: IconButton(
-                icon: const Icon(Icons.folder_open_rounded, size: 18),
-                onPressed: () {
-                  context.read<CompressionCubit>().openOutputFolder(
-                    p.dirname(video.outputPath!),
-                  );
-                },
-                constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
-                padding: EdgeInsets.zero,
-                splashRadius: 16,
-                color: theme.colorScheme.primary,
+            SmoothButton(
+              tooltip: AppStrings.openOutputFolderTooltip,
+              onTap: () {
+                context.read<CompressionCubit>().openOutputFolder(
+                  p.dirname(video.outputPath!),
+                );
+              },
+              enableHoverScale: true,
+              child: Container(
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.12),
+                ),
+                child: Icon(
+                  Icons.folder_open_rounded,
+                  size: 16,
+                  color: theme.colorScheme.primary,
+                ),
               ),
             ),
           ],
@@ -338,7 +412,7 @@ class FileCard extends StatelessWidget {
     }
   }
 
-  String _formatDuration(Duration duration) {
+  static String _formatDuration(Duration duration) {
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
     String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
@@ -508,45 +582,41 @@ class _ActionButton extends StatelessWidget {
       return Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Tooltip(
-            message: AppStrings.retryFileTooltip,
-            child: InkWell(
-              onTap: () => context.read<CompressionCubit>().retrySingle(video.id),
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: theme.colorScheme.primary.withValues(alpha: 0.12),
-                ),
-                child: Icon(
-                  Icons.refresh_rounded,
-                  size: 16,
-                  color: theme.colorScheme.primary,
-                ),
+          SmoothButton(
+            tooltip: AppStrings.retryFileTooltip,
+            onTap: () => context.read<CompressionCubit>().retrySingle(video.id),
+            enableHoverScale: true,
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: theme.colorScheme.primary.withValues(alpha: 0.12),
+              ),
+              child: Icon(
+                Icons.refresh_rounded,
+                size: 16,
+                color: theme.colorScheme.primary,
               ),
             ),
           ),
           const SizedBox(width: 6),
-          Tooltip(
-            message: AppStrings.removeBtnTooltip,
-            child: InkWell(
-              onTap: onRemove,
-              borderRadius: BorderRadius.circular(8),
-              child: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: (theme.iconTheme.color ?? Colors.grey)
-                      .withValues(alpha: 0.08),
-                ),
-                child: Icon(
-                  Icons.close_rounded,
-                  size: 16,
-                  color: theme.textTheme.bodySmall?.color,
-                ),
+          SmoothButton(
+            tooltip: AppStrings.removeBtnTooltip,
+            onTap: onRemove,
+            enableHoverScale: true,
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: (theme.iconTheme.color ?? Colors.grey)
+                    .withValues(alpha: 0.08),
+              ),
+              child: Icon(
+                Icons.close_rounded,
+                size: 16,
+                color: theme.textTheme.bodySmall?.color,
               ),
             ),
           ),
@@ -554,34 +624,33 @@ class _ActionButton extends StatelessWidget {
       );
     }
 
-    return Tooltip(
-      message: isProcessing ? AppStrings.cancelBtnTooltip : AppStrings.removeBtnTooltip,
-      child: InkWell(
-        onTap: onRemove,
-        borderRadius: BorderRadius.circular(8),
-        child: Container(
-          width: 32,
-          height: 32,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color:
-                (isProcessing
-                        ? redColor
-                        : theme.iconTheme.color ?? Colors.grey)
-                    .withValues(alpha: 0.08),
-          ),
-          child: Icon(
-            isProcessing ? Icons.stop_rounded : Icons.close_rounded,
-            size: 16,
-            color: isProcessing
-                ? redColor.withValues(alpha: 0.8)
-                : theme.textTheme.bodySmall?.color,
-          ),
+    return SmoothButton(
+      tooltip: isProcessing ? AppStrings.cancelBtnTooltip : AppStrings.removeBtnTooltip,
+      onTap: onRemove,
+      enableHoverScale: true,
+      child: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          color:
+              (isProcessing
+                      ? redColor
+                      : theme.iconTheme.color ?? Colors.grey)
+                  .withValues(alpha: 0.08),
+        ),
+        child: Icon(
+          isProcessing ? Icons.stop_rounded : Icons.close_rounded,
+          size: 16,
+          color: isProcessing
+              ? redColor.withValues(alpha: 0.8)
+              : theme.textTheme.bodySmall?.color,
         ),
       ),
     );
   }
 }
+
 
 /// Backward compatibility alias for [FileCard].
 typedef VideoFileCard = FileCard;

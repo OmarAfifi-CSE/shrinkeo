@@ -353,5 +353,18 @@
   "imageTargetProgress": "Целевой размер: {size}",
   "imageAttempt": "Попытка {count}",
   "imageBestResult": "Лучший результат: {size}",
-  "queueCompleted": "Завершено {done} из {total}"
+  "queueCompleted": "Завершено {done} из {total}",
+  "outputPreservedOriginalTooltip": "Исходный файл сохранен автоматически, так как сжатие увеличило бы его размер.",
+  "retryFileTooltip": "Повторить обработку этого файла",
+  "pauseBtn": "Пауза",
+  "resumeBtn": "Продолжить",
+  "pausingBtn": "Приостановка...",
+  "pausedLabel": "Приостановлено",
+  "compareImagesTooltip": "Сравнение до и после",
+  "compareImagesTitle": "Сравнение изображения до и после сжатия",
+  "originalLabel": "Оригинал",
+  "compressedLabel": "Сжатое",
+  "dragToCompare": "Перетащите ползунок для сравнения",
+  "resetZoomTooltip": "Сбросить масштаб",
+  "imageFilesNotFound": "Один или оба файла изображений не найдены на диске для сравнения."
 }

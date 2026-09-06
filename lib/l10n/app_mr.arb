@@ -353,5 +353,18 @@
   "imageTargetProgress": "लक्ष्य: {size}",
   "imageAttempt": "प्रयत्न {count}",
   "imageBestResult": "सर्वोत्तम निकाल: {size}",
-  "queueCompleted": "{total} पैकी {done} पूर्ण"
+  "queueCompleted": "{total} पैकी {done} पूर्ण",
+  "outputPreservedOriginalTooltip": "कॉम्प्रेशनमुळे आकार वाढेल म्हणून मूळ फाइल आपोआप जपली गेली.",
+  "retryFileTooltip": "या फाइलवर प्रक्रिया करण्याचा पुन्हा प्रयत्न करा",
+  "pauseBtn": "विराम द्या",
+  "resumeBtn": "पुढे सुरू करा",
+  "pausingBtn": "थांबवत आहे...",
+  "pausedLabel": "विराम दिला",
+  "compareImagesTooltip": "आधी आणि नंतरची तुलना करा",
+  "compareImagesTitle": "कॉम्प्रेशन आधी आणि नंतर प्रतिमा तुलना",
+  "originalLabel": "मूळ",
+  "compressedLabel": "संकोचित",
+  "dragToCompare": "तुलना करण्यासाठी स्लाइडर ड्रॅग करा",
+  "resetZoomTooltip": "झूम रीसेट करा",
+  "imageFilesNotFound": "तुलनेसाठी डिस्कवर एक किंवा दोन्ही इमेज फाइल्स सापडल्या नाहीत."
 }

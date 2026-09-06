@@ -353,5 +353,18 @@
   "imageTargetProgress": "Target: {size}",
   "imageAttempt": "Percobaan {count}",
   "imageBestResult": "Hasil terbaik: {size}",
-  "queueCompleted": "Selesai {done} dari {total}"
+  "queueCompleted": "Selesai {done} dari {total}",
+  "outputPreservedOriginalTooltip": "File asli disimpan secara otomatis karena kompresi akan memperbesar ukurannya.",
+  "retryFileTooltip": "Coba lagi memproses file ini",
+  "pauseBtn": "Jeda",
+  "resumeBtn": "Lanjutkan",
+  "pausingBtn": "Menjeda...",
+  "pausedLabel": "Dijeda",
+  "compareImagesTooltip": "Bandingkan Sebelum & Sesudah",
+  "compareImagesTitle": "Perbandingan Gambar Sebelum & Sesudah Kompresi",
+  "originalLabel": "Asli",
+  "compressedLabel": "Dikompresi",
+  "dragToCompare": "Geser penggeser untuk membandingkan",
+  "resetZoomTooltip": "Atur Ulang Zoom",
+  "imageFilesNotFound": "Satu atau kedua file gambar tidak ditemukan di disk untuk perbandingan."
 }

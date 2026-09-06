@@ -353,5 +353,18 @@
   "imageTargetProgress": "เป้าหมาย: {size}",
   "imageAttempt": "ครั้งที่ {count}",
   "imageBestResult": "ผลลัพธ์ที่ดีที่สุด: {size}",
-  "queueCompleted": "เสร็จแล้ว {done} จาก {total}"
+  "queueCompleted": "เสร็จแล้ว {done} จาก {total}",
+  "outputPreservedOriginalTooltip": "คงไฟล์ต้นฉบับไว้โดยอัตโนมัติเนื่องจากการบีบอัดจะทำให้ขนาดไฟล์เพิ่มขึ้น",
+  "retryFileTooltip": "ลองประมวลผลไฟล์นี้ใหม่อีกครั้ง",
+  "pauseBtn": "พักชั่วคราว",
+  "resumeBtn": "ดำเนินการต่อ",
+  "pausingBtn": "กำลังพัก...",
+  "pausedLabel": "หยุดชั่วคราว",
+  "compareImagesTooltip": "เปรียบเทียบก่อนและหลัง",
+  "compareImagesTitle": "การเปรียบเทียบรูปภาพก่อนและหลังการบีบอัด",
+  "originalLabel": "ต้นฉบับ",
+  "compressedLabel": "บีบอัดแล้ว",
+  "dragToCompare": "ลากแถบเลื่อนเพื่อเปรียบเทียบ",
+  "resetZoomTooltip": "รีเซ็ตการซูม",
+  "imageFilesNotFound": "ไม่พบไฟล์รูปภาพไฟล์ใดไฟล์หนึ่งหรือทั้งสองไฟล์บนดิสก์เพื่อทำการเปรียบเทียบ"
 }

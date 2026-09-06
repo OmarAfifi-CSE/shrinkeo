@@ -353,5 +353,18 @@
   "imageTargetProgress": "Lengo: {size}",
   "imageAttempt": "Jaribio {count}",
   "imageBestResult": "Matokeo bora: {size}",
-  "queueCompleted": "Imekamilisha {done} kati ya {total}"
+  "queueCompleted": "Imekamilisha {done} kati ya {total}",
+  "outputPreservedOriginalTooltip": "Faili asili limehifadhiwa kiotomatiki kwa sababu mgandamizo ungeongeza saizi yake.",
+  "retryFileTooltip": "Jaribu tena kuchakata faili hili",
+  "pauseBtn": "Sitisha",
+  "resumeBtn": "Endelea",
+  "pausingBtn": "Inasitisha...",
+  "pausedLabel": "Imesitishwa",
+  "compareImagesTooltip": "Linganisha Kabla na Baada",
+  "compareImagesTitle": "Ulinganisho wa Picha Kabla na Baada ya Mgandamizo",
+  "originalLabel": "Asili",
+  "compressedLabel": "Iliyogandamizwa",
+  "dragToCompare": "Buruta kitelezi kulinganisha",
+  "resetZoomTooltip": "Weka Upya Kuza",
+  "imageFilesNotFound": "Faili moja au zote mbili za picha hazikuweza kupatikana kwenye diski kwa ajili ya kulinganisha."
 }

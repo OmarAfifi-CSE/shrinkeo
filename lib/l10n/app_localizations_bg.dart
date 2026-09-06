@@ -1139,4 +1139,46 @@ class AppLocalizationsBg extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Завършени $done от $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Оригиналният файл бе запазен автоматично, тъй като компресирането щеше да увеличи размера му.';
+
+  @override
+  String get retryFileTooltip => 'Повторен опит за обработка на този файл';
+
+  @override
+  String get pauseBtn => 'Пауза';
+
+  @override
+  String get resumeBtn => 'Продължи';
+
+  @override
+  String get pausingBtn => 'Поставяне на пауза...';
+
+  @override
+  String get pausedLabel => 'На пауза';
+
+  @override
+  String get compareImagesTooltip => 'Сравнение преди и след';
+
+  @override
+  String get compareImagesTitle =>
+      'Сравнение на изображението преди и след компресиране';
+
+  @override
+  String get originalLabel => 'Оригинал';
+
+  @override
+  String get compressedLabel => 'Компресиран';
+
+  @override
+  String get dragToCompare => 'Плъзнете плъзгача за сравнение';
+
+  @override
+  String get resetZoomTooltip => 'Нулиране на мащаба';
+
+  @override
+  String get imageFilesNotFound =>
+      'Един или двата графични файла не бяха намерени на диска за сравнение.';
 }

@@ -353,5 +353,18 @@
   "imageTargetProgress": "లక్ష్యం: {size}",
   "imageAttempt": "ప్రయత్నం {count}",
   "imageBestResult": "ఉత్తమ ఫలితం: {size}",
-  "queueCompleted": "{total}లో {done} పూర్తయ్యాయి"
+  "queueCompleted": "{total}లో {done} పూర్తయ్యాయి",
+  "outputPreservedOriginalTooltip": "కుదింపు పరిమాణాన్ని పెంచుతుంది కాబట్టి అసలు ఫైల్ స్వయంచాలకంగా భద్రపరచబడింది.",
+  "retryFileTooltip": "ఈ ఫైల్‌ను ప్రాసెస్ చేయడానికి మళ్లీ ప్రయత్నించండి",
+  "pauseBtn": "తాత్కాలికంగా ఆపు",
+  "resumeBtn": "పునఃప్రారంభించు",
+  "pausingBtn": "తాత్కాలికంగా ఆపబడుతోంది...",
+  "pausedLabel": "తాత్కాలికంగా ఆపబడింది",
+  "compareImagesTooltip": "ముందు & తర్వాత పోల్చండి",
+  "compareImagesTitle": "కుదింపు ముందు & తర్వాత చిత్రం పోలిక",
+  "originalLabel": "అసలు",
+  "compressedLabel": "కుదించబడింది",
+  "dragToCompare": "పోల్చడానికి స్లైడర్‌ను లాగండి",
+  "resetZoomTooltip": "జూమ్ రీసెట్ చేయండి",
+  "imageFilesNotFound": "పోలిక కోసం డిస్క్‌లో ఒకటి లేదా రెండు చిత్ర ఫైల్‌లు కనుగొనబడలేదు."
 }

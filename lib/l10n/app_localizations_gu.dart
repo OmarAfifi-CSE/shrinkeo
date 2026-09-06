@@ -1125,4 +1125,45 @@ class AppLocalizationsGu extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$totalમાંથી $done પૂર્ણ';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'કમ્પ્રેશનથી કદ વધી ગયું હોત તેથી મૂળ ફાઇલ આપમેળે સાચવવામાં આવી.';
+
+  @override
+  String get retryFileTooltip => 'આ ફાઇલ પર પ્રક્રિયા કરવાનો ફરી પ્રયાસ કરો';
+
+  @override
+  String get pauseBtn => 'થોભાવો';
+
+  @override
+  String get resumeBtn => 'ફરી શરૂ કરો';
+
+  @override
+  String get pausingBtn => 'થોભાવી રહ્યું છે...';
+
+  @override
+  String get pausedLabel => 'થોભાવેલું';
+
+  @override
+  String get compareImagesTooltip => 'પહેલાં અને પછી સરખામણી કરો';
+
+  @override
+  String get compareImagesTitle => 'કમ્પ્રેશન પહેલાં અને પછી છબીની સરખામણી';
+
+  @override
+  String get originalLabel => 'મૂળ';
+
+  @override
+  String get compressedLabel => 'સંકુચિત';
+
+  @override
+  String get dragToCompare => 'સરખામણી કરવા સ્લાઇડર ખેંચો';
+
+  @override
+  String get resetZoomTooltip => 'ઝૂમ ફરીથી સેટ કરો';
+
+  @override
+  String get imageFilesNotFound =>
+      'સરખામણી માટે ડિસ્ક પર એક અથવા બંને છબી ફાઇલો મળી શકી નથી.';
 }

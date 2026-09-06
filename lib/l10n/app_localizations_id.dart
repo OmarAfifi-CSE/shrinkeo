@@ -1133,4 +1133,46 @@ class AppLocalizationsId extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Selesai $done dari $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'File asli disimpan secara otomatis karena kompresi akan memperbesar ukurannya.';
+
+  @override
+  String get retryFileTooltip => 'Coba lagi memproses file ini';
+
+  @override
+  String get pauseBtn => 'Jeda';
+
+  @override
+  String get resumeBtn => 'Lanjutkan';
+
+  @override
+  String get pausingBtn => 'Menjeda...';
+
+  @override
+  String get pausedLabel => 'Dijeda';
+
+  @override
+  String get compareImagesTooltip => 'Bandingkan Sebelum & Sesudah';
+
+  @override
+  String get compareImagesTitle =>
+      'Perbandingan Gambar Sebelum & Sesudah Kompresi';
+
+  @override
+  String get originalLabel => 'Asli';
+
+  @override
+  String get compressedLabel => 'Dikompresi';
+
+  @override
+  String get dragToCompare => 'Geser penggeser untuk membandingkan';
+
+  @override
+  String get resetZoomTooltip => 'Atur Ulang Zoom';
+
+  @override
+  String get imageFilesNotFound =>
+      'Satu atau kedua file gambar tidak ditemukan di disk untuk perbandingan.';
 }

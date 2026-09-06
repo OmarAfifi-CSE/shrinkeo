@@ -1141,4 +1141,46 @@ class AppLocalizationsCa extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Completats $done de $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Fitxer original conservat automàticament perquè la compressió n\'hauria augmentat la mida.';
+
+  @override
+  String get retryFileTooltip => 'Torna a provar de processar aquest fitxer';
+
+  @override
+  String get pauseBtn => 'Pausa';
+
+  @override
+  String get resumeBtn => 'Reprèn';
+
+  @override
+  String get pausingBtn => 'Pausant...';
+
+  @override
+  String get pausedLabel => 'Pausat';
+
+  @override
+  String get compareImagesTooltip => 'Compara abans i després';
+
+  @override
+  String get compareImagesTitle =>
+      'Comparació d\'imatge abans i després de la compressió';
+
+  @override
+  String get originalLabel => 'Original';
+
+  @override
+  String get compressedLabel => 'Comprimit';
+
+  @override
+  String get dragToCompare => 'Arrossega el control lliscant per comparar';
+
+  @override
+  String get resetZoomTooltip => 'Restableix el zoom';
+
+  @override
+  String get imageFilesNotFound =>
+      'No s\'ha trobat un o ambdós fitxers d\'imatge al disc per comparar-los.';
 }

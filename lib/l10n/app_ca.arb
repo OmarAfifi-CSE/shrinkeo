@@ -353,5 +353,18 @@
   "imageTargetProgress": "Objectiu: {size}",
   "imageAttempt": "Intent {count}",
   "imageBestResult": "Millor resultat: {size}",
-  "queueCompleted": "Completats {done} de {total}"
+  "queueCompleted": "Completats {done} de {total}",
+  "outputPreservedOriginalTooltip": "Fitxer original conservat automàticament perquè la compressió n'hauria augmentat la mida.",
+  "retryFileTooltip": "Torna a provar de processar aquest fitxer",
+  "pauseBtn": "Pausa",
+  "resumeBtn": "Reprèn",
+  "pausingBtn": "Pausant...",
+  "pausedLabel": "Pausat",
+  "compareImagesTooltip": "Compara abans i després",
+  "compareImagesTitle": "Comparació d'imatge abans i després de la compressió",
+  "originalLabel": "Original",
+  "compressedLabel": "Comprimit",
+  "dragToCompare": "Arrossega el control lliscant per comparar",
+  "resetZoomTooltip": "Restableix el zoom",
+  "imageFilesNotFound": "No s'ha trobat un o ambdós fitxers d'imatge al disc per comparar-los."
 }

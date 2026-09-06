@@ -1135,4 +1135,46 @@ class AppLocalizationsTe extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$totalలో $done పూర్తయ్యాయి';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'కుదింపు పరిమాణాన్ని పెంచుతుంది కాబట్టి అసలు ఫైల్ స్వయంచాలకంగా భద్రపరచబడింది.';
+
+  @override
+  String get retryFileTooltip =>
+      'ఈ ఫైల్‌ను ప్రాసెస్ చేయడానికి మళ్లీ ప్రయత్నించండి';
+
+  @override
+  String get pauseBtn => 'తాత్కాలికంగా ఆపు';
+
+  @override
+  String get resumeBtn => 'పునఃప్రారంభించు';
+
+  @override
+  String get pausingBtn => 'తాత్కాలికంగా ఆపబడుతోంది...';
+
+  @override
+  String get pausedLabel => 'తాత్కాలికంగా ఆపబడింది';
+
+  @override
+  String get compareImagesTooltip => 'ముందు & తర్వాత పోల్చండి';
+
+  @override
+  String get compareImagesTitle => 'కుదింపు ముందు & తర్వాత చిత్రం పోలిక';
+
+  @override
+  String get originalLabel => 'అసలు';
+
+  @override
+  String get compressedLabel => 'కుదించబడింది';
+
+  @override
+  String get dragToCompare => 'పోల్చడానికి స్లైడర్‌ను లాగండి';
+
+  @override
+  String get resetZoomTooltip => 'జూమ్ రీసెట్ చేయండి';
+
+  @override
+  String get imageFilesNotFound =>
+      'పోలిక కోసం డిస్క్‌లో ఒకటి లేదా రెండు చిత్ర ఫైల్‌లు కనుగొనబడలేదు.';
 }

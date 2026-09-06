@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 
 import '../core/app_strings.dart';
+import 'process_suspender.dart';
 import '../cubit/compression_state.dart'
     show
         AspectRatioMode,
@@ -44,6 +45,30 @@ class CompressionProgress {
 class FfmpegService {
   Process? _currentProcess;
   bool _isCancelled = false;
+  bool _isSuspended = false;
+
+  /// Whether the currently running FFmpeg process is suspended.
+  bool get isSuspended => _isSuspended;
+
+  /// Suspends (freezes) the running FFmpeg process immediately (<1ms).
+  bool suspendCurrentProcess() {
+    if (_currentProcess == null || _isSuspended) return false;
+    final success = ProcessSuspender.suspend(_currentProcess!.pid);
+    if (success) {
+      _isSuspended = true;
+    }
+    return success;
+  }
+
+  /// Resumes the previously suspended FFmpeg process immediately.
+  bool resumeCurrentProcess() {
+    if (_currentProcess == null || !_isSuspended) return false;
+    final success = ProcessSuspender.resume(_currentProcess!.pid);
+    if (success) {
+      _isSuspended = false;
+    }
+    return success;
+  }
 
   /// Resolves the path to `ffmpeg`.
   String get ffmpegPath {
@@ -1084,6 +1109,9 @@ class FfmpegService {
   /// Cancels the currently running FFmpeg process, if any.
   Future<void> cancelCurrentProcess() async {
     _isCancelled = true;
+    if (_isSuspended) {
+      resumeCurrentProcess();
+    }
     if (_currentProcess != null) {
       final process = _currentProcess!;
       process.kill(ProcessSignal.sigkill);
@@ -1094,6 +1122,7 @@ class FfmpegService {
       }
       _currentProcess = null;
     }
+    _isSuspended = false;
   }
 
   /// Whether a compression process is currently running.

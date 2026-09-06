@@ -353,5 +353,18 @@
   "imageTargetProgress": "الحجم المستهدف: {size}",
   "imageAttempt": "المحاولة {count}",
   "imageBestResult": "أفضل نتيجة: {size}",
-  "queueCompleted": "اكتمل {done} من {total}"
+  "queueCompleted": "اكتمل {done} من {total}",
+  "outputPreservedOriginalTooltip": "تم الاحتفاظ بالملف الأصلي تلقائيًا لمنع زيادة حجمه",
+  "retryFileTooltip": "إعادة محاولة معالجة هذا الملف",
+  "pauseBtn": "إيقاف مؤقت",
+  "resumeBtn": "استئناف",
+  "pausingBtn": "جاري الإيقاف...",
+  "pausedLabel": "متوقف مؤقتًا",
+  "compareImagesTooltip": "مقارنة قبل وبعد",
+  "compareImagesTitle": "مقارنة الصورة قبل وبعد الضغط",
+  "originalLabel": "الأصلية",
+  "compressedLabel": "المضغوطة",
+  "dragToCompare": "اسحب المؤشر للمقارنة",
+  "resetZoomTooltip": "إعادة ضبط التكبير",
+  "imageFilesNotFound": "تعذر العثور على أحد ملفي الصورة على القرص للمقارنة."
 }

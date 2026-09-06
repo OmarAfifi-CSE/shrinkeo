@@ -353,5 +353,18 @@
   "imageTargetProgress": "Цільовий розмір: {size}",
   "imageAttempt": "Спроба {count}",
   "imageBestResult": "Найкращий результат: {size}",
-  "queueCompleted": "Завершено {done} із {total}"
+  "queueCompleted": "Завершено {done} із {total}",
+  "outputPreservedOriginalTooltip": "Оригінальний файл збережено автоматично, оскільки стиснення збільшило б його розмір.",
+  "retryFileTooltip": "Повторити обробку цього файлу",
+  "pauseBtn": "Пауза",
+  "resumeBtn": "Продовжити",
+  "pausingBtn": "Призупинення...",
+  "pausedLabel": "Призупинено",
+  "compareImagesTooltip": "Порівняти до і після",
+  "compareImagesTitle": "Порівняння зображення до та після стиснення",
+  "originalLabel": "Оригінал",
+  "compressedLabel": "Стиснутий",
+  "dragToCompare": "Потягніть повзунок для порівняння",
+  "resetZoomTooltip": "Скинути масштаб",
+  "imageFilesNotFound": "Один або обидва файли зображень не знайдено на диску для порівняння."
 }

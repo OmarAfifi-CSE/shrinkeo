@@ -353,5 +353,18 @@
   "imageTargetProgress": "Cilj: {size}",
   "imageAttempt": "Pokušaj {count}",
   "imageBestResult": "Najbolji rezultat: {size}",
-  "queueCompleted": "Dovršeno {done} od {total}"
+  "queueCompleted": "Dovršeno {done} od {total}",
+  "outputPreservedOriginalTooltip": "Izvorna datoteka automatski je sačuvana jer bi sažimanje povećalo njezinu veličinu.",
+  "retryFileTooltip": "Ponovno pokušaj obradu ove datoteke",
+  "pauseBtn": "Pauza",
+  "resumeBtn": "Nastavi",
+  "pausingBtn": "Zaustavljanje...",
+  "pausedLabel": "Zaustavljeno",
+  "compareImagesTooltip": "Usporedi prije i poslije",
+  "compareImagesTitle": "Usporedba slike prije i poslije sažimanja",
+  "originalLabel": "Izvorno",
+  "compressedLabel": "Sažeto",
+  "dragToCompare": "Povuci klizač za usporedbu",
+  "resetZoomTooltip": "Poništi zumiranje",
+  "imageFilesNotFound": "Jedna ili obje slikovne datoteke nisu pronađene na disku za usporedbu."
 }

@@ -1129,4 +1129,46 @@ class AppLocalizationsUr extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$total میں سے $done مکمل';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'اصل فائل خودکار طور پر محفوظ کر لی گئی کیونکہ کمپریشن سے اس کا سائز بڑھ جاتا۔';
+
+  @override
+  String get retryFileTooltip => 'اس فائل کو پروسیس کرنے کی دوبارہ کوشش کریں';
+
+  @override
+  String get pauseBtn => 'وقفہ';
+
+  @override
+  String get resumeBtn => 'دوبارہ شروع کریں';
+
+  @override
+  String get pausingBtn => 'روکا جا رہا ہے...';
+
+  @override
+  String get pausedLabel => 'روک دیا گیا';
+
+  @override
+  String get compareImagesTooltip => 'پہلے اور بعد کا موازنہ کریں';
+
+  @override
+  String get compareImagesTitle =>
+      'کمپریشن سے پہلے اور بعد میں تصویر کا موازنہ';
+
+  @override
+  String get originalLabel => 'اصل';
+
+  @override
+  String get compressedLabel => 'کمپریسڈ';
+
+  @override
+  String get dragToCompare => 'موازنہ کرنے کے لیے سلائیڈر کو گھسیٹیں';
+
+  @override
+  String get resetZoomTooltip => 'زوم ری سیٹ کریں';
+
+  @override
+  String get imageFilesNotFound =>
+      'موازنہ کے لیے ڈسک پر ایک یا دونوں امیج فائلیں نہیں مل سکیں۔';
 }

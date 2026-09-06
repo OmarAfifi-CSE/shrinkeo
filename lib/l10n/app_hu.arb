@@ -353,5 +353,18 @@
   "imageTargetProgress": "Cél: {size}",
   "imageAttempt": "{count}. próbálkozás",
   "imageBestResult": "Legjobb eredmény: {size}",
-  "queueCompleted": "{done} / {total} kész"
+  "queueCompleted": "{done} / {total} kész",
+  "outputPreservedOriginalTooltip": "Az eredeti fájl automatikusan megőrizve, mert a tömörítés növelte volna a méretét.",
+  "retryFileTooltip": "A fájl feldolgozásának újrapróbálása",
+  "pauseBtn": "Szünet",
+  "resumeBtn": "Folytatás",
+  "pausingBtn": "Szüneteltetés...",
+  "pausedLabel": "Szünetel",
+  "compareImagesTooltip": "Előtte és utána összehasonlítás",
+  "compareImagesTitle": "Kép összehasonlítása tömörítés előtt és után",
+  "originalLabel": "Eredeti",
+  "compressedLabel": "Tömörített",
+  "dragToCompare": "Húzza a csúszkát az összehasonlításhoz",
+  "resetZoomTooltip": "Nagyítás visszaállítása",
+  "imageFilesNotFound": "Egy vagy mindkét képfájl nem található a lemezen az összehasonlításhoz."
 }

@@ -353,5 +353,18 @@
   "imageTargetProgress": "Objectif : {size}",
   "imageAttempt": "Essai {count}",
   "imageBestResult": "Meilleur résultat : {size}",
-  "queueCompleted": "Terminés : {done} sur {total}"
+  "queueCompleted": "Terminés : {done} sur {total}",
+  "outputPreservedOriginalTooltip": "Fichier d'origine conservé automatiquement car la compression aurait augmenté sa taille.",
+  "retryFileTooltip": "Réessayer le traitement de ce fichier",
+  "pauseBtn": "Pause",
+  "resumeBtn": "Reprendre",
+  "pausingBtn": "Mise en pause...",
+  "pausedLabel": "En pause",
+  "compareImagesTooltip": "Comparer avant / après",
+  "compareImagesTitle": "Comparaison d'image avant et après compression",
+  "originalLabel": "Original",
+  "compressedLabel": "Compressé",
+  "dragToCompare": "Faites glisser le curseur pour comparer",
+  "resetZoomTooltip": "Réinitialiser le zoom",
+  "imageFilesNotFound": "Un ou plusieurs fichiers image sont introuvables pour la comparaison."
 }

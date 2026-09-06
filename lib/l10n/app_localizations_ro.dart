@@ -1141,4 +1141,46 @@ class AppLocalizationsRo extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Finalizate $done din $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Fișierul original a fost păstrat automat deoarece comprimarea i-ar fi mărit dimensiunea.';
+
+  @override
+  String get retryFileTooltip => 'Reîncercați procesarea acestui fișier';
+
+  @override
+  String get pauseBtn => 'Pauză';
+
+  @override
+  String get resumeBtn => 'Reluare';
+
+  @override
+  String get pausingBtn => 'Se pune pauză...';
+
+  @override
+  String get pausedLabel => 'În pauză';
+
+  @override
+  String get compareImagesTooltip => 'Comparați înainte și după';
+
+  @override
+  String get compareImagesTitle =>
+      'Compararea imaginii înainte și după comprimare';
+
+  @override
+  String get originalLabel => 'Original';
+
+  @override
+  String get compressedLabel => 'Comprimat';
+
+  @override
+  String get dragToCompare => 'Trageți glisorul pentru a compara';
+
+  @override
+  String get resetZoomTooltip => 'Resetați zoomul';
+
+  @override
+  String get imageFilesNotFound =>
+      'Unul sau ambele fișiere imagine nu au putut fi găsite pe disc pentru comparație.';
 }

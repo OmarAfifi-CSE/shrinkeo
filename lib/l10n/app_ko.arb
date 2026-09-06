@@ -353,5 +353,18 @@
   "imageTargetProgress": "목표: {size}",
   "imageAttempt": "시도 {count}",
   "imageBestResult": "최상의 결과: {size}",
-  "queueCompleted": "{total}개 중 {done}개 완료"
+  "queueCompleted": "{total}개 중 {done}개 완료",
+  "outputPreservedOriginalTooltip": "압축 시 크기가 커질 수 있어 원본 파일이 자동으로 유지되었습니다.",
+  "retryFileTooltip": "이 파일 처리 다시 시도",
+  "pauseBtn": "일시 중지",
+  "resumeBtn": "재개",
+  "pausingBtn": "일시 중지 중...",
+  "pausedLabel": "일시 중지됨",
+  "compareImagesTooltip": "전후 비교",
+  "compareImagesTitle": "압축 전후 이미지 비교",
+  "originalLabel": "원본",
+  "compressedLabel": "압축됨",
+  "dragToCompare": "슬라이더를 드래그하여 비교",
+  "resetZoomTooltip": "확대/축소 초기화",
+  "imageFilesNotFound": "비교할 이미지 파일을 디스크에서 찾을 수 없습니다."
 }

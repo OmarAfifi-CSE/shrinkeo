@@ -1129,4 +1129,45 @@ class AppLocalizationsSv extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$done av $total klara';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Originalfilen behölls automatiskt eftersom komprimering skulle ha ökat dess storlek.';
+
+  @override
+  String get retryFileTooltip => 'Försök bearbeta den här filen igen';
+
+  @override
+  String get pauseBtn => 'Pausa';
+
+  @override
+  String get resumeBtn => 'Återuppta';
+
+  @override
+  String get pausingBtn => 'Pausar...';
+
+  @override
+  String get pausedLabel => 'Pausad';
+
+  @override
+  String get compareImagesTooltip => 'Jämför före och efter';
+
+  @override
+  String get compareImagesTitle => 'Bildjämförelse före och efter komprimering';
+
+  @override
+  String get originalLabel => 'Original';
+
+  @override
+  String get compressedLabel => 'Komprimerad';
+
+  @override
+  String get dragToCompare => 'Dra reglaget för att jämföra';
+
+  @override
+  String get resetZoomTooltip => 'Återställ zoom';
+
+  @override
+  String get imageFilesNotFound =>
+      'En eller båda bildfilerna kunde inte hittas på disken för jämförelse.';
 }

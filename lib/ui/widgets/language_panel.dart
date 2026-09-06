@@ -8,6 +8,7 @@ import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../app_colors.dart';
 import 'glass_container.dart';
+import 'smooth_button.dart';
 
 /// Collapsible language selection panel with search bar and flag cards.
 class LanguagePanel extends StatelessWidget {
@@ -132,13 +133,16 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                   ),
                 ),
                 const Spacer(),
-                IconButton(
-                  icon: const Icon(Icons.close_rounded, size: 18),
-                  onPressed: () {
-                    context.read<CompressionCubit>().toggleLanguageSection();
-                  },
-                  tooltip: AppStrings.closeTooltip,
-                  splashRadius: 18,
+                SmoothButton(
+                  enableHoverScale: true,
+                  child: IconButton(
+                    icon: const Icon(Icons.close_rounded, size: 18),
+                    onPressed: () {
+                      context.read<CompressionCubit>().toggleLanguageSection();
+                    },
+                    tooltip: AppStrings.closeTooltip,
+                    splashRadius: 18,
+                  ),
                 ),
               ],
             ),
@@ -302,6 +306,7 @@ class _LanguageCard extends StatefulWidget {
 
 class _LanguageCardState extends State<_LanguageCard> {
   bool _isHovered = false;
+  bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -329,12 +334,22 @@ class _LanguageCardState extends State<_LanguageCard> {
     return RepaintBoundary(
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
+        onExit: (_) => setState(() {
+          _isHovered = false;
+          _isPressed = false;
+        }),
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
+          onTapDown: (_) => setState(() => _isPressed = true),
+          onTapUp: (_) => setState(() => _isPressed = false),
+          onTapCancel: () => setState(() => _isPressed = false),
           onTap: widget.onTap,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
+          child: AnimatedScale(
+            scale: _isPressed ? 0.95 : (_isHovered ? 1.02 : 1.0),
+            duration: const Duration(milliseconds: 140),
+            curve: Curves.easeOutCubic,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               color: backgroundColor,
@@ -417,6 +432,7 @@ class _LanguageCardState extends State<_LanguageCard> {
           ),
         ),
       ),
-    );
+    ),
+  );
   }
 }

@@ -15,6 +15,9 @@ enum CompressionPhase {
   /// Actively compressing videos sequentially.
   compressing,
 
+  /// Compression queue is temporarily paused by the user.
+  paused,
+
   /// All queued videos have been processed.
   completed,
 
@@ -516,6 +519,9 @@ class CompressionState extends Equatable {
   /// Whether the app is currently recursively scanning folders for files.
   final bool isScanningFiles;
 
+  /// Whether the user has requested pausing the queue after in-flight tasks finish.
+  final bool isPauseRequested;
+
   // ---- Compression Settings ----
 
   /// CRF quality value (0-51). Lower = better quality, larger file.
@@ -657,6 +663,7 @@ class CompressionState extends Equatable {
     this.fallbackWarningMessage,
     this.isDragHovering = false,
     this.isScanningFiles = false,
+    this.isPauseRequested = false,
     this.crfQuality = 22,
     this.isTargetSizeMode = false,
     this.targetSizeMB = 25.0,
@@ -713,6 +720,7 @@ class CompressionState extends Equatable {
     bool clearFallbackWarningMessage = false,
     bool? isDragHovering,
     bool? isScanningFiles,
+    bool? isPauseRequested,
     int? crfQuality,
     bool? isTargetSizeMode,
     double? targetSizeMB,
@@ -769,6 +777,7 @@ class CompressionState extends Equatable {
       fallbackWarningMessage: clearFallbackWarningMessage ? null : (fallbackWarningMessage ?? this.fallbackWarningMessage),
       isDragHovering: isDragHovering ?? this.isDragHovering,
       isScanningFiles: isScanningFiles ?? this.isScanningFiles,
+      isPauseRequested: isPauseRequested ?? this.isPauseRequested,
       crfQuality: crfQuality ?? this.crfQuality,
       isTargetSizeMode: isTargetSizeMode ?? this.isTargetSizeMode,
       targetSizeMB: targetSizeMB ?? this.targetSizeMB,
@@ -833,6 +842,18 @@ class CompressionState extends Equatable {
   bool get canStart =>
       phase == CompressionPhase.idle &&
       videos.any((v) => v.status == VideoStatus.queued);
+
+  /// Whether the compression queue can be resumed.
+  bool get canResume =>
+      phase == CompressionPhase.paused &&
+      (videos.any((v) => v.status == VideoStatus.queued) ||
+       videos.any((v) => v.status == VideoStatus.compressing));
+
+  /// Whether the queue is currently paused.
+  bool get isPaused =>
+      phase == CompressionPhase.paused &&
+      (videos.any((v) => v.status == VideoStatus.queued) ||
+       videos.any((v) => v.status == VideoStatus.compressing));
 
   /// Whether the compression is actively running.
   bool get isProcessing =>
@@ -903,6 +924,7 @@ class CompressionState extends Equatable {
     fallbackWarningMessage,
     isDragHovering,
     isScanningFiles,
+    isPauseRequested,
     crfQuality,
     isTargetSizeMode,
     targetSizeMB,

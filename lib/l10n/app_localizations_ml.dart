@@ -1141,4 +1141,46 @@ class AppLocalizationsMl extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$total ൽ $done പൂർത്തിയായി';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'കംപ്രഷൻ വലുപ്പം വർദ്ധിപ്പിക്കുമെന്നതിനാൽ യഥാർത്ഥ ഫയൽ സ്വയമേവ സംരക്ഷിച്ചു.';
+
+  @override
+  String get retryFileTooltip =>
+      'ഈ ഫയൽ പ്രോസസ്സ് ചെയ്യുന്നത് വീണ്ടും ശ്രമിക്കുക';
+
+  @override
+  String get pauseBtn => 'താൽക്കാലികമായി നിർത്തുക';
+
+  @override
+  String get resumeBtn => 'തുടരുക';
+
+  @override
+  String get pausingBtn => 'താൽക്കാലികമായി നിർത്തുന്നു...';
+
+  @override
+  String get pausedLabel => 'താൽക്കാലികമായി നിർത്തി';
+
+  @override
+  String get compareImagesTooltip => 'മുമ്പും ശേഷവും താരതമ്യം ചെയ്യുക';
+
+  @override
+  String get compareImagesTitle => 'കംപ്രഷന് മുമ്പും ശേഷവുമുള്ള ചിത്ര താരതമ്യം';
+
+  @override
+  String get originalLabel => 'യഥാർത്ഥം';
+
+  @override
+  String get compressedLabel => 'കംപ്രസ്സ് ചെയ്തത്';
+
+  @override
+  String get dragToCompare => 'താരതമ്യം ചെയ്യാൻ സ്ലൈഡർ വലിച്ചിടുക';
+
+  @override
+  String get resetZoomTooltip => 'സൂം പുനഃക്രമീകരിക്കുക';
+
+  @override
+  String get imageFilesNotFound =>
+      'താരതമ്യത്തിനായി ഡിസ്കിൽ ഒന്നോ രണ്ടോ ഇമേജ് ഫയലുകൾ കണ്ടെത്താനായില്ല.';
 }

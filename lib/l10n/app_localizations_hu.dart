@@ -1141,4 +1141,46 @@ class AppLocalizationsHu extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$done / $total kész';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Az eredeti fájl automatikusan megőrizve, mert a tömörítés növelte volna a méretét.';
+
+  @override
+  String get retryFileTooltip => 'A fájl feldolgozásának újrapróbálása';
+
+  @override
+  String get pauseBtn => 'Szünet';
+
+  @override
+  String get resumeBtn => 'Folytatás';
+
+  @override
+  String get pausingBtn => 'Szüneteltetés...';
+
+  @override
+  String get pausedLabel => 'Szünetel';
+
+  @override
+  String get compareImagesTooltip => 'Előtte és utána összehasonlítás';
+
+  @override
+  String get compareImagesTitle =>
+      'Kép összehasonlítása tömörítés előtt és után';
+
+  @override
+  String get originalLabel => 'Eredeti';
+
+  @override
+  String get compressedLabel => 'Tömörített';
+
+  @override
+  String get dragToCompare => 'Húzza a csúszkát az összehasonlításhoz';
+
+  @override
+  String get resetZoomTooltip => 'Nagyítás visszaállítása';
+
+  @override
+  String get imageFilesNotFound =>
+      'Egy vagy mindkét képfájl nem található a lemezen az összehasonlításhoz.';
 }

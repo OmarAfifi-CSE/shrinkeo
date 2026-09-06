@@ -433,5 +433,18 @@
         "type": "int"
       }
     }
-  }
+  },
+  "outputPreservedOriginalTooltip": "Original file preserved automatically because compression would have increased its size.",
+  "retryFileTooltip": "Retry processing this file",
+  "pauseBtn": "Pause",
+  "resumeBtn": "Resume",
+  "pausingBtn": "Pausing...",
+  "pausedLabel": "Paused",
+  "compareImagesTooltip": "Compare Before & After",
+  "compareImagesTitle": "Before & After Comparison",
+  "originalLabel": "Original",
+  "compressedLabel": "Compressed",
+  "dragToCompare": "Drag slider to compare",
+  "resetZoomTooltip": "Reset Zoom",
+  "imageFilesNotFound": "One or both image files could not be found on disk for comparison."
 }

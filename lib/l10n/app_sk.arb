@@ -353,5 +353,18 @@
   "imageTargetProgress": "Cieľ: {size}",
   "imageAttempt": "Pokus {count}",
   "imageBestResult": "Najlepší výsledok: {size}",
-  "queueCompleted": "Dokončené {done} z {total}"
+  "queueCompleted": "Dokončené {done} z {total}",
+  "outputPreservedOriginalTooltip": "Pôvodný súbor bol automaticky zachovaný, pretože kompresia by zväčšila jeho veľkosť.",
+  "retryFileTooltip": "Znova skúsiť spracovanie tohto súboru",
+  "pauseBtn": "Pozastaviť",
+  "resumeBtn": "Pokračovať",
+  "pausingBtn": "Pozastavuje sa...",
+  "pausedLabel": "Pozastavené",
+  "compareImagesTooltip": "Porovnať pred a po",
+  "compareImagesTitle": "Porovnanie obrázka pred a po kompresii",
+  "originalLabel": "Pôvodný",
+  "compressedLabel": "Komprimované",
+  "dragToCompare": "Potiahnutím posúvača porovnajte",
+  "resetZoomTooltip": "Obnoviť priblíženie",
+  "imageFilesNotFound": "Jeden alebo oba súbory obrázkov sa nenašli na disku na porovnanie."
 }

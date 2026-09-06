@@ -2305,6 +2305,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Completed {done} of {total}'**
   String queueCompleted(int done, int total);
+
+  /// No description provided for @outputPreservedOriginalTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Original file preserved automatically because compression would have increased its size.'**
+  String get outputPreservedOriginalTooltip;
+
+  /// No description provided for @retryFileTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry processing this file'**
+  String get retryFileTooltip;
+
+  /// No description provided for @pauseBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pauseBtn;
+
+  /// No description provided for @resumeBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get resumeBtn;
+
+  /// No description provided for @pausingBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Pausing...'**
+  String get pausingBtn;
+
+  /// No description provided for @pausedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Paused'**
+  String get pausedLabel;
+
+  /// No description provided for @compareImagesTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare Before & After'**
+  String get compareImagesTooltip;
+
+  /// No description provided for @compareImagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before & After Comparison'**
+  String get compareImagesTitle;
+
+  /// No description provided for @originalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Original'**
+  String get originalLabel;
+
+  /// No description provided for @compressedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Compressed'**
+  String get compressedLabel;
+
+  /// No description provided for @dragToCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag slider to compare'**
+  String get dragToCompare;
+
+  /// No description provided for @resetZoomTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Zoom'**
+  String get resetZoomTooltip;
+
+  /// No description provided for @imageFilesNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'One or both image files could not be found on disk for comparison.'**
+  String get imageFilesNotFound;
 }
 
 class _AppLocalizationsDelegate

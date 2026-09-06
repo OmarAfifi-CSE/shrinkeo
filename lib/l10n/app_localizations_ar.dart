@@ -1160,4 +1160,45 @@ class AppLocalizationsAr extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'اكتمل $done من $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'تم الاحتفاظ بالملف الأصلي تلقائيًا لمنع زيادة حجمه';
+
+  @override
+  String get retryFileTooltip => 'إعادة محاولة معالجة هذا الملف';
+
+  @override
+  String get pauseBtn => 'إيقاف مؤقت';
+
+  @override
+  String get resumeBtn => 'استئناف';
+
+  @override
+  String get pausingBtn => 'جاري الإيقاف...';
+
+  @override
+  String get pausedLabel => 'متوقف مؤقتًا';
+
+  @override
+  String get compareImagesTooltip => 'مقارنة قبل وبعد';
+
+  @override
+  String get compareImagesTitle => 'مقارنة الصورة قبل وبعد الضغط';
+
+  @override
+  String get originalLabel => 'الأصلية';
+
+  @override
+  String get compressedLabel => 'المضغوطة';
+
+  @override
+  String get dragToCompare => 'اسحب المؤشر للمقارنة';
+
+  @override
+  String get resetZoomTooltip => 'إعادة ضبط التكبير';
+
+  @override
+  String get imageFilesNotFound =>
+      'تعذر العثور على أحد ملفي الصورة على القرص للمقارنة.';
 }

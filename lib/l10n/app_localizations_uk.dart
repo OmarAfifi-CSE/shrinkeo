@@ -1132,4 +1132,46 @@ class AppLocalizationsUk extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Завершено $done із $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Оригінальний файл збережено автоматично, оскільки стиснення збільшило б його розмір.';
+
+  @override
+  String get retryFileTooltip => 'Повторити обробку цього файлу';
+
+  @override
+  String get pauseBtn => 'Пауза';
+
+  @override
+  String get resumeBtn => 'Продовжити';
+
+  @override
+  String get pausingBtn => 'Призупинення...';
+
+  @override
+  String get pausedLabel => 'Призупинено';
+
+  @override
+  String get compareImagesTooltip => 'Порівняти до і після';
+
+  @override
+  String get compareImagesTitle =>
+      'Порівняння зображення до та після стиснення';
+
+  @override
+  String get originalLabel => 'Оригінал';
+
+  @override
+  String get compressedLabel => 'Стиснутий';
+
+  @override
+  String get dragToCompare => 'Потягніть повзунок для порівняння';
+
+  @override
+  String get resetZoomTooltip => 'Скинути масштаб';
+
+  @override
+  String get imageFilesNotFound =>
+      'Один або обидва файли зображень не знайдено на диску для порівняння.';
 }

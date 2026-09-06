@@ -1139,4 +1139,45 @@ class AppLocalizationsSk extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Dokončené $done z $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Pôvodný súbor bol automaticky zachovaný, pretože kompresia by zväčšila jeho veľkosť.';
+
+  @override
+  String get retryFileTooltip => 'Znova skúsiť spracovanie tohto súboru';
+
+  @override
+  String get pauseBtn => 'Pozastaviť';
+
+  @override
+  String get resumeBtn => 'Pokračovať';
+
+  @override
+  String get pausingBtn => 'Pozastavuje sa...';
+
+  @override
+  String get pausedLabel => 'Pozastavené';
+
+  @override
+  String get compareImagesTooltip => 'Porovnať pred a po';
+
+  @override
+  String get compareImagesTitle => 'Porovnanie obrázka pred a po kompresii';
+
+  @override
+  String get originalLabel => 'Pôvodný';
+
+  @override
+  String get compressedLabel => 'Komprimované';
+
+  @override
+  String get dragToCompare => 'Potiahnutím posúvača porovnajte';
+
+  @override
+  String get resetZoomTooltip => 'Obnoviť priblíženie';
+
+  @override
+  String get imageFilesNotFound =>
+      'Jeden alebo oba súbory obrázkov sa nenašli na disku na porovnanie.';
 }

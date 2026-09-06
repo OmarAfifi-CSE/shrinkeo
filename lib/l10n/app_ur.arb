@@ -353,5 +353,18 @@
   "imageTargetProgress": "ہدف: {size}",
   "imageAttempt": "کوشش {count}",
   "imageBestResult": "بہترین نتیجہ: {size}",
-  "queueCompleted": "{total} میں سے {done} مکمل"
+  "queueCompleted": "{total} میں سے {done} مکمل",
+  "outputPreservedOriginalTooltip": "اصل فائل خودکار طور پر محفوظ کر لی گئی کیونکہ کمپریشن سے اس کا سائز بڑھ جاتا۔",
+  "retryFileTooltip": "اس فائل کو پروسیس کرنے کی دوبارہ کوشش کریں",
+  "pauseBtn": "وقفہ",
+  "resumeBtn": "دوبارہ شروع کریں",
+  "pausingBtn": "روکا جا رہا ہے...",
+  "pausedLabel": "روک دیا گیا",
+  "compareImagesTooltip": "پہلے اور بعد کا موازنہ کریں",
+  "compareImagesTitle": "کمپریشن سے پہلے اور بعد میں تصویر کا موازنہ",
+  "originalLabel": "اصل",
+  "compressedLabel": "کمپریسڈ",
+  "dragToCompare": "موازنہ کرنے کے لیے سلائیڈر کو گھسیٹیں",
+  "resetZoomTooltip": "زوم ری سیٹ کریں",
+  "imageFilesNotFound": "موازنہ کے لیے ڈسک پر ایک یا دونوں امیج فائلیں نہیں مل سکیں۔"
 }

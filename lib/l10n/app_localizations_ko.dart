@@ -1106,4 +1106,44 @@ class AppLocalizationsKo extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$total개 중 $done개 완료';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      '압축 시 크기가 커질 수 있어 원본 파일이 자동으로 유지되었습니다.';
+
+  @override
+  String get retryFileTooltip => '이 파일 처리 다시 시도';
+
+  @override
+  String get pauseBtn => '일시 중지';
+
+  @override
+  String get resumeBtn => '재개';
+
+  @override
+  String get pausingBtn => '일시 중지 중...';
+
+  @override
+  String get pausedLabel => '일시 중지됨';
+
+  @override
+  String get compareImagesTooltip => '전후 비교';
+
+  @override
+  String get compareImagesTitle => '압축 전후 이미지 비교';
+
+  @override
+  String get originalLabel => '원본';
+
+  @override
+  String get compressedLabel => '압축됨';
+
+  @override
+  String get dragToCompare => '슬라이더를 드래그하여 비교';
+
+  @override
+  String get resetZoomTooltip => '확대/축소 초기화';
+
+  @override
+  String get imageFilesNotFound => '비교할 이미지 파일을 디스크에서 찾을 수 없습니다.';
 }

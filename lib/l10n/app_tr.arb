@@ -353,5 +353,18 @@
   "imageTargetProgress": "Hedef: {size}",
   "imageAttempt": "Deneme {count}",
   "imageBestResult": "En iyi sonuç: {size}",
-  "queueCompleted": "{total} öğeden {done} tamamlandı"
+  "queueCompleted": "{total} öğeden {done} tamamlandı",
+  "outputPreservedOriginalTooltip": "Sıkıştırma boyutunu artıracağı için orijinal dosya otomatik olarak korundu.",
+  "retryFileTooltip": "Bu dosyayı işlemeyi yeniden dene",
+  "pauseBtn": "Duraklat",
+  "resumeBtn": "Devam Et",
+  "pausingBtn": "Duraklatılıyor...",
+  "pausedLabel": "Duraklatıldı",
+  "compareImagesTooltip": "Öncesi ve Sonrasını Karşılaştır",
+  "compareImagesTitle": "Sıkıştırma Öncesi ve Sonrası Resim Karşılaştırması",
+  "originalLabel": "Orijinal",
+  "compressedLabel": "Sıkıştırılmış",
+  "dragToCompare": "Karşılaştırmak için kaydırıcıyı sürükleyin",
+  "resetZoomTooltip": "Yakınlaştırmayı Sıfırla",
+  "imageFilesNotFound": "Karşılaştırma için resim dosyalarından biri veya her ikisi diskte bulunamadı."
 }

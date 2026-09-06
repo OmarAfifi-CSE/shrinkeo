@@ -1141,4 +1141,46 @@ class AppLocalizationsDe extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$done von $total abgeschlossen';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Originaldatei automatisch beibehalten, da Komprimierung die Größe erhöht hätte.';
+
+  @override
+  String get retryFileTooltip => 'Verarbeitung dieser Datei wiederholen';
+
+  @override
+  String get pauseBtn => 'Pausieren';
+
+  @override
+  String get resumeBtn => 'Fortsetzen';
+
+  @override
+  String get pausingBtn => 'Wird pausiert...';
+
+  @override
+  String get pausedLabel => 'Pausiert';
+
+  @override
+  String get compareImagesTooltip => 'Vorher & Nachher vergleichen';
+
+  @override
+  String get compareImagesTitle =>
+      'Bildvergleich vor und nach der Komprimierung';
+
+  @override
+  String get originalLabel => 'Original';
+
+  @override
+  String get compressedLabel => 'Komprimiert';
+
+  @override
+  String get dragToCompare => 'Schieberegler zum Vergleichen ziehen';
+
+  @override
+  String get resetZoomTooltip => 'Zoom zurücksetzen';
+
+  @override
+  String get imageFilesNotFound =>
+      'Eine oder beide Bilddateien wurden für den Vergleich nicht gefunden.';
 }

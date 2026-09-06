@@ -353,5 +353,18 @@
   "imageTargetProgress": "Циљ: {size}",
   "imageAttempt": "Покушај {count}",
   "imageBestResult": "Најбољи резултат: {size}",
-  "queueCompleted": "Завршено {done} од {total}"
+  "queueCompleted": "Завршено {done} од {total}",
+  "outputPreservedOriginalTooltip": "Оригинална датотека је аутоматски сачувана јер би компресија повећала њену величину.",
+  "retryFileTooltip": "Поново покушај обраду ове датотеке",
+  "pauseBtn": "Пауза",
+  "resumeBtn": "Настави",
+  "pausingBtn": "Паузирање...",
+  "pausedLabel": "Паузирано",
+  "compareImagesTooltip": "Упореди пре и после",
+  "compareImagesTitle": "Поређење слике пре и после компресије",
+  "originalLabel": "Оригинал",
+  "compressedLabel": "Компресовано",
+  "dragToCompare": "Превуците клизач да бисте упоредили",
+  "resetZoomTooltip": "Ресетуј зум",
+  "imageFilesNotFound": "Једна или обе датотеке слика нису пронађене на диску за поређење."
 }

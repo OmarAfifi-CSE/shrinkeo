@@ -353,5 +353,18 @@
   "imageTargetProgress": "Цел: {size}",
   "imageAttempt": "Опит {count}",
   "imageBestResult": "Най-добър резултат: {size}",
-  "queueCompleted": "Завършени {done} от {total}"
+  "queueCompleted": "Завършени {done} от {total}",
+  "outputPreservedOriginalTooltip": "Оригиналният файл бе запазен автоматично, тъй като компресирането щеше да увеличи размера му.",
+  "retryFileTooltip": "Повторен опит за обработка на този файл",
+  "pauseBtn": "Пауза",
+  "resumeBtn": "Продължи",
+  "pausingBtn": "Поставяне на пауза...",
+  "pausedLabel": "На пауза",
+  "compareImagesTooltip": "Сравнение преди и след",
+  "compareImagesTitle": "Сравнение на изображението преди и след компресиране",
+  "originalLabel": "Оригинал",
+  "compressedLabel": "Компресиран",
+  "dragToCompare": "Плъзнете плъзгача за сравнение",
+  "resetZoomTooltip": "Нулиране на мащаба",
+  "imageFilesNotFound": "Един или двата графични файла не бяха намерени на диска за сравнение."
 }

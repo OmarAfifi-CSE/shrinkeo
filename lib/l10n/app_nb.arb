@@ -353,5 +353,18 @@
   "imageTargetProgress": "Mål: {size}",
   "imageAttempt": "Forsøk {count}",
   "imageBestResult": "Beste resultat: {size}",
-  "queueCompleted": "{done} av {total} fullført"
+  "queueCompleted": "{done} av {total} fullført",
+  "outputPreservedOriginalTooltip": "Originalfilen ble beholdt automatisk fordi komprimering ville ha økt filstørrelsen.",
+  "retryFileTooltip": "Prøv å behandle denne filen på nytt",
+  "pauseBtn": "Pause",
+  "resumeBtn": "Gjenoppta",
+  "pausingBtn": "Pauser...",
+  "pausedLabel": "Pauset",
+  "compareImagesTooltip": "Sammenlign før og etter",
+  "compareImagesTitle": "Bildesammenligning før og etter komprimering",
+  "originalLabel": "Original",
+  "compressedLabel": "Komprimert",
+  "dragToCompare": "Dra glidebryteren for å sammenligne",
+  "resetZoomTooltip": "Tilbakestill zoom",
+  "imageFilesNotFound": "En eller begge bildefilene ble ikke funnet på disken for sammenligning."
 }

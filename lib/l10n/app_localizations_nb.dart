@@ -1130,4 +1130,46 @@ class AppLocalizationsNb extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$done av $total fullført';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Originalfilen ble beholdt automatisk fordi komprimering ville ha økt filstørrelsen.';
+
+  @override
+  String get retryFileTooltip => 'Prøv å behandle denne filen på nytt';
+
+  @override
+  String get pauseBtn => 'Pause';
+
+  @override
+  String get resumeBtn => 'Gjenoppta';
+
+  @override
+  String get pausingBtn => 'Pauser...';
+
+  @override
+  String get pausedLabel => 'Pauset';
+
+  @override
+  String get compareImagesTooltip => 'Sammenlign før og etter';
+
+  @override
+  String get compareImagesTitle =>
+      'Bildesammenligning før og etter komprimering';
+
+  @override
+  String get originalLabel => 'Original';
+
+  @override
+  String get compressedLabel => 'Komprimert';
+
+  @override
+  String get dragToCompare => 'Dra glidebryteren for å sammenligne';
+
+  @override
+  String get resetZoomTooltip => 'Tilbakestill zoom';
+
+  @override
+  String get imageFilesNotFound =>
+      'En eller begge bildefilene ble ikke funnet på disken for sammenligning.';
 }

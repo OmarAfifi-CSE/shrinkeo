@@ -318,6 +318,7 @@
   "imgRes1080pDesc": "将图像最大尺寸缩小至 1920 像素（全高清最大）。",
   "imgRes720pLabel": "最大高清 (1280 像素)",
   "imgRes720pDesc": "将图像最大尺寸缩小至 1280 像素（最大高清）。",
+  "imgRes480pLabel": "SD 最大 (854 像素)",
   "imgRes480pDesc": "将图像最大尺寸缩小至 854 像素（SD 最大）。",
   "cleanNoiseLabel": "降噪",
   "outputLargerTooltip": "输出文件将大于原始文件！\n建议停止并重置为默认设置。",
@@ -352,5 +353,18 @@
   "imageTargetProgress": "目标：{size}",
   "imageAttempt": "第 {count} 次尝试",
   "imageBestResult": "最佳结果：{size}",
-  "queueCompleted": "已完成 {done}/{total}"
+  "queueCompleted": "已完成 {done}/{total}",
+  "outputPreservedOriginalTooltip": "压缩会导致体积增大，已自动保留原始文件。",
+  "retryFileTooltip": "重试处理此文件",
+  "pauseBtn": "暂停",
+  "resumeBtn": "恢复",
+  "pausingBtn": "正在暂停...",
+  "pausedLabel": "已暂停",
+  "compareImagesTooltip": "前后对比",
+  "compareImagesTitle": "压缩前后图像对比",
+  "originalLabel": "原始",
+  "compressedLabel": "压缩后",
+  "dragToCompare": "拖动滑块进行对比",
+  "resetZoomTooltip": "重置缩放",
+  "imageFilesNotFound": "在磁盘上找不到用于对比的图像文件。"
 }

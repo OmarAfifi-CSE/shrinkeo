@@ -353,5 +353,18 @@
   "imageTargetProgress": "Doel: {size}",
   "imageAttempt": "Poging {count}",
   "imageBestResult": "Beste resultaat: {size}",
-  "queueCompleted": "{done} van {total} voltooid"
+  "queueCompleted": "{done} van {total} voltooid",
+  "outputPreservedOriginalTooltip": "Origineel bestand automatisch behouden omdat compressie de bestandsgrootte zou vergroten.",
+  "retryFileTooltip": "Verwerking van dit bestand opnieuw proberen",
+  "pauseBtn": "Pauzeren",
+  "resumeBtn": "Hervatten",
+  "pausingBtn": "Bezig met pauzeren...",
+  "pausedLabel": "Gepauzeerd",
+  "compareImagesTooltip": "Voor en na vergelijken",
+  "compareImagesTitle": "Afbeelding vergelijken voor en na compressie",
+  "originalLabel": "Origineel",
+  "compressedLabel": "Gecomprimeerd",
+  "dragToCompare": "Sleep de schuifregelaar om te vergelijken",
+  "resetZoomTooltip": "Zoom herstellen",
+  "imageFilesNotFound": "Een of beide afbeeldingsbestanden zijn niet gevonden op de schijf voor vergelijking."
 }

@@ -1129,4 +1129,45 @@ class AppLocalizationsVi extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Đã hoàn thành $done/$total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Tệp gốc được giữ tự động vì nén sẽ làm tăng kích thước.';
+
+  @override
+  String get retryFileTooltip => 'Thử lại xử lý tệp này';
+
+  @override
+  String get pauseBtn => 'Tạm dừng';
+
+  @override
+  String get resumeBtn => 'Tiếp tục';
+
+  @override
+  String get pausingBtn => 'Đang tạm dừng...';
+
+  @override
+  String get pausedLabel => 'Đã tạm dừng';
+
+  @override
+  String get compareImagesTooltip => 'So sánh trước và sau';
+
+  @override
+  String get compareImagesTitle => 'So sánh hình ảnh trước và sau khi nén';
+
+  @override
+  String get originalLabel => 'Bản gốc';
+
+  @override
+  String get compressedLabel => 'Đã nén';
+
+  @override
+  String get dragToCompare => 'Kéo thanh trượt để so sánh';
+
+  @override
+  String get resetZoomTooltip => 'Đặt lại thu phóng';
+
+  @override
+  String get imageFilesNotFound =>
+      'Không thể tìm thấy một hoặc cả hai tệp hình ảnh trên đĩa để so sánh.';
 }

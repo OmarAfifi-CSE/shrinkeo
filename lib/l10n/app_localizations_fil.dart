@@ -1147,4 +1147,46 @@ class AppLocalizationsFil extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Natapos ang $done sa $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Awtomatikong napanatili ang orihinal na file dahil magpapalaki ang compression sa laki nito.';
+
+  @override
+  String get retryFileTooltip => 'Subukang muli ang pagproseso sa file na ito';
+
+  @override
+  String get pauseBtn => 'I-pause';
+
+  @override
+  String get resumeBtn => 'Ipagpatuloy';
+
+  @override
+  String get pausingBtn => 'Pina-pause...';
+
+  @override
+  String get pausedLabel => 'Naka-pause';
+
+  @override
+  String get compareImagesTooltip => 'Ihambing ang Bago at Pagkatapos';
+
+  @override
+  String get compareImagesTitle =>
+      'Paghahambing ng Larawan Bago at Pagkatapos ng Compression';
+
+  @override
+  String get originalLabel => 'Orihinal';
+
+  @override
+  String get compressedLabel => 'Na-compress';
+
+  @override
+  String get dragToCompare => 'I-drag ang slider upang ihambing';
+
+  @override
+  String get resetZoomTooltip => 'I-reset ang Zoom';
+
+  @override
+  String get imageFilesNotFound =>
+      'Hindi mahanap ang isa o parehong image file sa disk para sa paghahambing.';
 }

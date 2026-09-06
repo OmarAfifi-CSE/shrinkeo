@@ -1134,4 +1134,46 @@ class AppLocalizationsTr extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$total öğeden $done tamamlandı';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Sıkıştırma boyutunu artıracağı için orijinal dosya otomatik olarak korundu.';
+
+  @override
+  String get retryFileTooltip => 'Bu dosyayı işlemeyi yeniden dene';
+
+  @override
+  String get pauseBtn => 'Duraklat';
+
+  @override
+  String get resumeBtn => 'Devam Et';
+
+  @override
+  String get pausingBtn => 'Duraklatılıyor...';
+
+  @override
+  String get pausedLabel => 'Duraklatıldı';
+
+  @override
+  String get compareImagesTooltip => 'Öncesi ve Sonrasını Karşılaştır';
+
+  @override
+  String get compareImagesTitle =>
+      'Sıkıştırma Öncesi ve Sonrası Resim Karşılaştırması';
+
+  @override
+  String get originalLabel => 'Orijinal';
+
+  @override
+  String get compressedLabel => 'Sıkıştırılmış';
+
+  @override
+  String get dragToCompare => 'Karşılaştırmak için kaydırıcıyı sürükleyin';
+
+  @override
+  String get resetZoomTooltip => 'Yakınlaştırmayı Sıfırla';
+
+  @override
+  String get imageFilesNotFound =>
+      'Karşılaştırma için resim dosyalarından biri veya her ikisi diskte bulunamadı.';
 }

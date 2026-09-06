@@ -353,5 +353,18 @@
   "imageTargetProgress": "Sasaran: {size}",
   "imageAttempt": "Percubaan {count}",
   "imageBestResult": "Hasil terbaik: {size}",
-  "queueCompleted": "Selesai {done} daripada {total}"
+  "queueCompleted": "Selesai {done} daripada {total}",
+  "outputPreservedOriginalTooltip": "Fail asal dikekalkan secara automatik kerana pemampatan akan meningkatkan saiznya.",
+  "retryFileTooltip": "Cuba semula memproses fail ini",
+  "pauseBtn": "Jeda",
+  "resumeBtn": "Sambung",
+  "pausingBtn": "Menjeda...",
+  "pausedLabel": "Dijeda",
+  "compareImagesTooltip": "Bandingkan Sebelum & Selepas",
+  "compareImagesTitle": "Perbandingan Imej Sebelum & Selepas Mampatan",
+  "originalLabel": "Asal",
+  "compressedLabel": "Dimampatkan",
+  "dragToCompare": "Seret gelangsar untuk membandingkan",
+  "resetZoomTooltip": "Tetapkan Semula Zum",
+  "imageFilesNotFound": "Satu atau kedua-dua fail imej tidak ditemui pada cakera untuk perbandingan."
 }

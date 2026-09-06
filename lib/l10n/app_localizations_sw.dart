@@ -1132,4 +1132,46 @@ class AppLocalizationsSw extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Imekamilisha $done kati ya $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Faili asili limehifadhiwa kiotomatiki kwa sababu mgandamizo ungeongeza saizi yake.';
+
+  @override
+  String get retryFileTooltip => 'Jaribu tena kuchakata faili hili';
+
+  @override
+  String get pauseBtn => 'Sitisha';
+
+  @override
+  String get resumeBtn => 'Endelea';
+
+  @override
+  String get pausingBtn => 'Inasitisha...';
+
+  @override
+  String get pausedLabel => 'Imesitishwa';
+
+  @override
+  String get compareImagesTooltip => 'Linganisha Kabla na Baada';
+
+  @override
+  String get compareImagesTitle =>
+      'Ulinganisho wa Picha Kabla na Baada ya Mgandamizo';
+
+  @override
+  String get originalLabel => 'Asili';
+
+  @override
+  String get compressedLabel => 'Iliyogandamizwa';
+
+  @override
+  String get dragToCompare => 'Buruta kitelezi kulinganisha';
+
+  @override
+  String get resetZoomTooltip => 'Weka Upya Kuza';
+
+  @override
+  String get imageFilesNotFound =>
+      'Faili moja au zote mbili za picha hazikuweza kupatikana kwenye diski kwa ajili ya kulinganisha.';
 }

@@ -353,5 +353,18 @@
   "imageTargetProgress": "Tavoite: {size}",
   "imageAttempt": "Yritys {count}",
   "imageBestResult": "Paras tulos: {size}",
-  "queueCompleted": "{done}/{total} valmis"
+  "queueCompleted": "{done}/{total} valmis",
+  "outputPreservedOriginalTooltip": "Alkuperäinen tiedosto säilytettiin automaattisesti, koska pakkaaminen olisi suurentanut sen kokoa.",
+  "retryFileTooltip": "Yritä tämän tiedoston käsittelyä uudelleen",
+  "pauseBtn": "Keskeytä",
+  "resumeBtn": "Jatka",
+  "pausingBtn": "Keskeytetään...",
+  "pausedLabel": "Keskeytetty",
+  "compareImagesTooltip": "Vertaa ennen ja jälkeen",
+  "compareImagesTitle": "Kuvan vertailu ennen ja jälkeen pakkauksen",
+  "originalLabel": "Alkuperäinen",
+  "compressedLabel": "Pakattu",
+  "dragToCompare": "Vertaa vetämällä liukusäädintä",
+  "resetZoomTooltip": "Palauta zoomaus",
+  "imageFilesNotFound": "Toista tai kumpaakaan kuvatiedostoa ei löytynyt levyltä vertailua varten."
 }

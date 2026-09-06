@@ -1134,4 +1134,46 @@ class AppLocalizationsMs extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Selesai $done daripada $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Fail asal dikekalkan secara automatik kerana pemampatan akan meningkatkan saiznya.';
+
+  @override
+  String get retryFileTooltip => 'Cuba semula memproses fail ini';
+
+  @override
+  String get pauseBtn => 'Jeda';
+
+  @override
+  String get resumeBtn => 'Sambung';
+
+  @override
+  String get pausingBtn => 'Menjeda...';
+
+  @override
+  String get pausedLabel => 'Dijeda';
+
+  @override
+  String get compareImagesTooltip => 'Bandingkan Sebelum & Selepas';
+
+  @override
+  String get compareImagesTitle =>
+      'Perbandingan Imej Sebelum & Selepas Mampatan';
+
+  @override
+  String get originalLabel => 'Asal';
+
+  @override
+  String get compressedLabel => 'Dimampatkan';
+
+  @override
+  String get dragToCompare => 'Seret gelangsar untuk membandingkan';
+
+  @override
+  String get resetZoomTooltip => 'Tetapkan Semula Zum';
+
+  @override
+  String get imageFilesNotFound =>
+      'Satu atau kedua-dua fail imej tidak ditemui pada cakera untuk perbandingan.';
 }

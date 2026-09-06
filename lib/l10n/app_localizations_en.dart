@@ -1174,4 +1174,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Completed $done of $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Original file preserved automatically because compression would have increased its size.';
+
+  @override
+  String get retryFileTooltip => 'Retry processing this file';
+
+  @override
+  String get pauseBtn => 'Pause';
+
+  @override
+  String get resumeBtn => 'Resume';
+
+  @override
+  String get pausingBtn => 'Pausing...';
+
+  @override
+  String get pausedLabel => 'Paused';
+
+  @override
+  String get compareImagesTooltip => 'Compare Before & After';
+
+  @override
+  String get compareImagesTitle => 'Before & After Comparison';
+
+  @override
+  String get originalLabel => 'Original';
+
+  @override
+  String get compressedLabel => 'Compressed';
+
+  @override
+  String get dragToCompare => 'Drag slider to compare';
+
+  @override
+  String get resetZoomTooltip => 'Reset Zoom';
+
+  @override
+  String get imageFilesNotFound =>
+      'One or both image files could not be found on disk for comparison.';
 }

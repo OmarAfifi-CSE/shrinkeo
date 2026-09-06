@@ -353,5 +353,18 @@
   "imageTargetProgress": "இலக்கு: {size}",
   "imageAttempt": "முயற்சி {count}",
   "imageBestResult": "சிறந்த முடிவு: {size}",
-  "queueCompleted": "{total} இல் {done} முடிந்தது"
+  "queueCompleted": "{total} இல் {done} முடிந்தது",
+  "outputPreservedOriginalTooltip": "சுருக்குதல் கோப்பின் அளவை அதிகரிக்கும் என்பதால் அசல் கோப்பு தானாகவே பாதுகாக்கப்பட்டது.",
+  "retryFileTooltip": "இந்தக் கோப்பை மீண்டும் செயலாக்க முயற்சிக்கவும்",
+  "pauseBtn": "இடைநிறுத்து",
+  "resumeBtn": "மீண்டும் தொடங்கு",
+  "pausingBtn": "இடைநிறுத்தப்படுகிறது...",
+  "pausedLabel": "இடைநிறுத்தப்பட்டது",
+  "compareImagesTooltip": "முந்தைய மற்றும் பிந்தையதை ஒப்பிடுக",
+  "compareImagesTitle": "சுருக்குவதற்கு முன்னும் பின்னும் பட ஒப்பீடு",
+  "originalLabel": "அசல்",
+  "compressedLabel": "சுருக்கப்பட்டது",
+  "dragToCompare": "ஒப்பிட ஸ்லைடரை இழுக்கவும்",
+  "resetZoomTooltip": "பெரிதாக்கலை மீட்டமை",
+  "imageFilesNotFound": "ஒப்பீட்டிற்காக வட்டில் ஒன்று அல்லது இரண்டு படக் கோப்புகளும் காணப்படவில்லை."
 }

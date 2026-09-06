@@ -353,5 +353,18 @@
   "imageTargetProgress": "লক্ষ্য: {size}",
   "imageAttempt": "প্রচেষ্টা {count}",
   "imageBestResult": "সেরা ফলাফল: {size}",
-  "queueCompleted": "{total}টির মধ্যে {done}টি সম্পন্ন"
+  "queueCompleted": "{total}টির মধ্যে {done}টি সম্পন্ন",
+  "outputPreservedOriginalTooltip": "আসল ফাইলটি স্বয়ংক্রিয়ভাবে সংরক্ষিত হয়েছে কারণ কম্প্রেশনের ফলে ফাইলের আকার বৃদ্ধি পেত।",
+  "retryFileTooltip": "এই ফাইলটি প্রক্রিয়াকরণ পুনরায় চেষ্টা করুন",
+  "pauseBtn": "বিরতি",
+  "resumeBtn": "পুনরায় শুরু",
+  "pausingBtn": "বিরতি দেওয়া হচ্ছে...",
+  "pausedLabel": "বিরতি দেওয়া হয়েছে",
+  "compareImagesTooltip": "আগে এবং পরের তুলনা করুন",
+  "compareImagesTitle": "কম্প্রেশনের আগে এবং পরে ছবির তুলনা",
+  "originalLabel": "আসল",
+  "compressedLabel": "সংকুচিত",
+  "dragToCompare": "তুলনা করতে স্লাইডারটি টানুন",
+  "resetZoomTooltip": "জুম রিসেট করুন",
+  "imageFilesNotFound": "তুলনা করার জন্য ডিস্কে এক বা উভয় ছবির ফাইল পাওয়া যায়নি।"
 }

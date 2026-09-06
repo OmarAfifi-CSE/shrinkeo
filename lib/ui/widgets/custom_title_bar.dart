@@ -301,17 +301,25 @@ class _TitleBarButton extends StatefulWidget {
 
 class _TitleBarButtonState extends State<_TitleBarButton> {
   bool _isHovered = false;
+  bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     final button = MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
+      onExit: (_) => setState(() {
+        _isHovered = false;
+        _isPressed = false;
+      }),
       child: GestureDetector(
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapCancel: () => setState(() => _isPressed = false),
         onTap: widget.onTap,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 120),
+          duration: const Duration(milliseconds: 140),
+          curve: Curves.easeOutCubic,
           width: 42,
           height: 42,
           color: _isHovered
@@ -320,12 +328,17 @@ class _TitleBarButtonState extends State<_TitleBarButton> {
                         Colors.white)
                     .withValues(alpha: widget.hoverColor != null ? 0.9 : 0.06)
               : Colors.transparent,
-          child: Icon(
-            widget.icon,
-            size: widget.iconSize,
-            color: _isHovered && widget.hoverColor != null
-                ? Colors.white
-                : (widget.iconColor ?? Theme.of(context).iconTheme.color),
+          child: AnimatedScale(
+            scale: _isPressed ? 0.88 : (_isHovered ? 1.08 : 1.0),
+            duration: const Duration(milliseconds: 140),
+            curve: Curves.easeOutCubic,
+            child: Icon(
+              widget.icon,
+              size: widget.iconSize,
+              color: _isHovered && widget.hoverColor != null
+                  ? Colors.white
+                  : (widget.iconColor ?? Theme.of(context).iconTheme.color),
+            ),
           ),
         ),
       ),
@@ -347,6 +360,7 @@ class _SupportButton extends StatefulWidget {
 
 class _SupportButtonState extends State<_SupportButton> {
   bool _isHovering = false;
+  bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -354,47 +368,58 @@ class _SupportButtonState extends State<_SupportButton> {
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovering = true),
-      onExit: (_) => setState(() => _isHovering = false),
+      onExit: (_) => setState(() {
+        _isHovering = false;
+        _isPressed = false;
+      }),
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTapCancel: () => setState(() => _isPressed = false),
         onTap: () async {
           final url = Uri.parse(AppConstants.supportUrl);
           if (await canLaunchUrl(url)) {
             await launchUrl(url);
           }
         },
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 150),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-          decoration: BoxDecoration(
-            color: _isHovering
-                ? theme.colorScheme.primary.withValues(alpha: 0.25)
-                : theme.colorScheme.primary.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
+        child: AnimatedScale(
+          scale: _isPressed ? 0.94 : (_isHovering ? 1.04 : 1.0),
+          duration: const Duration(milliseconds: 140),
+          curve: Curves.easeOutCubic,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            decoration: BoxDecoration(
               color: _isHovering
-                  ? theme.colorScheme.primary.withValues(alpha: 0.5)
-                  : theme.colorScheme.primary.withValues(alpha: 0.3),
+                  ? theme.colorScheme.primary.withValues(alpha: 0.25)
+                  : theme.colorScheme.primary.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.circular(5),
+              border: Border.all(
+                color: _isHovering
+                    ? theme.colorScheme.primary.withValues(alpha: 0.5)
+                    : theme.colorScheme.primary.withValues(alpha: 0.3),
+              ),
             ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.local_cafe_rounded,
-                color: theme.colorScheme.primary,
-                size: 12,
-              ),
-              const SizedBox(width: 4),
-              Text(
-                AppStrings.supportButtonText,
-                style: TextStyle(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.local_cafe_rounded,
                   color: theme.colorScheme.primary,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700,
+                  size: 12,
                 ),
-              ),
-            ],
+                const SizedBox(width: 4),
+                Text(
+                  AppStrings.supportButtonText,
+                  style: TextStyle(
+                    color: theme.colorScheme.primary,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

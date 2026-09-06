@@ -353,5 +353,18 @@
   "imageTargetProgress": "Țintă: {size}",
   "imageAttempt": "Încercarea {count}",
   "imageBestResult": "Cel mai bun rezultat: {size}",
-  "queueCompleted": "Finalizate {done} din {total}"
+  "queueCompleted": "Finalizate {done} din {total}",
+  "outputPreservedOriginalTooltip": "Fișierul original a fost păstrat automat deoarece comprimarea i-ar fi mărit dimensiunea.",
+  "retryFileTooltip": "Reîncercați procesarea acestui fișier",
+  "pauseBtn": "Pauză",
+  "resumeBtn": "Reluare",
+  "pausingBtn": "Se pune pauză...",
+  "pausedLabel": "În pauză",
+  "compareImagesTooltip": "Comparați înainte și după",
+  "compareImagesTitle": "Compararea imaginii înainte și după comprimare",
+  "originalLabel": "Original",
+  "compressedLabel": "Comprimat",
+  "dragToCompare": "Trageți glisorul pentru a compara",
+  "resetZoomTooltip": "Resetați zoomul",
+  "imageFilesNotFound": "Unul sau ambele fișiere imagine nu au putut fi găsite pe disc pentru comparație."
 }

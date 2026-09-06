@@ -7,6 +7,7 @@ import '../../../cubit/compression_cubit.dart';
 import '../../../cubit/compression_state.dart';
 import '../../app_colors.dart';
 import '../glass_container.dart';
+import '../smooth_button.dart';
 
 part 'settings_components.dart';
 
@@ -97,40 +98,36 @@ class _SettingsContentState extends State<_SettingsContent>
             // -- Section header & Reset button --
             Row(
               children: [
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () {
-                      context.read<CompressionCubit>().toggleSettings();
-                    },
-                    child: Container(
-                      color: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.tune_rounded,
-                            size: 16,
-                            color: theme.colorScheme.primary,
+                SmoothButton(
+                  onTap: () {
+                    context.read<CompressionCubit>().toggleSettings();
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.tune_rounded,
+                          size: 16,
+                          color: theme.colorScheme.primary,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          AppStrings.compressionSettingsTitle,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: theme.textTheme.titleLarge?.color,
                           ),
-                          const SizedBox(width: 8),
-                          Text(
-                            AppStrings.compressionSettingsTitle,
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: theme.textTheme.titleLarge?.color,
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Icon(
-                            Icons.keyboard_arrow_up_rounded,
-                            size: 16,
-                            color: theme.textTheme.titleSmall?.color?.withValues(alpha: 0.5),
-                          ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.keyboard_arrow_up_rounded,
+                          size: 16,
+                          color: theme.textTheme.titleSmall?.color?.withValues(alpha: 0.5),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -167,28 +164,31 @@ class _SettingsContentState extends State<_SettingsContent>
                 ],
                 const Spacer(),
                 if (!isLocked)
-                  TextButton.icon(
-                    onPressed: () =>
-                        context.read<CompressionCubit>().resetToDefaults(),
-                    icon: const Icon(Icons.refresh_rounded, size: 14),
-                    label: Text(AppStrings.resetToDefaults,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                  SmoothButton(
+                    enableHoverScale: true,
+                    child: TextButton.icon(
+                      onPressed: () =>
+                          context.read<CompressionCubit>().resetToDefaults(),
+                      icon: const Icon(Icons.refresh_rounded, size: 14),
+                      label: Text(AppStrings.resetToDefaults,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    style: TextButton.styleFrom(
-                      foregroundColor: theme.textTheme.bodyMedium?.color
-                          ?.withValues(alpha: 0.8),
-                      backgroundColor: isDark
-                          ? Colors.white.withValues(alpha: 0.05)
-                          : Colors.black.withValues(alpha: 0.03),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 8,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6),
+                      style: TextButton.styleFrom(
+                        foregroundColor: theme.textTheme.bodyMedium?.color
+                            ?.withValues(alpha: 0.8),
+                        backgroundColor: isDark
+                            ? Colors.white.withValues(alpha: 0.05)
+                            : Colors.black.withValues(alpha: 0.03),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6),
+                        ),
                       ),
                     ),
                   ),

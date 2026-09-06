@@ -40,6 +40,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   final ImageCompressionService _imageCompressionService;
 
   bool _cancelRequested = false;
+  bool _pauseRequested = false;
   bool _workflowRunning = false;
 
   final SharedPreferences _prefs;
@@ -492,8 +493,12 @@ class CompressionCubit extends Cubit<CompressionState> {
       return;
     }
 
-    // Natural sort: 1, 2, 3, 10, 11 instead of 1, 10, 11, 2, 3.
+    // Group paths by directory first, then natural sort by filename: 1, 2, 3, 10, 11
     newPaths.sort((a, b) {
+      final dirA = p.dirname(a);
+      final dirB = p.dirname(b);
+      final dirComp = dirA.compareTo(dirB);
+      if (dirComp != 0) return dirComp;
       final nameA = p.basename(a);
       final nameB = p.basename(b);
       return _naturalSortKey(nameA).compareTo(_naturalSortKey(nameB));
@@ -533,11 +538,45 @@ class CompressionCubit extends Cubit<CompressionState> {
         clearGlobalError: true,
         phase: state.isProcessing ? null : CompressionPhase.idle,
         isScanningFiles: false,
+        clearOutputFolderPath: !state.isProcessing,
       ),
     );
 
     // Asynchronously probe durations so ETA calculation knows the total queue length
     _probeDurationsAsync(newVideos);
+  }
+
+  /// Finds the deepest common directory shared by all paths in [filePaths].
+  ///
+  /// For example, if images are imported from subdirectories of `D:\Photos`:
+  /// - `D:\Photos\Beauty\1.jpg`
+  /// - `D:\Photos\Women\2.jpg`
+  ///
+  /// The common directory is `D:\Photos`, guaranteeing the output folder
+  /// is created directly inside `D:\Photos\Shrinkeo Output`.
+  String _findCommonDirectory(List<String> filePaths) {
+    if (filePaths.isEmpty) return Directory.current.path;
+    if (filePaths.length == 1) return p.dirname(filePaths.first);
+
+    final splitPaths = filePaths.map((path) => p.split(p.dirname(path))).toList();
+    final first = splitPaths.first;
+    int commonCount = 0;
+
+    while (commonCount < first.length) {
+      final part = first[commonCount];
+      final matches = splitPaths.every(
+        (parts) =>
+            parts.length > commonCount &&
+            (Platform.isWindows
+                ? parts[commonCount].toLowerCase() == part.toLowerCase()
+                : parts[commonCount] == part),
+      );
+      if (!matches) break;
+      commonCount++;
+    }
+
+    if (commonCount == 0) return p.dirname(filePaths.first);
+    return p.joinAll(first.sublist(0, commonCount));
   }
 
   Future<void> _probeDurationsAsync(List<VideoFile> videos) async {
@@ -664,7 +703,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   /// 3. Compresses each video sequentially using FFmpeg.
   /// 4. Updates state with progress for each video.
   Future<void> startCompression() async {
-    if (isClosed || _workflowRunning || !state.canStart || state.isProcessing) return;
+    if (isClosed || _workflowRunning || (!state.canStart && !state.canResume) || state.isProcessing) return;
     _workflowRunning = true;
     try {
       await _runCompression();
@@ -673,8 +712,57 @@ class CompressionCubit extends Cubit<CompressionState> {
     }
   }
 
+  /// Pauses the compression workflow immediately.
+  void pauseCompression() {
+    if (isClosed || !state.isProcessing || _pauseRequested) return;
+
+    // If an active FFmpeg video process is running, suspend it immediately (<1ms)
+    if (_ffmpegService.isRunning) {
+      final suspended = _ffmpegService.suspendCurrentProcess();
+      if (suspended) {
+        emit(
+          state.copyWith(
+            phase: CompressionPhase.paused,
+            isPauseRequested: false,
+            clearGlobalEta: true,
+          ),
+        );
+        return;
+      }
+    }
+
+    _pauseRequested = true;
+    emit(state.copyWith(isPauseRequested: true));
+  }
+
+  /// Resumes the compression workflow from the paused state.
+  Future<void> resumeCompression() async {
+    if (isClosed || !state.canResume) return;
+
+    // If an FFmpeg process was suspended mid-compression, resume it immediately (<1ms)
+    if (_ffmpegService.isSuspended) {
+      final resumed = _ffmpegService.resumeCurrentProcess();
+      if (resumed) {
+        emit(
+          state.copyWith(
+            phase: CompressionPhase.compressing,
+            isPauseRequested: false,
+          ),
+        );
+        return;
+      }
+    }
+
+    if (_workflowRunning) return;
+    _pauseRequested = false;
+    emit(state.copyWith(isPauseRequested: false, phase: CompressionPhase.idle));
+    await startCompression();
+  }
+
   Future<void> _runCompression() async {
     _cancelRequested = false;
+    _pauseRequested = false;
+    emit(state.copyWith(isPauseRequested: false));
 
     // Reset any videos that failed due to hardware encoder issues back to queued
     // so they are automatically retried when the user clicks Start Compression again.
@@ -704,22 +792,30 @@ class CompressionCubit extends Cubit<CompressionState> {
       return;
     }
 
+    if (_cancelRequested || isClosed) return;
+
     // Cache resolved folders for "Same as Original" to avoid creating duplicate folders.
     final Map<String, String> resolvedOutputFolders = {};
 
     // Resolve the unified output folder if applicable.
     String? outputFolder;
+    String? commonBaseDir;
     if (state.outputLocationMode == OutputLocationMode.unified) {
-      if (state.outputFolderPath != null &&
+      final isResuming = state.phase == CompressionPhase.paused || state.isPauseRequested;
+      if (isResuming &&
+          state.outputFolderPath != null &&
           Directory(state.outputFolderPath!).existsSync()) {
         outputFolder = state.outputFolderPath!;
+        final allFilePaths = state.videos.map((v) => v.filePath).toList();
+        commonBaseDir = _findCommonDirectory(allFilePaths);
       } else {
         try {
-          final firstQueued = state.videos.firstWhere(
-            (v) => v.status == VideoStatus.queued,
-          );
-          final sourceDir = p.dirname(firstQueued.filePath);
-          final baseDir = state.customOutputDirectory ?? sourceDir;
+          final queuedFilePaths = state.videos
+              .where((v) => v.status == VideoStatus.queued)
+              .map((v) => v.filePath)
+              .toList();
+          commonBaseDir = _findCommonDirectory(queuedFilePaths);
+          final baseDir = state.customOutputDirectory ?? commonBaseDir;
           outputFolder = await _outputFolderService.resolveOutputFolder(
             baseDir,
           );
@@ -734,6 +830,8 @@ class CompressionCubit extends Cubit<CompressionState> {
         }
       }
     }
+
+    if (_cancelRequested || isClosed) return;
 
     emit(
       state.copyWith(
@@ -752,34 +850,64 @@ class CompressionCubit extends Cubit<CompressionState> {
       state.copyWith(phase: CompressionPhase.probing),
     ); // Immediate emit to lock UI
 
-    // Process each queued video sequentially.
-    // Use a while loop to dynamically pick up any videos added DURING compression.
+    // Process each queued media item strictly sequentially (1 at a time).
+    // Use a while loop to dynamically pick up any files added DURING compression.
     while (true) {
       if (_cancelRequested || isClosed) break;
+
+      if (_pauseRequested) {
+        _pauseRequested = false;
+        final remainingQueued =
+            state.videos.where((v) => v.status == VideoStatus.queued).toList();
+        if (remainingQueued.isNotEmpty) {
+          emit(
+            state.copyWith(
+              phase: CompressionPhase.paused,
+              isPauseRequested: false,
+              currentIndex: -1,
+              clearGlobalEta: true,
+            ),
+          );
+          return;
+        }
+      }
 
       final nextQueuedIndex = state.videos.indexWhere(
         (v) => v.status == VideoStatus.queued,
       );
 
       if (nextQueuedIndex == -1) {
-        break; // No more queued videos, exit loop.
+        break; // All queued items are complete!
       }
 
-      await _processVideo(
-        state.videos[nextQueuedIndex].id,
-        outputFolder,
-        resolvedOutputFolders,
-      );
+      final item = state.videos[nextQueuedIndex];
+      if (item.mediaType == MediaType.video) {
+        await _processVideo(
+          item.id,
+          outputFolder,
+          resolvedOutputFolders,
+          commonBaseDir: commonBaseDir,
+        );
+      } else {
+        await _processImageItem(
+          item.id,
+          outputFolder,
+          resolvedOutputFolders,
+          commonBaseDir: commonBaseDir,
+        );
+      }
     }
 
     // Mark as completed.
     if (!_cancelRequested && !isClosed) {
+      _pauseRequested = false;
       emit(
         state.copyWith(
           phase: CompressionPhase.completed,
           currentIndex: -1,
           clearGlobalEta: true,
           clearCompressionStartTime: true,
+          isPauseRequested: false,
         ),
       );
 
@@ -787,6 +915,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     }
 
     _cancelRequested = false;
+    _pauseRequested = false;
   }
 
   void _showCompletionNotification(int success, int failed) {
@@ -806,8 +935,9 @@ class CompressionCubit extends Cubit<CompressionState> {
   Future<void> _processVideo(
     String videoId,
     String? globalOutputFolder,
-    Map<String, String> resolvedOutputFolders,
-  ) async {
+    Map<String, String> resolvedOutputFolders, {
+    String? commonBaseDir,
+  }) async {
     int getIndex() => state.videos.indexWhere((v) => v.id == videoId);
     int initialIndex = getIndex();
     if (initialIndex < 0) return;
@@ -815,7 +945,12 @@ class CompressionCubit extends Cubit<CompressionState> {
     VideoFile video = state.videos[initialIndex];
 
     if (video.mediaType == MediaType.image) {
-      await _processImageItem(videoId, globalOutputFolder, resolvedOutputFolders);
+      await _processImageItem(
+        videoId,
+        globalOutputFolder,
+        resolvedOutputFolders,
+        commonBaseDir: commonBaseDir,
+      );
       return;
     }
 
@@ -872,7 +1007,16 @@ class CompressionCubit extends Cubit<CompressionState> {
     String outputFolder;
     if (state.outputLocationMode == OutputLocationMode.unified &&
         globalOutputFolder != null) {
-      outputFolder = globalOutputFolder;
+      if (commonBaseDir != null && p.isWithin(commonBaseDir, video.filePath)) {
+        final relDir = p.relative(p.dirname(video.filePath), from: commonBaseDir);
+        if (relDir.isNotEmpty && relDir != '.') {
+          outputFolder = p.join(globalOutputFolder, relDir);
+        } else {
+          outputFolder = globalOutputFolder;
+        }
+      } else {
+        outputFolder = globalOutputFolder;
+      }
     } else {
       final sourceDir = p.dirname(video.filePath);
       if (resolvedOutputFolders.containsKey(sourceDir)) {
@@ -885,10 +1029,15 @@ class CompressionCubit extends Cubit<CompressionState> {
       }
     }
 
+    final destDir = Directory(outputFolder);
+    if (!await destDir.exists()) {
+      await destDir.create(recursive: true);
+    }
+
     // Set outputFolderPath in state to the first generated folder so the "Open Output Folder" button has a valid path
     if (state.outputFolderPath == null ||
         !Directory(state.outputFolderPath!).existsSync()) {
-      emit(state.copyWith(outputFolderPath: outputFolder));
+      emit(state.copyWith(outputFolderPath: globalOutputFolder ?? outputFolder));
     }
 
     // Preserve original filename but change extension to the selected output format, GIF, or audio format.
@@ -1228,8 +1377,9 @@ class CompressionCubit extends Cubit<CompressionState> {
   Future<void> _processImageItem(
     String videoId,
     String? globalOutputFolder,
-    Map<String, String> resolvedOutputFolders,
-  ) async {
+    Map<String, String> resolvedOutputFolders, {
+    String? commonBaseDir,
+  }) async {
     int getIndex() => state.videos.indexWhere((v) => v.id == videoId);
     bool imageCancelled() => isClosed || _cancelRequested || getIndex() < 0 ||
         state.videos[getIndex()].status == VideoStatus.cancelled;
@@ -1238,21 +1388,48 @@ class CompressionCubit extends Cubit<CompressionState> {
 
     VideoFile video = state.videos[initialIndex];
 
-    void safelyUpdateVideo(VideoFile updatedVideo, {int? globalSavedBytes}) {
+    void safelyUpdateVideo(
+      VideoFile updatedVideo, {
+      int? globalSavedBytes,
+      int? currentIndex,
+      CompressionPhase? phase,
+    }) {
       final idx = getIndex();
       if (idx >= 0 && !imageCancelled()) {
-        _updateVideo(idx, updatedVideo, globalSavedBytes: globalSavedBytes);
+        _updateVideo(
+          idx,
+          updatedVideo,
+          globalSavedBytes: globalSavedBytes,
+          currentIndex: currentIndex,
+          phase: phase,
+        );
       }
     }
 
-    safelyUpdateVideo(video.copyWith(status: VideoStatus.compressing, progress: 0,
-      imageProgress: const ImageProgress(), clearEta: true));
-    emit(state.copyWith(currentIndex: getIndex(), phase: CompressionPhase.compressing));
+    safelyUpdateVideo(
+      video.copyWith(
+        status: VideoStatus.compressing,
+        progress: 0,
+        imageProgress: const ImageProgress(),
+        clearEta: true,
+      ),
+      currentIndex: getIndex(),
+      phase: CompressionPhase.compressing,
+    );
 
     // Resolve output folder
     String outputFolder;
     if (state.outputLocationMode == OutputLocationMode.unified && globalOutputFolder != null) {
-      outputFolder = globalOutputFolder;
+      if (commonBaseDir != null && p.isWithin(commonBaseDir, video.filePath)) {
+        final relDir = p.relative(p.dirname(video.filePath), from: commonBaseDir);
+        if (relDir.isNotEmpty && relDir != '.') {
+          outputFolder = p.join(globalOutputFolder, relDir);
+        } else {
+          outputFolder = globalOutputFolder;
+        }
+      } else {
+        outputFolder = globalOutputFolder;
+      }
     } else {
       final sourceDir = p.dirname(video.filePath);
       if (resolvedOutputFolders.containsKey(sourceDir)) {
@@ -1263,11 +1440,16 @@ class CompressionCubit extends Cubit<CompressionState> {
       }
     }
 
+    final destDir = Directory(outputFolder);
+    if (!await destDir.exists()) {
+      await destDir.create(recursive: true);
+    }
+
     if (imageCancelled()) {
       return;
     }
     if (state.outputFolderPath == null || !Directory(state.outputFolderPath!).existsSync()) {
-      emit(state.copyWith(outputFolderPath: outputFolder));
+      emit(state.copyWith(outputFolderPath: globalOutputFolder ?? outputFolder));
     }
 
     // Determine target extension
@@ -1299,13 +1481,19 @@ class CompressionCubit extends Cubit<CompressionState> {
         maxWidth: maxDim,
         maxHeight: maxDim,
         stripExif: state.stripImageExif,
-        targetSizeKB: state.isImageTargetSizeMode ? state.imageTargetSizeKB : null,
+        targetSizeKB:
+            state.isImageTargetSizeMode ? state.imageTargetSizeKB : null,
         isCancelled: imageCancelled,
         onStatus: (progress) {
           if (imageCancelled()) {
             return;
           }
-          safelyUpdateVideo(video.copyWith(imageProgress: progress, status: VideoStatus.compressing));
+          safelyUpdateVideo(
+            video.copyWith(
+              imageProgress: progress,
+              status: VideoStatus.compressing,
+            ),
+          );
         },
       );
 
@@ -1340,8 +1528,11 @@ class CompressionCubit extends Cubit<CompressionState> {
         }
 
         final savedBytes = (video.fileSizeBytes - outSizeBytes).clamp(0, video.fileSizeBytes);
-        final newGlobalSaved = state.globalSavedBytes + savedBytes;
-        _prefs.setInt('globalSavedBytes', newGlobalSaved);
+        int? newGlobalSaved;
+        if (savedBytes > 0) {
+          newGlobalSaved = state.globalSavedBytes + savedBytes;
+          _prefs.setInt('globalSavedBytes', newGlobalSaved);
+        }
 
         safelyUpdateVideo(
           video.copyWith(
@@ -1441,21 +1632,20 @@ class CompressionCubit extends Cubit<CompressionState> {
   /// as cancelled.
   Future<void> cancelCompression() async {
     _cancelRequested = true;
+    _pauseRequested = false;
     await _ffmpegService.cancelCurrentProcess();
 
-    // Mark the currently compressing video as cancelled.
-    if (state.currentIndex >= 0 && state.currentIndex < state.videos.length) {
-      final current = state.videos[state.currentIndex];
+    // Mark any active compressing or probing items as cancelled.
+    for (int i = 0; i < state.videos.length; i++) {
+      final current = state.videos[i];
       if (current.status == VideoStatus.compressing ||
           current.status == VideoStatus.probing) {
-        
-        // Delete partial file
         if (current.outputPath != null) {
-          await _deleteFileWithRetry(current.outputPath!);
+          _tryDeleteFile(current.outputPath!);
         }
 
         _updateVideo(
-          state.currentIndex,
+          i,
           current.copyWith(status: VideoStatus.cancelled),
         );
       }
@@ -1464,6 +1654,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     emit(
       state.copyWith(
         phase: CompressionPhase.idle,
+        isPauseRequested: false,
         currentIndex: -1,
         clearGlobalEta: true,
         clearCompressionStartTime: true,
@@ -1579,6 +1770,8 @@ class CompressionCubit extends Cubit<CompressionState> {
     VideoFile updatedVideo, {
     Duration? globalEta,
     int? globalSavedBytes,
+    int? currentIndex,
+    CompressionPhase? phase,
   }) {
     final updatedList = List<VideoFile>.from(state.videos);
     updatedList[index] = updatedVideo;
@@ -1588,9 +1781,12 @@ class CompressionCubit extends Cubit<CompressionState> {
         videos: updatedList,
         globalEta: globalEta,
         globalSavedBytes: globalSavedBytes,
+        currentIndex: currentIndex,
+        phase: phase,
       ),
     );
   }
+
 
   /// Opens the given folder in the native file explorer.
   void openOutputFolder(String path) {

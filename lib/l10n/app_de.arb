@@ -353,5 +353,18 @@
   "imageTargetProgress": "Ziel: {size}",
   "imageAttempt": "Versuch {count}",
   "imageBestResult": "Bestes Ergebnis: {size}",
-  "queueCompleted": "{done} von {total} abgeschlossen"
+  "queueCompleted": "{done} von {total} abgeschlossen",
+  "outputPreservedOriginalTooltip": "Originaldatei automatisch beibehalten, da Komprimierung die Größe erhöht hätte.",
+  "retryFileTooltip": "Verarbeitung dieser Datei wiederholen",
+  "pauseBtn": "Pausieren",
+  "resumeBtn": "Fortsetzen",
+  "pausingBtn": "Wird pausiert...",
+  "pausedLabel": "Pausiert",
+  "compareImagesTooltip": "Vorher & Nachher vergleichen",
+  "compareImagesTitle": "Bildvergleich vor und nach der Komprimierung",
+  "originalLabel": "Original",
+  "compressedLabel": "Komprimiert",
+  "dragToCompare": "Schieberegler zum Vergleichen ziehen",
+  "resetZoomTooltip": "Zoom zurücksetzen",
+  "imageFilesNotFound": "Eine oder beide Bilddateien wurden für den Vergleich nicht gefunden."
 }

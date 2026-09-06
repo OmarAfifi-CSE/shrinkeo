@@ -17,71 +17,54 @@ class AuroraBackground extends StatelessWidget {
         RepaintBoundary(
           child: Stack(
             children: [
-              // Base background color
-              Container(
-                color: isDark
-                    ? AppColors.auroraBackgroundDark
-                    : AppColors.auroraBackgroundLight,
+              // Base background color with smooth crossfade
+              Positioned.fill(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 350),
+                  curve: Curves.easeInOutCubic,
+                  color: isDark
+                      ? AppColors.auroraBackgroundDark
+                      : AppColors.auroraBackgroundLight,
+                ),
               ),
 
-              // Glowing Orbs (Loon Iridescence)
-              if (isDark) ...[
-                // Top Right: Iridescent Teal
-                Positioned(
-                  top: -200,
-                  right: -100,
-                  child: _buildOrb(
-                    AppColors.auroraOrbDark1.withValues(alpha: 0.3),
-                    500,
-                  ),
+              // Glowing Orbs with continuous animated morphing
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeInOutCubic,
+                top: isDark ? -200 : -150,
+                right: -100,
+                child: _buildAnimatedOrb(
+                  isDark
+                      ? AppColors.auroraOrbDark1.withValues(alpha: 0.3)
+                      : AppColors.auroraOrbDark1.withValues(alpha: 0.2),
+                  isDark ? 500 : 600,
                 ),
-                // Bottom Left: Deep Emerald
-                Positioned(
-                  bottom: -150,
-                  left: -150,
-                  child: _buildOrb(
-                    AppColors.auroraOrbDark2.withValues(alpha: 0.25),
-                    600,
-                  ),
+              ),
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeInOutCubic,
+                bottom: isDark ? -150 : -200,
+                left: -150,
+                child: _buildAnimatedOrb(
+                  isDark
+                      ? AppColors.auroraOrbDark2.withValues(alpha: 0.25)
+                      : AppColors.auroraOrbDark2.withValues(alpha: 0.15),
+                  isDark ? 600 : 500,
                 ),
-                // Center: Midnight Blue Highlight
-                Positioned(
-                  top: 250,
-                  left: 200,
-                  child: _buildOrb(
-                    AppColors.auroraOrbDark3.withValues(alpha: 0.2),
-                    400,
-                  ),
+              ),
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeInOutCubic,
+                top: isDark ? 250 : 150,
+                left: isDark ? 200 : 300,
+                child: _buildAnimatedOrb(
+                  isDark
+                      ? AppColors.auroraOrbDark3.withValues(alpha: 0.2)
+                      : AppColors.auroraOrbDark3.withValues(alpha: 0.1),
+                  isDark ? 400 : 650,
                 ),
-              ] else ...[
-                // Top Right: Iridescent Teal
-                Positioned(
-                  top: -150,
-                  right: -100,
-                  child: _buildOrb(
-                    AppColors.auroraOrbDark1.withValues(alpha: 0.2),
-                    600,
-                  ),
-                ),
-                // Bottom Left: Deep Emerald
-                Positioned(
-                  bottom: -200,
-                  left: -150,
-                  child: _buildOrb(
-                    AppColors.auroraOrbDark2.withValues(alpha: 0.15),
-                    500,
-                  ),
-                ),
-                // Center: Midnight Blue Highlight
-                Positioned(
-                  top: 150,
-                  right: 200,
-                  child: _buildOrb(
-                    AppColors.auroraOrbDark3.withValues(alpha: 0.1),
-                    700,
-                  ),
-                ),
-              ],
+              ),
 
               // Heavy Blur Filter to blend the orbs into an Aurora
               Positioned.fill(
@@ -100,8 +83,10 @@ class AuroraBackground extends StatelessWidget {
     );
   }
 
-  Widget _buildOrb(Color color, double size) {
-    return Container(
+  Widget _buildAnimatedOrb(Color color, double size) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeInOutCubic,
       width: size,
       height: size,
       decoration: BoxDecoration(

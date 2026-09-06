@@ -306,6 +306,7 @@
   "imgFmtPngDesc": "透明度をサポートするロスレス PNG 形式。",
   "imgFmtJpgLabel": "JPEG画像(.jpg)",
   "imgFmtJpgDesc": "普遍的な互換性を実現する標準の圧縮 JPEG 形式。",
+  "imgFmtWebpLabel": "WebP 画像 (.webp)",
   "imgFmtWebpDesc": "優れた圧縮率と小さいサイズを実現する最新の WebP 形式。",
   "imgFmtAvifLabel": "AVIF 画像 (.avif)",
   "imgFmtAvifDesc": "超高圧縮効率の次世代AVIFフォーマット。",
@@ -352,5 +353,18 @@
   "imageTargetProgress": "目標：{size}",
   "imageAttempt": "試行 {count} 回目",
   "imageBestResult": "最良の結果：{size}",
-  "queueCompleted": "{total} 件中 {done} 件完了"
+  "queueCompleted": "{total} 件中 {done} 件完了",
+  "outputPreservedOriginalTooltip": "圧縮によりサイズが増加するため、元のファイルが自動的に保持されました。",
+  "retryFileTooltip": "このファイルの処理を再試行",
+  "pauseBtn": "一時停止",
+  "resumeBtn": "再開",
+  "pausingBtn": "一時停止中...",
+  "pausedLabel": "一時停止中",
+  "compareImagesTooltip": "前後の比較",
+  "compareImagesTitle": "圧縮前後の画像比較",
+  "originalLabel": "オリジナル",
+  "compressedLabel": "圧縮後",
+  "dragToCompare": "スライダーをドラッグして比較",
+  "resetZoomTooltip": "ズームをリセット",
+  "imageFilesNotFound": "比較する画像ファイルがディスク上に見つかりませんでした。"
 }

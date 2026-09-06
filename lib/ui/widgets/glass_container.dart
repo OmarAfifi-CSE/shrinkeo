@@ -8,6 +8,7 @@ class GlassContainer extends StatelessWidget {
   final double borderRadius;
   final EdgeInsetsGeometry padding;
   final bool isHovering;
+  final bool useBackdropFilter;
 
   const GlassContainer({
     super.key,
@@ -15,6 +16,7 @@ class GlassContainer extends StatelessWidget {
     this.borderRadius = 12.0,
     this.padding = const EdgeInsets.all(20.0),
     this.isHovering = false,
+    this.useBackdropFilter = true,
   });
 
   @override
@@ -23,8 +25,8 @@ class GlassContainer extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     final backgroundColor = isDark
-        ? AppColors.glassBackgroundDark.withValues(alpha: 0.4)
-        : Colors.white.withValues(alpha: 0.7);
+        ? AppColors.glassBackgroundDark.withValues(alpha: useBackdropFilter ? 0.4 : 0.65)
+        : Colors.white.withValues(alpha: useBackdropFilter ? 0.7 : 0.82);
 
     final borderColor = isDark
         ? AppColors.borderDark.withValues(alpha: 0.3)
@@ -40,6 +42,26 @@ class GlassContainer extends StatelessWidget {
           ]
         : <BoxShadow>[];
 
+    final content = AnimatedContainer(
+      duration: const Duration(milliseconds: 350),
+      curve: Curves.easeInOutCubic,
+      padding: padding,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(borderRadius),
+        border: Border.all(color: borderColor, width: 1.5),
+        boxShadow: hoverGlow,
+      ),
+      child: child,
+    );
+
+    if (!useBackdropFilter) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: content,
+      );
+    }
+
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
@@ -47,17 +69,7 @@ class GlassContainer extends StatelessWidget {
       ),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: padding,
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(borderRadius),
-            border: Border.all(color: borderColor, width: 1.5),
-            boxShadow: hoverGlow,
-          ),
-          child: child,
-        ),
+        child: content,
       ),
     );
   }

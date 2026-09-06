@@ -1129,4 +1129,45 @@ class AppLocalizationsHi extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$total में से $done पूरे';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'मूल फ़ाइल स्वचालित रूप से सुरक्षित रखी गई क्योंकि संपीड़न से इसका आकार बढ़ जाता।';
+
+  @override
+  String get retryFileTooltip => 'इस फ़ाइल को संसाधित करने का पुन: प्रयास करें';
+
+  @override
+  String get pauseBtn => 'रोकें';
+
+  @override
+  String get resumeBtn => 'पुनः आरंभ करें';
+
+  @override
+  String get pausingBtn => 'रोका जा रहा है...';
+
+  @override
+  String get pausedLabel => 'रोका गया';
+
+  @override
+  String get compareImagesTooltip => 'पहले और बाद की तुलना करें';
+
+  @override
+  String get compareImagesTitle => 'संपीड़न से पहले और बाद में छवि की तुलना';
+
+  @override
+  String get originalLabel => 'मूल';
+
+  @override
+  String get compressedLabel => 'संपीड़ित';
+
+  @override
+  String get dragToCompare => 'तुलना करने के लिए स्लाइडर खींचें';
+
+  @override
+  String get resetZoomTooltip => 'ज़ूम रीसेट करें';
+
+  @override
+  String get imageFilesNotFound =>
+      'तुलना के लिए डिस्क पर एक या दोनों छवि फ़ाइलें नहीं मिलीं।';
 }

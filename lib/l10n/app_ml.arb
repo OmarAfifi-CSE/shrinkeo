@@ -353,5 +353,18 @@
   "imageTargetProgress": "ലക്ഷ്യം: {size}",
   "imageAttempt": "ശ്രമം {count}",
   "imageBestResult": "മികച്ച ഫലം: {size}",
-  "queueCompleted": "{total} ൽ {done} പൂർത്തിയായി"
+  "queueCompleted": "{total} ൽ {done} പൂർത്തിയായി",
+  "outputPreservedOriginalTooltip": "കംപ്രഷൻ വലുപ്പം വർദ്ധിപ്പിക്കുമെന്നതിനാൽ യഥാർത്ഥ ഫയൽ സ്വയമേവ സംരക്ഷിച്ചു.",
+  "retryFileTooltip": "ഈ ഫയൽ പ്രോസസ്സ് ചെയ്യുന്നത് വീണ്ടും ശ്രമിക്കുക",
+  "pauseBtn": "താൽക്കാലികമായി നിർത്തുക",
+  "resumeBtn": "തുടരുക",
+  "pausingBtn": "താൽക്കാലികമായി നിർത്തുന്നു...",
+  "pausedLabel": "താൽക്കാലികമായി നിർത്തി",
+  "compareImagesTooltip": "മുമ്പും ശേഷവും താരതമ്യം ചെയ്യുക",
+  "compareImagesTitle": "കംപ്രഷന് മുമ്പും ശേഷവുമുള്ള ചിത്ര താരതമ്യം",
+  "originalLabel": "യഥാർത്ഥം",
+  "compressedLabel": "കംപ്രസ്സ് ചെയ്തത്",
+  "dragToCompare": "താരതമ്യം ചെയ്യാൻ സ്ലൈഡർ വലിച്ചിടുക",
+  "resetZoomTooltip": "സൂം പുനഃക്രമീകരിക്കുക",
+  "imageFilesNotFound": "താരതമ്യത്തിനായി ഡിസ്കിൽ ഒന്നോ രണ്ടോ ഇമേജ് ഫയലുകൾ കണ്ടെത്താനായില്ല."
 }

@@ -353,5 +353,18 @@
   "imageTargetProgress": "ಗುರಿ: {size}",
   "imageAttempt": "ಪ್ರಯತ್ನ {count}",
   "imageBestResult": "ಅತ್ಯುತ್ತಮ ಫಲಿತಾಂಶ: {size}",
-  "queueCompleted": "{total} ರಲ್ಲಿ {done} ಪೂರ್ಣಗೊಂಡಿವೆ"
+  "queueCompleted": "{total} ರಲ್ಲಿ {done} ಪೂರ್ಣಗೊಂಡಿವೆ",
+  "outputPreservedOriginalTooltip": "ಸಂಕೋಚನವು ಗಾತ್ರವನ್ನು ಹೆಚ್ಚಿಸುವುದರಿಂದ ಮೂಲ ಫೈಲ್ ಅನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಉಳಿಸಲಾಗಿದೆ.",
+  "retryFileTooltip": "ಈ ಫೈಲ್ ಅನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮರುಪ್ರಯತ್ನಿಸಿ",
+  "pauseBtn": "ವಿರಾಮಗೊಳಿಸಿ",
+  "resumeBtn": "ಮುಂದುವರಿಸಿ",
+  "pausingBtn": "ವಿರಾಮಗೊಳಿಸಲಾಗುತ್ತಿದೆ...",
+  "pausedLabel": "ವಿರಾಮಗೊಳಿಸಲಾಗಿದೆ",
+  "compareImagesTooltip": "ಮೊದಲು ಮತ್ತು ನಂತರ ಹೋಲಿಕೆ ಮಾಡಿ",
+  "compareImagesTitle": "ಸಂಕೋಚನದ ಮೊದಲು ಮತ್ತು ನಂತರ ಚಿತ್ರ ಹೋಲಿಕೆ",
+  "originalLabel": "ಮೂಲ",
+  "compressedLabel": "ಸಂಕೋಚಿತ",
+  "dragToCompare": "ಹೋಲಿಸಲು ಸ್ಲೈಡರ್ ಅನ್ನು ಎಳೆಯಿರಿ",
+  "resetZoomTooltip": "ಜೂಮ್ ಮರುಹೊಂದಿಸಿ",
+  "imageFilesNotFound": "ಹೋಲಿಕೆಗಾಗಿ ಡಿಸ್ಕ್‌ನಲ್ಲಿ ಒಂದು ಅಥವಾ ಎರಡೂ ಚಿತ್ರ ಫೈಲ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ."
 }

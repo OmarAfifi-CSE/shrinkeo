@@ -1123,4 +1123,45 @@ class AppLocalizationsFa extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$done از $total تکمیل شد';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'فایل اصلی به‌طور خودکار حفظ شد زیرا فشرده‌سازی باعث افزایش اندازه آن می‌شد.';
+
+  @override
+  String get retryFileTooltip => 'تلاش مجدد برای پردازش این فایل';
+
+  @override
+  String get pauseBtn => 'مکث';
+
+  @override
+  String get resumeBtn => 'ادامه';
+
+  @override
+  String get pausingBtn => 'در حال مکث...';
+
+  @override
+  String get pausedLabel => 'متوقف شده';
+
+  @override
+  String get compareImagesTooltip => 'مقایسه قبل و بعد';
+
+  @override
+  String get compareImagesTitle => 'مقایسه تصویر قبل و بعد از فشرده‌سازی';
+
+  @override
+  String get originalLabel => 'اصلی';
+
+  @override
+  String get compressedLabel => 'فشرده شده';
+
+  @override
+  String get dragToCompare => 'برای مقایسه نشانگر را بکشید';
+
+  @override
+  String get resetZoomTooltip => 'تنظیم مجدد بزرگ‌نمایی';
+
+  @override
+  String get imageFilesNotFound =>
+      'یک یا هر دو فایل تصویر برای مقایسه روی دیسک پیدا نشد.';
 }

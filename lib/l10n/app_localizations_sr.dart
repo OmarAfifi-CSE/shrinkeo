@@ -1135,4 +1135,45 @@ class AppLocalizationsSr extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'Завршено $done од $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Оригинална датотека је аутоматски сачувана јер би компресија повећала њену величину.';
+
+  @override
+  String get retryFileTooltip => 'Поново покушај обраду ове датотеке';
+
+  @override
+  String get pauseBtn => 'Пауза';
+
+  @override
+  String get resumeBtn => 'Настави';
+
+  @override
+  String get pausingBtn => 'Паузирање...';
+
+  @override
+  String get pausedLabel => 'Паузирано';
+
+  @override
+  String get compareImagesTooltip => 'Упореди пре и после';
+
+  @override
+  String get compareImagesTitle => 'Поређење слике пре и после компресије';
+
+  @override
+  String get originalLabel => 'Оригинал';
+
+  @override
+  String get compressedLabel => 'Компресовано';
+
+  @override
+  String get dragToCompare => 'Превуците клизач да бисте упоредили';
+
+  @override
+  String get resetZoomTooltip => 'Ресетуј зум';
+
+  @override
+  String get imageFilesNotFound =>
+      'Једна или обе датотеке слика нису пронађене на диску за поређење.';
 }

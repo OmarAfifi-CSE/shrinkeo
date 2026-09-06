@@ -353,5 +353,18 @@
   "imageTargetProgress": "Mål: {size}",
   "imageAttempt": "Försök {count}",
   "imageBestResult": "Bästa resultat: {size}",
-  "queueCompleted": "{done} av {total} klara"
+  "queueCompleted": "{done} av {total} klara",
+  "outputPreservedOriginalTooltip": "Originalfilen behölls automatiskt eftersom komprimering skulle ha ökat dess storlek.",
+  "retryFileTooltip": "Försök bearbeta den här filen igen",
+  "pauseBtn": "Pausa",
+  "resumeBtn": "Återuppta",
+  "pausingBtn": "Pausar...",
+  "pausedLabel": "Pausad",
+  "compareImagesTooltip": "Jämför före och efter",
+  "compareImagesTitle": "Bildjämförelse före och efter komprimering",
+  "originalLabel": "Original",
+  "compressedLabel": "Komprimerad",
+  "dragToCompare": "Dra reglaget för att jämföra",
+  "resetZoomTooltip": "Återställ zoom",
+  "imageFilesNotFound": "En eller båda bildfilerna kunde inte hittas på disken för jämförelse."
 }

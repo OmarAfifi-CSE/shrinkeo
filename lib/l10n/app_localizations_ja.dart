@@ -944,7 +944,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get imgFmtJpgDesc => '普遍的な互換性を実現する標準の圧縮 JPEG 形式。';
 
   @override
-  String get imgFmtWebpLabel => 'WebP Image (.webp)';
+  String get imgFmtWebpLabel => 'WebP 画像 (.webp)';
 
   @override
   String get imgFmtWebpDesc => '優れた圧縮率と小さいサイズを実現する最新の WebP 形式。';
@@ -1105,4 +1105,44 @@ class AppLocalizationsJa extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$total 件中 $done 件完了';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      '圧縮によりサイズが増加するため、元のファイルが自動的に保持されました。';
+
+  @override
+  String get retryFileTooltip => 'このファイルの処理を再試行';
+
+  @override
+  String get pauseBtn => '一時停止';
+
+  @override
+  String get resumeBtn => '再開';
+
+  @override
+  String get pausingBtn => '一時停止中...';
+
+  @override
+  String get pausedLabel => '一時停止中';
+
+  @override
+  String get compareImagesTooltip => '前後の比較';
+
+  @override
+  String get compareImagesTitle => '圧縮前後の画像比較';
+
+  @override
+  String get originalLabel => 'オリジナル';
+
+  @override
+  String get compressedLabel => '圧縮後';
+
+  @override
+  String get dragToCompare => 'スライダーをドラッグして比較';
+
+  @override
+  String get resetZoomTooltip => 'ズームをリセット';
+
+  @override
+  String get imageFilesNotFound => '比較する画像ファイルがディスク上に見つかりませんでした。';
 }

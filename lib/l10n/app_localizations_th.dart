@@ -1129,4 +1129,45 @@ class AppLocalizationsTh extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return 'เสร็จแล้ว $done จาก $total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'คงไฟล์ต้นฉบับไว้โดยอัตโนมัติเนื่องจากการบีบอัดจะทำให้ขนาดไฟล์เพิ่มขึ้น';
+
+  @override
+  String get retryFileTooltip => 'ลองประมวลผลไฟล์นี้ใหม่อีกครั้ง';
+
+  @override
+  String get pauseBtn => 'พักชั่วคราว';
+
+  @override
+  String get resumeBtn => 'ดำเนินการต่อ';
+
+  @override
+  String get pausingBtn => 'กำลังพัก...';
+
+  @override
+  String get pausedLabel => 'หยุดชั่วคราว';
+
+  @override
+  String get compareImagesTooltip => 'เปรียบเทียบก่อนและหลัง';
+
+  @override
+  String get compareImagesTitle => 'การเปรียบเทียบรูปภาพก่อนและหลังการบีบอัด';
+
+  @override
+  String get originalLabel => 'ต้นฉบับ';
+
+  @override
+  String get compressedLabel => 'บีบอัดแล้ว';
+
+  @override
+  String get dragToCompare => 'ลากแถบเลื่อนเพื่อเปรียบเทียบ';
+
+  @override
+  String get resetZoomTooltip => 'รีเซ็ตการซูม';
+
+  @override
+  String get imageFilesNotFound =>
+      'ไม่พบไฟล์รูปภาพไฟล์ใดไฟล์หนึ่งหรือทั้งสองไฟล์บนดิสก์เพื่อทำการเปรียบเทียบ';
 }

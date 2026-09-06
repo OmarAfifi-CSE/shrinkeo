@@ -353,5 +353,18 @@
   "imageTargetProgress": "Target: {size}",
   "imageAttempt": "Pagsubok {count}",
   "imageBestResult": "Pinakamagandang resulta: {size}",
-  "queueCompleted": "Natapos ang {done} sa {total}"
+  "queueCompleted": "Natapos ang {done} sa {total}",
+  "outputPreservedOriginalTooltip": "Awtomatikong napanatili ang orihinal na file dahil magpapalaki ang compression sa laki nito.",
+  "retryFileTooltip": "Subukang muli ang pagproseso sa file na ito",
+  "pauseBtn": "I-pause",
+  "resumeBtn": "Ipagpatuloy",
+  "pausingBtn": "Pina-pause...",
+  "pausedLabel": "Naka-pause",
+  "compareImagesTooltip": "Ihambing ang Bago at Pagkatapos",
+  "compareImagesTitle": "Paghahambing ng Larawan Bago at Pagkatapos ng Compression",
+  "originalLabel": "Orihinal",
+  "compressedLabel": "Na-compress",
+  "dragToCompare": "I-drag ang slider upang ihambing",
+  "resetZoomTooltip": "I-reset ang Zoom",
+  "imageFilesNotFound": "Hindi mahanap ang isa o parehong image file sa disk para sa paghahambing."
 }

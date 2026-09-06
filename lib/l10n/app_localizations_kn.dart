@@ -1135,4 +1135,45 @@ class AppLocalizationsKn extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$total ರಲ್ಲಿ $done ಪೂರ್ಣಗೊಂಡಿವೆ';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'ಸಂಕೋಚನವು ಗಾತ್ರವನ್ನು ಹೆಚ್ಚಿಸುವುದರಿಂದ ಮೂಲ ಫೈಲ್ ಅನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಉಳಿಸಲಾಗಿದೆ.';
+
+  @override
+  String get retryFileTooltip => 'ಈ ಫೈಲ್ ಅನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸಲು ಮರುಪ್ರಯತ್ನಿಸಿ';
+
+  @override
+  String get pauseBtn => 'ವಿರಾಮಗೊಳಿಸಿ';
+
+  @override
+  String get resumeBtn => 'ಮುಂದುವರಿಸಿ';
+
+  @override
+  String get pausingBtn => 'ವಿರಾಮಗೊಳಿಸಲಾಗುತ್ತಿದೆ...';
+
+  @override
+  String get pausedLabel => 'ವಿರಾಮಗೊಳಿಸಲಾಗಿದೆ';
+
+  @override
+  String get compareImagesTooltip => 'ಮೊದಲು ಮತ್ತು ನಂತರ ಹೋಲಿಕೆ ಮಾಡಿ';
+
+  @override
+  String get compareImagesTitle => 'ಸಂಕೋಚನದ ಮೊದಲು ಮತ್ತು ನಂತರ ಚಿತ್ರ ಹೋಲಿಕೆ';
+
+  @override
+  String get originalLabel => 'ಮೂಲ';
+
+  @override
+  String get compressedLabel => 'ಸಂಕೋಚಿತ';
+
+  @override
+  String get dragToCompare => 'ಹೋಲಿಸಲು ಸ್ಲೈಡರ್ ಅನ್ನು ಎಳೆಯಿರಿ';
+
+  @override
+  String get resetZoomTooltip => 'ಜೂಮ್ ಮರುಹೊಂದಿಸಿ';
+
+  @override
+  String get imageFilesNotFound =>
+      'ಹೋಲಿಕೆಗಾಗಿ ಡಿಸ್ಕ್‌ನಲ್ಲಿ ಒಂದು ಅಥವಾ ಎರಡೂ ಚಿತ್ರ ಫೈಲ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.';
 }

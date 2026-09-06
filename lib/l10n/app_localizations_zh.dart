@@ -980,7 +980,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get imgRes720pDesc => '将图像最大尺寸缩小至 1280 像素（最大高清）。';
 
   @override
-  String get imgRes480pLabel => 'SD Max (854px)';
+  String get imgRes480pLabel => 'SD 最大 (854 像素)';
 
   @override
   String get imgRes480pDesc => '将图像最大尺寸缩小至 854 像素（SD 最大）。';
@@ -1104,4 +1104,43 @@ class AppLocalizationsZh extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '已完成 $done/$total';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip => '压缩会导致体积增大，已自动保留原始文件。';
+
+  @override
+  String get retryFileTooltip => '重试处理此文件';
+
+  @override
+  String get pauseBtn => '暂停';
+
+  @override
+  String get resumeBtn => '恢复';
+
+  @override
+  String get pausingBtn => '正在暂停...';
+
+  @override
+  String get pausedLabel => '已暂停';
+
+  @override
+  String get compareImagesTooltip => '前后对比';
+
+  @override
+  String get compareImagesTitle => '压缩前后图像对比';
+
+  @override
+  String get originalLabel => '原始';
+
+  @override
+  String get compressedLabel => '压缩后';
+
+  @override
+  String get dragToCompare => '拖动滑块进行对比';
+
+  @override
+  String get resetZoomTooltip => '重置缩放';
+
+  @override
+  String get imageFilesNotFound => '在磁盘上找不到用于对比的图像文件。';
 }

@@ -1124,4 +1124,45 @@ class AppLocalizationsBn extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$totalটির মধ্যে $doneটি সম্পন্ন';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'আসল ফাইলটি স্বয়ংক্রিয়ভাবে সংরক্ষিত হয়েছে কারণ কম্প্রেশনের ফলে ফাইলের আকার বৃদ্ধি পেত।';
+
+  @override
+  String get retryFileTooltip => 'এই ফাইলটি প্রক্রিয়াকরণ পুনরায় চেষ্টা করুন';
+
+  @override
+  String get pauseBtn => 'বিরতি';
+
+  @override
+  String get resumeBtn => 'পুনরায় শুরু';
+
+  @override
+  String get pausingBtn => 'বিরতি দেওয়া হচ্ছে...';
+
+  @override
+  String get pausedLabel => 'বিরতি দেওয়া হয়েছে';
+
+  @override
+  String get compareImagesTooltip => 'আগে এবং পরের তুলনা করুন';
+
+  @override
+  String get compareImagesTitle => 'কম্প্রেশনের আগে এবং পরে ছবির তুলনা';
+
+  @override
+  String get originalLabel => 'আসল';
+
+  @override
+  String get compressedLabel => 'সংকুচিত';
+
+  @override
+  String get dragToCompare => 'তুলনা করতে স্লাইডারটি টানুন';
+
+  @override
+  String get resetZoomTooltip => 'জুম রিসেট করুন';
+
+  @override
+  String get imageFilesNotFound =>
+      'তুলনা করার জন্য ডিস্কে এক বা উভয় ছবির ফাইল পাওয়া যায়নি।';
 }

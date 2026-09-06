@@ -353,5 +353,18 @@
   "imageTargetProgress": "લક્ષ્ય: {size}",
   "imageAttempt": "પ્રયાસ {count}",
   "imageBestResult": "શ્રેષ્ઠ પરિણામ: {size}",
-  "queueCompleted": "{total}માંથી {done} પૂર્ણ"
+  "queueCompleted": "{total}માંથી {done} પૂર્ણ",
+  "outputPreservedOriginalTooltip": "કમ્પ્રેશનથી કદ વધી ગયું હોત તેથી મૂળ ફાઇલ આપમેળે સાચવવામાં આવી.",
+  "retryFileTooltip": "આ ફાઇલ પર પ્રક્રિયા કરવાનો ફરી પ્રયાસ કરો",
+  "pauseBtn": "થોભાવો",
+  "resumeBtn": "ફરી શરૂ કરો",
+  "pausingBtn": "થોભાવી રહ્યું છે...",
+  "pausedLabel": "થોભાવેલું",
+  "compareImagesTooltip": "પહેલાં અને પછી સરખામણી કરો",
+  "compareImagesTitle": "કમ્પ્રેશન પહેલાં અને પછી છબીની સરખામણી",
+  "originalLabel": "મૂળ",
+  "compressedLabel": "સંકુચિત",
+  "dragToCompare": "સરખામણી કરવા સ્લાઇડર ખેંચો",
+  "resetZoomTooltip": "ઝૂમ ફરીથી સેટ કરો",
+  "imageFilesNotFound": "સરખામણી માટે ડિસ્ક પર એક અથવા બંને છબી ફાઇલો મળી શકી નથી."
 }

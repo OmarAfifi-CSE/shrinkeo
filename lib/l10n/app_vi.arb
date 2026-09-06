@@ -353,5 +353,18 @@
   "imageTargetProgress": "Mục tiêu: {size}",
   "imageAttempt": "Lần thử {count}",
   "imageBestResult": "Kết quả tốt nhất: {size}",
-  "queueCompleted": "Đã hoàn thành {done}/{total}"
+  "queueCompleted": "Đã hoàn thành {done}/{total}",
+  "outputPreservedOriginalTooltip": "Tệp gốc được giữ tự động vì nén sẽ làm tăng kích thước.",
+  "retryFileTooltip": "Thử lại xử lý tệp này",
+  "pauseBtn": "Tạm dừng",
+  "resumeBtn": "Tiếp tục",
+  "pausingBtn": "Đang tạm dừng...",
+  "pausedLabel": "Đã tạm dừng",
+  "compareImagesTooltip": "So sánh trước và sau",
+  "compareImagesTitle": "So sánh hình ảnh trước và sau khi nén",
+  "originalLabel": "Bản gốc",
+  "compressedLabel": "Đã nén",
+  "dragToCompare": "Kéo thanh trượt để so sánh",
+  "resetZoomTooltip": "Đặt lại thu phóng",
+  "imageFilesNotFound": "Không thể tìm thấy một hoặc cả hai tệp hình ảnh trên đĩa để so sánh."
 }

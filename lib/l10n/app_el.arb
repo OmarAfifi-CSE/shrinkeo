@@ -353,5 +353,18 @@
   "imageTargetProgress": "Στόχος: {size}",
   "imageAttempt": "Προσπάθεια {count}",
   "imageBestResult": "Καλύτερο αποτέλεσμα: {size}",
-  "queueCompleted": "Ολοκληρώθηκαν {done} από {total}"
+  "queueCompleted": "Ολοκληρώθηκαν {done} από {total}",
+  "outputPreservedOriginalTooltip": "Το αρχικό αρχείο διατηρήθηκε αυτόματα επειδή η συμπίεση θα αύξανε το μέγεθός του.",
+  "retryFileTooltip": "Επανάληψη επεξεργασίας αυτού του αρχείου",
+  "pauseBtn": "Παύση",
+  "resumeBtn": "Συνέχιση",
+  "pausingBtn": "Σε παύση...",
+  "pausedLabel": "Σε παύση",
+  "compareImagesTooltip": "Σύγκριση πριν και μετά",
+  "compareImagesTitle": "Σύγκριση εικόνας πριν και μετά τη συμπίεση",
+  "originalLabel": "Αρχικό",
+  "compressedLabel": "Συμπιεσμένο",
+  "dragToCompare": "Σύρετε το ρυθμιστικό για σύγκριση",
+  "resetZoomTooltip": "Επαναφορά εστίασης",
+  "imageFilesNotFound": "Δεν βρέθηκε ένα ή και τα δύο αρχεία εικόνας στον δίσκο για σύγκριση."
 }

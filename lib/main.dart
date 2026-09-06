@@ -88,6 +88,8 @@ class ShrinkeoApp extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: state.themeMode,
+            themeAnimationDuration: const Duration(milliseconds: 350),
+            themeAnimationCurve: Curves.easeInOutCubic,
             locale: Locale(state.languageCode),
             builder: (context, child) {
               AppStrings.setContext(context);

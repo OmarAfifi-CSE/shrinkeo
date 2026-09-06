@@ -353,5 +353,18 @@
   "imageTargetProgress": "هدف: {size}",
   "imageAttempt": "تلاش {count}",
   "imageBestResult": "بهترین نتیجه: {size}",
-  "queueCompleted": "{done} از {total} تکمیل شد"
+  "queueCompleted": "{done} از {total} تکمیل شد",
+  "outputPreservedOriginalTooltip": "فایل اصلی به‌طور خودکار حفظ شد زیرا فشرده‌سازی باعث افزایش اندازه آن می‌شد.",
+  "retryFileTooltip": "تلاش مجدد برای پردازش این فایل",
+  "pauseBtn": "مکث",
+  "resumeBtn": "ادامه",
+  "pausingBtn": "در حال مکث...",
+  "pausedLabel": "متوقف شده",
+  "compareImagesTooltip": "مقایسه قبل و بعد",
+  "compareImagesTitle": "مقایسه تصویر قبل و بعد از فشرده‌سازی",
+  "originalLabel": "اصلی",
+  "compressedLabel": "فشرده شده",
+  "dragToCompare": "برای مقایسه نشانگر را بکشید",
+  "resetZoomTooltip": "تنظیم مجدد بزرگ‌نمایی",
+  "imageFilesNotFound": "یک یا هر دو فایل تصویر برای مقایسه روی دیسک پیدا نشد."
 }

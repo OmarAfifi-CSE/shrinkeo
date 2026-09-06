@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../app_colors.dart';
+import 'smooth_button.dart';
 
 /// Animated drop zone for dragging and dropping video files and folders.
 ///
@@ -192,10 +193,13 @@ class _PickButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onTap,
-      icon: Icon(icon, size: 16),
-      label: Text(label),
+    return SmoothButton(
+      enableHoverScale: true,
+      child: OutlinedButton.icon(
+        onPressed: onTap,
+        icon: Icon(icon, size: 16),
+        label: Text(label),
+      ),
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:window_manager/window_manager.dart';
 import '../../services/desktop_integration_service.dart';
 
 import '../../core/app_strings.dart';
+import '../../models/file_item.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../widgets/aurora_background.dart';
@@ -237,6 +238,15 @@ class _HomeScreenState extends State<HomeScreen>
   StreamSubscription<List<String>>? _externalFilesSubscription;
   final ScrollController _scrollController = ScrollController();
 
+  static bool _areVideoIdsEqual(List<VideoFile> a, List<VideoFile> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i].id != b[i].id) return false;
+    }
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -357,6 +367,13 @@ class _HomeScreenState extends State<HomeScreen>
                                   child: SettingsPanel(),
                                 ),
                                 BlocBuilder<CompressionCubit, CompressionState>(
+                                  buildWhen: (prev, curr) =>
+                                      prev.videos.isEmpty != curr.videos.isEmpty ||
+                                      prev.videos.length != curr.videos.length ||
+                                      prev.isScanningFiles != curr.isScanningFiles ||
+                                      prev.isDragHovering != curr.isDragHovering ||
+                                      prev.isProcessing != curr.isProcessing ||
+                                      !_areVideoIdsEqual(prev.videos, curr.videos),
                                   builder: (context, state) {
                                     if (state.videos.isEmpty) {
                                       return SliverFillRemaining(
@@ -368,8 +385,9 @@ class _HomeScreenState extends State<HomeScreen>
                                         ),
                                       );
                                     }
-                                    return SliverToBoxAdapter(
-                                      child: VideoQueueView(state: state),
+                                    return VideoQueueView(
+                                      state: state,
+                                      asSliver: true,
                                     );
                                   },
                                 ),
@@ -377,6 +395,20 @@ class _HomeScreenState extends State<HomeScreen>
                             ),
                           ),
                           BlocBuilder<CompressionCubit, CompressionState>(
+                            buildWhen: (prev, curr) =>
+                                prev.videos.isEmpty != curr.videos.isEmpty ||
+                                prev.videos.length != curr.videos.length ||
+                                prev.isProcessing != curr.isProcessing ||
+                                prev.isPaused != curr.isPaused ||
+                                prev.isPauseRequested != curr.isPauseRequested ||
+                                prev.canResume != curr.canResume ||
+                                prev.canStart != curr.canStart ||
+                                prev.phase != curr.phase ||
+                                prev.successCount != curr.successCount ||
+                                prev.failedCount != curr.failedCount ||
+                                prev.globalSavedBytes != curr.globalSavedBytes ||
+                                prev.outputLocationMode != curr.outputLocationMode ||
+                                prev.outputFolderPath != curr.outputFolderPath,
                             builder: (context, state) {
                               if (state.videos.isEmpty) {
                                 return const SizedBox.shrink();
@@ -396,13 +428,13 @@ class _HomeScreenState extends State<HomeScreen>
                 buildWhen: (prev, curr) =>
                     prev.isDragHovering != curr.isDragHovering,
                 builder: (context, state) {
+                  if (!state.isDragHovering) {
+                    return const SizedBox.shrink();
+                  }
                   final theme = Theme.of(context);
                   return IgnorePointer(
-                    ignoring: !state.isDragHovering,
-                    child: AnimatedOpacity(
-                      opacity: state.isDragHovering ? 1.0 : 0.0,
-                      duration: const Duration(milliseconds: 250),
-                      child: BackdropFilter(
+                    ignoring: false,
+                    child: BackdropFilter(
                         filter: dart_ui.ImageFilter.blur(
                           sigmaX: 24,
                           sigmaY: 24,
@@ -463,7 +495,6 @@ class _HomeScreenState extends State<HomeScreen>
                                 ),
                               ),
                             ),
-                          ),
                         ),
                       ),
                     ),

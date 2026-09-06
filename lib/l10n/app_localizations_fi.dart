@@ -1135,4 +1135,45 @@ class AppLocalizationsFi extends AppLocalizations {
   String queueCompleted(int done, int total) {
     return '$done/$total valmis';
   }
+
+  @override
+  String get outputPreservedOriginalTooltip =>
+      'Alkuperäinen tiedosto säilytettiin automaattisesti, koska pakkaaminen olisi suurentanut sen kokoa.';
+
+  @override
+  String get retryFileTooltip => 'Yritä tämän tiedoston käsittelyä uudelleen';
+
+  @override
+  String get pauseBtn => 'Keskeytä';
+
+  @override
+  String get resumeBtn => 'Jatka';
+
+  @override
+  String get pausingBtn => 'Keskeytetään...';
+
+  @override
+  String get pausedLabel => 'Keskeytetty';
+
+  @override
+  String get compareImagesTooltip => 'Vertaa ennen ja jälkeen';
+
+  @override
+  String get compareImagesTitle => 'Kuvan vertailu ennen ja jälkeen pakkauksen';
+
+  @override
+  String get originalLabel => 'Alkuperäinen';
+
+  @override
+  String get compressedLabel => 'Pakattu';
+
+  @override
+  String get dragToCompare => 'Vertaa vetämällä liukusäädintä';
+
+  @override
+  String get resetZoomTooltip => 'Palauta zoomaus';
+
+  @override
+  String get imageFilesNotFound =>
+      'Toista tai kumpaakaan kuvatiedostoa ei löytynyt levyltä vertailua varten.';
 }
