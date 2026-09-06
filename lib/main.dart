@@ -42,7 +42,7 @@ void main(List<String> args) async {
 
   const windowOptions = WindowOptions(
     size: Size(1080, 720),
-    minimumSize: Size(800, 533),
+    minimumSize: Size(1080, 720),
     center: true,
     titleBarStyle: TitleBarStyle.hidden,
     title: 'Shrinkeo',

@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} языков",
   "notifyCompressionCompleteSuccess": "Успешно сжато файлов: {success}.",
   "notifyCompressionCompleteFailed": " ({failed} с ошибкой)",
-  "notifyOutputLargerDesc": "Ожидается, что {fileName} будет больше оригинала. Попробуйте отменить и сбросить настройки."
+  "notifyOutputLargerDesc": "Ожидается, что {fileName} будет больше оригинала. Попробуйте отменить и сбросить настройки.",
+  "imagePreparing": "Подготовка изображения",
+  "imageEncoding": "Сжатие изображения",
+  "imageSaving": "Сохранение результата",
+  "imageTargetProgress": "Целевой размер: {size}",
+  "imageAttempt": "Попытка {count}",
+  "imageBestResult": "Лучший результат: {size}",
+  "queueCompleted": "Завершено {done} из {total}"
 }

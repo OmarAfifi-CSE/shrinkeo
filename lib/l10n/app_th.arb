@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "บีบอัด {success} ไฟล์สำเร็จ",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "กำลังเตรียมรูปภาพ",
+  "imageEncoding": "กำลังบีบอัดรูปภาพ",
+  "imageSaving": "กำลังบันทึกผลลัพธ์",
+  "imageTargetProgress": "เป้าหมาย: {size}",
+  "imageAttempt": "ครั้งที่ {count}",
+  "imageBestResult": "ผลลัพธ์ที่ดีที่สุด: {size}",
+  "queueCompleted": "เสร็จแล้ว {done} จาก {total}"
 }

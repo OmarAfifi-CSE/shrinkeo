@@ -346,5 +346,12 @@
   "notifyCompressionCompleteSuccess": "Komprimerede {success} filer med succes.",
   "notifyCompressionCompleteFailed": "({failed} mislykkedes)",
   "notifyOutputLargerTitle": "Output større end originalen",
-  "notifyOutputLargerDesc": "{fileName} forventes at være større end den originale filstørrelse. Overvej at annullere og nulstille indstillingerne til standard."
+  "notifyOutputLargerDesc": "{fileName} forventes at være større end den originale filstørrelse. Overvej at annullere og nulstille indstillingerne til standard.",
+  "imagePreparing": "Forbereder billede",
+  "imageEncoding": "Komprimerer billede",
+  "imageSaving": "Gemmer resultat",
+  "imageTargetProgress": "Mål: {size}",
+  "imageAttempt": "Forsøg {count}",
+  "imageBestResult": "Bedste resultat: {size}",
+  "queueCompleted": "{done} af {total} færdige"
 }

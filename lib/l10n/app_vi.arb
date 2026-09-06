@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Đã nén thành công {success} tệp.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Đang chuẩn bị ảnh",
+  "imageEncoding": "Đang nén ảnh",
+  "imageSaving": "Đang lưu kết quả",
+  "imageTargetProgress": "Mục tiêu: {size}",
+  "imageAttempt": "Lần thử {count}",
+  "imageBestResult": "Kết quả tốt nhất: {size}",
+  "queueCompleted": "Đã hoàn thành {done}/{total}"
 }

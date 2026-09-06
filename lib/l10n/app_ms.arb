@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Berjaya memampatkan {success} fail.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Menyediakan imej",
+  "imageEncoding": "Memampatkan imej",
+  "imageSaving": "Menyimpan hasil",
+  "imageTargetProgress": "Sasaran: {size}",
+  "imageAttempt": "Percubaan {count}",
+  "imageBestResult": "Hasil terbaik: {size}",
+  "queueCompleted": "Selesai {done} daripada {total}"
 }

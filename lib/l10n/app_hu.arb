@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} fájl sikeresen tömörítve.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Kép előkészítése",
+  "imageEncoding": "Kép tömörítése",
+  "imageSaving": "Eredmény mentése",
+  "imageTargetProgress": "Cél: {size}",
+  "imageAttempt": "{count}. próbálkozás",
+  "imageBestResult": "Legjobb eredmény: {size}",
+  "queueCompleted": "{done} / {total} kész"
 }

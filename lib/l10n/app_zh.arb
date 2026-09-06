@@ -345,5 +345,12 @@
   "imageTargetSizeLimitLabel": "限制 {size}",
   "customKbSizeTooltip": "输入自定义 KB 大小",
   "imageProcessingFailedError": "图像处理失败",
-  "imageProcessingErrorMsg": "图像处理错误"
+  "imageProcessingErrorMsg": "图像处理错误",
+  "imagePreparing": "正在准备图片",
+  "imageEncoding": "正在压缩图片",
+  "imageSaving": "正在保存结果",
+  "imageTargetProgress": "目标：{size}",
+  "imageAttempt": "第 {count} 次尝试",
+  "imageBestResult": "最佳结果：{size}",
+  "queueCompleted": "已完成 {done}/{total}"
 }

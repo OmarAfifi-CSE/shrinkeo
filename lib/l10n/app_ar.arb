@@ -346,5 +346,12 @@
   "notifyCompressionCompleteSuccess": "تم ضغط {success} ملف بنجاح.",
   "notifyCompressionCompleteFailed": " (فشل {failed})",
   "notifyOutputLargerTitle": "الحجم الناتج أكبر من الملف الأصلي",
-  "notifyOutputLargerDesc": "من المتوقع أن يكون {fileName} أكبر من حجم الملف الأصلي. يُفضل إلغاء الضغط وإعادة ضبط الإعدادات."
+  "notifyOutputLargerDesc": "من المتوقع أن يكون {fileName} أكبر من حجم الملف الأصلي. يُفضل إلغاء الضغط وإعادة ضبط الإعدادات.",
+  "imagePreparing": "جارٍ تجهيز الصورة",
+  "imageEncoding": "جارٍ ضغط الصورة",
+  "imageSaving": "جارٍ حفظ النتيجة",
+  "imageTargetProgress": "الحجم المستهدف: {size}",
+  "imageAttempt": "المحاولة {count}",
+  "imageBestResult": "أفضل نتيجة: {size}",
+  "queueCompleted": "اكتمل {done} من {total}"
 }

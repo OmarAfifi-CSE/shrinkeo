@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Успешно компресовано фајлова: {success}.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Припрема слике",
+  "imageEncoding": "Компресовање слике",
+  "imageSaving": "Чување резултата",
+  "imageTargetProgress": "Циљ: {size}",
+  "imageAttempt": "Покушај {count}",
+  "imageBestResult": "Најбољи резултат: {size}",
+  "queueCompleted": "Завршено {done} од {total}"
 }

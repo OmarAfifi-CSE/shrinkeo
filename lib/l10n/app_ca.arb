@@ -346,5 +346,12 @@
   "notifyCompressionCompleteSuccess": "S'han comprimit correctament {success} fitxers.",
   "notifyCompressionCompleteFailed": "({failed} fallat)",
   "notifyOutputLargerTitle": "Sortida més gran que l'original",
-  "notifyOutputLargerDesc": "S'espera que {fileName} sigui més gran que la mida del fitxer original. Considereu la possibilitat de cancel·lar i restablir la configuració per defecte."
+  "notifyOutputLargerDesc": "S'espera que {fileName} sigui més gran que la mida del fitxer original. Considereu la possibilitat de cancel·lar i restablir la configuració per defecte.",
+  "imagePreparing": "Preparant la imatge",
+  "imageEncoding": "Comprimint la imatge",
+  "imageSaving": "Desant el resultat",
+  "imageTargetProgress": "Objectiu: {size}",
+  "imageAttempt": "Intent {count}",
+  "imageBestResult": "Millor resultat: {size}",
+  "queueCompleted": "Completats {done} de {total}"
 }

@@ -1077,4 +1077,33 @@ class AppLocalizationsKo extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName이(가) 원본보다 커질 것으로 예상됩니다. 취소하고 재설정하는 것을 고려하세요.';
   }
+
+  @override
+  String get imagePreparing => '이미지 준비 중';
+
+  @override
+  String get imageEncoding => '이미지 압축 중';
+
+  @override
+  String get imageSaving => '결과 저장 중';
+
+  @override
+  String imageTargetProgress(String size) {
+    return '목표: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return '시도 $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return '최상의 결과: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$total개 중 $done개 완료';
+  }
 }

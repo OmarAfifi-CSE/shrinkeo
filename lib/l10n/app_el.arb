@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} γλώσσες",
   "notifyCompressionCompleteSuccess": "Επιτυχής συμπίεση {success} αρχείων.",
   "notifyCompressionCompleteFailed": "({failed} απέτυχε)",
-  "notifyOutputLargerDesc": "Το {fileName} αναμένεται να είναι μεγαλύτερο από το αρχικό μέγεθος αρχείου. Εξετάστε το ενδεχόμενο να ακυρώσετε και να επαναφέρετε τις ρυθμίσεις στις προεπιλογές."
+  "notifyOutputLargerDesc": "Το {fileName} αναμένεται να είναι μεγαλύτερο από το αρχικό μέγεθος αρχείου. Εξετάστε το ενδεχόμενο να ακυρώσετε και να επαναφέρετε τις ρυθμίσεις στις προεπιλογές.",
+  "imagePreparing": "Προετοιμασία εικόνας",
+  "imageEncoding": "Συμπίεση εικόνας",
+  "imageSaving": "Αποθήκευση αποτελέσματος",
+  "imageTargetProgress": "Στόχος: {size}",
+  "imageAttempt": "Προσπάθεια {count}",
+  "imageBestResult": "Καλύτερο αποτέλεσμα: {size}",
+  "queueCompleted": "Ολοκληρώθηκαν {done} από {total}"
 }

@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} idiomas",
   "notifyCompressionCompleteSuccess": "{success} arquivos comprimidos com sucesso.",
   "notifyCompressionCompleteFailed": " ({failed} com falha)",
-  "notifyOutputLargerDesc": "Espera-se que {fileName} seja maior que o original. Considere cancelar e redefinir."
+  "notifyOutputLargerDesc": "Espera-se que {fileName} seja maior que o original. Considere cancelar e redefinir.",
+  "imagePreparing": "Preparando imagem",
+  "imageEncoding": "Comprimindo imagem",
+  "imageSaving": "Salvando resultado",
+  "imageTargetProgress": "Meta: {size}",
+  "imageAttempt": "Tentativa {count}",
+  "imageBestResult": "Melhor resultado: {size}",
+  "queueCompleted": "Concluídos {done} de {total}"
 }

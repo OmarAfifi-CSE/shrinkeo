@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} கோப்புகள் வெற்றிகரமாக சுருக்கப்பட்டன.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "படம் தயாராகிறது",
+  "imageEncoding": "படம் சுருக்கப்படுகிறது",
+  "imageSaving": "முடிவு சேமிக்கப்படுகிறது",
+  "imageTargetProgress": "இலக்கு: {size}",
+  "imageAttempt": "முயற்சி {count}",
+  "imageBestResult": "சிறந்த முடிவு: {size}",
+  "queueCompleted": "{total} இல் {done} முடிந்தது"
 }

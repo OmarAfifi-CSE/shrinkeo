@@ -1075,4 +1075,33 @@ class AppLocalizationsZh extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName 预计将大于原始文件大小。考虑取消并将设置重置为默认值。';
   }
+
+  @override
+  String get imagePreparing => '正在准备图片';
+
+  @override
+  String get imageEncoding => '正在压缩图片';
+
+  @override
+  String get imageSaving => '正在保存结果';
+
+  @override
+  String imageTargetProgress(String size) {
+    return '目标：$size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return '第 $count 次尝试';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return '最佳结果：$size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '已完成 $done/$total';
+  }
 }

@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} ಫೈಲ್‌ಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಂಕುಚಿಸಲಾಗಿದೆ.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "ಚಿತ್ರ ಸಿದ್ಧವಾಗುತ್ತಿದೆ",
+  "imageEncoding": "ಚಿತ್ರ ಸಂಕುಚಿತವಾಗುತ್ತಿದೆ",
+  "imageSaving": "ಫಲಿತಾಂಶ ಉಳಿಸಲಾಗುತ್ತಿದೆ",
+  "imageTargetProgress": "ಗುರಿ: {size}",
+  "imageAttempt": "ಪ್ರಯತ್ನ {count}",
+  "imageBestResult": "ಅತ್ಯುತ್ತಮ ಫಲಿತಾಂಶ: {size}",
+  "queueCompleted": "{total} ರಲ್ಲಿ {done} ಪೂರ್ಣಗೊಂಡಿವೆ"
 }

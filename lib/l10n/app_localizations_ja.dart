@@ -1076,4 +1076,33 @@ class AppLocalizationsJa extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName は元のファイルサイズより大きくなる見込みです。キャンセルして設定をデフォルトに戻すことを検討してください。';
   }
+
+  @override
+  String get imagePreparing => '画像を準備中';
+
+  @override
+  String get imageEncoding => '画像を圧縮中';
+
+  @override
+  String get imageSaving => '結果を保存中';
+
+  @override
+  String imageTargetProgress(String size) {
+    return '目標：$size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return '試行 $count 回目';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return '最良の結果：$size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$total 件中 $done 件完了';
+  }
 }

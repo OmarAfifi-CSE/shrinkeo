@@ -346,5 +346,12 @@
   "notifyCompressionCompleteSuccess": "সফলভাবে {success} টি ফাইল কমপ্রেস করা হয়েছে।",
   "notifyCompressionCompleteFailed": "({failed} ব্যর্থ)",
   "notifyOutputLargerTitle": "আউটপুট আসল থেকে বড়",
-  "notifyOutputLargerDesc": "{fileName} মূল ফাইলের আকারের চেয়ে বড় হবে বলে আশা করা হচ্ছে। ডিফল্ট সেটিংস বাতিল এবং রিসেট বিবেচনা করুন."
+  "notifyOutputLargerDesc": "{fileName} মূল ফাইলের আকারের চেয়ে বড় হবে বলে আশা করা হচ্ছে। ডিফল্ট সেটিংস বাতিল এবং রিসেট বিবেচনা করুন.",
+  "imagePreparing": "ছবি প্রস্তুত হচ্ছে",
+  "imageEncoding": "ছবি সংকুচিত হচ্ছে",
+  "imageSaving": "ফলাফল সংরক্ষণ হচ্ছে",
+  "imageTargetProgress": "লক্ষ্য: {size}",
+  "imageAttempt": "প্রচেষ্টা {count}",
+  "imageBestResult": "সেরা ফলাফল: {size}",
+  "queueCompleted": "{total}টির মধ্যে {done}টি সম্পন্ন"
 }

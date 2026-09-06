@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Komprimerade {success} filer.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Förbereder bild",
+  "imageEncoding": "Komprimerar bild",
+  "imageSaving": "Sparar resultat",
+  "imageTargetProgress": "Mål: {size}",
+  "imageAttempt": "Försök {count}",
+  "imageBestResult": "Bästa resultat: {size}",
+  "queueCompleted": "{done} av {total} klara"
 }

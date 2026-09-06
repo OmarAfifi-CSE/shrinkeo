@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} bestanden succesvol gecomprimeerd.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Afbeelding voorbereiden",
+  "imageEncoding": "Afbeelding comprimeren",
+  "imageSaving": "Resultaat opslaan",
+  "imageTargetProgress": "Doel: {size}",
+  "imageAttempt": "Poging {count}",
+  "imageBestResult": "Beste resultaat: {size}",
+  "queueCompleted": "{done} van {total} voltooid"
 }

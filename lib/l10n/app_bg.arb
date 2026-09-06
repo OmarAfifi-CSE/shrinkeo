@@ -346,5 +346,12 @@
   "notifyCompressionCompleteSuccess": "Успешно компресирани файлове: {success}.",
   "notifyCompressionCompleteFailed": "({failed} неуспешен)",
   "notifyOutputLargerTitle": "Изходът е по-голям от оригинала",
-  "notifyOutputLargerDesc": "{fileName} се очаква да бъде по-голям от оригиналния размер на файла. Помислете за отмяна и нулиране на настройките по подразбиране."
+  "notifyOutputLargerDesc": "{fileName} се очаква да бъде по-голям от оригиналния размер на файла. Помислете за отмяна и нулиране на настройките по подразбиране.",
+  "imagePreparing": "Подготовка на изображението",
+  "imageEncoding": "Компресиране на изображението",
+  "imageSaving": "Запазване на резултата",
+  "imageTargetProgress": "Цел: {size}",
+  "imageAttempt": "Опит {count}",
+  "imageBestResult": "Най-добър резултат: {size}",
+  "queueCompleted": "Завършени {done} от {total}"
 }

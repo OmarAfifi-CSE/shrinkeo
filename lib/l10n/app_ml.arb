@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} ഫയലുകൾ വിജയകരമായി കംപ്രസ് ചെയ്തു.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "ചിത്രം തയ്യാറാക്കുന്നു",
+  "imageEncoding": "ചിത്രം കംപ്രസ് ചെയ്യുന്നു",
+  "imageSaving": "ഫലം സംരക്ഷിക്കുന്നു",
+  "imageTargetProgress": "ലക്ഷ്യം: {size}",
+  "imageAttempt": "ശ്രമം {count}",
+  "imageBestResult": "മികച്ച ഫലം: {size}",
+  "queueCompleted": "{total} ൽ {done} പൂർത്തിയായി"
 }

@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} ఫైల్‌లను విజయవంతంగా కుదించారు.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "చిత్రం సిద్ధమవుతోంది",
+  "imageEncoding": "చిత్రం కుదించబడుతోంది",
+  "imageSaving": "ఫలితం సేవ్ అవుతోంది",
+  "imageTargetProgress": "లక్ష్యం: {size}",
+  "imageAttempt": "ప్రయత్నం {count}",
+  "imageBestResult": "ఉత్తమ ఫలితం: {size}",
+  "queueCompleted": "{total}లో {done} పూర్తయ్యాయి"
 }

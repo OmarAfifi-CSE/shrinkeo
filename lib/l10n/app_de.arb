@@ -346,5 +346,12 @@
   "notifyCompressionCompleteSuccess": "{success} Dateien erfolgreich komprimiert.",
   "notifyCompressionCompleteFailed": " ({failed} fehlgeschlagen)",
   "notifyOutputLargerTitle": "Ausgabe größer als Original",
-  "notifyOutputLargerDesc": "Es wird erwartet, dass {fileName} größer als das Original ist. Erwägen Sie einen Abbruch und das Zurücksetzen."
+  "notifyOutputLargerDesc": "Es wird erwartet, dass {fileName} größer als das Original ist. Erwägen Sie einen Abbruch und das Zurücksetzen.",
+  "imagePreparing": "Bild wird vorbereitet",
+  "imageEncoding": "Bild wird komprimiert",
+  "imageSaving": "Ergebnis wird gespeichert",
+  "imageTargetProgress": "Ziel: {size}",
+  "imageAttempt": "Versuch {count}",
+  "imageBestResult": "Bestes Ergebnis: {size}",
+  "queueCompleted": "{done} von {total} abgeschlossen"
 }

@@ -1105,4 +1105,33 @@ class AppLocalizationsTr extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName dosyasının orijinalden büyük olması bekleniyor. İptal edip sıfırlamayı düşünün.';
   }
+
+  @override
+  String get imagePreparing => 'Görüntü hazırlanıyor';
+
+  @override
+  String get imageEncoding => 'Görüntü sıkıştırılıyor';
+
+  @override
+  String get imageSaving => 'Sonuç kaydediliyor';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Hedef: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Deneme $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'En iyi sonuç: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$total öğeden $done tamamlandı';
+  }
 }

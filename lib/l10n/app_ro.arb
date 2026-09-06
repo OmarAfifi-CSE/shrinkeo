@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} fișiere comprimate cu succes.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Se pregătește imaginea",
+  "imageEncoding": "Se comprimă imaginea",
+  "imageSaving": "Se salvează rezultatul",
+  "imageTargetProgress": "Țintă: {size}",
+  "imageAttempt": "Încercarea {count}",
+  "imageBestResult": "Cel mai bun rezultat: {size}",
+  "queueCompleted": "Finalizate {done} din {total}"
 }

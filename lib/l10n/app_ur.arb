@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} فائلیں کامیابی سے کمپریس ہوئیں۔",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "تصویر تیار ہو رہی ہے",
+  "imageEncoding": "تصویر کمپریس ہو رہی ہے",
+  "imageSaving": "نتیجہ محفوظ ہو رہا ہے",
+  "imageTargetProgress": "ہدف: {size}",
+  "imageAttempt": "کوشش {count}",
+  "imageBestResult": "بہترین نتیجہ: {size}",
+  "queueCompleted": "{total} میں سے {done} مکمل"
 }

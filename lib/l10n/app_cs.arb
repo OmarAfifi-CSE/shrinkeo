@@ -346,5 +346,12 @@
   "notifyCompressionCompleteSuccess": "Úspěšně komprimováno {success} souborů.",
   "notifyCompressionCompleteFailed": "({failed} neúspěšný)",
   "notifyOutputLargerTitle": "Výstup větší než originál",
-  "notifyOutputLargerDesc": "Očekává se, že {fileName} bude větší než původní velikost souboru. Zvažte zrušení a resetování nastavení na výchozí."
+  "notifyOutputLargerDesc": "Očekává se, že {fileName} bude větší než původní velikost souboru. Zvažte zrušení a resetování nastavení na výchozí.",
+  "imagePreparing": "Příprava obrázku",
+  "imageEncoding": "Komprese obrázku",
+  "imageSaving": "Ukládání výsledku",
+  "imageTargetProgress": "Cíl: {size}",
+  "imageAttempt": "Pokus {count}",
+  "imageBestResult": "Nejlepší výsledek: {size}",
+  "queueCompleted": "Dokončeno {done} z {total}"
 }

@@ -1106,4 +1106,33 @@ class AppLocalizationsFi extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName:n odotetaan olevan suurempi kuin alkuperäinen tiedostokoko. Harkitse asetusten peruuttamista ja palauttamista oletusasetuksiin.';
   }
+
+  @override
+  String get imagePreparing => 'Valmistellaan kuvaa';
+
+  @override
+  String get imageEncoding => 'Pakataan kuvaa';
+
+  @override
+  String get imageSaving => 'Tallennetaan tulosta';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Tavoite: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Yritys $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Paras tulos: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$done/$total valmis';
+  }
 }

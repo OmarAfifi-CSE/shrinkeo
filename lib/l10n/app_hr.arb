@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Uspješno komprimirano datoteka: {success}.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Priprema slike",
+  "imageEncoding": "Komprimiranje slike",
+  "imageSaving": "Spremanje rezultata",
+  "imageTargetProgress": "Cilj: {size}",
+  "imageAttempt": "Pokušaj {count}",
+  "imageBestResult": "Najbolji rezultat: {size}",
+  "queueCompleted": "Dovršeno {done} od {total}"
 }

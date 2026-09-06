@@ -7,6 +7,8 @@ import 'package:path/path.dart' as p;
 import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../models/video_file.dart';
+import '../../models/image_progress.dart';
+import 'image_progress_view.dart';
 import '../app_colors.dart';
 import 'status_chip.dart';
 
@@ -181,7 +183,9 @@ class VideoFileCard extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               child: video.status == VideoStatus.compressing
-                  ? Column(
+                  ? video.mediaType == MediaType.image
+                    ? ImageProgressView(progress: video.imageProgress ?? const ImageProgress())
+                    : Column(
                       children: [
                         const SizedBox(height: 10),
                         RepaintBoundary(
@@ -271,6 +275,7 @@ class VideoFileCard extends StatelessWidget {
 
   Widget _buildRightStatusContent(BuildContext context, ThemeData theme) {
     if (video.status == VideoStatus.compressing) {
+      if (video.mediaType == MediaType.image) return const SizedBox.shrink();
       return Row(
         key: ValueKey('compressing_${video.id}'),
         mainAxisAlignment: MainAxisAlignment.end,

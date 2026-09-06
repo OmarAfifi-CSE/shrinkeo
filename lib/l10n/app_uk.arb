@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Успішно стиснуто файли: {success}.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Підготовка зображення",
+  "imageEncoding": "Стиснення зображення",
+  "imageSaving": "Збереження результату",
+  "imageTargetProgress": "Цільовий розмір: {size}",
+  "imageAttempt": "Спроба {count}",
+  "imageBestResult": "Найкращий результат: {size}",
+  "queueCompleted": "Завершено {done} із {total}"
 }

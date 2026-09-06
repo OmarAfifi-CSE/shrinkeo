@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Imebanwa faili {success} kwa mafanikio.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Inaandaa picha",
+  "imageEncoding": "Inabana picha",
+  "imageSaving": "Inahifadhi matokeo",
+  "imageTargetProgress": "Lengo: {size}",
+  "imageAttempt": "Jaribio {count}",
+  "imageBestResult": "Matokeo bora: {size}",
+  "queueCompleted": "Imekamilisha {done} kati ya {total}"
 }

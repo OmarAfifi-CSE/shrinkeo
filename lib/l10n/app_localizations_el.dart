@@ -1109,4 +1109,33 @@ class AppLocalizationsEl extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return 'Το $fileName αναμένεται να είναι μεγαλύτερο από το αρχικό μέγεθος αρχείου. Εξετάστε το ενδεχόμενο να ακυρώσετε και να επαναφέρετε τις ρυθμίσεις στις προεπιλογές.';
   }
+
+  @override
+  String get imagePreparing => 'Προετοιμασία εικόνας';
+
+  @override
+  String get imageEncoding => 'Συμπίεση εικόνας';
+
+  @override
+  String get imageSaving => 'Αποθήκευση αποτελέσματος';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Στόχος: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Προσπάθεια $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Καλύτερο αποτέλεσμα: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Ολοκληρώθηκαν $done από $total';
+  }
 }

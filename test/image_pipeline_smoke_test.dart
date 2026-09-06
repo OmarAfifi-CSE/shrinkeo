@@ -5,6 +5,7 @@ import 'package:path/path.dart' as p;
 
 import 'package:shrinkeo/services/ffmpeg_service.dart';
 import 'package:shrinkeo/services/image_compression_service.dart';
+import 'package:shrinkeo/models/image_progress.dart';
 
 /// End-to-end smoke tests for the image pipeline, exercising the real
 /// bundled/host encoders (FFmpeg, pngquant, MozJPEG, cwebp).
@@ -70,15 +71,34 @@ void main() {
 
   test('PNG → JPEG conversion via MozJPEG succeeds and is small', () async {
     final out = p.join(tmp.path, 'conv.jpg');
+    final updates = <ImageProgress>[];
     final res = await service.processImage(
       inputPath: pngPath,
       outputPath: out,
       quality: 80,
       targetFormat: 'jpg',
+      onStatus: updates.add,
     );
     expect(res.exitCode, 0, reason: res.stderr);
     expect(File(out).existsSync(), isTrue);
     expect(sizeOf(out), lessThan(sizeOf(pngPath)));
+    final tool = File(
+      p.join(
+        Platform.environment['LOCALAPPDATA'] ?? '',
+        'Microsoft',
+        'WinGet',
+        'Links',
+        'cjpeg.exe',
+      ),
+    );
+    if (tool.existsSync()) {
+      expect(
+        updates.any((update) => update.fraction != null),
+        isTrue,
+        reason: 'MozJPEG must deliver encoder progress',
+      );
+    }
+    expect(updates.last.stage, ImageStage.saving);
   }, timeout: const Timeout(Duration(minutes: 2)));
 
   test('PNG quantization via pngquant shrinks the file', () async {
@@ -96,14 +116,32 @@ void main() {
 
   test('JPEG → WebP conversion via cwebp succeeds', () async {
     final out = p.join(tmp.path, 'conv.webp');
+    final updates = <ImageProgress>[];
     final res = await service.processImage(
       inputPath: jpgPath,
       outputPath: out,
       quality: 80,
       targetFormat: 'webp',
+      onStatus: updates.add,
     );
     expect(res.exitCode, 0, reason: res.stderr);
     expect(File(out).existsSync(), isTrue);
+    final tool = File(
+      p.join(
+        Platform.environment['LOCALAPPDATA'] ?? '',
+        'Microsoft',
+        'WinGet',
+        'Links',
+        'cwebp.exe',
+      ),
+    );
+    if (tool.existsSync()) {
+      expect(
+        updates.any((update) => update.fraction != null),
+        isTrue,
+        reason: 'WebP must deliver encoder progress',
+      );
+    }
   }, timeout: const Timeout(Duration(minutes: 2)));
 
   test('Target size mode produces output under the limit', () async {
@@ -147,11 +185,16 @@ void main() {
       quality: 80,
       targetFormat: 'jpg',
       stripExif: false, // Required for the keep-original fast path to apply.
-      targetSizeKB: 5000, // Generous limit: original must be kept byte-identical.
+      targetSizeKB:
+          5000, // Generous limit: original must be kept byte-identical.
     );
     expect(res.exitCode, 0, reason: res.stderr);
     expect(File(out).existsSync(), isTrue);
-    expect(sizeOf(out), sizeOf(small), reason: 'original should be copied as-is');
+    expect(
+      sizeOf(out),
+      sizeOf(small),
+      reason: 'original should be copied as-is',
+    );
   }, timeout: const Timeout(Duration(minutes: 2)));
 
   test('Resizing caps the maximum dimension', () async {

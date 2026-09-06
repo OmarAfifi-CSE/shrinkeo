@@ -1105,4 +1105,33 @@ class AppLocalizationsCs extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return 'Očekává se, že $fileName bude větší než původní velikost souboru. Zvažte zrušení a resetování nastavení na výchozí.';
   }
+
+  @override
+  String get imagePreparing => 'Příprava obrázku';
+
+  @override
+  String get imageEncoding => 'Komprese obrázku';
+
+  @override
+  String get imageSaving => 'Ukládání výsledku';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Cíl: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Pokus $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Nejlepší výsledek: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Dokončeno $done z $total';
+  }
 }

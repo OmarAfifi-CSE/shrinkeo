@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} kieltä",
   "notifyCompressionCompleteSuccess": "{success} tiedostoa pakattu onnistuneesti.",
   "notifyCompressionCompleteFailed": "({failed} epäonnistui)",
-  "notifyOutputLargerDesc": "{fileName}:n odotetaan olevan suurempi kuin alkuperäinen tiedostokoko. Harkitse asetusten peruuttamista ja palauttamista oletusasetuksiin."
+  "notifyOutputLargerDesc": "{fileName}:n odotetaan olevan suurempi kuin alkuperäinen tiedostokoko. Harkitse asetusten peruuttamista ja palauttamista oletusasetuksiin.",
+  "imagePreparing": "Valmistellaan kuvaa",
+  "imageEncoding": "Pakataan kuvaa",
+  "imageSaving": "Tallennetaan tulosta",
+  "imageTargetProgress": "Tavoite: {size}",
+  "imageAttempt": "Yritys {count}",
+  "imageBestResult": "Paras tulos: {size}",
+  "queueCompleted": "{done}/{total} valmis"
 }

@@ -1104,4 +1104,33 @@ class AppLocalizationsDa extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName forventes at være større end den originale filstørrelse. Overvej at annullere og nulstille indstillingerne til standard.';
   }
+
+  @override
+  String get imagePreparing => 'Forbereder billede';
+
+  @override
+  String get imageEncoding => 'Komprimerer billede';
+
+  @override
+  String get imageSaving => 'Gemmer resultat';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Mål: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Forsøg $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Bedste resultat: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$done af $total færdige';
+  }
 }

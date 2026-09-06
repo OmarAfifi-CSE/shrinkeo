@@ -1106,4 +1106,33 @@ class AppLocalizationsKn extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
   }
+
+  @override
+  String get imagePreparing => 'ಚಿತ್ರ ಸಿದ್ಧವಾಗುತ್ತಿದೆ';
+
+  @override
+  String get imageEncoding => 'ಚಿತ್ರ ಸಂಕುಚಿತವಾಗುತ್ತಿದೆ';
+
+  @override
+  String get imageSaving => 'ಫಲಿತಾಂಶ ಉಳಿಸಲಾಗುತ್ತಿದೆ';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'ಗುರಿ: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'ಪ್ರಯತ್ನ $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'ಅತ್ಯುತ್ತಮ ಫಲಿತಾಂಶ: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$total ರಲ್ಲಿ $done ಪೂರ್ಣಗೊಂಡಿವೆ';
+  }
 }

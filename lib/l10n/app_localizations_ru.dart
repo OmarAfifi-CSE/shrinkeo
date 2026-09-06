@@ -1102,4 +1102,33 @@ class AppLocalizationsRu extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return 'Ожидается, что $fileName будет больше оригинала. Попробуйте отменить и сбросить настройки.';
   }
+
+  @override
+  String get imagePreparing => 'Подготовка изображения';
+
+  @override
+  String get imageEncoding => 'Сжатие изображения';
+
+  @override
+  String get imageSaving => 'Сохранение результата';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Целевой размер: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Попытка $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Лучший результат: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Завершено $done из $total';
+  }
 }

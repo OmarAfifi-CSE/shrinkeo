@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Úspešne komprimovaných súborov: {success}.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Príprava obrázka",
+  "imageEncoding": "Kompresia obrázka",
+  "imageSaving": "Ukladanie výsledku",
+  "imageTargetProgress": "Cieľ: {size}",
+  "imageAttempt": "Pokus {count}",
+  "imageBestResult": "Najlepší výsledok: {size}",
+  "queueCompleted": "Dokončené {done} z {total}"
 }

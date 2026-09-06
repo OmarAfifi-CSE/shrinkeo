@@ -1095,4 +1095,33 @@ class AppLocalizationsBn extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName মূল ফাইলের আকারের চেয়ে বড় হবে বলে আশা করা হচ্ছে। ডিফল্ট সেটিংস বাতিল এবং রিসেট বিবেচনা করুন.';
   }
+
+  @override
+  String get imagePreparing => 'ছবি প্রস্তুত হচ্ছে';
+
+  @override
+  String get imageEncoding => 'ছবি সংকুচিত হচ্ছে';
+
+  @override
+  String get imageSaving => 'ফলাফল সংরক্ষণ হচ্ছে';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'লক্ষ্য: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'প্রচেষ্টা $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'সেরা ফলাফল: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$totalটির মধ্যে $doneটি সম্পন্ন';
+  }
 }

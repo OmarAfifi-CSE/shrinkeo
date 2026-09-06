@@ -1118,4 +1118,33 @@ class AppLocalizationsFil extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName ay inaasahang mas malaki kaysa sa orihinal na laki ng file. Pag-isipang kanselahin at i-reset ang mga setting sa default.';
   }
+
+  @override
+  String get imagePreparing => 'Inihahanda ang larawan';
+
+  @override
+  String get imageEncoding => 'Kino-compress ang larawan';
+
+  @override
+  String get imageSaving => 'Sine-save ang resulta';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Target: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Pagsubok $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Pinakamagandang resulta: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Natapos ang $done sa $total';
+  }
 }

@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "{success} फ़ाइलें सफलतापूर्वक संपीड़ित।",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "इमेज तैयार हो रही है",
+  "imageEncoding": "इमेज कंप्रेस हो रही है",
+  "imageSaving": "परिणाम सहेजा जा रहा है",
+  "imageTargetProgress": "लक्ष्य: {size}",
+  "imageAttempt": "प्रयास {count}",
+  "imageBestResult": "सर्वश्रेष्ठ परिणाम: {size}",
+  "queueCompleted": "{total} में से {done} पूरे"
 }

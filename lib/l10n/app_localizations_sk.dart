@@ -1110,4 +1110,33 @@ class AppLocalizationsSk extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
   }
+
+  @override
+  String get imagePreparing => 'Príprava obrázka';
+
+  @override
+  String get imageEncoding => 'Kompresia obrázka';
+
+  @override
+  String get imageSaving => 'Ukladanie výsledku';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Cieľ: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Pokus $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Najlepší výsledok: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Dokončené $done z $total';
+  }
 }

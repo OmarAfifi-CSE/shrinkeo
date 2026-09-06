@@ -1103,4 +1103,33 @@ class AppLocalizationsUk extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
   }
+
+  @override
+  String get imagePreparing => 'Підготовка зображення';
+
+  @override
+  String get imageEncoding => 'Стиснення зображення';
+
+  @override
+  String get imageSaving => 'Збереження результату';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Цільовий розмір: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Спроба $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Найкращий результат: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Завершено $done із $total';
+  }
 }

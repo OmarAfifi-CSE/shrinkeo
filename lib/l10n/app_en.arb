@@ -395,5 +395,43 @@
         "type": "String"
       }
     }
+  },
+  "imagePreparing": "Preparing image",
+  "imageEncoding": "Compressing image",
+  "imageSaving": "Saving result",
+  "imageTargetProgress": "Target: {size}",
+  "imageAttempt": "Attempt {count}",
+  "imageBestResult": "Best result: {size}",
+  "queueCompleted": "Completed {done} of {total}",
+  "@imageTargetProgress": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@imageAttempt": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@imageBestResult": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@queueCompleted": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   }
 }

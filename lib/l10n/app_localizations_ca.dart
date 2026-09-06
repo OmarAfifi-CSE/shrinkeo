@@ -1112,4 +1112,33 @@ class AppLocalizationsCa extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return 'S\'espera que $fileName sigui més gran que la mida del fitxer original. Considereu la possibilitat de cancel·lar i restablir la configuració per defecte.';
   }
+
+  @override
+  String get imagePreparing => 'Preparant la imatge';
+
+  @override
+  String get imageEncoding => 'Comprimint la imatge';
+
+  @override
+  String get imageSaving => 'Desant el resultat';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Objectiu: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Intent $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Millor resultat: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Completats $done de $total';
+  }
 }

@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count}개 언어",
   "notifyCompressionCompleteSuccess": "{success}개 파일을 성공적으로 압축했습니다.",
   "notifyCompressionCompleteFailed": " ({failed}개 실패)",
-  "notifyOutputLargerDesc": "{fileName}이(가) 원본보다 커질 것으로 예상됩니다. 취소하고 재설정하는 것을 고려하세요."
+  "notifyOutputLargerDesc": "{fileName}이(가) 원본보다 커질 것으로 예상됩니다. 취소하고 재설정하는 것을 고려하세요.",
+  "imagePreparing": "이미지 준비 중",
+  "imageEncoding": "이미지 압축 중",
+  "imageSaving": "결과 저장 중",
+  "imageTargetProgress": "목표: {size}",
+  "imageAttempt": "시도 {count}",
+  "imageBestResult": "최상의 결과: {size}",
+  "queueCompleted": "{total}개 중 {done}개 완료"
 }

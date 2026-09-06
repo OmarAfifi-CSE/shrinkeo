@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} ભાષાઓ",
   "notifyCompressionCompleteSuccess": "{success} ફાઇલો સફળતાપૂર્વક કમ્પ્રેસ કરી.",
   "notifyCompressionCompleteFailed": "({failed} નિષ્ફળ)",
-  "notifyOutputLargerDesc": "{fileName} મૂળ ફાઇલ કદ કરતાં મોટી હોવાની અપેક્ષા છે. સેટિંગને ડિફૉલ્ટ પર રદ કરવા અને રીસેટ કરવાનું વિચારો."
+  "notifyOutputLargerDesc": "{fileName} મૂળ ફાઇલ કદ કરતાં મોટી હોવાની અપેક્ષા છે. સેટિંગને ડિફૉલ્ટ પર રદ કરવા અને રીસેટ કરવાનું વિચારો.",
+  "imagePreparing": "છબી તૈયાર થઈ રહી છે",
+  "imageEncoding": "છબી સંકોચાઈ રહી છે",
+  "imageSaving": "પરિણામ સાચવાઈ રહ્યું છે",
+  "imageTargetProgress": "લક્ષ્ય: {size}",
+  "imageAttempt": "પ્રયાસ {count}",
+  "imageBestResult": "શ્રેષ્ઠ પરિણામ: {size}",
+  "queueCompleted": "{total}માંથી {done} પૂર્ણ"
 }

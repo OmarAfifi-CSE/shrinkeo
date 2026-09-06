@@ -1094,4 +1094,33 @@ class AppLocalizationsFa extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return 'انتظار می رود $fileName بزرگتر از اندازه فایل اصلی باشد. لغو و بازنشانی تنظیمات به حالت پیش فرض را در نظر بگیرید.';
   }
+
+  @override
+  String get imagePreparing => 'در حال آماده‌سازی تصویر';
+
+  @override
+  String get imageEncoding => 'در حال فشرده‌سازی تصویر';
+
+  @override
+  String get imageSaving => 'در حال ذخیره نتیجه';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'هدف: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'تلاش $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'بهترین نتیجه: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$done از $total تکمیل شد';
+  }
 }

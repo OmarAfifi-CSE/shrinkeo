@@ -1112,4 +1112,33 @@ class AppLocalizationsHu extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
   }
+
+  @override
+  String get imagePreparing => 'Kép előkészítése';
+
+  @override
+  String get imageEncoding => 'Kép tömörítése';
+
+  @override
+  String get imageSaving => 'Eredmény mentése';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Cél: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return '$count. próbálkozás';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Legjobb eredmény: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$done / $total kész';
+  }
 }

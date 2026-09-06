@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Dil",
   "notifyCompressionCompleteSuccess": "{success} dosya başarıyla sıkıştırıldı.",
   "notifyCompressionCompleteFailed": " ({failed} başarısız)",
-  "notifyOutputLargerDesc": "{fileName} dosyasının orijinalden büyük olması bekleniyor. İptal edip sıfırlamayı düşünün."
+  "notifyOutputLargerDesc": "{fileName} dosyasının orijinalden büyük olması bekleniyor. İptal edip sıfırlamayı düşünün.",
+  "imagePreparing": "Görüntü hazırlanıyor",
+  "imageEncoding": "Görüntü sıkıştırılıyor",
+  "imageSaving": "Sonuç kaydediliyor",
+  "imageTargetProgress": "Hedef: {size}",
+  "imageAttempt": "Deneme {count}",
+  "imageBestResult": "En iyi sonuç: {size}",
+  "queueCompleted": "{total} öğeden {done} tamamlandı"
 }

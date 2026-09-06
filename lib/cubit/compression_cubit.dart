@@ -15,6 +15,7 @@ import '../services/ffmpeg_service.dart';
 import '../services/file_scanner_service.dart';
 import '../services/output_folder_service.dart';
 import '../services/image_compression_service.dart';
+import '../models/image_progress.dart';
 import 'compression_state.dart';
 
 /// Natural sort regex — pads numeric segments for proper ordering.
@@ -39,6 +40,7 @@ class CompressionCubit extends Cubit<CompressionState> {
   final ImageCompressionService _imageCompressionService;
 
   bool _cancelRequested = false;
+  bool _workflowRunning = false;
 
   final SharedPreferences _prefs;
 
@@ -658,7 +660,16 @@ class CompressionCubit extends Cubit<CompressionState> {
   /// 3. Compresses each video sequentially using FFmpeg.
   /// 4. Updates state with progress for each video.
   Future<void> startCompression() async {
-    if (!state.canStart || state.isProcessing) return; // Prevent double-clicks
+    if (isClosed || _workflowRunning || !state.canStart || state.isProcessing) return;
+    _workflowRunning = true;
+    try {
+      await _runCompression();
+    } finally {
+      _workflowRunning = false;
+    }
+  }
+
+  Future<void> _runCompression() async {
     _cancelRequested = false;
 
     // Reset any videos that failed due to hardware encoder issues back to queued
@@ -740,7 +751,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     // Process each queued video sequentially.
     // Use a while loop to dynamically pick up any videos added DURING compression.
     while (true) {
-      if (_cancelRequested) break;
+      if (_cancelRequested || isClosed) break;
 
       final nextQueuedIndex = state.videos.indexWhere(
         (v) => v.status == VideoStatus.queued,
@@ -758,7 +769,7 @@ class CompressionCubit extends Cubit<CompressionState> {
     }
 
     // Mark as completed.
-    if (!_cancelRequested) {
+    if (!_cancelRequested && !isClosed) {
       emit(
         state.copyWith(
           phase: CompressionPhase.completed,
@@ -1182,6 +1193,8 @@ class CompressionCubit extends Cubit<CompressionState> {
     Map<String, String> resolvedOutputFolders,
   ) async {
     int getIndex() => state.videos.indexWhere((v) => v.id == videoId);
+    bool imageCancelled() => isClosed || _cancelRequested || getIndex() < 0 ||
+        state.videos[getIndex()].status == VideoStatus.cancelled;
     int initialIndex = getIndex();
     if (initialIndex < 0) return;
 
@@ -1189,12 +1202,13 @@ class CompressionCubit extends Cubit<CompressionState> {
 
     void safelyUpdateVideo(VideoFile updatedVideo, {int? globalSavedBytes}) {
       final idx = getIndex();
-      if (idx >= 0) {
+      if (idx >= 0 && !imageCancelled()) {
         _updateVideo(idx, updatedVideo, globalSavedBytes: globalSavedBytes);
       }
     }
 
-    safelyUpdateVideo(video.copyWith(status: VideoStatus.compressing, progress: 0.1));
+    safelyUpdateVideo(video.copyWith(status: VideoStatus.compressing, progress: 0,
+      imageProgress: const ImageProgress(), clearEta: true));
     emit(state.copyWith(currentIndex: getIndex(), phase: CompressionPhase.compressing));
 
     // Resolve output folder
@@ -1211,6 +1225,9 @@ class CompressionCubit extends Cubit<CompressionState> {
       }
     }
 
+    if (imageCancelled()) {
+      return;
+    }
     if (state.outputFolderPath == null || !Directory(state.outputFolderPath!).existsSync()) {
       emit(state.copyWith(outputFolderPath: outputFolder));
     }
@@ -1245,22 +1262,29 @@ class CompressionCubit extends Cubit<CompressionState> {
         maxHeight: maxDim,
         stripExif: state.stripImageExif,
         targetSizeKB: state.isImageTargetSizeMode ? state.imageTargetSizeKB : null,
-        isCancelled: () => _cancelRequested,
-        onProgress: (prog) {
-          safelyUpdateVideo(video.copyWith(progress: prog, status: VideoStatus.compressing));
+        isCancelled: imageCancelled,
+        onStatus: (progress) {
+          if (imageCancelled()) {
+            return;
+          }
+          safelyUpdateVideo(video.copyWith(imageProgress: progress, status: VideoStatus.compressing));
         },
       );
 
       // The user cancelled while processing — discard any output that was
       // still written and leave the item cancelled (set by cancelSingle /
       // cancelCompression).
-      if (_cancelRequested) {
+      if (imageCancelled()) {
         _tryDeleteFile(outputPath);
         return;
       }
 
-      if (result.exitCode == 0 && File(outputPath).existsSync()) {
+      if (result.exitCode == 0 && File(outputPath).existsSync() && File(outputPath).lengthSync() > 0) {
         final outSizeBytes = await File(outputPath).length();
+        if (imageCancelled()) {
+          _tryDeleteFile(outputPath);
+          return;
+        }
         final savedBytes = (video.fileSizeBytes - outSizeBytes).clamp(0, video.fileSizeBytes);
         final newGlobalSaved = state.globalSavedBytes + savedBytes;
         _prefs.setInt('globalSavedBytes', newGlobalSaved);
@@ -1269,6 +1293,7 @@ class CompressionCubit extends Cubit<CompressionState> {
           video.copyWith(
             status: VideoStatus.success,
             progress: 1.0,
+            clearImageProgress: true,
             outputPath: outputPath,
             outputSizeBytes: outSizeBytes,
           ),
@@ -1279,6 +1304,7 @@ class CompressionCubit extends Cubit<CompressionState> {
           await _sendToRecycleBin(video.filePath);
         }
       } else {
+        _tryDeleteFile(outputPath);
         safelyUpdateVideo(
           video.copyWith(
             status: VideoStatus.failed,
@@ -1287,6 +1313,7 @@ class CompressionCubit extends Cubit<CompressionState> {
         );
       }
     } catch (e) {
+      _tryDeleteFile(outputPath);
       safelyUpdateVideo(
         video.copyWith(
           status: VideoStatus.failed,
@@ -1381,6 +1408,11 @@ class CompressionCubit extends Cubit<CompressionState> {
 
     if (video.status == VideoStatus.compressing ||
         video.status == VideoStatus.probing) {
+      if (video.mediaType == MediaType.image) {
+        // The image job observes this state and terminates its own encoder.
+        _updateVideo(index, video.copyWith(status: VideoStatus.cancelled));
+        return;
+      }
       // Currently processing — cancel FFmpeg.
       await _ffmpegService.cancelCurrentProcess();
       

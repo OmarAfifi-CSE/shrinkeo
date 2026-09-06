@@ -2263,6 +2263,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.'**
   String notifyOutputLargerDesc(String fileName);
+
+  /// No description provided for @imagePreparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing image'**
+  String get imagePreparing;
+
+  /// No description provided for @imageEncoding.
+  ///
+  /// In en, this message translates to:
+  /// **'Compressing image'**
+  String get imageEncoding;
+
+  /// No description provided for @imageSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving result'**
+  String get imageSaving;
+
+  /// No description provided for @imageTargetProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Target: {size}'**
+  String imageTargetProgress(String size);
+
+  /// No description provided for @imageAttempt.
+  ///
+  /// In en, this message translates to:
+  /// **'Attempt {count}'**
+  String imageAttempt(int count);
+
+  /// No description provided for @imageBestResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Best result: {size}'**
+  String imageBestResult(String size);
+
+  /// No description provided for @queueCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed {done} of {total}'**
+  String queueCompleted(int done, int total);
 }
 
 class _AppLocalizationsDelegate

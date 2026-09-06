@@ -43,7 +43,7 @@ Shrinkeo provides fine-grained control over compression and encoding across five
 ### 🎬 Video Engine
 *   🎯 **Target Size (MB) & CRF Modes**: Specify an exact target size (e.g. **25 MB for Discord** or **10 MB for Email**) powered by 2-Pass VBR rate control, or visually tune quality using the **CRF (Constant Rate Factor)** slider.
 *   ⚡ **Hardware & CPU Encoding**: Harness your dedicated graphics card with **NVIDIA (NVENC)**, **AMD (AMF)**, or **Intel (QSV)** acceleration, or choose optimized **Software (CPU)** encoding.
-*   🎥 **Modern Codec Support**: Compress using **AV1**, **H.265 (HEVC)**, **H.264**, or **VP9**.
+*   🎥 **Modern Codec Support**: Compress using **AV1**, **H.265 (HEVC)**, or **H.264**.
 *   🚀 **Web-Optimized MP4 FastStart**: Automatically relocates MP4 header metadata (`-movflags +faststart`) so your exported videos stream instantly in browsers without downloading the entire file.
 *   🎬 **Quick Editing & Tools**: Export directly to **Animated GIF**, extract audio to **MP3 (320kbps)**, **AAC**, or **WAV**, trim lossless clips (`HH:MM:SS`), adjust speed (`0.5x` to `4.0x`), and auto-crop black bars.
 *   📐 **Custom Aspect Ratios & Rotation**: Apply custom ratios (e.g. `16:10`, `2:1`) with canvas padding, or rotate videos by any angle (`45°`, `90°`, `180°`, `270°`, horizontal/vertical flip).

@@ -5,6 +5,7 @@ import '../../core/app_strings.dart';
 import '../../cubit/compression_cubit.dart';
 import '../../cubit/compression_state.dart';
 import '../../models/video_file.dart';
+import '../../l10n/app_localizations.dart';
 import '../app_colors.dart';
 import 'dart:ui' as dart_ui;
 
@@ -40,9 +41,7 @@ class BottomActionBar extends StatelessWidget {
           child: Row(
             children: [
               // -- Queue Summary --
-              _QueueSummary(state: state),
-
-              const Spacer(),
+              Expanded(child: _QueueSummary(state: state)),
 
               // -- Clear Completed button --
               if (state.successCount + state.failedCount > 0 &&
@@ -179,7 +178,7 @@ class _QueueSummary extends StatelessWidget {
         : (hasImages ? AppStrings.filesPlural : AppStrings.videosPlural);
 
     int totalSavedBytes = 0;
-    if (state.phase == CompressionPhase.completed) {
+    if (hasImages || state.phase == CompressionPhase.completed) {
       for (final v in state.videos) {
         if (v.status == VideoStatus.success && v.outputSizeBytes != null) {
           final saved = v.fileSizeBytes - v.outputSizeBytes!;
@@ -199,12 +198,18 @@ class _QueueSummary extends StatelessWidget {
               Colors.grey,
         ),
         const SizedBox(width: 6),
-        Text(
-          '$total $unitLabel',
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodySmall?.color,
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
+        Flexible(
+          child: Text(
+            hasImages && (state.isProcessing || state.phase == CompressionPhase.completed)
+                ? AppLocalizations.of(context)!.queueCompleted(success, total)
+                : '$total $unitLabel',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: Theme.of(context).textTheme.bodySmall?.color,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
         if (state.isProcessing ||
@@ -232,7 +237,7 @@ class _QueueSummary extends StatelessWidget {
             ),
           ],
         ],
-        if (state.globalEta != null && state.isProcessing) ...[
+        if (!hasImages && state.globalEta != null && state.isProcessing) ...[
           const SizedBox(width: 16),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -261,7 +266,7 @@ class _QueueSummary extends StatelessWidget {
               ],
             ),
           ),
-        ] else if (state.phase == CompressionPhase.completed &&
+        ] else if ((hasImages || state.phase == CompressionPhase.completed) &&
             totalSavedBytes > 0) ...[
           const SizedBox(width: 16),
           Container(

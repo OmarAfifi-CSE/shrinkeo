@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} زبان",
   "notifyCompressionCompleteSuccess": "{success} فایل با موفقیت فشرده شد.",
   "notifyCompressionCompleteFailed": "({failed} ناموفق)",
-  "notifyOutputLargerDesc": "انتظار می رود {fileName} بزرگتر از اندازه فایل اصلی باشد. لغو و بازنشانی تنظیمات به حالت پیش فرض را در نظر بگیرید."
+  "notifyOutputLargerDesc": "انتظار می رود {fileName} بزرگتر از اندازه فایل اصلی باشد. لغو و بازنشانی تنظیمات به حالت پیش فرض را در نظر بگیرید.",
+  "imagePreparing": "در حال آماده‌سازی تصویر",
+  "imageEncoding": "در حال فشرده‌سازی تصویر",
+  "imageSaving": "در حال ذخیره نتیجه",
+  "imageTargetProgress": "هدف: {size}",
+  "imageAttempt": "تلاش {count}",
+  "imageBestResult": "بهترین نتیجه: {size}",
+  "queueCompleted": "{done} از {total} تکمیل شد"
 }

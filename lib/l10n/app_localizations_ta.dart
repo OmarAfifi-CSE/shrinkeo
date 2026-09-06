@@ -1111,4 +1111,33 @@ class AppLocalizationsTa extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
   }
+
+  @override
+  String get imagePreparing => 'படம் தயாராகிறது';
+
+  @override
+  String get imageEncoding => 'படம் சுருக்கப்படுகிறது';
+
+  @override
+  String get imageSaving => 'முடிவு சேமிக்கப்படுகிறது';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'இலக்கு: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'முயற்சி $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'சிறந்த முடிவு: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$total இல் $done முடிந்தது';
+  }
 }

@@ -1105,4 +1105,33 @@ class AppLocalizationsMs extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
   }
+
+  @override
+  String get imagePreparing => 'Menyediakan imej';
+
+  @override
+  String get imageEncoding => 'Memampatkan imej';
+
+  @override
+  String get imageSaving => 'Menyimpan hasil';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Sasaran: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Percubaan $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Hasil terbaik: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Selesai $done daripada $total';
+  }
 }

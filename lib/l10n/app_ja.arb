@@ -345,5 +345,12 @@
   "languagesCountLabel": "{count} の言語",
   "notifyCompressionCompleteSuccess": "{success} 個のファイルを圧縮しました。",
   "notifyCompressionCompleteFailed": " ({failed} 件失敗)",
-  "notifyOutputLargerDesc": "{fileName} は元のファイルサイズより大きくなる見込みです。キャンセルして設定をデフォルトに戻すことを検討してください。"
+  "notifyOutputLargerDesc": "{fileName} は元のファイルサイズより大きくなる見込みです。キャンセルして設定をデフォルトに戻すことを検討してください。",
+  "imagePreparing": "画像を準備中",
+  "imageEncoding": "画像を圧縮中",
+  "imageSaving": "結果を保存中",
+  "imageTargetProgress": "目標：{size}",
+  "imageAttempt": "試行 {count} 回目",
+  "imageBestResult": "最良の結果：{size}",
+  "queueCompleted": "{total} 件中 {done} 件完了"
 }

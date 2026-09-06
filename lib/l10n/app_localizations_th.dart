@@ -1100,4 +1100,33 @@ class AppLocalizationsTh extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
   }
+
+  @override
+  String get imagePreparing => 'กำลังเตรียมรูปภาพ';
+
+  @override
+  String get imageEncoding => 'กำลังบีบอัดรูปภาพ';
+
+  @override
+  String get imageSaving => 'กำลังบันทึกผลลัพธ์';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'เป้าหมาย: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'ครั้งที่ $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'ผลลัพธ์ที่ดีที่สุด: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'เสร็จแล้ว $done จาก $total';
+  }
 }

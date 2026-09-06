@@ -1096,4 +1096,33 @@ class AppLocalizationsGu extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName મૂળ ફાઇલ કદ કરતાં મોટી હોવાની અપેક્ષા છે. સેટિંગને ડિફૉલ્ટ પર રદ કરવા અને રીસેટ કરવાનું વિચારો.';
   }
+
+  @override
+  String get imagePreparing => 'છબી તૈયાર થઈ રહી છે';
+
+  @override
+  String get imageEncoding => 'છબી સંકોચાઈ રહી છે';
+
+  @override
+  String get imageSaving => 'પરિણામ સાચવાઈ રહ્યું છે';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'લક્ષ્ય: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'પ્રયાસ $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'શ્રેષ્ઠ પરિણામ: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return '$totalમાંથી $done પૂર્ણ';
+  }
 }

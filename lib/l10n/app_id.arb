@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Languages",
   "notifyCompressionCompleteSuccess": "Berhasil mengompres {success} file.",
   "notifyCompressionCompleteFailed": " ({failed} failed)",
-  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default."
+  "notifyOutputLargerDesc": "{fileName} is expected to be larger than the original file size. Consider cancelling and resetting settings to default.",
+  "imagePreparing": "Menyiapkan gambar",
+  "imageEncoding": "Mengompresi gambar",
+  "imageSaving": "Menyimpan hasil",
+  "imageTargetProgress": "Target: {size}",
+  "imageAttempt": "Percobaan {count}",
+  "imageBestResult": "Hasil terbaik: {size}",
+  "queueCompleted": "Selesai {done} dari {total}"
 }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'image_progress.dart';
 
 /// Type of media file (Video vs Image).
 enum MediaType { video, image }
@@ -53,6 +54,7 @@ class VideoFile extends Equatable {
 
   /// Compression progress from 0.0 to 1.0.
   final double progress;
+  final ImageProgress? imageProgress;
 
   /// Absolute path to the compressed output file.
   final String? outputPath;
@@ -96,6 +98,7 @@ class VideoFile extends Equatable {
     this.totalDuration,
     this.status = VideoStatus.queued,
     this.progress = 0.0,
+    this.imageProgress,
     this.outputPath,
     this.outputSizeBytes,
     this.currentOutputSizeBytes,
@@ -119,6 +122,8 @@ class VideoFile extends Equatable {
     Duration? totalDuration,
     VideoStatus? status,
     double? progress,
+    ImageProgress? imageProgress,
+    bool clearImageProgress = false,
     String? outputPath,
     int? outputSizeBytes,
     int? currentOutputSizeBytes,
@@ -153,6 +158,7 @@ class VideoFile extends Equatable {
           : (totalDuration ?? this.totalDuration),
       status: status ?? this.status,
       progress: progress ?? this.progress,
+      imageProgress: clearImageProgress ? null : (imageProgress ?? this.imageProgress),
       outputPath: clearOutputPath ? null : (outputPath ?? this.outputPath),
       outputSizeBytes: clearOutputSizeBytes
           ? null
@@ -229,7 +235,8 @@ class VideoFile extends Equatable {
         fileSizeBytes,
         totalDuration,
         status,
-        progress,
+    progress,
+    imageProgress,
         outputPath,
         outputSizeBytes,
         currentOutputSizeBytes,

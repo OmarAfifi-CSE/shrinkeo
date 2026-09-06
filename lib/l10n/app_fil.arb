@@ -346,5 +346,12 @@
   "languagesCountLabel": "{count} Wika",
   "notifyCompressionCompleteSuccess": "Matagumpay na na-compress ang {success} na file.",
   "notifyCompressionCompleteFailed": "({failed} ang nabigo)",
-  "notifyOutputLargerDesc": "{fileName} ay inaasahang mas malaki kaysa sa orihinal na laki ng file. Pag-isipang kanselahin at i-reset ang mga setting sa default."
+  "notifyOutputLargerDesc": "{fileName} ay inaasahang mas malaki kaysa sa orihinal na laki ng file. Pag-isipang kanselahin at i-reset ang mga setting sa default.",
+  "imagePreparing": "Inihahanda ang larawan",
+  "imageEncoding": "Kino-compress ang larawan",
+  "imageSaving": "Sine-save ang resulta",
+  "imageTargetProgress": "Target: {size}",
+  "imageAttempt": "Pagsubok {count}",
+  "imageBestResult": "Pinakamagandang resulta: {size}",
+  "queueCompleted": "Natapos ang {done} sa {total}"
 }

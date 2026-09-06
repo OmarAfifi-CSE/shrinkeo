@@ -1100,4 +1100,33 @@ class AppLocalizationsVi extends AppLocalizations {
   String notifyOutputLargerDesc(String fileName) {
     return '$fileName is expected to be larger than the original file size. Consider cancelling and resetting settings to default.';
   }
+
+  @override
+  String get imagePreparing => 'Đang chuẩn bị ảnh';
+
+  @override
+  String get imageEncoding => 'Đang nén ảnh';
+
+  @override
+  String get imageSaving => 'Đang lưu kết quả';
+
+  @override
+  String imageTargetProgress(String size) {
+    return 'Mục tiêu: $size';
+  }
+
+  @override
+  String imageAttempt(int count) {
+    return 'Lần thử $count';
+  }
+
+  @override
+  String imageBestResult(String size) {
+    return 'Kết quả tốt nhất: $size';
+  }
+
+  @override
+  String queueCompleted(int done, int total) {
+    return 'Đã hoàn thành $done/$total';
+  }
 }
