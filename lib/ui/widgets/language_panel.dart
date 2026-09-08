@@ -212,7 +212,7 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
 
             // Language Grid
             SizedBox(
-              height: 280,
+              height: 260,
               child: filteredCodes.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.all(24),
@@ -230,22 +230,28 @@ class _LanguagePanelContentState extends State<_LanguagePanelContent> {
                     )
                   : LayoutBuilder(
                       builder: (context, constraints) {
-                        // Dynamically set columns based on width
-                        int crossAxisCount = 4;
-                        if (constraints.maxWidth < 500) {
+                        // Dynamically set columns based on width (6 columns on desktop)
+                        int crossAxisCount = 6;
+                        if (constraints.maxWidth < 450) {
                           crossAxisCount = 2;
-                        } else if (constraints.maxWidth < 750) {
+                        } else if (constraints.maxWidth < 620) {
                           crossAxisCount = 3;
+                        } else if (constraints.maxWidth < 780) {
+                          crossAxisCount = 4;
                         }
 
                         return GridView.builder(
                           physics: const BouncingScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 8,
+                          ),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: crossAxisCount,
                                 mainAxisExtent: 54,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 8,
+                                mainAxisSpacing: 8,
                               ),
                           itemCount: filteredCodes.length,
                           itemBuilder: (context, index) {
@@ -350,7 +356,7 @@ class _LanguageCardState extends State<_LanguageCard> {
             curve: Curves.easeOutCubic,
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 150),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
             decoration: BoxDecoration(
               color: backgroundColor,
               borderRadius: BorderRadius.circular(12),
@@ -382,7 +388,7 @@ class _LanguageCardState extends State<_LanguageCard> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

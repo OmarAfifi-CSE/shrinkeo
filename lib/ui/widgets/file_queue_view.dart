@@ -43,9 +43,13 @@ class FileQueueView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CompressionCubit>();
-    final idToIndex = <String, int>{
-      for (int i = 0; i < state.videos.length; i++) state.videos[i].id: i,
-    };
+    // For standard queues (<= 500), precompute index map for child tracking.
+    // For massive queues (> 500), avoid allocating large hash maps on every frame.
+    final idToIndex = state.videos.length <= 500
+        ? <String, int>{
+            for (int i = 0; i < state.videos.length; i++) state.videos[i].id: i,
+          }
+        : null;
 
     if (asSliver) {
       return SliverMainAxisGroup(
@@ -54,12 +58,14 @@ class FileQueueView extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 4),
             sliver: SliverList.builder(
               itemCount: state.videos.length,
-              findChildIndexCallback: (Key key) {
-                if (key is ValueKey<String>) {
-                  return idToIndex[key.value];
-                }
-                return null;
-              },
+              findChildIndexCallback: idToIndex != null
+                  ? (Key key) {
+                      if (key is ValueKey<String>) {
+                        return idToIndex[key.value];
+                      }
+                      return null;
+                    }
+                  : null,
               itemBuilder: (context, index) {
                 final video = state.videos[index];
                 return _FileQueueItem(
@@ -87,12 +93,14 @@ class FileQueueView extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(24, 16, 24, 4),
           itemCount: state.videos.length,
-          findChildIndexCallback: (Key key) {
-            if (key is ValueKey<String>) {
-              return idToIndex[key.value];
-            }
-            return null;
-          },
+          findChildIndexCallback: idToIndex != null
+              ? (Key key) {
+                  if (key is ValueKey<String>) {
+                    return idToIndex[key.value];
+                  }
+                  return null;
+                }
+              : null,
           itemBuilder: (context, index) {
             final video = state.videos[index];
             return _FileQueueItem(
@@ -128,7 +136,15 @@ class _FileQueueItem extends StatelessWidget {
         if (index < state.videos.length && state.videos[index].id == video.id) {
           return state.videos[index];
         }
-        for (int i = 0; i < state.videos.length; i++) {
+        // Check nearby indices (+-15) first for O(1) locality
+        final len = state.videos.length;
+        final start = (index - 15).clamp(0, len);
+        final end = (index + 15).clamp(0, len);
+        for (int i = start; i < end; i++) {
+          if (state.videos[i].id == video.id) return state.videos[i];
+        }
+        // Fallback for large shifts
+        for (int i = 0; i < len; i++) {
           if (state.videos[i].id == video.id) return state.videos[i];
         }
         return video;

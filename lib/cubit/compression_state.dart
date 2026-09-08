@@ -654,6 +654,12 @@ class CompressionState extends Equatable {
   /// Whether target size mode is enabled for images.
   final bool isImageTargetSizeMode;
 
+  final int? _successCount;
+  final int? _failedCount;
+  final int? _queuedCount;
+  final bool? _hasImages;
+  final int? _queueSavedBytes;
+
   const CompressionState({
     this.videos = const [],
     this.phase = CompressionPhase.idle,
@@ -705,7 +711,16 @@ class CompressionState extends Equatable {
     this.stripImageExif = false,
     this.imageTargetSizeKB = 500.0,
     this.isImageTargetSizeMode = false,
-  });
+    int? successCount,
+    int? failedCount,
+    int? queuedCount,
+    bool? hasImages,
+    int? queueSavedBytes,
+  }) : _successCount = successCount,
+       _failedCount = failedCount,
+       _queuedCount = queuedCount,
+       _hasImages = hasImages,
+       _queueSavedBytes = queueSavedBytes;
 
   /// Creates a copy with the given fields overridden.
   CompressionState copyWith({
@@ -766,8 +781,47 @@ class CompressionState extends Equatable {
     double? imageTargetSizeKB,
     bool? isImageTargetSizeMode,
   }) {
+    int? nextSuccess;
+    int? nextFailed;
+    int? nextQueued;
+    bool? nextHasImages;
+    int? nextQueueSaved;
+
+    if (videos != null) {
+      int s = 0, f = 0, q = 0;
+      bool img = false;
+      int saved = 0;
+      for (int i = 0; i < videos.length; i++) {
+        final v = videos[i];
+        if (v.status == VideoStatus.success) {
+          s++;
+          if (v.outputSizeBytes != null) {
+            final diff = v.fileSizeBytes - v.outputSizeBytes!;
+            if (diff > 0) saved += diff;
+          }
+        } else if (v.status == VideoStatus.failed) {
+          f++;
+        } else if (v.status == VideoStatus.queued) {
+          q++;
+        }
+        if (!img && v.mediaType == MediaType.image) {
+          img = true;
+        }
+      }
+      nextSuccess = s;
+      nextFailed = f;
+      nextQueued = q;
+      nextHasImages = img;
+      nextQueueSaved = saved;
+    }
+
     return CompressionState(
       videos: videos ?? this.videos,
+      successCount: nextSuccess ?? _successCount,
+      failedCount: nextFailed ?? _failedCount,
+      queuedCount: nextQueued ?? _queuedCount,
+      hasImages: nextHasImages ?? _hasImages,
+      queueSavedBytes: nextQueueSaved ?? _queueSavedBytes,
       phase: phase ?? this.phase,
       currentIndex: currentIndex ?? this.currentIndex,
       outputFolderPath: clearOutputFolderPath
@@ -828,32 +882,52 @@ class CompressionState extends Equatable {
 
   /// Number of videos that have been successfully compressed.
   int get successCount =>
+      _successCount ??
       videos.where((v) => v.status == VideoStatus.success).length;
 
   /// Number of videos that failed compression.
   int get failedCount =>
+      _failedCount ??
       videos.where((v) => v.status == VideoStatus.failed).length;
 
   /// Number of videos still queued for processing.
   int get queuedCount =>
+      _queuedCount ??
       videos.where((v) => v.status == VideoStatus.queued).length;
 
+  /// Whether the queue contains any image items.
+  bool get hasImages =>
+      _hasImages ?? videos.any((v) => v.mediaType == MediaType.image);
+
+  /// Total bytes saved by completed files across the current active queue.
+  int get queueSavedBytes {
+    if (_queueSavedBytes != null) return _queueSavedBytes;
+    int saved = 0;
+    for (final v in videos) {
+      if (v.status == VideoStatus.success && v.outputSizeBytes != null) {
+        final s = v.fileSizeBytes - v.outputSizeBytes!;
+        if (s > 0) saved += s;
+      }
+    }
+    return saved;
+  }
+
+  /// Total bytes saved by completed files across the current queue.
+  /// Backward-compatible alias for [queueSavedBytes].
+  int get totalSavedBytes => queueSavedBytes;
+
   /// Whether compression can be started (has queued videos and is idle).
-  bool get canStart =>
-      phase == CompressionPhase.idle &&
-      videos.any((v) => v.status == VideoStatus.queued);
+  bool get canStart => phase == CompressionPhase.idle && queuedCount > 0;
 
   /// Whether the compression queue can be resumed.
   bool get canResume =>
       phase == CompressionPhase.paused &&
-      (videos.any((v) => v.status == VideoStatus.queued) ||
-       videos.any((v) => v.status == VideoStatus.compressing));
+      (queuedCount > 0 || (currentIndex >= 0 && currentIndex < videos.length));
 
   /// Whether the queue is currently paused.
   bool get isPaused =>
       phase == CompressionPhase.paused &&
-      (videos.any((v) => v.status == VideoStatus.queued) ||
-       videos.any((v) => v.status == VideoStatus.compressing));
+      (queuedCount > 0 || (currentIndex >= 0 && currentIndex < videos.length));
 
   /// Whether the compression is actively running.
   bool get isProcessing =>

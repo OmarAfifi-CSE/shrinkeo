@@ -16,20 +16,25 @@ class FileScannerService {
   Future<List<String>> scanPaths(List<String> paths) async {
     final Set<String> videoPaths = {};
 
-    for (final path in paths) {
-      try {
-        final entityType = await FileSystemEntity.type(path);
+    const chunkSize = 50;
+    for (int i = 0; i < paths.length; i += chunkSize) {
+      final chunk = paths.skip(i).take(chunkSize);
+      await Future.wait(
+        chunk.map((path) async {
+          try {
+            final entityType = await FileSystemEntity.type(path);
 
-        if (entityType == FileSystemEntityType.directory) {
-          // Recursively scan directory for video files.
-          await _scanDirectory(Directory(path), videoPaths);
-        } else if (entityType == FileSystemEntityType.file) {
-          _addIfVideo(path, videoPaths);
-        }
-        // Silently ignore links, notFound, and other entity types.
-      } catch (e) {
-        debugPrint('FileScannerService: Error scanning path "$path": $e');
-      }
+            if (entityType == FileSystemEntityType.directory) {
+              // Recursively scan directory for video files.
+              await _scanDirectory(Directory(path), videoPaths);
+            } else if (entityType == FileSystemEntityType.file) {
+              _addIfVideo(path, videoPaths);
+            }
+          } catch (e) {
+            debugPrint('FileScannerService: Error scanning path "$path": $e');
+          }
+        }),
+      );
     }
 
     return videoPaths.toList();
@@ -38,10 +43,17 @@ class FileScannerService {
   /// Recursively scans [directory] and adds valid video file paths to [results].
   Future<void> _scanDirectory(Directory directory, Set<String> results) async {
     try {
-      await for (final entity in directory.list(
-        recursive: true,
-        followLinks: false,
-      )) {
+      final stream = directory
+          .list(
+            recursive: true,
+            followLinks: false,
+          )
+          .handleError((error) {
+            // Silently skip inaccessible/restricted directories or files (e.g. $RECYCLE.BIN, System Volume Information)
+            debugPrint('FileScannerService: Skipped restricted item in "${directory.path}": $error');
+          });
+
+      await for (final entity in stream) {
         if (entity is File) {
           _addIfVideo(entity.path, results);
         }

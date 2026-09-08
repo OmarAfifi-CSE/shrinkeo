@@ -227,29 +227,14 @@ class _QueueSummary extends StatelessWidget {
     final total = state.videos.length;
     final success = state.successCount;
     final failed = state.failedCount;
-    final processing = state.videos
-        .where(
-          (v) =>
-              v.status == VideoStatus.compressing ||
-              v.status == VideoStatus.probing,
-        )
-        .length;
+    final processing = state.isProcessing && state.currentIndex >= 0 ? 1 : 0;
+    final totalSavedBytes = state.queueSavedBytes;
 
     // Mixed queues (videos + images) are labelled "files" instead of "videos".
-    final hasImages = state.videos.any((v) => v.mediaType == MediaType.image);
+    final hasImages = state.hasImages;
     final unitLabel = total == 1
         ? (hasImages ? AppStrings.fileSingle : AppStrings.videoSingle)
         : (hasImages ? AppStrings.filesPlural : AppStrings.videosPlural);
-
-    int totalSavedBytes = 0;
-    if (hasImages || state.phase == CompressionPhase.completed) {
-      for (final v in state.videos) {
-        if (v.status == VideoStatus.success && v.outputSizeBytes != null) {
-          final saved = v.fileSizeBytes - v.outputSizeBytes!;
-          if (saved > 0) totalSavedBytes += saved;
-        }
-      }
-    }
 
     return Row(
       mainAxisSize: MainAxisSize.min,

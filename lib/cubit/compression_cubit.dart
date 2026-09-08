@@ -493,19 +493,28 @@ class CompressionCubit extends Cubit<CompressionState> {
       return;
     }
 
-    // Group paths by directory first, then natural sort by filename: 1, 2, 3, 10, 11
-    newPaths.sort((a, b) {
-      final dirA = p.dirname(a);
-      final dirB = p.dirname(b);
-      final dirComp = dirA.compareTo(dirB);
+    // Precompute sort keys once (O(N) Schwartzian transform) instead of
+    // recomputing regex on every O(N log N) comparator step.
+    final itemsWithKeys = newPaths.map((path) {
+      final dir = p.dirname(path);
+      final name = p.basename(path);
+      final naturalKey = _naturalSortKey(name);
+      return (path: path, dir: dir, naturalKey: naturalKey);
+    }).toList();
+
+    itemsWithKeys.sort((a, b) {
+      final dirComp = a.dir.compareTo(b.dir);
       if (dirComp != 0) return dirComp;
-      final nameA = p.basename(a);
-      final nameB = p.basename(b);
-      return _naturalSortKey(nameA).compareTo(_naturalSortKey(nameB));
+      return a.naturalKey.compareTo(b.naturalKey);
     });
 
+    final sortedPaths = itemsWithKeys.map((item) => item.path).toList();
+
     final newVideos = <VideoFile>[];
-    for (final path in newPaths) {
+    const streamBatchSize = 250;
+
+    for (int i = 0; i < sortedPaths.length; i++) {
+      final path = sortedPaths[i];
       final file = File(path);
       int fileSize = 0;
       try {
@@ -530,6 +539,20 @@ class CompressionCubit extends Cubit<CompressionState> {
           mediaType: mediaType,
         ),
       );
+
+      // If ingesting a massive queue (>250 items), yield and stream batches
+      // progressively to maintain 120 FPS and avoid UI event loop starvation.
+      if (sortedPaths.length > streamBatchSize && (i + 1) % streamBatchSize == 0) {
+        emit(
+          state.copyWith(
+            videos: [...state.videos, ...newVideos],
+            phase: state.isProcessing ? null : CompressionPhase.idle,
+            isScanningFiles: true,
+          ),
+        );
+        newVideos.clear();
+        await Future.delayed(Duration.zero);
+      }
     }
 
     emit(
@@ -542,8 +565,10 @@ class CompressionCubit extends Cubit<CompressionState> {
       ),
     );
 
-    // Asynchronously probe durations so ETA calculation knows the total queue length
-    _probeDurationsAsync(newVideos);
+    // Asynchronously probe durations so ETA calculation knows the total queue length.
+    // Capped to the first 40 items in massive queues; subsequent items are probed
+    // lazily on-demand when compression reaches them in _processVideo.
+    _probeDurationsAsync(state.videos);
   }
 
   /// Finds the deepest common directory shared by all paths in [filePaths].
@@ -580,12 +605,20 @@ class CompressionCubit extends Cubit<CompressionState> {
   }
 
   Future<void> _probeDurationsAsync(List<VideoFile> videos) async {
-    // Run sequentially, but update state in batches to prevent UI freezes
+    // Eagerly probe up to 40 videos in background for immediate duration and ETA estimation.
+    // In massive queues (e.g. hundreds or thousands of videos), probing all videos eagerly
+    // would spawn thousands of OS processes and cause disk/CPU thrashing.
+    // Subsequent videos are probed lazily on-demand when compression reaches them in _processVideo.
+    const maxEagerProbeCount = 40;
+    final targetVideos = videos.length > maxEagerProbeCount
+        ? videos.sublist(0, maxEagerProbeCount)
+        : videos;
+
     const probeBatchSize = 10;
-    for (int i = 0; i < videos.length; i += probeBatchSize) {
+    for (int i = 0; i < targetVideos.length; i += probeBatchSize) {
       if (_cancelRequested) break;
 
-      final batch = videos.skip(i).take(probeBatchSize);
+      final batch = targetVideos.skip(i).take(probeBatchSize);
       final batchDurations = <String, Duration>{};
 
       for (final video in batch) {

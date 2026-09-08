@@ -92,7 +92,7 @@ class LanguageHelper {
       case 'tr':
         return 'Türkçe';
       case 'zh':
-        return '中文';
+        return '简体中文';
       case 'ja':
         return '日本語';
       case 'ko':
@@ -187,7 +187,7 @@ class LanguageHelper {
       case 'tr':
         return 'Turkish';
       case 'zh':
-        return 'Chinese';
+        return 'Simplified Chinese';
       case 'ja':
         return 'Japanese';
       case 'ko':
